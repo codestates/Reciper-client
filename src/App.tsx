@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
@@ -9,8 +9,33 @@ import ProjectEdit from './pages/ProjectEdit';
 import Recruit from './pages/Recruit';
 import RecruitCreate from './pages/RecruitCreate';
 import RecruitDetail from './pages/RecruitDetail';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const App = (): JSX.Element => {
+	const history = useHistory();
+	const url = new URL(window.location.href);
+	const authorizationCode = url.searchParams.get('code');
+	const scope = url.searchParams.get('scope');
+	const email = url.searchParams.get('email');
+	const location = window.localStorage.getItem('location');
+
+	useEffect(() => {
+		const data = {
+			authorizationCode: authorizationCode,
+			email: email,
+			endpoint: location,
+		};
+
+		console.log(authorizationCode);
+		console.log(email);
+		console.log(location);
+
+		if (authorizationCode) {
+			axios.post(`${process.env.REACT_APP_SERVER_URL}/loginEmail`, data).then(data => console.log(data.data));
+		}
+	}, []);
+
 	return (
 		<div>
 			<Switch>
