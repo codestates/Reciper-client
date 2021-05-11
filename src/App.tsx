@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import Header from './components/Common/Header';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
