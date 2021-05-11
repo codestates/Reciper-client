@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from '../Common/Button';
+import Input from '../Common/Input';
 import {
 	LoginTitle,
 	EmailLoginForm,
@@ -22,8 +24,8 @@ const LoginModal = (): JSX.Element => {
 		<LoginModalContainer>
 			<LoginTitle>{onChangeGuideText()}</LoginTitle>
 			<EmailLoginForm>
-				<input placeholder="이메일을 입력하세요." />
-				<button>{onChangeGuideText()}</button>
+				<Input width="short" height="short" placeholderText="이메일을 입력하세요." />
+				<Button size="small">{onChangeGuideText()}</Button>
 			</EmailLoginForm>
 			<Line />
 			<GoogleLoginBtn>
