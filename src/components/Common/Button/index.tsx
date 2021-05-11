@@ -5,10 +5,15 @@ interface Props {
 	children: string;
 	size: string;
 	buttonType: string;
+	onEvent: () => void;
 }
 
 const Button = (props: Props): JSX.Element => {
-	return <ButtonTag {...props}>{props.children}</ButtonTag>;
+	return (
+		<ButtonTag {...props} onClick={props.onEvent}>
+			{props.children}
+		</ButtonTag>
+	);
 };
 
 Button.defaultProps = {
