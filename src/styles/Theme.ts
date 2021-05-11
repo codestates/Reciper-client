@@ -26,9 +26,14 @@ const align = {
 	},
 };
 
+const hover = {
+	pointColorHover: '#2569ee',
+};
+
 const Theme = {
 	color,
 	align,
+	hover,
 };
 
 export default Theme;
