@@ -21,4 +21,8 @@ export const GlobalStyle = createGlobalStyle`
 	button {
 		cursor: pointer;
 	}
+
+	li {
+		list-style: none;
+	}
 `;
