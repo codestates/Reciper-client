@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
-export const Dimed = styled.div`
+export const Modalcontainer = styled.div`
 	${({ theme }) => theme.align.positionCenter}
-	width: 100%;
-	height: 100%;
+	position: fixed;
+`;
+
+export const Dimed = styled.div`
+	width: 100vw;
+	height: 100vh;
 	margin-top: -1px;
 	background-color: rgba(0, 0, 0, 0.3);
 `;

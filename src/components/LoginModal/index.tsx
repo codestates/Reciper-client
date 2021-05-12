@@ -47,8 +47,8 @@ const LoginModal = (): JSX.Element => {
 		<LoginModalContainer>
 			<LoginTitle>{onChangeGuideText()}</LoginTitle>
 			<EmailLoginForm>
-				<Input width="short" height="short" placeholderText="이메일을 입력하세요." onEvent={onChangeEmail} />
-				<Button size="small" onEvent={() => onLogin('email')}>
+				<Input width="short" height="short" placeholderText="이메일을 입력하세요." changeEvent={onChangeEmail} />
+				<Button size="small" clickEvent={() => onLogin('email')}>
 					{onChangeGuideText()}
 				</Button>
 			</EmailLoginForm>

@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components';
 
-export const ButtonTag = styled.button<{ size: string; buttonType: string }>`
+export const ButtonTag = styled.button<{ size: string; buttonType: string; margin: string }>`
 	transition: 0.1s;
 	height: 40px;
+	margin: ${({ margin }) => margin};
 	font-family: 'NanumSquareB';
 	color: #fff;
 	background-color: ${({ theme }) => theme.color.pointColor};
