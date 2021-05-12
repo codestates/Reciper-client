@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const InputTag = styled.input`
+export const InputTag = styled.input<{ width: string; height: string; margin: string }>`
 	padding: 0 10px;
+	margin: ${({ margin }) => margin};
 	font-family: 'NanumSquareR';
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
