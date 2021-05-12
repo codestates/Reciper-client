@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
 export const SelectForm = styled.div<{ height: string; margin: string }>`
