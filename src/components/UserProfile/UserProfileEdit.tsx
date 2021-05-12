@@ -43,25 +43,25 @@ const UserProfileEdit = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input placeholderText="이름을 입력하세요" onEvent={() => console.log('')} />
+							<Input placeholderText="이름을 입력하세요" changeEvent={() => console.log('')} />
 						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>전화번호</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input placeholderText="숫자만 입력하세요" onEvent={() => console.log('')} />
+							<Input placeholderText="숫자만 입력하세요" changeEvent={() => console.log('')} />
 						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input placeholderText="이름을 입력하세요" onEvent={() => console.log('')} />
+							<Input placeholderText="이름을 입력하세요" changeEvent={() => console.log('')} />
 						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input width="long" placeholderText="최대 20자 내로 적어주세요" onEvent={() => console.log('')} />
+							<Input width="long" placeholderText="최대 20자 내로 적어주세요" changeEvent={() => console.log('')} />
 						</Profile_UserInfo>
 					</div>
 				</Profile_UserInfoCard>
@@ -73,24 +73,24 @@ const UserProfileEdit = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>Github 아이디</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input placeholderText="아이디를 입력하세요" onEvent={() => console.log('')} />
+							<Input placeholderText="아이디를 입력하세요" changeEvent={() => console.log('')} />
 						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>경력</Profile_SubTitle>
 						<Profile_UserInfo>
 							<span>
-								<Input width="120px" placeholderText="회사 이름" onEvent={() => console.log('')} />
+								<Input width="120px" placeholderText="회사 이름" changeEvent={() => console.log('')} />
 							</span>
 						</Profile_UserInfo>
 						<Profile_UserInfo>
 							<span>
-								<Input width="120px" placeholderText="직무 (ex. 프론트엔드)" onEvent={() => console.log('')} />
+								<Input width="120px" placeholderText="직무 (ex. 프론트엔드)" changeEvent={() => console.log('')} />
 							</span>
 						</Profile_UserInfo>
 						<Profile_UserInfo>
 							<span>
-								<Input width="120px" placeholderText="경력 (ex. 1~3년)" onEvent={() => console.log('')} />
+								<Input width="120px" placeholderText="경력 (ex. 1~3년)" changeEvent={() => console.log('')} />
 							</span>
 						</Profile_UserInfo>
 					</div>
