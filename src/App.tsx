@@ -11,28 +11,39 @@ import RecruitCreate from './pages/RecruitCreate';
 import RecruitDetail from './pages/RecruitDetail';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { loginRequestType } from './types/types';
 
 const App = (): JSX.Element => {
 	const history = useHistory();
 	const url = new URL(window.location.href);
 	const authorizationCode = url.searchParams.get('code');
-	const scope = url.searchParams.get('scope');
 	const email = url.searchParams.get('email');
+	const isGoogle = url.searchParams.get('scope');
 	const location = window.localStorage.getItem('location');
 
+	const loginAuthRequest = async (data: loginRequestType, endpoint: string) => {
+		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, data);
+
+		window.localStorage.setItem('loginSuccess', 'success');
+		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
+		history.push(location as string);
+	};
+
 	useEffect(() => {
-		const data = {
+		const data: loginRequestType = {
 			authorizationCode: authorizationCode,
 			email: email,
-			endpoint: location,
+			endpoint: '',
 		};
 
-		console.log(authorizationCode);
-		console.log(email);
-		console.log(location);
-
 		if (authorizationCode) {
-			axios.post(`${process.env.REACT_APP_SERVER_URL}/loginEmail`, data).then(data => console.log(data.data));
+			if (email) {
+				loginAuthRequest(data, 'loginEmail');
+			} else if (isGoogle) {
+				loginAuthRequest(data, 'loginGoogle');
+			} else {
+				loginAuthRequest(data, 'loginGithub');
+			}
 		}
 	}, []);
 
