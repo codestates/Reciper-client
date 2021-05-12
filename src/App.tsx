@@ -10,8 +10,8 @@ import Recruit from './pages/Recruit';
 import RecruitCreate from './pages/RecruitCreate';
 import RecruitDetail from './pages/RecruitDetail';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { loginRequestType } from './types/types';
+import axios, { AxiosResponse } from 'axios';
+import { loginRequestType, loginResponseDataType } from './types/types';
 
 const App = (): JSX.Element => {
 	const history = useHistory();
@@ -22,7 +22,10 @@ const App = (): JSX.Element => {
 	const location = window.localStorage.getItem('location');
 
 	const loginAuthRequest = async (data: loginRequestType, endpoint: string) => {
-		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/${endpoint}`, data);
+		const response: AxiosResponse<loginResponseDataType> = await axios.post(
+			`${process.env.REACT_APP_SERVER_URL}/${endpoint}`,
+			data,
+		);
 
 		window.localStorage.setItem('loginSuccess', 'success');
 		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
