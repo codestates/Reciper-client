@@ -254,4 +254,16 @@ export const StackClear = styled.div`
 	cursor: pointer;
 `;
 
-export const StackCancel = styled.span``;
+export const StackMaximum = styled.span`
+	margin-left: 8px;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.warningColor};
+`;
+
+export const ToggleMessage = styled.p`
+	transition: 2.4s;
+	margin-left: 8px;
+	font-family: 'NanumSquareR';
+	color: ${({ theme }) => theme.color.pointColor};
+`;

@@ -1,6 +1,5 @@
 import React, { useState, KeyboardEvent } from 'react';
 
-import { BsArrowRepeat } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
 import { useHistory } from 'react-router';
 
@@ -8,6 +7,7 @@ import useInput from '../../hooks/useInput';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
 import StackTag from '../Common/StackTag';
+import ToggleButton from '../Common/ToggleButton';
 
 import {
 	ProfileContainer,
@@ -22,41 +22,45 @@ import {
 	Profile_UserEmail,
 	EditButton,
 	AddStackContainer,
-	StackClear,
-	StackCancel,
 	CurrentStack,
+	StackMaximum,
+	ToggleMessage,
 } from './styles';
 
 const UserProfileEdit = (): JSX.Element => {
 	const [stackName, onChangeStackName, setStackName] = useInput<string>('');
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
+	const [isToggled, setIsToggled] = useState<boolean>(false);
 	const history = useHistory();
 
-	const onAddStack = () => {
+	const onAddStack = (): void => {
 		if (stackName.trim() === '') {
 			setStackName('');
+			return;
+		}
+		if (stackBucket.length > 4) {
 			return;
 		}
 		setStackBucket([...stackBucket, stackName]);
 		setStackName('');
 	};
 
-	const onDeleteStack = (index: number) => {
+	const onDeleteStack = (index: number): void => {
 		const currentStackBucket = stackBucket.slice();
 		currentStackBucket.splice(index, 1);
 		setStackBucket(currentStackBucket);
 	};
 
-	const onChangeProfileInfo = () => {
+	const onChangeProfileInfo = (): void => {
 		// TODO: 프로필 갱신 요청하기
 		history.push('/profile/:id');
 	};
 
-	const onImageUpload = () => {
+	const onImageUpload = (): void => {
 		// TODO: 이미지 업로드 하기
 	};
 
-	const onResetImage = () => {
+	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기
 	};
 
@@ -131,8 +135,8 @@ const UserProfileEdit = (): JSX.Element => {
 						</Profile_UserInfo>
 					</div>
 
+					{/* TODO: 스택 추가하기 */}
 					<div>
-						{/* TODO: 스택 추가하기 */}
 						<Profile_SubTitle>
 							사용 스택
 							<br />
@@ -145,6 +149,7 @@ const UserProfileEdit = (): JSX.Element => {
 								changeEvent={onChangeStackName}
 								keyEvent={(e: KeyboardEvent) => e.key === 'Enter' && onAddStack()}
 							/>
+							{stackBucket.length > 4 ? <StackMaximum>5개 추가 완료</StackMaximum> : null}
 							<AddStackContainer>
 								{stackBucket.map((stack: string, index: number) => (
 									<CurrentStack key={index}>
@@ -155,9 +160,15 @@ const UserProfileEdit = (): JSX.Element => {
 							</AddStackContainer>
 						</Profile_UserInfo>
 					</div>
+
+					{/* TODO: 토글 버튼 */}
 					<div>
 						<Profile_SubTitle>프로젝트 공개</Profile_SubTitle>
-						<Profile_UserInfo></Profile_UserInfo>
+						<Profile_UserInfo>
+							<ToggleButton isToggled={isToggled} changeEvent={() => setIsToggled(!isToggled)}>
+								{isToggled && <ToggleMessage>프로젝트를 공개합니다</ToggleMessage>}
+							</ToggleButton>
+						</Profile_UserInfo>
 					</div>
 				</Profile_UserDetailInfo>
 			</UserDetailIntroCard>

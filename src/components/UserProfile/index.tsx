@@ -31,7 +31,7 @@ const UserProfile = (): JSX.Element => {
 	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
 	const history = useHistory();
 
-	const onGoToEditPage = () => {
+	const onGoToEditPage = (): void => {
 		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
 		history.push('/profile/:id/edit');
 	};
