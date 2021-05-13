@@ -7,13 +7,17 @@ import './index.css';
 import App from './App';
 import Theme from './styles/Theme';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './reducer/index';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<GlobalStyle></GlobalStyle>
 		<ThemeProvider theme={Theme}>
 			<BrowserRouter>
-				<App />
+				<Provider store={store}>
+					<App />
+				</Provider>
 			</BrowserRouter>
 		</ThemeProvider>
 	</React.StrictMode>,
