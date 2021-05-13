@@ -128,6 +128,10 @@ export const Profile_UserInfo = styled.span`
 	font-family: 'NanumSquareR';
 	text-align: left;
 
+	& > div {
+		color: #545454;
+	}
+
 	& > span {
 		width: 140px;
 		margin-right: 4px;
@@ -241,13 +245,14 @@ export const EditButton = styled.div`
 export const AddStackContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: absolute;
-	top: 40px;
+	top: 36px;
 `;
 
 export const CurrentStack = styled.div`
 	cursor: pointer;
 	${({ theme }) => theme.align.flexVertical}
 	padding-right: 4px;
+	color: #545454;
 `;
 
 export const StackClear = styled.div`
@@ -262,7 +267,6 @@ export const StackMaximum = styled.span`
 `;
 
 export const ToggleMessage = styled.p`
-	transition: 2.4s;
 	margin-left: 8px;
 	font-family: 'NanumSquareR';
 	color: ${({ theme }) => theme.color.pointColor};

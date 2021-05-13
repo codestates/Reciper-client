@@ -36,7 +36,6 @@ const App = (): JSX.Element => {
 		const data: loginRequestType = {
 			authorizationCode: authorizationCode,
 			email: email,
-			endpoint: '',
 		};
 
 		if (authorizationCode) {

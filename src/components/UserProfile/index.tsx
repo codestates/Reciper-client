@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getProfileInfo, getProfileInfoSelector } from '../../reducer/profile';
 
 import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { useHistory } from 'react-router';
 import Modal from '../Common/Modal';
 
 import StackTag from '../Common/StackTag';
@@ -30,6 +32,13 @@ import Test from '../../images/card_test.png';
 const UserProfile = (): JSX.Element => {
 	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const profileInfo = useSelector(getProfileInfoSelector);
+
+	useEffect(() => {
+		dispatch(getProfileInfo());
+	}, []);
+	console.log('selector 확인', profileInfo);
 
 	const onGoToEditPage = (): void => {
 		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
@@ -50,26 +59,34 @@ const UserProfile = (): JSX.Element => {
 			<Profile_UserCard>
 				<Profile_Img>
 					<div>
-						<div>이</div>
+						<div>{profileInfo.name.slice(0, 1)}</div>
 					</div>
 				</Profile_Img>
 
 				<Profile_UserInfoCard>
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
-						<Profile_UserInfo>이우성</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.name ? profileInfo.name : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>전화번호</Profile_SubTitle>
-						<Profile_UserInfo>010-1234-5678</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
-						<Profile_UserInfo>useong0830@gmail.com</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.email ? profileInfo.email : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>
-						<Profile_UserInfo>React 위주로 개발합니다.</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.about_me ? profileInfo.about_me : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 				</Profile_UserInfoCard>
 			</Profile_UserCard>
@@ -79,19 +96,29 @@ const UserProfile = (): JSX.Element => {
 				<Profile_UserDetailInfo>
 					<div>
 						<Profile_SubTitle>Github 아이디</Profile_SubTitle>
-						<Profile_UserInfo>useonglee</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.git_id ? profileInfo.git_id : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>경력</Profile_SubTitle>
-						<Profile_UserInfo>
-							<span>코드스테이츠</span>
-						</Profile_UserInfo>
-						<Profile_UserInfo>
-							<span>프론트 엔드</span>
-						</Profile_UserInfo>
-						<Profile_UserInfo>
-							<span>1~3년</span>
-						</Profile_UserInfo>
+						{profileInfo.career ? (
+							<>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.office}</span>
+								</Profile_UserInfo>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.job}</span>
+								</Profile_UserInfo>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.period}</span>
+								</Profile_UserInfo>
+							</>
+						) : (
+							<Profile_UserInfo>
+								<div>프로필을 설정해 주세요</div>
+							</Profile_UserInfo>
+						)}
 					</div>
 					<div>
 						<Profile_SubTitle>사용 스택</Profile_SubTitle>
@@ -139,3 +166,61 @@ const UserProfile = (): JSX.Element => {
 };
 
 export default UserProfile;
+
+// import React, { useEffect, useState } from 'react';
+// import { useSelector } from 'react-redux';
+// import { useHistory } from 'react-router';
+// import { getProfileInfoSelector } from '../../reducer/profile';
+
+// import { HiOutlinePencilAlt } from 'react-icons/hi';
+// import Modal from '../Common/Modal';
+
+// import StackTag from '../Common/StackTag';
+
+// import {
+// 	ProfileContainer,
+// 	ProfileTitle,
+// 	Profile_Img,
+// 	Profile_UserInfo,
+// 	Profile_SubTitle,
+// 	Profile_UserCard,
+// 	Profile_UserInfoCard,
+// 	UserDetailIntroCard,
+// 	Profile_InProgressRecipe,
+// 	Profile_SuccessRecipe,
+// 	Profile_UserDetailInfo,
+// 	Profile_UserRecipeInfo,
+// 	Profile_RecipeCard,
+// 	RecipeCard_Img,
+// 	RecipeCard_Content,
+// 	RecipeCard_title,
+// 	RecipeCard_Description,
+// } from './styles';
+// import Test from '../../images/card_test.png';
+// import axios from 'axios';
+
+// const UserProfile = (): JSX.Element => {
+// 	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
+// 	const history = useHistory();
+// 	const profileInfo = useSelector(getProfileInfoSelector);
+
+// 	const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
+// 	const loginInfo = JSON.parse(localStorage_loginInfo);
+// 	const userAccessToken = loginInfo.accessToken;
+// 	const userLoginType = loginInfo.loginType;
+
+// 	const testRequest = async () => {
+// 		console.log('test');
+// 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/profile`, {
+// 			headers: {
+// 				authorization: `Bearer ${userAccessToken}`,
+// 				loginType: userLoginType,
+// 			},
+// 		});
+// 		const res = response.data;
+// 		console.log('data', res);
+// 	};
+
+// 	useEffect(() => {
+// 		testRequest();
+// 	}, []);
