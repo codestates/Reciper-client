@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Modalcontainer = styled.div`
 	${({ theme }) => theme.align.positionCenter}
 	position: fixed;
+	z-index: 100;
 `;
 
 export const Dimed = styled.div`
