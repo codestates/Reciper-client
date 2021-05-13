@@ -5,7 +5,7 @@ export const SelectForm = styled.div<{ height: string; margin: string }>`
 	${({ theme }) => theme.align.flexVertical};
 	justify-content: space-between;
 	position: relative;
-	width: 100px;
+	width: 130px;
 	padding: 0 10px;
 	margin: ${({ margin }) => margin};
 	font-family: NanumSquareR;
@@ -27,7 +27,7 @@ export const OptionContainer = styled.ul<{ height: string }>`
 	position: absolute;
 	top: ${({ height }) => (height === 'short' ? '30px' : '38px')};
 	left: -1px;
-	width: 100px;
+	width: 130px;
 	font-family: NanumSquareR;
 	font-size: 14px;
 	background-color: #fff;
