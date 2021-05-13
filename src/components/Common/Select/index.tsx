@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useState, MouseEvent, useEffect, useCallback } from 'react';
 import { Option, OptionContainer, SelectForm, ToggleArrowIcon } from './styles';
 
 interface Props {
@@ -22,10 +22,10 @@ const Select = (props: Props): JSX.Element => {
 	const [mouseOut, setMouseOut] = useState<boolean>(false);
 	const [selectedValue, setSelectedValue] = useState<string>('');
 
-	const on = (e: MouseEvent) => {
+	const onShowOptions = useCallback((e: MouseEvent) => {
 		e.stopPropagation();
 		setShowOptions(!showOptions);
-	};
+	}, []);
 
 	useEffect(() => {
 		if (mouseOut) {
@@ -35,7 +35,12 @@ const Select = (props: Props): JSX.Element => {
 
 	return (
 		<>
-			<SelectForm {...props} onClick={on} onMouseLeave={() => setMouseOut(true)} onMouseOver={() => setMouseOut(false)}>
+			<SelectForm
+				{...props}
+				onClick={onShowOptions}
+				onMouseLeave={() => setMouseOut(true)}
+				onMouseOver={() => setMouseOut(false)}
+			>
 				{selectedValue ? <span style={{ color: '#000' }}>{selectedValue}</span> : props.children}
 				<ToggleArrowIcon />
 				{showOptions && (
