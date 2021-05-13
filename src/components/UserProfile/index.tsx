@@ -36,13 +36,13 @@ const UserProfile = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 
 	useEffect(() => {
+		console.log('');
 		dispatch(getProfileInfo());
 	}, []);
-	console.log('selector 확인', profileInfo);
 
 	const onGoToEditPage = (): void => {
 		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
-		history.push('/profile/:id/edit');
+		history.push(`/profile/${profileInfo.id}/edit`);
 	};
 
 	return (
@@ -78,9 +78,7 @@ const UserProfile = (): JSX.Element => {
 					</div>
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
-						<Profile_UserInfo>
-							{profileInfo.email ? profileInfo.email : <div>프로필을 설정해 주세요</div>}
-						</Profile_UserInfo>
+						<Profile_UserInfo>{profileInfo.email}</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>
@@ -166,61 +164,3 @@ const UserProfile = (): JSX.Element => {
 };
 
 export default UserProfile;
-
-// import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { useHistory } from 'react-router';
-// import { getProfileInfoSelector } from '../../reducer/profile';
-
-// import { HiOutlinePencilAlt } from 'react-icons/hi';
-// import Modal from '../Common/Modal';
-
-// import StackTag from '../Common/StackTag';
-
-// import {
-// 	ProfileContainer,
-// 	ProfileTitle,
-// 	Profile_Img,
-// 	Profile_UserInfo,
-// 	Profile_SubTitle,
-// 	Profile_UserCard,
-// 	Profile_UserInfoCard,
-// 	UserDetailIntroCard,
-// 	Profile_InProgressRecipe,
-// 	Profile_SuccessRecipe,
-// 	Profile_UserDetailInfo,
-// 	Profile_UserRecipeInfo,
-// 	Profile_RecipeCard,
-// 	RecipeCard_Img,
-// 	RecipeCard_Content,
-// 	RecipeCard_title,
-// 	RecipeCard_Description,
-// } from './styles';
-// import Test from '../../images/card_test.png';
-// import axios from 'axios';
-
-// const UserProfile = (): JSX.Element => {
-// 	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
-// 	const history = useHistory();
-// 	const profileInfo = useSelector(getProfileInfoSelector);
-
-// 	const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-// 	const loginInfo = JSON.parse(localStorage_loginInfo);
-// 	const userAccessToken = loginInfo.accessToken;
-// 	const userLoginType = loginInfo.loginType;
-
-// 	const testRequest = async () => {
-// 		console.log('test');
-// 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/profile`, {
-// 			headers: {
-// 				authorization: `Bearer ${userAccessToken}`,
-// 				loginType: userLoginType,
-// 			},
-// 		});
-// 		const res = response.data;
-// 		console.log('data', res);
-// 	};
-
-// 	useEffect(() => {
-// 		testRequest();
-// 	}, []);
