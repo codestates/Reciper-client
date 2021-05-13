@@ -65,7 +65,7 @@ const UserProfile = (): JSX.Element => {
 					</div>
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
-						<Profile_UserInfo>email </Profile_UserInfo>
+						<Profile_UserInfo>useong0830@gmail.com</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>

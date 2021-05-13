@@ -36,26 +36,25 @@ export const Profile_UserCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
 	width: 800px;
-	padding: 28px;
+	padding: 40px 28px 0 28px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
 export const Profile_Img = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
-	width: 200px;
-	height: 200px;
+	width: 240px;
+	height: 240px;
 
 	& > div {
-		width: 180px;
-		height: 180px;
-		margin-bottom: 10px;
+		width: 200px;
+		height: 200px;
 		background-color: #9c27b0;
 		border-radius: 100%;
 
 		& > div {
 			${({ theme }) => theme.align.flexCenter}
-			margin-top: 44px;
+			margin-top: 54px;
 			font-family: 'NanumSquareR';
 			font-size: 80px;
 			color: #fff;
@@ -64,10 +63,30 @@ export const Profile_Img = styled.div`
 
 	& > span {
 		cursor: pointer;
+		margin-top: 5px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
 		color: #f15525;
 	}
+`;
+
+export const ProfileEdit_Img = styled(Profile_Img)`
+	& > div {
+		position: relative;
+
+		&:hover {
+			cursor: pointer;
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+		
+		&:hover:before {
+			position: absolute;
+			top: 80px;
+			left: 44px;
+			font-family: NanumSquareR;
+			color: #fff;
+			content: '이미지 업로드'
+		}
 `;
 
 export const Profile_UserInfoCard = styled.div`
@@ -78,19 +97,32 @@ export const Profile_UserInfoCard = styled.div`
 
 	& > div {
 		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 14px;
+		margin-bottom: 28px;
 	}
+`;
+
+export const Profile_UserEmail = styled.div`
+	${({ theme }) => theme.align.flexVertical}
+	width: 250px;
+	height: 32px;
+	padding: 12px;
+	font-family: 'NanumSquareR';
+	color: #545454;
+	background-color: #dcdcdc;
+	border: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-radius: 3px;
 `;
 
 export const Profile_SubTitle = styled.span`
 	${({ theme }) => theme.align.flexVertical}
-	width: 200px;
+	width: 120px;
 	height: 30px;
 	font-family: 'NanumSquareB';
 `;
 
 export const Profile_UserInfo = styled.span`
 	${({ theme }) => theme.align.flexVertical}
+	position: relative;
 
 	height: 30px;
 	font-family: 'NanumSquareR';
@@ -102,7 +134,7 @@ export const Profile_UserInfo = styled.span`
 	}
 `;
 
-// --------------------TODO: user detail intro Card------------------
+// --------------------TODO: user Develop intro Card------------------
 
 export const UserDetailIntroCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
@@ -119,7 +151,7 @@ export const Profile_UserDetailInfo = styled.div`
 
 	& > div {
 		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 14px;
+		margin-bottom: 28px;
 	}
 `;
 
@@ -192,11 +224,34 @@ export const RecipeCard_Description = styled.div`
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
 	line-height: 1.6em;
 	height: 5.6em;
 	padding: 10px 0;
 	font-family: 'NanumSquareR';
 	font-size: 14px;
 	color: #444242;
-	text-overflow: ellipsis;
 `;
+
+export const EditButton = styled.div`
+	${({ theme }) => theme.align.flexCenter}
+`;
+
+// --------------------TODO: Add Stack Input------------------
+export const AddStackContainer = styled.div`
+	${({ theme }) => theme.align.flexVertical}
+	position: absolute;
+	top: 40px;
+`;
+
+export const CurrentStack = styled.div`
+	cursor: pointer;
+	${({ theme }) => theme.align.flexVertical}
+	padding-right: 4px;
+`;
+
+export const StackClear = styled.div`
+	cursor: pointer;
+`;
+
+export const StackCancel = styled.span``;

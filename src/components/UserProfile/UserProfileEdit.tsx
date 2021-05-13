@@ -1,27 +1,63 @@
-import React from 'react';
+import React, { useState, KeyboardEvent } from 'react';
 
+import { BsArrowRepeat } from 'react-icons/bs';
+import { IoMdClose } from 'react-icons/io';
 import { useHistory } from 'react-router';
+
+import useInput from '../../hooks/useInput';
+import Button from '../Common/Button';
 import Input from '../Common/Input';
+import StackTag from '../Common/StackTag';
 
 import {
 	ProfileContainer,
 	ProfileTitle,
-	Profile_Img,
+	ProfileEdit_Img,
 	Profile_UserInfo,
 	Profile_SubTitle,
 	Profile_UserCard,
 	Profile_UserInfoCard,
 	UserDetailIntroCard,
-	Profile_Stack,
 	Profile_UserDetailInfo,
+	Profile_UserEmail,
+	EditButton,
+	AddStackContainer,
+	StackClear,
+	StackCancel,
+	CurrentStack,
 } from './styles';
 
 const UserProfileEdit = (): JSX.Element => {
+	const [stackName, onChangeStackName, setStackName] = useInput<string>('');
+	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const history = useHistory();
 
-	const onGoToEditPage = () => {
-		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
+	const onAddStack = () => {
+		if (stackName.trim() === '') {
+			setStackName('');
+			return;
+		}
+		setStackBucket([...stackBucket, stackName]);
+		setStackName('');
+	};
+
+	const onDeleteStack = (index: number) => {
+		const currentStackBucket = stackBucket.slice();
+		currentStackBucket.splice(index, 1);
+		setStackBucket(currentStackBucket);
+	};
+
+	const onChangeProfileInfo = () => {
+		// TODO: 프로필 갱신 요청하기
 		history.push('/profile/:id');
+	};
+
+	const onImageUpload = () => {
+		// TODO: 이미지 업로드 하기
+	};
+
+	const onResetImage = () => {
+		// TODO: 이미지 리셋 하기
 	};
 
 	return (
@@ -32,12 +68,12 @@ const UserProfileEdit = (): JSX.Element => {
 
 			{/* TODO: 유저 개인 정보 */}
 			<Profile_UserCard>
-				<Profile_Img>
+				<ProfileEdit_Img onClick={onImageUpload}>
 					<div>
 						<div>이</div>
 					</div>
-					<span>삭제</span>
-				</Profile_Img>
+					<span onClick={onResetImage}>삭제</span>
+				</ProfileEdit_Img>
 
 				<Profile_UserInfoCard>
 					<div>
@@ -55,7 +91,7 @@ const UserProfileEdit = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
 						<Profile_UserInfo>
-							<Input placeholderText="이름을 입력하세요" changeEvent={() => console.log('')} />
+							<Profile_UserEmail>useong0830@gmail.com</Profile_UserEmail>
 						</Profile_UserInfo>
 					</div>
 					<div>
@@ -94,9 +130,30 @@ const UserProfileEdit = (): JSX.Element => {
 							</span>
 						</Profile_UserInfo>
 					</div>
+
 					<div>
-						<Profile_SubTitle>사용 가능 스택&nbsp;(최대 5개)</Profile_SubTitle>
-						<Profile_UserInfo></Profile_UserInfo>
+						{/* TODO: 스택 추가하기 */}
+						<Profile_SubTitle>
+							사용 스택
+							<br />
+							(최대 5개)
+						</Profile_SubTitle>
+						<Profile_UserInfo>
+							<Input
+								placeholderText="사용 가능한 스택을 'enter'키로 추가하세요"
+								initValue={stackName}
+								changeEvent={onChangeStackName}
+								keyEvent={(e: KeyboardEvent) => e.key === 'Enter' && onAddStack()}
+							/>
+							<AddStackContainer>
+								{stackBucket.map((stack: string, index: number) => (
+									<CurrentStack key={index}>
+										<StackTag>{stack}</StackTag>
+										<IoMdClose onClick={() => onDeleteStack(index)} />
+									</CurrentStack>
+								))}
+							</AddStackContainer>
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>프로젝트 공개</Profile_SubTitle>
@@ -104,6 +161,13 @@ const UserProfileEdit = (): JSX.Element => {
 					</div>
 				</Profile_UserDetailInfo>
 			</UserDetailIntroCard>
+
+			{/* TODO: 프로필 변경하기 */}
+			<EditButton>
+				<Button size="medium" clickEvent={onChangeProfileInfo}>
+					프로필 변경
+				</Button>
+			</EditButton>
 
 			{/* TODO: 끝 */}
 		</ProfileContainer>
