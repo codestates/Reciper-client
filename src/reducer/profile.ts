@@ -5,18 +5,18 @@ import { profileInfoDataType } from '../types/types';
 import { RootStateOrAny } from 'react-redux';
 
 const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-const loginInfo = JSON.parse(localStorage_loginInfo);
-const userAccessToken = loginInfo.accessToken;
-const userLoginType = loginInfo.loginType;
+const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
 
 // TODO: Thunk 실행
 export const getProfileInfo = createAsyncThunk('profileInfo', async (): Promise<void> => {
+	console.log('요청');
 	const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/profile`, {
 		headers: {
-			authorization: `Bearer ${userAccessToken}`,
-			loginType: userLoginType,
+			authorization: `Bearer ${accessToken}`,
+			loginType,
 		},
 	});
+	console.log('응답', response.data);
 	return response.data;
 });
 
