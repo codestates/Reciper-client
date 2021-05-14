@@ -5,6 +5,7 @@ import { getProfileEdit } from '../../reducer/profileEdit';
 import { IoMdClose } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 import useInput from '../../hooks/useInput';
 
@@ -33,7 +34,7 @@ import {
 } from './styles';
 
 import { profileEditType } from '../../types/types';
-import axios from 'axios';
+import { changeImage, clickUploadImage } from '../../utils/imageUpload';
 
 const UserProfileEdit = (): JSX.Element => {
 	const [stackName, onChangeStackName, setStackName] = useInput<string>('');
@@ -97,36 +98,25 @@ const UserProfileEdit = (): JSX.Element => {
 		history.push(`/profile/${profileInfo.id}`);
 	};
 
-	// TODO: 이미지 업로드 연습하는 부분
-	const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-	const loginInfo = JSON.parse(localStorage_loginInfo);
-	const userAccessToken = loginInfo.accessToken;
-	const userLoginType = loginInfo.loginType;
-
-	const onChnageImage = async (e: ChangeEvent<HTMLInputElement>) => {
-		const formData = new FormData();
-		if (e.target.files) {
-			formData.append('file', e.target.files[0]);
-			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`, formData, {
-				headers: {
-					authorization: `Bearer ${userAccessToken}`,
-					loginType: userLoginType,
-				},
-			});
-			const imageData = response.data.profileImage as string;
-			setImage(imageData);
-			console.log('이미지 확인', imageData);
-		}
-	};
-
-	const onUploadImage = (): void => {
-		if (imageInput.current) {
-			imageInput.current.click();
-		}
-	};
+	// const onChnageImage = async (e: ChangeEvent<HTMLInputElement>) => {
+	// 	const formData = new FormData();
+	// 	if (e.target.files) {
+	// 		formData.append('file', e.target.files[0]);
+	// 		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`, formData, {
+	// 			headers: {
+	// 				authorization: `Bearer ${userAccessToken}`,
+	// 				loginType: userLoginType,
+	// 			},
+	// 		});
+	// 		const imageData = response.data.profileImage as string;
+	// 		setImage(imageData);
+	// 	}
+	// };
 
 	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기
+		setImage('');
+		dispatch(getProfileEdit(data));
 	};
 
 	return (
@@ -145,16 +135,31 @@ const UserProfileEdit = (): JSX.Element => {
 							accept="image/jpg,image/png,/image/jpeg"
 							name="file"
 							hidden
-							onChange={onChnageImage}
+							onChange={changeImage}
 							ref={imageInput}
 						/>
 					</form>
 					{profileInfo.profileImage !== '' ? (
-						<div onClick={onUploadImage}>
-							<Profile_UserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
-						</div>
+						<>
+							<div
+								onClick={() => {
+									clickUploadImage(imageInput);
+								}}
+							>
+								<Profile_UserImage
+									src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`}
+									alt=""
+								/>
+							</div>
+							<span onClick={onResetImage}>기본 이미지로 변경</span>
+						</>
 					) : (
-						<div style={{ backgroundColor: `${profileInfo.profileColor}` }} onClick={onUploadImage}>
+						<div
+							style={{ backgroundColor: `${profileInfo.profileColor}` }}
+							onClick={() => {
+								clickUploadImage(imageInput);
+							}}
+						>
 							{profileInfo.name ? (
 								<div style={{ margin: '45px', fontSize: '110px' }}>{profileInfo.name.slice(0, 1)}</div>
 							) : (
@@ -162,9 +167,8 @@ const UserProfileEdit = (): JSX.Element => {
 							)}
 						</div>
 					)}
-
-					<span onClick={onResetImage}>삭제</span>
 				</ProfileEdit_Img>
+
 				<Profile_UserInfoCard>
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
