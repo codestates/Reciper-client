@@ -1,54 +1,83 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { recruitCreateDataType, recruitMembersDataType } from '../../../types/types';
+import useInput from '../../../hooks/useInput';
+import { recruitCreateTopDataType, recruitMembersDataType } from '../../../types/types';
 import Input from '../../Common/Input';
 import Select from '../../Common/Select';
+import StackSearch from '../../Common/StackSearch';
+import StackTag from '../../Common/StackTag';
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
-import { CreatTopContainer, CreateInputContainer, CreateRecruitList } from './styles';
+import {
+	CreatTopContainer,
+	CreateInputContainer,
+	CreateRecruitList,
+	DeleteRecruitListBtn,
+	AddRecruitListBtn,
+	RecruitStackWrap,
+	RecruitStackClear,
+} from './styles';
 
 interface Props {
-	setMockData: Dispatch<SetStateAction<recruitCreateDataType>>;
+	setTopMockData: Dispatch<SetStateAction<recruitCreateTopDataType>>;
 }
 
-const CreateTop = ({ setMockData }: Props): JSX.Element => {
+const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 	const positionEx = ['프론트엔드', '백엔드'];
 	const careerEx = ['경력무관', '1년', '2년', '3년', '5년', '10년'];
 	const personnelEx = ['1', '2', '3', '4', '5'];
-	const recruitEx = [
-		// 디자인 확인용 데이터입니다. 삭제 바람
-		{ position: '프론트엔드', career: '경력무관', personnel: '2', deadline: '2021-07-01' },
-		{ position: '백엔드', career: '2년 이상', personnel: '1', deadline: '2021-09-01' },
-	];
-	const stackEx = ['React', 'Typescript']; // 디자인 확인용 데이터입니다. 삭제 바람
 	const stageEx = ['모집', '기획', '개발'];
 
-	const [name, setName] = useState<string>('');
+	const [recruit_members, setRecruit_members] = useState<recruitMembersDataType[]>([]);
+	const [require_stack, setRequire_stack] = useState<string[]>([]);
+	const [stackValue, setStackValue] = useState<string>('');
+
+	const [simple_desc, onChangeSimple_desc] = useInput<string>('');
+
 	const [position, setPosition] = useState<string>('');
 	const [career, setCareer] = useState<string>('');
 	const [personnel, setPersonnel] = useState<string>('');
-	const [deadline, setDeadline] = useState<string>('');
-	const [require_stack, setRequire_stack] = useState<string>('');
 	const [service_step, setService_step] = useState<string>('');
-	const [period, setPeriod] = useState<string>('');
 
-	const [recruit_members, setRecruit_members] = useState<recruitMembersDataType>({
-		position: '',
-		career: '',
-		personnel: '',
-		deadline: '',
-	});
+	const [period, setPeriod] = useState<string>(''); // 데이터피커
+	const [deadline, setDeadline] = useState<string>(''); // 데이터피커로 변경 할 예정
 
 	useEffect(() => {
-		setRecruit_members({
+		setTopMockData({
+			simple_desc,
+			recruit_members,
+			require_stack,
+			service_step,
+			period,
+		});
+	}, [simple_desc, position, career, personnel, deadline, require_stack, service_step, period, recruit_members]);
+
+	useEffect(() => {
+		if (stackValue) {
+			setRequire_stack([...require_stack, stackValue]);
+		}
+	}, [stackValue]);
+
+	const onAddRecruitMembers = () => {
+		const recruitMembersFrame: recruitMembersDataType = {
 			position,
 			career,
 			personnel,
 			deadline,
-		});
+		};
 
-		// setMockData({
-		// 	recruit_members,
-		// });
-	}, [name, position, career, personnel, deadline, require_stack, service_step, period]);
+		setRecruit_members([...recruit_members, recruitMembersFrame]);
+	};
+
+	const onDeleteRecruitMembers = (index: number) => {
+		const deleteMembers = [...recruit_members];
+		deleteMembers.splice(index, 1);
+		setRecruit_members(deleteMembers);
+	};
+
+	const onDeleteStackTag = (index: number) => {
+		const deleteStackTag = [...require_stack];
+		deleteStackTag.splice(index, 1);
+		setRequire_stack(deleteStackTag);
+	};
 
 	return (
 		<>
@@ -59,14 +88,15 @@ const CreateTop = ({ setMockData }: Props): JSX.Element => {
 						width="long"
 						height="long"
 						placeholderText="ex) 위치 기반 소셜 플랫폼 개발"
-						changeEvent={e => setName(e.target.value)}
+						changeEvent={onChangeSimple_desc}
 					/>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>모집 인원</CreateSubGuideTitle>
-					{recruitEx.map((list, index) => (
+					{recruit_members.map((list, index) => (
 						<CreateRecruitList key={index}>
 							{`${list.position}`} <span>{`${list.career}/${list.personnel}명/~${list.deadline}까지`}</span>
+							<DeleteRecruitListBtn onClick={() => onDeleteRecruitMembers(index)}>제거</DeleteRecruitListBtn>
 						</CreateRecruitList>
 					))}
 					<CreateInputContainer>
@@ -86,13 +116,22 @@ const CreateTop = ({ setMockData }: Props): JSX.Element => {
 							placeholderText="모집 기한"
 							changeEvent={e => setDeadline(e.target.value)}
 						/>
+						<AddRecruitListBtn onClick={onAddRecruitMembers}>추가</AddRecruitListBtn>
 					</CreateInputContainer>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>기술 스택</CreateSubGuideTitle>
-					<Select height="long" margin="0 10px 0 0" optionData={stackEx} setState={setRequire_stack}>
-						기술 스택
-					</Select>
+					<StackSearch height="long" setState={setStackValue} />
+					<RecruitStackWrap>
+						{require_stack.map((stack, index) => (
+							<StackTag key={index} type="delete" deleteEvent={() => onDeleteStackTag(index)}>
+								{stack}
+							</StackTag>
+						))}
+						{require_stack.length ? (
+							<RecruitStackClear onClick={() => setRequire_stack([])}>조건 초기화</RecruitStackClear>
+						) : null}
+					</RecruitStackWrap>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>서비스 단계</CreateSubGuideTitle>
