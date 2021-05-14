@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import { recruitCreateTopDataType, recruitMembersDataType } from '../../../types/types';
 import Input from '../../Common/Input';
@@ -29,6 +29,7 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 	const [recruit_members, setRecruit_members] = useState<recruitMembersDataType[]>([]);
 	const [require_stack, setRequire_stack] = useState<string[]>([]);
 	const [stackValue, setStackValue] = useState<string>('');
+	const [selectReset, setSelectReset] = useState<boolean>(false);
 
 	const [simple_desc, onChangeSimple_desc] = useInput<string>('');
 
@@ -57,6 +58,10 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 	}, [stackValue]);
 
 	const onAddRecruitMembers = () => {
+		if (!(position && career && personnel && deadline)) {
+			return;
+		}
+
 		const recruitMembersFrame: recruitMembersDataType = {
 			position,
 			career,
@@ -64,20 +69,27 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 			deadline,
 		};
 
+		setSelectReset(!selectReset);
 		setRecruit_members([...recruit_members, recruitMembersFrame]);
 	};
 
-	const onDeleteRecruitMembers = (index: number) => {
-		const deleteMembers = [...recruit_members];
-		deleteMembers.splice(index, 1);
-		setRecruit_members(deleteMembers);
-	};
+	const onDeleteRecruitMembers = useCallback(
+		(index: number) => {
+			const deleteMembers = [...recruit_members];
+			deleteMembers.splice(index, 1);
+			setRecruit_members(deleteMembers);
+		},
+		[recruit_members],
+	);
 
-	const onDeleteStackTag = (index: number) => {
-		const deleteStackTag = [...require_stack];
-		deleteStackTag.splice(index, 1);
-		setRequire_stack(deleteStackTag);
-	};
+	const onDeleteStackTag = useCallback(
+		(index: number) => {
+			const deleteStackTag = [...require_stack];
+			deleteStackTag.splice(index, 1);
+			setRequire_stack(deleteStackTag);
+		},
+		[require_stack],
+	);
 
 	return (
 		<>
@@ -100,13 +112,31 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 						</CreateRecruitList>
 					))}
 					<CreateInputContainer>
-						<Select height="long" margin="0 10px 0 0" optionData={positionEx} setState={setPosition}>
+						<Select
+							height="long"
+							margin="0 10px 0 0"
+							optionData={positionEx}
+							resetValue={selectReset}
+							setState={setPosition}
+						>
 							포지션
 						</Select>
-						<Select height="long" margin="0 10px 0 0" optionData={careerEx} setState={setCareer}>
+						<Select
+							height="long"
+							margin="0 10px 0 0"
+							optionData={careerEx}
+							resetValue={selectReset}
+							setState={setCareer}
+						>
 							경력
 						</Select>
-						<Select height="long" margin="0 10px 0 0" optionData={personnelEx} setState={setPersonnel}>
+						<Select
+							height="long"
+							margin="0 10px 0 0"
+							optionData={personnelEx}
+							resetValue={selectReset}
+							setState={setPersonnel}
+						>
 							인원
 						</Select>
 						{/* 데이터피커로 대체 예정 */}
