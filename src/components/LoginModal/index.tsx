@@ -1,7 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
+import axios from 'axios';
+
 import Button from '../Common/Button';
 import Input from '../Common/Input';
+
 import {
 	LoginTitle,
 	EmailLoginForm,
@@ -13,7 +16,7 @@ import {
 	GoogleIcon,
 	LoginGuideText,
 } from './styles';
-import axios from 'axios';
+
 import useInput from '../../hooks/useInput';
 
 const LoginModal = (): JSX.Element => {

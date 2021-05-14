@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { RiCodeBoxFill } from 'react-icons/ri';
 
+import StackSearch from '../../Common/StackSearch';
+
 export const SearchContiner = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -15,6 +17,12 @@ export const SearchStackContiner = styled.div`
 	align-items: center;
 	height: 20px;
 	margin-bottom: 10px;
+`;
+
+export const StackSearchCustom = styled(StackSearch)`
+	& > input {
+		padding-left: 40px;
+	}
 `;
 
 export const SearchStackClear = styled.span`

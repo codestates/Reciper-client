@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginModal from '../../LoginModal';
 import Modal from '../Modal';
-import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav, Profile } from './styles';
+import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav } from './styles';
 
 const Header = (): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
