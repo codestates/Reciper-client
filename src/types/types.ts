@@ -24,27 +24,27 @@ export interface recruitMembersDataType {
 }
 
 export interface recruitCreateTopDataType {
-	simple_desc: string;
-	recruit_members: recruitMembersDataType[];
-	require_stack: string[];
-	service_step: string;
+	simpleDesc: string;
+	recruitMembers: recruitMembersDataType[];
+	requireStack: string[];
+	serviceStep: string;
 	period: string;
 }
 
 export interface recruitCreateBottomDataType {
-	detail_title: string;
-	detail_desc: string;
+	detailTitle: string;
+	detailDesc: string;
 }
 
 export interface recruitCreateDataType {
 	name: string;
-	simple_desc: string;
-	recruit_members: recruitMembersDataType[];
-	require_stack: string[];
-	service_step: string;
+	simpleDesc: string;
+	recruitMembers: recruitMembersDataType[];
+	requireStack: string[];
+	serviceStep: string;
 	period: string;
-	detail_title: string;
-	detail_desc: string;
+	detailTitle: string;
+	detailDesc: string;
 }
 
 ////////////////////////////////////////////////////////
