@@ -1,6 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import Input from '../../Common/Input';
 import Select from '../../Common/Select';
 import StackTag from '../../Common/StackTag';
 
@@ -11,21 +11,42 @@ import {
 	SearchInputContiner,
 	SearchStackClear,
 	SearchStackContiner,
+	StackSearchCustom,
 } from './styles';
 
 const Search = (): JSX.Element => {
-	const selectData: string[] = ['최신순', '오래된 순'];
-	const [stackName, setStackName] = useState<string>('');
+	const sortData: string[] = ['최신순', '오래된 순'];
+	const [sortValue, setSortValue] = useState<string>('');
+	const [stack, setStack] = useState<string>('');
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 
-	const onAddStack = () => {
-		if (stackName.trim() === '') {
-			setStackName('');
-			return;
+	useEffect(() => {
+		const getLoginInfo = localStorage.getItem('loginInfo');
+		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
+
+		axios
+			.get(`${process.env.REACT_APP_SERVER_URL}/recruitList/1`, {
+				headers: { authorization: `Bearer ${accessToken}`, loginType },
+			})
+			.then(data => {
+				console.log('전송', data.data);
+			});
+	}, []);
+
+	useEffect(() => {
+		if (stack) {
+			setStackBucket([...stackBucket, stack]);
 		}
-		setStackBucket([...stackBucket, stackName]);
-		setStackName('');
-	};
+	}, [stack]);
+
+	const onDeleteStack = useCallback(
+		(index: number) => {
+			const deleteStack = [...stackBucket];
+			deleteStack.splice(index, 1);
+			setStackBucket(deleteStack);
+		},
+		[stack],
+	);
 
 	return (
 		<SearchContiner>
@@ -34,24 +55,17 @@ const Search = (): JSX.Element => {
 					<SearchStackClear onClick={() => setStackBucket([])}>조건 초기화</SearchStackClear>
 				) : null}
 				{stackBucket.map((stack, index) => (
-					<StackTag key={index}>{stack}</StackTag>
+					<StackTag key={index} type="delete" deleteEvent={() => onDeleteStack(index)}>
+						{stack}
+					</StackTag>
 				))}
 			</SearchStackContiner>
 			<SearchFormContiner>
 				<SearchInputContiner>
 					<SearchCodeIcon />
-					<Input
-						width="short"
-						height="long"
-						margin="0 10px 0 0"
-						padding="0 10px 0 40px"
-						initValue={stackName}
-						placeholderText="기술 태그 검색"
-						changeEvent={(e: ChangeEvent<HTMLInputElement>) => setStackName(e.target.value)}
-						keyEvent={(e: KeyboardEvent) => e.key === 'Enter' && onAddStack()}
-					/>
+					<StackSearchCustom width="long" height="long" margin="0 10px 0 0" setState={setStack} />
 				</SearchInputContiner>
-				<Select height="long" optionData={selectData}>
+				<Select height="long" optionData={sortData} setState={setSortValue}>
 					최신 순
 				</Select>
 			</SearchFormContiner>
