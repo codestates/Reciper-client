@@ -23,7 +23,7 @@ export const getProfileInfo = createAsyncThunk('profileInfo', async (): Promise<
 // TODO: 초기 상태
 const initialState: profileInfoDataType = {
 	UpdatedAt: '',
-	about_me: '',
+	aboutMe: '',
 	career: {
 		office: '',
 		job: '',
@@ -32,13 +32,13 @@ const initialState: profileInfoDataType = {
 	createdAt: '',
 	email: '',
 	stacks: [],
-	git_id: '',
+	gitId: '',
 	id: null,
 	isOpen: false,
 	mobile: '',
 	name: '',
-	profile_color: '',
-	profile_image: '',
+	profileColor: '',
+	profileImage: '',
 };
 
 // TODO: slice 실행

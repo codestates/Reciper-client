@@ -26,6 +26,7 @@ import {
 	RecipeCard_Content,
 	RecipeCard_title,
 	RecipeCard_Description,
+	Profile_UserImage,
 } from './styles';
 import Test from '../../images/card_test.png';
 
@@ -36,7 +37,6 @@ const UserProfile = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 
 	useEffect(() => {
-		console.log('');
 		dispatch(getProfileInfo());
 	}, []);
 
@@ -58,11 +58,23 @@ const UserProfile = (): JSX.Element => {
 			{/* TODO: 유저 개인 정보 */}
 			<Profile_UserCard>
 				<Profile_Img>
-					<div>
-						<div>{profileInfo.name.slice(0, 1)}</div>
-					</div>
+					{profileInfo.profileImage !== '' ? (
+						<div>
+							<Profile_UserImage
+								src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`}
+								alt=""
+							/>
+						</div>
+					) : (
+						<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
+							{profileInfo.name ? (
+								<div style={{ margin: '45px', fontSize: '110px' }}>{profileInfo.name.slice(0, 1)}</div>
+							) : (
+								<div style={{ margin: '20px', fontSize: '130px' }}>{profileInfo.email.slice(0, 1)}</div>
+							)}
+						</div>
+					)}
 				</Profile_Img>
-
 				<Profile_UserInfoCard>
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
@@ -83,7 +95,7 @@ const UserProfile = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>
 						<Profile_UserInfo>
-							{profileInfo.about_me ? profileInfo.about_me : <div>프로필을 설정해 주세요</div>}
+							{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
 						</Profile_UserInfo>
 					</div>
 				</Profile_UserInfoCard>
@@ -95,7 +107,7 @@ const UserProfile = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>Github 아이디</Profile_SubTitle>
 						<Profile_UserInfo>
-							{profileInfo.git_id ? profileInfo.git_id : <div>프로필을 설정해 주세요</div>}
+							{profileInfo.gitId ? profileInfo.gitId : <div>프로필을 설정해 주세요</div>}
 						</Profile_UserInfo>
 					</div>
 					<div>
@@ -121,9 +133,12 @@ const UserProfile = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>사용 스택</Profile_SubTitle>
 						<Profile_UserInfo>
-							<span>
-								<StackTag>React</StackTag>
-							</span>
+							{profileInfo.stacks &&
+								profileInfo.stacks.map((stack: string, index: number) => (
+									<span key={index}>
+										<StackTag>{stack}</StackTag>
+									</span>
+								))}
 						</Profile_UserInfo>
 					</div>
 				</Profile_UserDetailInfo>

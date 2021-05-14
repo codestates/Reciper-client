@@ -29,6 +29,13 @@ export const ProfileTitle = styled.div`
 		}
 	}
 `;
+// --------------------TODO: image upload-------------------------
+
+export const Profile_UserImage = styled.img`
+	width: 200px;
+	height: 200px;
+	border-radius: 100%;
+`;
 
 // --------------------TODO: user profile Card-------------------------
 
@@ -49,15 +56,18 @@ export const Profile_Img = styled.div`
 	& > div {
 		width: 200px;
 		height: 200px;
-		background-color: #9c27b0;
 		border-radius: 100%;
 
 		& > div {
 			${({ theme }) => theme.align.flexCenter}
-			margin-top: 54px;
 			font-family: 'NanumSquareR';
-			font-size: 80px;
 			color: #fff;
+		}
+
+		& > form {
+			${({ theme }) => theme.align.positionCenter}
+			right: 28px;
+			width: content-fit;
 		}
 	}
 
@@ -72,19 +82,24 @@ export const Profile_Img = styled.div`
 
 export const ProfileEdit_Img = styled(Profile_Img)`
 	& > div {
-		position: relative;
+		position: absolute;
+		opacity: 1;
 
 		&:hover {
 			cursor: pointer;
-			background-color: rgba(0, 0, 0, 0.3);
 		}
-		
+	
 		&:hover:before {
-			position: absolute;
-			top: 80px;
-			left: 44px;
+			overflow: hidden;
+			opacity: 0.5;
+			${({ theme }) => theme.align.flexCenter}
+			width: 200px;
+			height:200px;
 			font-family: NanumSquareR;
+			font-size: 18px;
 			color: #fff;
+			background-color: rgba(0, 0, 0.3);
+			border-radius: 100%;
 			content: '이미지 업로드'
 		}
 `;
