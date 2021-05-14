@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
 				<Route path="/landing" component={Landing} />
 				<Route exact path="/recruit" component={Recruit} />
 				<Route path="/recruit/:id" component={RecruitDetail} />
-				<Route path="/recruit/create" component={RecruitCreate} />
+				<Route path="/recruitcreate" component={RecruitCreate} />
 				<Route exact path="/profile/:id" component={Profile} />
 				<Route path="/profile/:id/edit" component={ProfileEdit} />
 				<Route exact path="/project/:id" component={Project} />
