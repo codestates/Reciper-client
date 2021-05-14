@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CreateTop from '../CreateTop';
 import CreateBottom from '../CreateBottom';
@@ -12,15 +12,15 @@ import useInput from '../../../hooks/useInput';
 const CreaateContainer = (): JSX.Element => {
 	const [name, onChangeName] = useInput<string>('');
 	const [topMockData, setTopMockData] = useState<recruitCreateTopDataType>({
-		simple_desc: '',
-		recruit_members: [{ position: '', career: '', personnel: '', deadline: '' }],
-		require_stack: [],
-		service_step: '',
+		simpleDesc: '',
+		recruitMembers: [{ position: '', career: '', personnel: '', deadline: '' }],
+		requireStack: [],
+		serviceStep: '',
 		period: '',
 	});
 	const [bottomMockData, setBottomMockData] = useState<recruitCreateBottomDataType>({
-		detail_title: '',
-		detail_desc: '',
+		detailTitle: '',
+		detailDesc: '',
 	});
 	const [mockData, setMockData] = useState<recruitCreateDataType>({
 		name,
@@ -43,6 +43,15 @@ const CreaateContainer = (): JSX.Element => {
 				headers: { authorization: `Bearer ${accessToken}`, loginType },
 			})
 			.then(data => console.log('전송', data.data));
+
+		/*
+			input이 비어 있으면 - textForm
+			모집 인원 데이터가 빈 배열이면 - membersForm
+			기술 스택 데이터가 빈 배열이면 - stacksForm
+			서비스 단계의 텍스트가 서비스 단계면 - stepForm
+			예상 기간의 텍스트가 예상 기간이면 - preiodForm
+			소개 글이 비어 있으면 - detailDescForm
+		*/
 	};
 
 	return (

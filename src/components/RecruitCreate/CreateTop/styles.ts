@@ -11,6 +11,18 @@ export const CreateInputContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 `;
 
+export const DatePickerCustomInput = styled.button`
+	width: 130px;
+	height: 40px;
+	padding: 0 10px;
+	margin: 0 10px 0 0;
+	font-family: 'NanumSquareR';
+	text-align: left;
+	font-size: 16px;
+	border: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-radius: 3px;
+`;
+
 export const CreateRecruitList = styled.div`
 	margin-bottom: 10px;
 	& > span {

@@ -1,10 +1,17 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import useInput from '../../../hooks/useInput';
+import React, { Dispatch, ForwardedRef, forwardRef, SetStateAction, useCallback, useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../../styles/react-datepicker-custom.css';
+
 import { recruitCreateTopDataType, recruitMembersDataType } from '../../../types/types';
+import dateFormat from '../../../utils/dateformat';
+
+import useInput from '../../../hooks/useInput';
 import Input from '../../Common/Input';
 import Select from '../../Common/Select';
 import StackSearch from '../../Common/StackSearch';
 import StackTag from '../../Common/StackTag';
+
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
 import {
 	CreatTopContainer,
@@ -14,6 +21,7 @@ import {
 	AddRecruitListBtn,
 	RecruitStackWrap,
 	RecruitStackClear,
+	DatePickerCustomInput,
 } from './styles';
 
 interface Props {
@@ -26,38 +34,38 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 	const personnelEx = ['1', '2', '3', '4', '5'];
 	const stageEx = ['모집', '기획', '개발'];
 
-	const [recruit_members, setRecruit_members] = useState<recruitMembersDataType[]>([]);
-	const [require_stack, setRequire_stack] = useState<string[]>([]);
+	const [recruitMembers, setRecruitMembers] = useState<recruitMembersDataType[]>([]);
+	const [requireStack, setRequireStack] = useState<string[]>([]);
 	const [stackValue, setStackValue] = useState<string>('');
 	const [selectReset, setSelectReset] = useState<boolean>(false);
 
-	const [simple_desc, onChangeSimple_desc] = useInput<string>('');
+	const [simpleDesc, onChangeSimpleDesc] = useInput<string>('');
 
 	const [position, setPosition] = useState<string>('');
 	const [career, setCareer] = useState<string>('');
 	const [personnel, setPersonnel] = useState<string>('');
-	const [service_step, setService_step] = useState<string>('');
-
-	const [period, setPeriod] = useState<string>(''); // 데이터피커
-	const [deadline, setDeadline] = useState<string>(''); // 데이터피커로 변경 할 예정
+	const [serviceStep, setServiceStep] = useState<string>('');
+	const [period, setPeriod] = useState<Date | [Date, Date] | null>();
+	const [deadline, setDeadline] = useState<Date | [Date, Date] | null>();
 
 	useEffect(() => {
 		setTopMockData({
-			simple_desc,
-			recruit_members,
-			require_stack,
-			service_step,
-			period,
+			simpleDesc,
+			recruitMembers,
+			requireStack,
+			serviceStep,
+			period: dateFormat(period as Date),
 		});
-	}, [simple_desc, position, career, personnel, deadline, require_stack, service_step, period, recruit_members]);
+	}, [simpleDesc, position, career, personnel, deadline, requireStack, serviceStep, period, recruitMembers]);
 
 	useEffect(() => {
 		if (stackValue) {
-			setRequire_stack([...require_stack, stackValue]);
+			setRequireStack([...requireStack, stackValue]);
 		}
 	}, [stackValue]);
 
 	const onAddRecruitMembers = () => {
+		// ReacruitMember를 추가하는 이벤트입니다.
 		if (!(position && career && personnel && deadline)) {
 			return;
 		}
@@ -66,30 +74,46 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 			position,
 			career,
 			personnel,
-			deadline,
+			deadline: dateFormat(deadline as Date),
 		};
-
+		setDeadline(null);
 		setSelectReset(!selectReset);
-		setRecruit_members([...recruit_members, recruitMembersFrame]);
+		setRecruitMembers([...recruitMembers, recruitMembersFrame]);
 	};
 
 	const onDeleteRecruitMembers = useCallback(
+		// ReacruitMember를 제거하는 이벤트입니다.
 		(index: number) => {
-			const deleteMembers = [...recruit_members];
+			const deleteMembers = [...recruitMembers];
 			deleteMembers.splice(index, 1);
-			setRecruit_members(deleteMembers);
+			setRecruitMembers(deleteMembers);
 		},
-		[recruit_members],
+		[recruitMembers],
 	);
 
 	const onDeleteStackTag = useCallback(
+		// StackTag를 제거하는 이벤트 입니다.
 		(index: number) => {
-			const deleteStackTag = [...require_stack];
+			const deleteStackTag = [...requireStack];
 			deleteStackTag.splice(index, 1);
-			setRequire_stack(deleteStackTag);
+			setRequireStack(deleteStackTag);
 		},
-		[require_stack],
+		[requireStack],
 	);
+
+	const DatePickerCustomBtn = forwardRef(
+		({ value, onClick, initialValue }: any, ref: ForwardedRef<HTMLButtonElement>) => (
+			<DatePickerCustomInput
+				style={{ color: `${value ? '#000' : '#d6d6d8'}` }}
+				className="example-custom-input"
+				onClick={onClick}
+				ref={ref}
+			>
+				{value || initialValue}
+			</DatePickerCustomInput>
+		),
+	);
+	DatePickerCustomBtn.displayName = 'custom btn';
 
 	return (
 		<>
@@ -100,12 +124,12 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 						width="long"
 						height="long"
 						placeholderText="ex) 위치 기반 소셜 플랫폼 개발"
-						changeEvent={onChangeSimple_desc}
+						changeEvent={onChangeSimpleDesc}
 					/>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>모집 인원</CreateSubGuideTitle>
-					{recruit_members.map((list, index) => (
+					{recruitMembers.map((list, index) => (
 						<CreateRecruitList key={index}>
 							{`${list.position}`} <span>{`${list.career}/${list.personnel}명/~${list.deadline}까지`}</span>
 							<DeleteRecruitListBtn onClick={() => onDeleteRecruitMembers(index)}>제거</DeleteRecruitListBtn>
@@ -139,12 +163,11 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 						>
 							인원
 						</Select>
-						{/* 데이터피커로 대체 예정 */}
-						<Input
-							width="short"
-							height="long"
-							placeholderText="모집 기한"
-							changeEvent={e => setDeadline(e.target.value)}
+						<DatePicker
+							dateFormat="yyyy-MM-dd"
+							selected={deadline as Date | null | undefined}
+							customInput={<DatePickerCustomBtn initialValue="모집 기한" />}
+							onChange={date => setDeadline(date)}
 						/>
 						<AddRecruitListBtn onClick={onAddRecruitMembers}>추가</AddRecruitListBtn>
 					</CreateInputContainer>
@@ -153,26 +176,30 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 					<CreateSubGuideTitle>기술 스택</CreateSubGuideTitle>
 					<StackSearch height="long" setState={setStackValue} />
 					<RecruitStackWrap>
-						{require_stack.map((stack, index) => (
+						{requireStack.map((stack, index) => (
 							<StackTag key={index} type="delete" deleteEvent={() => onDeleteStackTag(index)}>
 								{stack}
 							</StackTag>
 						))}
-						{require_stack.length ? (
-							<RecruitStackClear onClick={() => setRequire_stack([])}>조건 초기화</RecruitStackClear>
+						{requireStack.length ? (
+							<RecruitStackClear onClick={() => setRequireStack([])}>조건 초기화</RecruitStackClear>
 						) : null}
 					</RecruitStackWrap>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>서비스 단계</CreateSubGuideTitle>
-					<Select height="long" margin="0 10px 0 0" optionData={stageEx} setState={setService_step}>
+					<Select height="long" margin="0 10px 0 0" optionData={stageEx} setState={setServiceStep}>
 						서비스 단계
 					</Select>
 				</CreateSection>
 				<CreateSection>
 					<CreateSubGuideTitle>예상 기간</CreateSubGuideTitle>
-					{/* 데이터피커로 대체 예정*/}
-					<Input width="short" height="long" placeholderText="예상 기간" changeEvent={e => setPeriod(e.target.value)} />
+					<DatePicker
+						dateFormat="yyyy-MM-dd"
+						selected={period as Date | null | undefined}
+						customInput={<DatePickerCustomBtn initialValue="모집 기한" />}
+						onChange={date => setPeriod(date)}
+					/>
 				</CreateSection>
 			</CreatTopContainer>
 		</>
