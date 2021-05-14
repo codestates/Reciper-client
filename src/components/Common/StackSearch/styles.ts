@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-export const StackSearchContainer = styled.div<{ height: string; margin: string }>`
-	width: 130px;
+export const StackSearchContainer = styled.div<{ width: string; height: string; margin: string }>`
+	width: ${({ width }) => width};
 	height: ${({ height }) => (height === 'short' ? '32px' : '40px')};
 	margin: ${({ margin }) => margin};
 	position: relative;

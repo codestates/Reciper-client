@@ -4,12 +4,16 @@ import { stackData } from '../../../types/types';
 import { Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
 
 interface Props {
+	width: string;
 	height: string;
 	margin: string;
 	setState: Dispatch<SetStateAction<string>>;
 }
 
 /*
+	width (default: short)
+		1. short - 130px;
+		2. long - 250px;
 	height (default: short)
 	 	1. short - 32px;
 		2. long - 40px;
@@ -96,6 +100,7 @@ const StackSearch = (props: Props): JSX.Element => {
 };
 
 StackSearch.defaultProps = {
+	width: 'short',
 	height: 'short',
 	margin: '0',
 };
