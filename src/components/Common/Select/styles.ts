@@ -25,6 +25,7 @@ export const ToggleArrowIcon = styled(MdKeyboardArrowDown)`
 export const OptionContainer = styled.ul<{ height: string }>`
 	overflow: hidden;
 	position: absolute;
+	z-index: 10;
 	top: ${({ height }) => (height === 'short' ? '30px' : '38px')};
 	left: -1px;
 	width: 130px;

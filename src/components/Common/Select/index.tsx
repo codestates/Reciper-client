@@ -6,6 +6,7 @@ interface Props {
 	height: string;
 	margin: string;
 	optionData: string[];
+	resetValue: boolean;
 	setState: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -16,6 +17,7 @@ interface Props {
 		2. long - height: 40px
 	margin - '0 10px 0 0' 처럼 전달해주면 마진이 적용 됨
 	optionData - option을 생성하기 위한 string[] 타입을 전달 시켜 사용
+	resetValue - form 초기화 시 사용 됨 true, false 변화가 감지 될 때 마다 리셋됨 (default: false)
 	setState - props로 setState를 전달 시켜 원하는 값을 끌어 올릴 수 있음
 */
 
@@ -38,6 +40,10 @@ const Select = (props: Props): JSX.Element => {
 	useEffect(() => {
 		props.setState(selectedValue);
 	}, [selectedValue]);
+
+	useEffect(() => {
+		setSelectedValue('');
+	}, [props.resetValue]);
 
 	return (
 		<>
@@ -66,6 +72,7 @@ const Select = (props: Props): JSX.Element => {
 Select.defaultProps = {
 	height: 'short',
 	margin: '0',
+	resetValue: false,
 };
 
 export default Select;
