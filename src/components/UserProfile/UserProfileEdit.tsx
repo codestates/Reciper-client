@@ -37,13 +37,13 @@ import { profileEditType } from '../../types/types';
 import { changeImage, clickUploadImage } from '../../utils/imageUpload';
 
 const UserProfileEdit = (): JSX.Element => {
+	const profileInfo = useSelector(getProfileInfoSelector);
+	const dispatch = useDispatch();
+	const history = useHistory();
+
 	const [stackName, onChangeStackName, setStackName] = useInput<string>('');
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const [isToggled, setIsToggled] = useState<boolean>(false);
-	const [image, setImage] = useState<string>('');
-	const history = useHistory();
-	const dispatch = useDispatch();
-	const profileInfo = useSelector(getProfileInfoSelector);
 	const imageInput = useRef<HTMLInputElement>(null);
 
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
@@ -54,9 +54,17 @@ const UserProfileEdit = (): JSX.Element => {
 	const [job, onChangeJob] = useInput<string>(profileInfo.career.job);
 	const [period, onChangePeriod] = useInput<string>(profileInfo.career.period);
 
+	// TODO: 이미지 저장
+	const [image, setImage] = useState<string>(profileInfo.profileImage);
+
 	useEffect(() => {
 		dispatch(getProfileInfo());
-	}, []);
+		setImage(profileInfo.profileImage);
+	}, [profileInfo.profileImage]);
+
+	console.log('이미지 확인', image);
+
+	console.log('프로필 이미지 확인', profileInfo.profileImage);
 
 	const data: profileEditType = {
 		name: name,
@@ -98,21 +106,6 @@ const UserProfileEdit = (): JSX.Element => {
 		history.push(`/profile/${profileInfo.id}`);
 	};
 
-	// const onChnageImage = async (e: ChangeEvent<HTMLInputElement>) => {
-	// 	const formData = new FormData();
-	// 	if (e.target.files) {
-	// 		formData.append('file', e.target.files[0]);
-	// 		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`, formData, {
-	// 			headers: {
-	// 				authorization: `Bearer ${userAccessToken}`,
-	// 				loginType: userLoginType,
-	// 			},
-	// 		});
-	// 		const imageData = response.data.profileImage as string;
-	// 		setImage(imageData);
-	// 	}
-	// };
-
 	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기
 		setImage('');
@@ -135,21 +128,18 @@ const UserProfileEdit = (): JSX.Element => {
 							accept="image/jpg,image/png,/image/jpeg"
 							name="file"
 							hidden
-							onChange={changeImage}
+							onChange={e => changeImage(e, setImage)}
 							ref={imageInput}
 						/>
 					</form>
-					{profileInfo.profileImage !== '' ? (
+					{image ? (
 						<>
 							<div
 								onClick={() => {
 									clickUploadImage(imageInput);
 								}}
 							>
-								<Profile_UserImage
-									src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`}
-									alt=""
-								/>
+								<Profile_UserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
 							</div>
 							<span onClick={onResetImage}>기본 이미지로 변경</span>
 						</>
