@@ -14,13 +14,13 @@ export interface profileInfoDataType {
 	name: string;
 	email: string;
 	mobile: string;
-	git_id: string;
-	about_me: string;
+	gitId: string;
+	aboutMe: string;
 	isOpen: boolean;
 	career: careerType;
 	stacks: string[];
-	profile_color: string;
-	profile_image: string;
+	profileColor: string;
+	profileImage: string;
 	createdAt: string;
 	UpdatedAt: string;
 }
@@ -32,12 +32,12 @@ export interface careerType {
 }
 
 export interface profileEditType {
-	name: string;
-	mobile: string;
-	git_id: string;
+	aboutMe: string;
 	career: careerType;
-	stacks: string[];
+	gitId: string;
 	isOpen: boolean;
-	about_me: string;
-	profile_image: string;
+	mobile: string;
+	name: string;
+	profileImage: string;
+	stacks: string[];
 }

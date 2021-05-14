@@ -24,18 +24,18 @@ export const getProfileEdit = createAsyncThunk('profileInfo', async (data: profi
 
 // TODO: 초기 상태
 const initialState: profileEditType = {
-	name: '',
-	mobile: '',
-	git_id: '',
+	aboutMe: '',
 	career: {
 		office: '',
 		job: '',
 		period: '',
 	},
-	stacks: [],
+	gitId: '',
+	name: '',
 	isOpen: false,
-	about_me: '',
-	profile_image: '',
+	mobile: '',
+	stacks: [],
+	profileImage: '',
 };
 
 // TODO: slice 실행
