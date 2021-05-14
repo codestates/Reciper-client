@@ -18,8 +18,8 @@ export const ProfileTitle = styled.div`
 
 	& > div {
 		cursor: pointer;
-		transition: 0.1s;
 		${({ theme }) => theme.align.flexVertical}
+		transition: 0.1s;
 		margin-top: 20px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
@@ -73,7 +73,7 @@ export const Profile_Img = styled.div`
 
 	& > span {
 		cursor: pointer;
-		margin-top: 5px;
+		margin-top: 210px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
 		color: #f15525;
@@ -93,6 +93,8 @@ export const ProfileEdit_Img = styled(Profile_Img)`
 			overflow: hidden;
 			opacity: 0.5;
 			${({ theme }) => theme.align.flexCenter}
+			position: absolute;
+			z-index: 10;
 			width: 200px;
 			height:200px;
 			font-family: NanumSquareR;

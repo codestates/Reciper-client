@@ -79,7 +79,7 @@ const UserProfile = (): JSX.Element => {
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
 						<Profile_UserInfo>
-							{profileInfo.name ? profileInfo.name : <div>프로필을 설정해 주세요</div>}
+							{profileInfo.name ? profileInfo.name : <div>{profileInfo.email.split('@')[0]}</div>}
 						</Profile_UserInfo>
 					</div>
 					<div>
