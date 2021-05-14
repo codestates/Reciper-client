@@ -2,22 +2,24 @@ import axios from 'axios';
 import { ChangeEvent } from 'react';
 
 const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-const loginInfo = JSON.parse(localStorage_loginInfo);
-const userAccessToken = loginInfo.accessToken;
-const userLoginType = loginInfo.loginType;
+const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
 
-export const changeImage = async (e: ChangeEvent<HTMLInputElement>): Promise<string | undefined> => {
+export const changeImage = async (
+	e: ChangeEvent<HTMLInputElement>,
+	setState: React.Dispatch<React.SetStateAction<string>>,
+): Promise<void> => {
 	const formData = new FormData();
 	if (e.target.files) {
 		formData.append('file', e.target.files[0]);
 		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`, formData, {
 			headers: {
-				authorization: `Bearer ${userAccessToken}`,
-				loginType: userLoginType,
+				authorization: `Bearer ${accessToken}`,
+				loginType,
 			},
 		});
-		const imageData = response.data.profileImage as string;
-		return imageData;
+		const imageData = response.data.profileImage;
+		console.log('확인', imageData);
+		setState(imageData);
 	}
 };
 
