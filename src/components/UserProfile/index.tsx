@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getProfileInfo, getProfileInfoSelector } from '../../reducer/profile';
 
 import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { useHistory } from 'react-router';
 import Modal from '../Common/Modal';
 
 import StackTag from '../Common/StackTag';
@@ -24,16 +26,23 @@ import {
 	RecipeCard_Content,
 	RecipeCard_title,
 	RecipeCard_Description,
+	Profile_UserImage,
 } from './styles';
 import Test from '../../images/card_test.png';
 
 const UserProfile = (): JSX.Element => {
 	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const profileInfo = useSelector(getProfileInfoSelector);
 
-	const onGoToEditPage = () => {
+	useEffect(() => {
+		dispatch(getProfileInfo());
+	}, []);
+
+	const onGoToEditPage = (): void => {
 		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
-		history.push('/profile/:id/edit');
+		history.push(`/profile/${profileInfo.id}/edit`);
 	};
 
 	return (
@@ -49,27 +58,45 @@ const UserProfile = (): JSX.Element => {
 			{/* TODO: 유저 개인 정보 */}
 			<Profile_UserCard>
 				<Profile_Img>
-					<div>
-						<div>이</div>
-					</div>
+					{profileInfo.profileImage !== '' ? (
+						<div>
+							<Profile_UserImage
+								src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`}
+								alt=""
+							/>
+						</div>
+					) : (
+						<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
+							{profileInfo.name ? (
+								<div style={{ margin: '45px', fontSize: '110px' }}>{profileInfo.name.slice(0, 1)}</div>
+							) : (
+								<div style={{ margin: '20px', fontSize: '130px' }}>{profileInfo.email.slice(0, 1)}</div>
+							)}
+						</div>
+					)}
 				</Profile_Img>
-
 				<Profile_UserInfoCard>
 					<div>
 						<Profile_SubTitle>이름</Profile_SubTitle>
-						<Profile_UserInfo>이우성</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.name ? profileInfo.name : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>전화번호</Profile_SubTitle>
-						<Profile_UserInfo>010-1234-5678</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>이메일</Profile_SubTitle>
-						<Profile_UserInfo>email </Profile_UserInfo>
+						<Profile_UserInfo>{profileInfo.email}</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>한줄 소개</Profile_SubTitle>
-						<Profile_UserInfo>React 위주로 개발합니다.</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 				</Profile_UserInfoCard>
 			</Profile_UserCard>
@@ -79,26 +106,39 @@ const UserProfile = (): JSX.Element => {
 				<Profile_UserDetailInfo>
 					<div>
 						<Profile_SubTitle>Github 아이디</Profile_SubTitle>
-						<Profile_UserInfo>useonglee</Profile_UserInfo>
+						<Profile_UserInfo>
+							{profileInfo.gitId ? profileInfo.gitId : <div>프로필을 설정해 주세요</div>}
+						</Profile_UserInfo>
 					</div>
 					<div>
 						<Profile_SubTitle>경력</Profile_SubTitle>
-						<Profile_UserInfo>
-							<span>코드스테이츠</span>
-						</Profile_UserInfo>
-						<Profile_UserInfo>
-							<span>프론트 엔드</span>
-						</Profile_UserInfo>
-						<Profile_UserInfo>
-							<span>1~3년</span>
-						</Profile_UserInfo>
+						{profileInfo.career ? (
+							<>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.office}</span>
+								</Profile_UserInfo>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.job}</span>
+								</Profile_UserInfo>
+								<Profile_UserInfo>
+									<span>{profileInfo.career.period}</span>
+								</Profile_UserInfo>
+							</>
+						) : (
+							<Profile_UserInfo>
+								<div>프로필을 설정해 주세요</div>
+							</Profile_UserInfo>
+						)}
 					</div>
 					<div>
 						<Profile_SubTitle>사용 스택</Profile_SubTitle>
 						<Profile_UserInfo>
-							<span>
-								<StackTag>React</StackTag>
-							</span>
+							{profileInfo.stacks &&
+								profileInfo.stacks.map((stack: string, index: number) => (
+									<span key={index}>
+										<StackTag>{stack}</StackTag>
+									</span>
+								))}
 						</Profile_UserInfo>
 					</div>
 				</Profile_UserDetailInfo>
