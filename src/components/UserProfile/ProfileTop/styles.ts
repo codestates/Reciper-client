@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
-	width: 800px;
+	${({ theme }) => theme.align.flexVertical}
+	flex-direction: column;
+	width: 1000px;
 	margin: 0 auto;
 	padding: 42px;
 `;
@@ -43,7 +45,7 @@ export const ProfileUserCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
 	width: 800px;
-	padding: 40px 28px 0 28px;
+	padding: 40px 28px 40px 28px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
@@ -51,7 +53,7 @@ export const ProfileImg = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	width: 240px;
-	height: 240px;
+	height: 230px;
 
 	& > div {
 		width: 200px;
@@ -60,7 +62,11 @@ export const ProfileImg = styled.div`
 
 		& > div {
 			${({ theme }) => theme.align.flexCenter}
+			width: 100%;
+			height: 100%;
+			margin-top: 6px;
 			font-family: 'NanumSquareR';
+			font-size: 110px;
 			color: #fff;
 		}
 
@@ -109,7 +115,7 @@ export const ProfileEditImg = styled(ProfileImg)`
 export const ProfileUserInfoCard = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 0 0 12px 68px;
+	padding: 12px 68px;
 	width: 100%;
 
 	& > div {
@@ -148,11 +154,6 @@ export const ProfileUserInfo = styled.span`
 	& > div {
 		color: #545454;
 	}
-
-	& > span {
-		width: 140px;
-		margin-right: 4px;
-	}
 `;
 
 // --------------------TODO: user Develop intro Card------------------
@@ -161,7 +162,7 @@ export const UserDetailIntroCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	width: 700px;
-	margin: 0 auto;
+	margin-right: 60px;
 `;
 
 export const ProfileUserDetailInfo = styled.div`
@@ -175,9 +176,12 @@ export const ProfileUserDetailInfo = styled.div`
 		margin-bottom: 28px;
 	}
 `;
+export const ProfileCareer = styled.span`
+	margin-right: 20px;
+`;
 
-export const ProfileStack = styled.span`
-	margin-right: 8px;
+export const ProfileStacks = styled.span`
+	margin: 0 8px -5px -5px;
 `;
 
 export const ProfileUserRecipeInfo = styled.div`
@@ -252,39 +256,4 @@ export const RecipeCardDescription = styled.div`
 	font-family: 'NanumSquareR';
 	font-size: 14px;
 	color: #444242;
-`;
-
-export const EditButton = styled.div`
-	${({ theme }) => theme.align.flexCenter}
-`;
-
-// --------------------TODO: Add Stack Input------------------
-export const AddStackContainer = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	position: absolute;
-	top: 36px;
-`;
-
-export const CurrentStack = styled.div`
-	cursor: pointer;
-	${({ theme }) => theme.align.flexVertical}
-	padding-right: 4px;
-	color: #545454;
-`;
-
-export const StackClear = styled.div`
-	cursor: pointer;
-`;
-
-export const StackMaximum = styled.span`
-	margin-left: 8px;
-	font-family: 'NanumSquareR';
-	font-size: 14px;
-	color: ${({ theme }) => theme.color.warningColor};
-`;
-
-export const ToggleMessage = styled.p`
-	margin-left: 8px;
-	font-family: 'NanumSquareR';
-	color: ${({ theme }) => theme.color.pointColor};
 `;

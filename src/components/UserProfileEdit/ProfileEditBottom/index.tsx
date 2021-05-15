@@ -1,8 +1,7 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getProfileEdit } from '../../../reducer/profileEdit';
 import useInput from '../../../hooks/useInput';
 
-import { IoMdClose } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
@@ -16,11 +15,18 @@ import {
 	ProfileSubTitle,
 	UserDetailIntroCard,
 	ProfileUserDetailInfo,
+} from '../../UserProfile/ProfileTop/styles';
+import { SearchInputContiner, StackSearchCustom } from '../../Recruit/Search/styles';
+import {
 	EditButton,
+	SearchCodeIcon,
+	StackClear,
+	CareerInput,
 	AddStackContainer,
-	CurrentStack,
 	StackMaximum,
 	ToggleMessage,
+	ShowProject,
+	ProfileCareerContainer,
 } from '../ProfileEditTop/styles';
 
 import { profileEditType, profileInfoDataType } from '../../../types/types';
@@ -31,15 +37,24 @@ interface Props {
 	mobile: string;
 	aboutMe: string;
 	image: string;
+	stackBucket: string[];
+	setStackBucket: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const ProfileEditBottom = ({ profileInfo, name, mobile, aboutMe, image }: Props): JSX.Element => {
+const ProfileEditBottom = ({
+	profileInfo,
+	name,
+	mobile,
+	aboutMe,
+	image,
+	stackBucket,
+	setStackBucket,
+}: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const [stackName, onChangeStackName, setStackName] = useInput<string>('');
-	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const [isToggled, setIsToggled] = useState<boolean>(false);
+	const [stack, setStack] = useState<string>('');
 
 	const [gitId, onChangeGit_id] = useInput<string>(profileInfo.gitId);
 	const [office, onChangeoffice] = useInput<string>(profileInfo.career.office);
@@ -62,17 +77,15 @@ const ProfileEditBottom = ({ profileInfo, name, mobile, aboutMe, image }: Props)
 	};
 	console.log('data', data);
 
-	const onAddStack = (): void => {
-		if (stackName.trim() === '') {
-			setStackName('');
-			return;
-		}
+	useEffect(() => {
 		if (stackBucket.length > 4) {
 			return;
 		}
-		setStackBucket([...stackBucket, stackName]);
-		setStackName('');
-	};
+
+		if (stack) {
+			setStackBucket([...stackBucket, stack]);
+		}
+	}, [stack]);
 
 	const onDeleteStack = (index: number): void => {
 		const currentStackBucket = stackBucket.slice();
@@ -98,29 +111,27 @@ const ProfileEditBottom = ({ profileInfo, name, mobile, aboutMe, image }: Props)
 					<div>
 						<ProfileSubTitle>경력</ProfileSubTitle>
 						<ProfileUserInfo>
-							<span>
-								<Input width="120px" placeholderText="회사 이름" initValue={office} changeEvent={onChangeoffice} />
-							</span>
-						</ProfileUserInfo>
-						<ProfileUserInfo>
-							<span>
-								<Input
-									width="120px"
-									placeholderText="직무 (ex. 프론트엔드)"
-									initValue={job}
-									changeEvent={onChangeJob}
-								/>
-							</span>
-						</ProfileUserInfo>
-						<ProfileUserInfo>
-							<span>
-								<Input
-									width="120px"
-									placeholderText="경력 (ex. 1~3년)"
-									initValue={period}
-									changeEvent={onChangePeriod}
-								/>
-							</span>
+							<ProfileCareerContainer>
+								<CareerInput>
+									<Input width="120px" placeholderText="회사 이름" initValue={office} changeEvent={onChangeoffice} />
+								</CareerInput>
+								<CareerInput>
+									<Input
+										width="120px"
+										placeholderText="직무 (ex. 프론트엔드)"
+										initValue={job}
+										changeEvent={onChangeJob}
+									/>
+								</CareerInput>
+								<CareerInput>
+									<Input
+										width="120px"
+										placeholderText="경력 (ex. 1~3년)"
+										initValue={period}
+										changeEvent={onChangePeriod}
+									/>
+								</CareerInput>
+							</ProfileCareerContainer>
 						</ProfileUserInfo>
 					</div>
 
@@ -131,34 +142,39 @@ const ProfileEditBottom = ({ profileInfo, name, mobile, aboutMe, image }: Props)
 							<br />
 							(최대 5개)
 						</ProfileSubTitle>
+
 						<ProfileUserInfo>
-							<Input
+							{/* <Input
 								placeholderText="사용 가능한 스택을 'enter'키로 추가하세요"
 								initValue={stackName}
 								changeEvent={onChangeStackName}
 								keyEvent={(e: KeyboardEvent) => e.key === 'Enter' && onAddStack()}
-							/>
+							/> */}
+							<SearchInputContiner>
+								<SearchCodeIcon />
+								<StackSearchCustom width="long" setState={setStack} />
+							</SearchInputContiner>
 							{stackBucket.length > 4 ? <StackMaximum>5개 추가 완료</StackMaximum> : null}
 							<AddStackContainer>
+								{stackBucket.length ? <StackClear onClick={() => setStackBucket([])}>조건 초기화</StackClear> : null}
 								{stackBucket.map((stack: string, index: number) => (
-									<CurrentStack key={index}>
-										<StackTag>{stack}</StackTag>
-										<IoMdClose onClick={() => onDeleteStack(index)} />
-									</CurrentStack>
+									<StackTag key={index} type="delete" deleteEvent={() => onDeleteStack(index)}>
+										{stack}
+									</StackTag>
 								))}
 							</AddStackContainer>
 						</ProfileUserInfo>
 					</div>
 
 					{/* TODO: 토글 버튼 */}
-					<div>
+					<ShowProject style={{ marginTop: '50px' }}>
 						<ProfileSubTitle>프로젝트 공개</ProfileSubTitle>
 						<ProfileUserInfo>
 							<ToggleButton isToggled={isToggled} changeEvent={() => setIsToggled(!isToggled)}>
 								{isToggled && <ToggleMessage>프로젝트를 공개합니다</ToggleMessage>}
 							</ToggleButton>
 						</ProfileUserInfo>
-					</div>
+					</ShowProject>
 				</ProfileUserDetailInfo>
 			</UserDetailIntroCard>
 
