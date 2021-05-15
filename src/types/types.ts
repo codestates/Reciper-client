@@ -15,6 +15,52 @@ export interface loginResponseDataType {
 ////////////////////////////////////////////////////////
 ///////////            Recruit           //////////////
 ///////////////////////////////////////////////////////
+export interface stackData {
+	id: number;
+	name: string;
+}
+
+////////////////////////////////////////////////////////
+///////////          RecruitDetail       //////////////
+///////////////////////////////////////////////////////
+
+export interface RecruitDetailTopDataType {
+	name: string;
+	view: number;
+	commentCount: number;
+	simpleDesc: string;
+}
+
+export interface RecruitMemberType {
+	position: string;
+	career: string;
+	personner: string;
+	deadline: string;
+}
+
+export interface RecruitDetailConentDataType {
+	detailTitle: string;
+	recruitImage: string;
+	detailDesc: string;
+	recruitMembers: RecruitMemberType[];
+	requireStack: string[];
+	serviceStep: string;
+	period: string;
+}
+
+export interface RecruitDetailCommentDataType {
+	id: number;
+	body: string;
+	createdAt: string;
+	updatedAt: string;
+	writer: string;
+	writerId: number;
+	recruitBoard: { [index: string]: number | string };
+}
+
+////////////////////////////////////////////////////////
+///////////          RecruitCreate        //////////////
+///////////////////////////////////////////////////////
 export interface recruitMembersDataType {
 	position: string;
 	career: string;
@@ -44,14 +90,6 @@ export interface recruitCreateDataType {
 	period: string;
 	detailTitle: string;
 	detailDesc: string;
-}
-
-////////////////////////////////////////////////////////
-///////////            Recruit           //////////////
-///////////////////////////////////////////////////////
-export interface stackData {
-	id: number;
-	name: string;
 }
 
 ////////////////////////////////////////////////////////
