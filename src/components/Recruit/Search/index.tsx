@@ -21,19 +21,6 @@ const Search = (): JSX.Element => {
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 
 	useEffect(() => {
-		const getLoginInfo = localStorage.getItem('loginInfo');
-		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
-
-		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/recruitList/1`, {
-				headers: { authorization: `Bearer ${accessToken}`, loginType },
-			})
-			.then(data => {
-				console.log('전송', data.data);
-			});
-	}, []);
-
-	useEffect(() => {
 		if (stack) {
 			setStackBucket([...stackBucket, stack]);
 		}
