@@ -20,7 +20,17 @@ import {
 	CommentText,
 } from './styles';
 
-const DetailComment = (): JSX.Element => {
+interface RecruitDetailCommentData {
+	id: number;
+	body: string;
+	createdAt: string;
+	updatedAt: string;
+	writer: string;
+	writerId: number;
+	recruitBoard: { [index: string]: number | string };
+}
+
+const DetailComment = ({ commentListData }: { commentListData: RecruitDetailCommentData[] }): JSX.Element => {
 	return (
 		<DetailCommentContainer>
 			<CommentWritingContainer>
@@ -36,18 +46,20 @@ const DetailComment = (): JSX.Element => {
 				</CommentWritingBtnWrap>
 			</CommentWritingContainer>
 			<CommentContainer>
-				<Comment>
-					<CommentLeft>
-						<CommentUserProfileImg>W</CommentUserProfileImg>
-					</CommentLeft>
-					<CommentRight>
-						<CommentInfoWrap>
-							<CommentUserName>곽은욱</CommentUserName>
-							<CommentTimeStamp>4시간전</CommentTimeStamp>
-						</CommentInfoWrap>
-						<CommentText>많이 많이 연락하세요~!</CommentText>
-					</CommentRight>
-				</Comment>
+				{commentListData.map((comment, index) => (
+					<Comment key={index}>
+						<CommentLeft>
+							<CommentUserProfileImg>W</CommentUserProfileImg>
+						</CommentLeft>
+						<CommentRight>
+							<CommentInfoWrap>
+								<CommentUserName>{comment.writer}</CommentUserName>
+								<CommentTimeStamp>4시간전</CommentTimeStamp>
+							</CommentInfoWrap>
+							<CommentText>{comment.body}</CommentText>
+						</CommentRight>
+					</Comment>
+				))}
 			</CommentContainer>
 		</DetailCommentContainer>
 	);

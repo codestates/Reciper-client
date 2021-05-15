@@ -30,6 +30,8 @@ const DetailContainer = (): JSX.Element => {
 		period: '',
 	});
 
+	const [commentListData, setCommentListData] = useState([]);
+
 	useEffect(() => {
 		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
 		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
@@ -56,6 +58,7 @@ const DetailContainer = (): JSX.Element => {
 
 				setTopData({ name, view, commentCount: commentsList.length, simpleDesc });
 				setContentData({ detailTitle, recruitImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
+				setCommentListData(commentsList);
 			});
 	}, []);
 
@@ -69,7 +72,7 @@ const DetailContainer = (): JSX.Element => {
 				<DetailTop {...topData} />
 				<DetailContent {...contentData} />
 				<DetailWriter />
-				<DetailComment />
+				<DetailComment commentListData={commentListData} />
 			</Container>
 		</FullDiv>
 	);

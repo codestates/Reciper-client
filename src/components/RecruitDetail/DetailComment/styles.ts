@@ -46,6 +46,12 @@ export const CommentContainer = styled.div``;
 
 export const Comment = styled.div`
 	display: flex;
+	padding: 30px 0;
+	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
+
+	&:last-child {
+		border: none;
+	}
 `;
 export const CommentLeft = styled.div``;
 
