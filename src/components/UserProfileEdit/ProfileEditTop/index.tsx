@@ -17,6 +17,7 @@ import {
 	ProfileUserCard,
 	ProfileUserInfoCard,
 	ProfileUserImage,
+	ProfileUserEmail,
 } from '../../UserProfile/ProfileTop/styles';
 
 const UserProfileEdit = (): JSX.Element => {
@@ -34,7 +35,7 @@ const UserProfileEdit = (): JSX.Element => {
 		dispatch(getProfileInfo());
 		setImage(profileInfo.profileImage);
 		setStackBucket(profileInfo.stacks);
-	}, [profileInfo.profileImage, profileInfo.stacks]);
+	}, [profileInfo.profileImage]);
 
 	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기
@@ -91,7 +92,9 @@ const UserProfileEdit = (): JSX.Element => {
 					</div>
 					<div>
 						<ProfileSubTitle>이메일</ProfileSubTitle>
-						<ProfileUserInfo>{profileInfo.email}</ProfileUserInfo>
+						<ProfileUserInfo>
+							<ProfileUserEmail>{profileInfo.email}</ProfileUserEmail>
+						</ProfileUserInfo>
 					</div>
 					<div>
 						<ProfileSubTitle>한줄 소개</ProfileSubTitle>
