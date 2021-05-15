@@ -1,4 +1,5 @@
 import React from 'react';
+import timeStamp from '../../../utils/timeStamp';
 
 import Button from '../../Common/Button';
 
@@ -54,7 +55,7 @@ const DetailComment = ({ commentListData }: { commentListData: RecruitDetailComm
 						<CommentRight>
 							<CommentInfoWrap>
 								<CommentUserName>{comment.writer}</CommentUserName>
-								<CommentTimeStamp>4시간전</CommentTimeStamp>
+								<CommentTimeStamp>{timeStamp(new Date(comment.createdAt))}</CommentTimeStamp>
 							</CommentInfoWrap>
 							<CommentText>{comment.body}</CommentText>
 						</CommentRight>
