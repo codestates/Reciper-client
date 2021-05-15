@@ -39,14 +39,3 @@ export const LoginBtn = styled(initialFont)`
 	cursor: pointer;
 	margin-left: 30px;
 `;
-
-export const Profile = styled.div`
-	cursor: pointer;
-	${({ theme }) => theme.align.flexCenter}
-	width: 30px;
-	height: 30px;
-	margin-left: 30px;
-	color: #fff;
-	background-color: #478bff;
-	border-radius: 100%;
-`;
