@@ -15,6 +15,23 @@ export interface loginResponseDataType {
 ////////////////////////////////////////////////////////
 ///////////            Recruit           //////////////
 ///////////////////////////////////////////////////////
+export interface RecruitListDataType {
+	commentCount: number;
+	createdAt: string;
+	detailDesc: string;
+	detailTitle: string;
+	id: number;
+	name: string;
+	period: string;
+	recruitImage: string;
+	recruitMembers: string;
+	requireStack: string[];
+	serviceStep: string;
+	simpleDesc: string;
+	updatedAt: string;
+	view: number;
+}
+
 export interface stackData {
 	id: number;
 	name: string;
