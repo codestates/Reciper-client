@@ -31,7 +31,7 @@ export const ProfileTitle = styled.div`
 `;
 // --------------------TODO: image upload-------------------------
 
-export const Profile_UserImage = styled.img`
+export const ProfileUserImage = styled.img`
 	width: 200px;
 	height: 200px;
 	border-radius: 100%;
@@ -39,7 +39,7 @@ export const Profile_UserImage = styled.img`
 
 // --------------------TODO: user profile Card-------------------------
 
-export const Profile_UserCard = styled.div`
+export const ProfileUserCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
 	width: 800px;
@@ -47,7 +47,7 @@ export const Profile_UserCard = styled.div`
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
-export const Profile_Img = styled.div`
+export const ProfileImg = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	width: 240px;
@@ -80,7 +80,7 @@ export const Profile_Img = styled.div`
 	}
 `;
 
-export const ProfileEdit_Img = styled(Profile_Img)`
+export const ProfileEditImg = styled(ProfileImg)`
 	& > div {
 		position: absolute;
 		opacity: 1;
@@ -106,7 +106,7 @@ export const ProfileEdit_Img = styled(Profile_Img)`
 		}
 `;
 
-export const Profile_UserInfoCard = styled.div`
+export const ProfileUserInfoCard = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0 0 12px 68px;
@@ -118,7 +118,7 @@ export const Profile_UserInfoCard = styled.div`
 	}
 `;
 
-export const Profile_UserEmail = styled.div`
+export const ProfileUserEmail = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	width: 250px;
 	height: 32px;
@@ -130,14 +130,14 @@ export const Profile_UserEmail = styled.div`
 	border-radius: 3px;
 `;
 
-export const Profile_SubTitle = styled.span`
+export const ProfileSubTitle = styled.span`
 	${({ theme }) => theme.align.flexVertical}
 	width: 120px;
 	height: 30px;
 	font-family: 'NanumSquareB';
 `;
 
-export const Profile_UserInfo = styled.span`
+export const ProfileUserInfo = styled.span`
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
 
@@ -164,7 +164,7 @@ export const UserDetailIntroCard = styled.div`
 	margin: 0 auto;
 `;
 
-export const Profile_UserDetailInfo = styled.div`
+export const ProfileUserDetailInfo = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 30px 0 40px 68px;
@@ -176,30 +176,30 @@ export const Profile_UserDetailInfo = styled.div`
 	}
 `;
 
-export const Profile_Stack = styled.span`
+export const ProfileStack = styled.span`
 	margin-right: 8px;
 `;
 
-export const Profile_UserRecipeInfo = styled.div`
+export const ProfileUserRecipeInfo = styled.div`
 	width: 700px;
 	padding: 0 68px 30px 68px;
 `;
 
-export const RecipeCard_InitSetting = styled.div`
+export const RecipeCardInitSetting = styled.div`
 	& > div {
 		margin-top: 20px;
 	}
 `;
 
-export const Profile_InProgressRecipe = styled(RecipeCard_InitSetting)`
+export const ProfileInProgressRecipe = styled(RecipeCardInitSetting)`
 	margin-bottom: 40px;
 `;
 
-export const Profile_SuccessRecipe = styled(RecipeCard_InitSetting)``;
+export const ProfileSuccessRecipe = styled(RecipeCardInitSetting)``;
 
 // --------------------TODO: Card Design------------------
 
-export const Profile_RecipeCard = styled.div`
+export const ProfileRecipeCard = styled.div`
 	cursor: pointer;
 	transition: 0.1s;
 	overflow: hidden;
@@ -213,7 +213,7 @@ export const Profile_RecipeCard = styled.div`
 	}
 `;
 
-export const RecipeCard_Img = styled.div`
+export const RecipeCardImg = styled.div`
 	width: 100%;
 	height: 80px;
 	background-color: ${({ theme }) => theme.color.pointColor};
@@ -221,11 +221,11 @@ export const RecipeCard_Img = styled.div`
 	background-position: center;
 `;
 
-export const RecipeCard_Content = styled.div`
+export const RecipeCardContent = styled.div`
 	padding: 16px 24px;
 `;
 
-export const RecipeCard_title = styled.div`
+export const RecipeCardtitle = styled.div`
 	padding-bottom: 10px;
 	font-family: 'NanumSquareB';
 	font-size: 24px;
@@ -239,7 +239,7 @@ export const RecipeCard_title = styled.div`
 	}
 `;
 
-export const RecipeCard_Description = styled.div`
+export const RecipeCardDescription = styled.div`
 	overflow: hidden;
 	word-wrap: break-word;
 	display: -webkit-box;
