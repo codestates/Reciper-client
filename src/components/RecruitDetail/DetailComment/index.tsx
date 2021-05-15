@@ -1,7 +1,10 @@
-import React from 'react';
+import axios from 'axios';
+import React, { ChangeEvent, useState } from 'react';
 import timeStamp from '../../../utils/timeStamp';
 
 import Button from '../../Common/Button';
+
+import { RecruitDetailCommentDataType } from '../../../types/types';
 
 import {
 	CommentWriter,
@@ -20,18 +23,22 @@ import {
 	CommentTimeStamp,
 	CommentText,
 } from './styles';
+import { axiosRequest } from '../../../utils/axios';
 
-interface RecruitDetailCommentData {
-	id: number;
-	body: string;
-	createdAt: string;
-	updatedAt: string;
-	writer: string;
-	writerId: number;
-	recruitBoard: { [index: string]: number | string };
+interface Props {
+	commentListData: RecruitDetailCommentDataType[];
+	params: string;
 }
 
-const DetailComment = ({ commentListData }: { commentListData: RecruitDetailCommentData[] }): JSX.Element => {
+const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
+	const [commentBody, setCommentBody] = useState<string>('');
+
+	const onAddComment = () => {
+		const data = { body: commentBody };
+
+		axiosRequest('post', `recruitBoardComment/${params}`, data);
+	};
+
 	return (
 		<DetailCommentContainer>
 			<CommentWritingContainer>
@@ -39,9 +46,13 @@ const DetailComment = ({ commentListData }: { commentListData: RecruitDetailComm
 					<CommentWriterProfileImg>W</CommentWriterProfileImg>
 					곽은욱
 				</CommentWriter>
-				<CommentWritingInput placeholder="댓글을 작성해주세요" />
+				<CommentWritingInput
+					placeholder="댓글을 작성해주세요"
+					value={commentBody}
+					onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setCommentBody(e.target.value)}
+				/>
 				<CommentWritingBtnWrap>
-					<Button size="medium" clickEvent={() => console.log('작성')}>
+					<Button size="medium" clickEvent={onAddComment}>
 						댓글 작성
 					</Button>
 				</CommentWritingBtnWrap>

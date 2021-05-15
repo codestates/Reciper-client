@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { RecruitDetailTopDataType } from '../../../types/types';
+
 import {
 	DetailCommentIcon,
 	DetailSimpleIntro,
@@ -8,14 +11,7 @@ import {
 	DetailViewIcon,
 } from './styles';
 
-interface RecruitDetailTopData {
-	name: string;
-	view: number;
-	commentCount: number;
-	simpleDesc: string;
-}
-
-const DetailTop = ({ name, view, commentCount, simpleDesc }: RecruitDetailTopData): JSX.Element => {
+const DetailTop = ({ name, view, commentCount, simpleDesc }: RecruitDetailTopDataType): JSX.Element => {
 	return (
 		<DetailTopContainer>
 			<DetailTopTitle>{name}</DetailTopTitle>

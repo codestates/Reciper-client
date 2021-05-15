@@ -2,6 +2,8 @@ import React from 'react';
 
 import StackTag from '../../Common/StackTag';
 
+import { RecruitDetailConentDataType } from '../../../types/types';
+
 import {
 	DetailContentContainer,
 	DetailDescription,
@@ -16,23 +18,6 @@ import {
 	DetailDeadLineText,
 } from './styles';
 
-interface RecruitMember {
-	position: string;
-	career: string;
-	personner: string;
-	deadline: string;
-}
-
-interface RecruitDetailConentData {
-	detailTitle: string;
-	recruitImage: string;
-	detailDesc: string;
-	recruitMembers: RecruitMember[];
-	requireStack: string[];
-	serviceStep: string;
-	period: string;
-}
-
 const DetailContent = ({
 	detailTitle,
 	recruitImage,
@@ -41,7 +26,7 @@ const DetailContent = ({
 	requireStack,
 	serviceStep,
 	period,
-}: RecruitDetailConentData): JSX.Element => {
+}: RecruitDetailConentDataType): JSX.Element => {
 	return (
 		<DetailContentContainer>
 			<DetailSubTitle>{detailTitle}</DetailSubTitle>

@@ -36,6 +36,7 @@ const DetailContainer = (): JSX.Element => {
 		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
 		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
 
+		// redux로 수정 예정
 		axios
 			.get(`${process.env.REACT_APP_SERVER_URL}/recruitBoard/${params}`, {
 				headers: { authorization: `Bearer ${accessToken}`, loginType },
@@ -72,7 +73,7 @@ const DetailContainer = (): JSX.Element => {
 				<DetailTop {...topData} />
 				<DetailContent {...contentData} />
 				<DetailWriter />
-				<DetailComment commentListData={commentListData} />
+				<DetailComment commentListData={commentListData} params={params} />
 			</Container>
 		</FullDiv>
 	);
