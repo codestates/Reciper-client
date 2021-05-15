@@ -16,6 +16,8 @@ import {
 	RecipeCardContent,
 	RecipeCardtitle,
 	RecipeCardDescription,
+	ProfileCareer,
+	ProfileStacks,
 } from '../ProfileTop/styles';
 
 import { profileInfoDataType } from '../../../types/types';
@@ -42,13 +44,13 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 						{profileInfo.career ? (
 							<>
 								<ProfileUserInfo>
-									<span>{profileInfo.career.office}</span>
+									<ProfileCareer>{profileInfo.career.office}</ProfileCareer>
 								</ProfileUserInfo>
 								<ProfileUserInfo>
-									<span>{profileInfo.career.job}</span>
+									<ProfileCareer>{profileInfo.career.job}</ProfileCareer>
 								</ProfileUserInfo>
 								<ProfileUserInfo>
-									<span>{profileInfo.career.period}</span>
+									<ProfileCareer>{profileInfo.career.period}</ProfileCareer>
 								</ProfileUserInfo>
 							</>
 						) : (
@@ -62,9 +64,9 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 						<ProfileUserInfo>
 							{profileInfo.stacks &&
 								profileInfo.stacks.map((stack: string, index: number) => (
-									<span key={index}>
+									<ProfileStacks key={index}>
 										<StackTag>{stack}</StackTag>
-									</span>
+									</ProfileStacks>
 								))}
 						</ProfileUserInfo>
 					</div>

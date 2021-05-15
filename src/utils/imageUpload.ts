@@ -9,6 +9,7 @@ export const changeImage = async (
 	setState: React.Dispatch<React.SetStateAction<string>>,
 ): Promise<void> => {
 	const formData = new FormData();
+
 	if (e.target.files) {
 		formData.append('file', e.target.files[0]);
 		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/profile`, formData, {
@@ -17,8 +18,8 @@ export const changeImage = async (
 				loginType,
 			},
 		});
+
 		const imageData = response.data.profileImage;
-		console.log('확인', imageData);
 		setState(imageData);
 	}
 };

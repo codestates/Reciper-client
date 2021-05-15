@@ -7,7 +7,7 @@ import { RootStateOrAny } from 'react-redux';
 // TODO: Thunk 실행
 export const getProfileEdit = createAsyncThunk(
 	'profileInfo',
-	async (data: profileEditType): Promise<void | profileEditType> => {
+	(data: profileEditType): Promise<void | profileEditType> => {
 		return axiosRequest('post', 'profile', data);
 	},
 );

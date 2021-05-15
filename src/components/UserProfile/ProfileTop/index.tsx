@@ -44,25 +44,19 @@ const UserProfile = (): JSX.Element => {
 			{/* TODO: 유저 개인 정보 */}
 			<ProfileUserCard>
 				<ProfileImg>
-					{profileInfo.profileImage !== '' ? (
-						<div>
+					<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
+						{profileInfo.profileImage ? (
 							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`} alt="" />
-						</div>
-					) : (
-						<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
-							{profileInfo.name ? (
-								<div style={{ margin: '45px', fontSize: '110px' }}>{profileInfo.name.slice(0, 1)}</div>
-							) : (
-								<div style={{ margin: '20px', fontSize: '130px' }}>{profileInfo.email.slice(0, 1)}</div>
-							)}
-						</div>
-					)}
+						) : (
+							<div>{profileInfo.name.slice(0, 1)}</div>
+						)}
+					</div>
 				</ProfileImg>
 				<ProfileUserInfoCard>
 					<div>
 						<ProfileSubTitle>이름</ProfileSubTitle>
 						<ProfileUserInfo>
-							{profileInfo.name ? profileInfo.name : <div>{profileInfo.email.split('@')[0]}</div>}
+							{profileInfo.name ? profileInfo.name : <>{profileInfo.email.split('@')[0]}</>}
 						</ProfileUserInfo>
 					</div>
 					<div>

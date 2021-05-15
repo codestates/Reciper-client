@@ -17,24 +17,24 @@ import {
 	ProfileUserCard,
 	ProfileUserInfoCard,
 	ProfileUserImage,
-} from './styles';
+} from '../../UserProfile/ProfileTop/styles';
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const dispatch = useDispatch();
 
 	const imageInput = useRef<HTMLInputElement>(null);
+	const [image, setImage] = useState<string>(profileInfo.profileImage);
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
 	const [mobile, onChangeMobile] = useInput<string>(profileInfo.mobile);
 	const [aboutMe, onChangeAbout_me] = useInput<string>(profileInfo.aboutMe);
-
-	// TODO: 이미지 저장
-	const [image, setImage] = useState<string>(profileInfo.profileImage);
+	const [stackBucket, setStackBucket] = useState<string[]>(profileInfo.stacks);
 
 	useEffect(() => {
 		dispatch(getProfileInfo());
 		setImage(profileInfo.profileImage);
-	}, [profileInfo.profileImage]);
+		setStackBucket(profileInfo.stacks);
+	}, [profileInfo.profileImage, profileInfo.stacks]);
 
 	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기
@@ -61,31 +61,19 @@ const UserProfileEdit = (): JSX.Element => {
 							ref={imageInput}
 						/>
 					</form>
-					{image ? (
-						<>
-							<div
-								onClick={() => {
-									clickUploadImage(imageInput);
-								}}
-							>
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
-							</div>
-							<span onClick={onResetImage}>기본 이미지로 변경</span>
-						</>
-					) : (
-						<div
-							style={{ backgroundColor: `${profileInfo.profileColor}` }}
-							onClick={() => {
-								clickUploadImage(imageInput);
-							}}
-						>
-							{profileInfo.name ? (
-								<div style={{ margin: '45px', fontSize: '110px' }}>{profileInfo.name.slice(0, 1)}</div>
-							) : (
-								<div style={{ margin: '20px', fontSize: '130px' }}>{profileInfo.email.slice(0, 1)}</div>
-							)}
-						</div>
-					)}
+					<div
+						style={{ backgroundColor: `${profileInfo.profileColor}` }}
+						onClick={() => {
+							clickUploadImage(imageInput);
+						}}
+					>
+						{image ? (
+							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
+						) : (
+							<div>{profileInfo.name.slice(0, 1)}</div>
+						)}
+					</div>
+					<span onClick={onResetImage}>기본 이미지로 변경</span>
 				</ProfileEditImg>
 
 				<ProfileUserInfoCard>
@@ -118,7 +106,15 @@ const UserProfileEdit = (): JSX.Element => {
 					</div>
 				</ProfileUserInfoCard>
 			</ProfileUserCard>
-			<ProfileEditBottom profileInfo={profileInfo} name={name} mobile={mobile} aboutMe={aboutMe} image={image} />
+			<ProfileEditBottom
+				profileInfo={profileInfo}
+				name={name}
+				mobile={mobile}
+				aboutMe={aboutMe}
+				image={image}
+				stackBucket={stackBucket}
+				setStackBucket={setStackBucket}
+			/>
 		</ProfileContainer>
 	);
 };
