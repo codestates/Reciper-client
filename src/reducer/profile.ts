@@ -1,23 +1,13 @@
-import axios from 'axios';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { axiosRequest } from '../utils/axios';
 
 import { profileInfoDataType } from '../types/types';
 import { RootStateOrAny } from 'react-redux';
 
-const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-const loginInfo = JSON.parse(localStorage_loginInfo);
-const userAccessToken = loginInfo.accessToken;
-const userLoginType = loginInfo.loginType;
-
 // TODO: Thunk 실행
-export const getProfileInfo = createAsyncThunk('profileInfo', async (): Promise<void> => {
-	const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/profile`, {
-		headers: {
-			authorization: `Bearer ${userAccessToken}`,
-			loginType: userLoginType,
-		},
-	});
-	return response.data;
+export const getProfileInfo = createAsyncThunk('profileInfo', (): Promise<void> => {
+	console.log('프로필 요청');
+	return axiosRequest('get', 'profile');
 });
 
 // TODO: 초기 상태
