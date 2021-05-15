@@ -21,3 +21,7 @@ export const axiosRequest = async <D>(method: Method, endPoint: string, data?: D
 		console.log(error);
 	}
 };
+
+axiosRequest.defaulProps = {
+	data: {},
+};

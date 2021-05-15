@@ -5,7 +5,7 @@ import { profileInfoDataType } from '../types/types';
 import { RootStateOrAny } from 'react-redux';
 
 // TODO: Thunk 실행
-export const getProfileInfo = createAsyncThunk('profileInfo', async (): Promise<void> => {
+export const getProfileInfo = createAsyncThunk('profileInfo', (): Promise<void> => {
 	console.log('프로필 요청');
 	return axiosRequest('get', 'profile');
 });
