@@ -18,6 +18,7 @@ import {
 	RecipeCardDescription,
 	ProfileCareer,
 	ProfileStacks,
+	StacksContainer,
 } from '../ProfileTop/styles';
 
 import { profileInfoDataType } from '../../../types/types';
@@ -41,15 +42,11 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 					</div>
 					<div>
 						<ProfileSubTitle>경력</ProfileSubTitle>
-						{profileInfo.career ? (
+						{profileInfo.career.office ? (
 							<>
 								<ProfileUserInfo>
 									<ProfileCareer>{profileInfo.career.office}</ProfileCareer>
-								</ProfileUserInfo>
-								<ProfileUserInfo>
 									<ProfileCareer>{profileInfo.career.job}</ProfileCareer>
-								</ProfileUserInfo>
-								<ProfileUserInfo>
 									<ProfileCareer>{profileInfo.career.period}</ProfileCareer>
 								</ProfileUserInfo>
 							</>
@@ -61,14 +58,22 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 					</div>
 					<div>
 						<ProfileSubTitle>사용 스택</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.stacks &&
-								profileInfo.stacks.map((stack: string, index: number) => (
-									<ProfileStacks key={index}>
-										<StackTag>{stack}</StackTag>
-									</ProfileStacks>
-								))}
-						</ProfileUserInfo>
+						{profileInfo.stacks.length ? (
+							<ProfileUserInfo>
+								<StacksContainer>
+									{profileInfo.stacks &&
+										profileInfo.stacks.map((stack: string, index: number) => (
+											<ProfileStacks key={index}>
+												<StackTag>{stack}</StackTag>
+											</ProfileStacks>
+										))}
+								</StacksContainer>
+							</ProfileUserInfo>
+						) : (
+							<ProfileUserInfo>
+								<div>프로필을 설정해 주세요</div>
+							</ProfileUserInfo>
+						)}
 					</div>
 				</ProfileUserDetailInfo>
 

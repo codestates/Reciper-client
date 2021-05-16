@@ -123,7 +123,7 @@ export interface profileInfoDataType {
 	career: careerType;
 	stacks: string[];
 	profileColor: string;
-	profileImage: string;
+	uploadImage: string;
 	createdAt: string;
 	UpdatedAt: string;
 }
@@ -144,6 +144,6 @@ export interface profileEditType {
 	isOpen: boolean;
 	mobile: string;
 	name: string;
-	profileImage: string;
+	uploadImage: string;
 	stacks: string[];
 }

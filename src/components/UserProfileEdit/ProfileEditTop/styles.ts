@@ -8,7 +8,7 @@ export const EditButton = styled.div`
 export const ProfileCareerContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
-	margin-left: 43px;
+	margin-left: 35px;
 `;
 
 export const CareerInput = styled.span`
@@ -60,5 +60,5 @@ export const ToggleMessage = styled.p`
 // --------------------TODO: project ------------------
 
 export const ShowProject = styled.div`
-	margin-top: 50px;
+	margin-top: 88px;
 `;

@@ -45,8 +45,8 @@ const UserProfile = (): JSX.Element => {
 			<ProfileUserCard>
 				<ProfileImg>
 					<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
-						{profileInfo.profileImage ? (
-							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`} alt="" />
+						{profileInfo.uploadImage ? (
+							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.uploadImage}`} alt="" />
 						) : (
 							<div>{profileInfo.name.slice(0, 1)}</div>
 						)}
