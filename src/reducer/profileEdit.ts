@@ -8,7 +8,7 @@ import { RootStateOrAny } from 'react-redux';
 export const getProfileEdit = createAsyncThunk(
 	'profileInfo',
 	(data: profileEditType): Promise<void | profileEditType> => {
-		return axiosRequest('post', 'profile', data);
+		return axiosRequest('post', '/profile', data);
 	},
 );
 
@@ -25,7 +25,7 @@ const initialState: profileEditType = {
 	isOpen: false,
 	mobile: '',
 	stacks: [],
-	profileImage: '',
+	uploadImage: '',
 };
 
 // TODO: slice 실행
