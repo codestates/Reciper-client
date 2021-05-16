@@ -11,7 +11,7 @@ import { recruitCreateBottomDataType } from '../../../types/types';
 import Input from '../../Common/Input';
 
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
-import { CreatBottomContainer, CreateImageWrap } from './styles';
+import { CreatBottomContainer, CreateImageUpload, CreateImageWrap } from './styles';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
 
 interface Props {
@@ -44,6 +44,9 @@ const CreateBottom = ({ setBottomMockData }: Props): JSX.Element => {
 			<CreateSection>
 				<CreateSubGuideTitle>레시피 썸네일 이미지</CreateSubGuideTitle>
 				<CreateImageWrap onClick={() => clickUploadImage(imageInput)}>
+					<CreateImageUpload>
+						<span>이미지 업로드</span>
+					</CreateImageUpload>
 					<img src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} />
 				</CreateImageWrap>
 				<form encType="multipart/form-data">
