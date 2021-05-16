@@ -11,25 +11,25 @@ interface Props {
 const HeaderProfile = ({ accessToken }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 
-	console.log('유저 정보 확인', profileInfo);
-	// 프로필 이미지, 컬러 분기처리
-
 	return (
 		<>
 			{accessToken ? (
-				<>
-					{profileInfo.profileImage ? (
-						<HeaderProfileImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.profileImage}`} alt="" />
+				<div>
+					{profileInfo.uploadImage ? (
+						<HeaderProfileImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.uploadImage}`} alt="" />
 					) : (
 						<HeaderProfileDefault style={{ backgroundColor: `${profileInfo.profileColor}` }}>
 							<span>{profileInfo.name.slice(0, 1)}</span>
 						</HeaderProfileDefault>
 					)}
-				</>
+				</div>
 			) : (
 				<>로그인/회원가입</>
 			)}
 		</>
+
+		// TODO: 테스트모드
+		// <>테스트</>
 	);
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useCallback, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -7,13 +7,17 @@ import Modal from '../Modal';
 
 import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav } from './styles';
 import HeaderProfile from '../HeaderProfile';
+import HeaderUserMenu from '../HeaderUserMenu';
 
 const Header = (): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
 	const { accessToken } = JSON.parse(localStorage_loginInfo);
 
-	console.log('헤더에서 토큰 확인', accessToken);
+	const onCloseMenu: MouseEventHandler<HTMLDivElement> = useCallback(e => {
+		e.stopPropagation();
+		setShowModal(false);
+	}, []);
 
 	return (
 		<>
@@ -29,11 +33,21 @@ const Header = (): JSX.Element => {
 					</LoginBtn>
 				</HeaderRight>
 			</HeaderContainer>
-			{showModal && (
+			{showModal &&
+				(accessToken ? (
+					<HeaderUserMenu show={showModal} setShowModal={setShowModal} onClose={onCloseMenu} />
+				) : (
+					<Modal setShowModal={setShowModal}>
+						<LoginModal />
+					</Modal>
+				))}
+
+			{/* TODO: 테스트 모드 */}
+			{/* {showModal && (
 				<Modal setShowModal={setShowModal}>
 					<LoginModal />
 				</Modal>
-			)}
+			)} */}
 		</>
 	);
 };

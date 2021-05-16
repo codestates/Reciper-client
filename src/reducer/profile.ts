@@ -7,7 +7,7 @@ import { RootStateOrAny } from 'react-redux';
 // TODO: Thunk 실행
 export const getProfileInfo = createAsyncThunk('profileInfo', (): Promise<void> => {
 	console.log('프로필 요청');
-	return axiosRequest('get', 'profile');
+	return axiosRequest('get', '/profile');
 });
 
 // TODO: 초기 상태
@@ -28,7 +28,7 @@ const initialState: profileInfoDataType = {
 	mobile: '',
 	name: '',
 	profileColor: '',
-	profileImage: '',
+	uploadImage: '',
 };
 
 // TODO: slice 실행

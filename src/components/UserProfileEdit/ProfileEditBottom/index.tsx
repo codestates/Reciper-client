@@ -72,7 +72,7 @@ const ProfileEditBottom = ({
 		},
 		isOpen: false,
 		aboutMe: aboutMe,
-		profileImage: image,
+		uploadImage: image,
 		stacks: [...stackBucket],
 	};
 	console.log('data', data);
@@ -167,7 +167,7 @@ const ProfileEditBottom = ({
 					</div>
 
 					{/* TODO: 토글 버튼 */}
-					<ShowProject style={{ marginTop: '50px' }}>
+					<ShowProject>
 						<ProfileSubTitle>프로젝트 공개</ProfileSubTitle>
 						<ProfileUserInfo>
 							<ToggleButton isToggled={isToggled} changeEvent={() => setIsToggled(!isToggled)}>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getProfileInfo, getProfileInfoSelector } from '../../../reducer/profile';
+import { getProfileInfoSelector } from '../../../reducer/profile';
 import useInput from '../../../hooks/useInput';
 import ProfileEditBottom from '../ProfileEditBottom';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Input from '../../Common/Input';
 
@@ -22,20 +22,18 @@ import {
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const dispatch = useDispatch();
 
 	const imageInput = useRef<HTMLInputElement>(null);
-	const [image, setImage] = useState<string>(profileInfo.profileImage);
+	const [image, setImage] = useState<string>(profileInfo.uploadImage);
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
 	const [mobile, onChangeMobile] = useInput<string>(profileInfo.mobile);
 	const [aboutMe, onChangeAbout_me] = useInput<string>(profileInfo.aboutMe);
 	const [stackBucket, setStackBucket] = useState<string[]>(profileInfo.stacks);
 
 	useEffect(() => {
-		dispatch(getProfileInfo());
-		setImage(profileInfo.profileImage);
+		setImage(profileInfo.uploadImage);
 		setStackBucket(profileInfo.stacks);
-	}, [profileInfo.profileImage]);
+	}, [profileInfo.uploadImage]);
 
 	const onResetImage = (): void => {
 		// TODO: 이미지 리셋 하기

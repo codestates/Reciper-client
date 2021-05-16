@@ -12,6 +12,8 @@ import RecruitDetail from './pages/RecruitDetail';
 import { useHistory } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import { loginRequestType, loginResponseDataType } from './types/types';
+import { getProfileInfo } from './reducer/profile';
+import { useDispatch } from 'react-redux';
 
 const App = (): JSX.Element => {
 	const history = useHistory();
@@ -20,6 +22,7 @@ const App = (): JSX.Element => {
 	const email = url.searchParams.get('email');
 	const isGoogle = url.searchParams.get('scope');
 	const location = window.localStorage.getItem('location');
+	const dispatch = useDispatch();
 
 	const loginAuthRequest = async (data: loginRequestType, endpoint: string) => {
 		const response: AxiosResponse<loginResponseDataType> = await axios.post(
@@ -33,6 +36,7 @@ const App = (): JSX.Element => {
 	};
 
 	useEffect(() => {
+		dispatch(getProfileInfo());
 		const data: loginRequestType = {
 			authorizationCode: authorizationCode,
 			email: email,
