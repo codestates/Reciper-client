@@ -8,11 +8,10 @@ import Modal from '../Modal';
 import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav } from './styles';
 import HeaderProfile from '../HeaderProfile';
 import HeaderUserMenu from '../HeaderUserMenu';
-import getLoginInfo from '../../../utils/getLoginInfo';
 
 const Header = (): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
-	const { accessToken } = getLoginInfo();
+	const loginSuccess = window.localStorage.getItem('loginSuccess');
 
 	const onCloseMenu: MouseEventHandler<HTMLDivElement> = useCallback(e => {
 		e.stopPropagation();
@@ -29,12 +28,12 @@ const Header = (): JSX.Element => {
 						<Link to="/project">레시피 프로젝트</Link>
 					</Nav>
 					<LoginBtn onClick={() => setShowModal(true)}>
-						<HeaderProfile accessToken={accessToken} />
+						<HeaderProfile loginSuccess={loginSuccess} />
 					</LoginBtn>
 				</HeaderRight>
 			</HeaderContainer>
 			{showModal &&
-				(accessToken ? (
+				(loginSuccess ? (
 					<HeaderUserMenu show={showModal} setShowModal={setShowModal} onClose={onCloseMenu} />
 				) : (
 					<Modal setShowModal={setShowModal}>

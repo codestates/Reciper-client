@@ -2,26 +2,24 @@ import React from 'react';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import { useSelector } from 'react-redux';
-import { HeaderProfileImage, HeaderProfileDefault } from './styles';
+import ProfileImage from '../ProfileImage';
 
 interface Props {
-	accessToken: string;
+	loginSuccess: string | null;
 }
 
-const HeaderProfile = ({ accessToken }: Props): JSX.Element => {
+const HeaderProfile = ({ loginSuccess }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 
 	return (
 		<>
-			{accessToken ? (
+			{loginSuccess ? (
 				<div>
-					{profileInfo.uploadImage ? (
-						<HeaderProfileImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.uploadImage}`} alt="" />
-					) : (
-						<HeaderProfileDefault style={{ backgroundColor: `${profileInfo.profileColor}` }}>
-							<span>{profileInfo.name.slice(0, 1)}</span>
-						</HeaderProfileDefault>
-					)}
+					<ProfileImage
+						profileImage={profileInfo.uploadImage}
+						profileColor={profileInfo.profileColor}
+						userName={profileInfo.name}
+					/>
 				</div>
 			) : (
 				<>로그인/회원가입</>

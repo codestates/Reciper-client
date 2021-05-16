@@ -5,7 +5,7 @@ export const ProfileContainer = styled.div`
 	flex-direction: column;
 	width: 1000px;
 	margin: 0 auto;
-	padding: 42px;
+	padding: 114px 42px 42px 42px;
 `;
 
 export const ProfileTitle = styled.div`
@@ -79,25 +79,27 @@ export const ProfileImg = styled.div`
 
 	& > span {
 		cursor: pointer;
+		width: 200px;
 		margin-top: 210px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
 		color: #f15525;
+		text-align: center;
 	}
 `;
 
 export const ProfileEditImg = styled(ProfileImg)`
 	& > div {
-		position: absolute;
 		opacity: 1;
-
+		position: absolute;
+		
 		&:hover {
 			cursor: pointer;
 		}
 	
-		&:hover:before {
+		&:hover:after {
 			overflow: hidden;
-			opacity: 0.5;
+			opacity: 0.3;
 			${({ theme }) => theme.align.flexCenter}
 			position: absolute;
 			z-index: 10;
@@ -179,7 +181,7 @@ export const ProfileCareer = styled.span`
 
 export const StacksContainer = styled.div`
 	width: 600px;
-	padding: 20px;
+	padding: 20px 28px;
 `;
 
 export const ProfileStacks = styled.span`

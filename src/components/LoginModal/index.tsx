@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { KeyboardEvent, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
@@ -15,6 +15,9 @@ import {
 	GithubIcon,
 	GoogleIcon,
 	LoginGuideText,
+	LoginSuccessMessage,
+	EmailLoginContainer,
+	LoginErrorMessage,
 } from './styles';
 
 import useInput from '../../hooks/useInput';
@@ -23,6 +26,8 @@ const LoginModal = (): JSX.Element => {
 	const history = useHistory();
 	const [email, onChangeEmail] = useInput<string>('');
 	const [changeGuide, setChangeGuide] = useState<boolean>(false);
+	const [loginMessage, setLoginMessage] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<boolean>(false);
 
 	const onChangeGuideText = useCallback((): string => {
 		return changeGuide ? '회원가입' : '로그인';
@@ -39,21 +44,50 @@ const LoginModal = (): JSX.Element => {
 				window.location.assign(`${process.env.REACT_APP_GITHUB_LOGIN_URL}`);
 			}
 			if (type === 'email') {
-				axios.post(`${process.env.REACT_APP_SERVER_URL}/sendEmail`, { email });
-				alert('해당 메일에 인증번호가 전송되었습니다.');
+				if (email.indexOf('@') === -1) {
+					setErrorMessage(true);
+				} else {
+					axios.post(`${process.env.REACT_APP_SERVER_URL}/sendEmail`, { email });
+					setErrorMessage(false);
+					setLoginMessage(true);
+				}
 			}
 		},
 		[email],
 	);
 
+	const onSubmitEmail = (): void => {
+		if (email.trim() === '') {
+			// TODO: 에러 메세지 추가 여부?
+			return;
+		} else if (email.indexOf('@') === -1) {
+			setErrorMessage(true);
+		} else {
+			axios.post(`${process.env.REACT_APP_SERVER_URL}/sendEmail`, { email });
+			setErrorMessage(false);
+			setLoginMessage(true);
+		}
+	};
+
 	return (
 		<LoginModalContainer>
 			<LoginTitle>{onChangeGuideText()}</LoginTitle>
 			<EmailLoginForm>
-				<Input width="short" height="short" placeholderText="이메일을 입력하세요." changeEvent={onChangeEmail} />
-				<Button size="small" clickEvent={() => onLogin('email')}>
-					{onChangeGuideText()}
-				</Button>
+				<EmailLoginContainer>
+					<Input
+						width="short"
+						height="long"
+						placeholderText="이메일을 입력하세요."
+						initValue={email}
+						changeEvent={onChangeEmail}
+						keyEvent={(e: KeyboardEvent<Element>) => e.key === 'Enter' && onSubmitEmail()}
+					/>
+					<Button size="small" clickEvent={() => onLogin('email')}>
+						{onChangeGuideText()}
+					</Button>
+				</EmailLoginContainer>
+				{loginMessage && <LoginSuccessMessage>해당 메일에 인증번호가 전송되었습니다</LoginSuccessMessage>}
+				{errorMessage && <LoginErrorMessage>이메일 주소를 정확히 입력해주세요</LoginErrorMessage>}
 			</EmailLoginForm>
 			<Line />
 			<GoogleLoginBtn onClick={() => onLogin('google')}>

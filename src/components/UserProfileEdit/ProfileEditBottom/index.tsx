@@ -143,12 +143,6 @@ const ProfileEditBottom = ({
 						</ProfileSubTitle>
 
 						<ProfileUserInfo>
-							{/* <Input
-								placeholderText="사용 가능한 스택을 'enter'키로 추가하세요"
-								initValue={stackName}
-								changeEvent={onChangeStackName}
-								keyEvent={(e: KeyboardEvent) => e.key === 'Enter' && onAddStack()}
-							/> */}
 							<SearchInputContiner>
 								<SearchCodeIcon />
 								<StackSearchCustom width="long" setState={setStack} />
