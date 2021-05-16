@@ -9,25 +9,7 @@ import Search from '../Search';
 import { CardListContainer } from './styles';
 
 const RecruitCardList = (): JSX.Element => {
-	const [recruitList, setRecruitList] = useState<RecruitListDataType[]>([
-		{
-			commentCount: 0,
-			createdAt: '',
-			detailDesc: '',
-			detailTitle: '',
-			id: 0,
-			name: '',
-			period: '',
-			recruitImage: '',
-			recruitMembers: '',
-			requireStack: [],
-			serviceStep: '',
-			simpleDesc: '',
-			updatedAt: '',
-			view: 0,
-		},
-	]);
-
+	const [recruitList, setRecruitList] = useState<RecruitListDataType[]>([]);
 	useEffect(() => {
 		const { accessToken, loginType } = getLoginInfo();
 
@@ -37,7 +19,7 @@ const RecruitCardList = (): JSX.Element => {
 				headers: { authorization: `Bearer ${accessToken}`, loginType },
 			})
 			.then(data => {
-				setRecruitList(data.data.boardList);
+				setRecruitList([...recruitList, ...data.data.boardList]);
 			});
 	}, []);
 

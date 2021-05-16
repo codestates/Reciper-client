@@ -8,13 +8,16 @@ export const CardContainer = styled(Link)`
 	margin: 20px;
 	font-family: 'NanumSquareR';
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
+	transition: 0.3s;
+	&:hover {
+		transform: translateY(-10px);
+	}
 `;
 export const CardImgContainer = styled.div`
 	overflow: hidden;
 	${({ theme }) => theme.align.flexCenter}
 	width: 100%;
 	height: 120px;
-	background-color: #478bff;
 
 	& > img {
 		width: 100%;

@@ -75,7 +75,6 @@ const ProfileEditBottom = ({
 		uploadImage: image,
 		stacks: [...stackBucket],
 	};
-	console.log('data', data);
 
 	useEffect(() => {
 		if (stackBucket.length > 4) {

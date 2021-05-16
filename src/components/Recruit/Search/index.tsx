@@ -4,6 +4,7 @@ import Select from '../../Common/Select';
 import StackTag from '../../Common/StackTag';
 
 import {
+	CreateLink,
 	SearchCodeIcon,
 	SearchContiner,
 	SearchFormContiner,
@@ -47,13 +48,16 @@ const Search = (): JSX.Element => {
 				))}
 			</SearchStackContiner>
 			<SearchFormContiner>
-				<SearchInputContiner>
-					<SearchCodeIcon />
-					<StackSearchCustom width="long" height="long" margin="0 10px 0 0" setState={setStack} />
-				</SearchInputContiner>
-				<Select height="long" optionData={sortData} setState={setSortValue}>
-					최신 순
-				</Select>
+				<CreateLink to="/recruitcreate">모집글 작성하기</CreateLink>
+				<div style={{ display: 'flex' }}>
+					<SearchInputContiner>
+						<SearchCodeIcon />
+						<StackSearchCustom width="long" height="long" margin="0 10px 0 0" setState={setStack} />
+					</SearchInputContiner>
+					<Select height="long" optionData={sortData} setState={setSortValue}>
+						최신 순
+					</Select>
+				</div>
 			</SearchFormContiner>
 		</SearchContiner>
 	);
