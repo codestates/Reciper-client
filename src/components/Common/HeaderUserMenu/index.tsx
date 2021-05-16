@@ -37,6 +37,11 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 		history.push(`/project/${profileInfo.id}`);
 	};
 
+	const onLogout = (): void => {
+		window.localStorage.clear();
+		history.push(`/recruit`);
+	};
+
 	return (
 		<>
 			{show && (
@@ -48,7 +53,7 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 						<MenuItem onClick={onGoToProject}>레시피 바로가기</MenuItem>
 						<MenuItem>구매내역</MenuItem>
 						<MenuItem>고객센터</MenuItem>
-						<MenuItem>로그아웃</MenuItem>
+						<MenuItem onClick={onLogout}>로그아웃</MenuItem>
 					</MenuContainer>
 				</UserMenu>
 			)}
