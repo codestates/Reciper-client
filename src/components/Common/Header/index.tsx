@@ -8,11 +8,11 @@ import Modal from '../Modal';
 import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav } from './styles';
 import HeaderProfile from '../HeaderProfile';
 import HeaderUserMenu from '../HeaderUserMenu';
+import getLoginInfo from '../../../utils/getLoginInfo';
 
 const Header = (): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
-	const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-	const { accessToken } = JSON.parse(localStorage_loginInfo);
+	const { accessToken } = getLoginInfo();
 
 	const onCloseMenu: MouseEventHandler<HTMLDivElement> = useCallback(e => {
 		e.stopPropagation();

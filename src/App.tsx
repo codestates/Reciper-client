@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
@@ -23,6 +23,7 @@ const App = (): JSX.Element => {
 	const isGoogle = url.searchParams.get('scope');
 	const location = window.localStorage.getItem('location');
 	const dispatch = useDispatch();
+	const loginSuccess = window.localStorage.getItem('loginSuccess');
 
 	const loginAuthRequest = async (data: loginRequestType, endpoint: string) => {
 		const response: AxiosResponse<loginResponseDataType> = await axios.post(
@@ -36,7 +37,10 @@ const App = (): JSX.Element => {
 	};
 
 	useEffect(() => {
-		dispatch(getProfileInfo());
+		if (loginSuccess) {
+			dispatch(getProfileInfo());
+		}
+
 		const data: loginRequestType = {
 			authorizationCode: authorizationCode,
 			email: email,

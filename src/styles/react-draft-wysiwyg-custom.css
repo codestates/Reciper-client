@@ -1,0 +1,17 @@
+.rdw-editor-wrapper {
+	overflow: hidden;
+	border-radius: 3px;
+}
+
+.rdw-editor-toolbar {
+	padding: 6px 5px;
+	margin-bottom: 0;
+	border: 1px solid #d6d6d8;
+	border-bottom: none;
+}
+
+.rdw-editor-main {
+	min-height: 300px;
+	padding: 5px 20px;
+	border: 1px solid #d6d6d8;
+}

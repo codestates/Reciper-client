@@ -1,4 +1,6 @@
 import React from 'react';
+import { RecruitListDataType } from '../../../types/types';
+import timeStamp from '../../../utils/timeStamp';
 
 import StackTag from '../../Common/StackTag';
 
@@ -16,35 +18,36 @@ import {
 } from './styles';
 
 interface Props {
-	path: string;
+	data: RecruitListDataType;
 }
 
-const RecruitCard = ({ path }: Props): JSX.Element => {
-	const ex = ['React', 'Express']; // 디자인 확인용 데이터입니다. 삭제 바람
+const RecruitCard = ({ data }: Props): JSX.Element => {
+	const { id, name, simpleDesc, commentCount, view, requireStack, recruitImage, createdAt } = data;
 
 	return (
-		<CardContainer to={`/recruit/${path}`}>
-			<CardImgContainer></CardImgContainer>
+		<CardContainer to={`/recruit/${id}`}>
+			<CardImgContainer>
+				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${recruitImage}`} />
+			</CardImgContainer>
 			<CardInfoContainer>
-				<CardInfoTitle>Reciper 같이 만드실 분 구합니다.</CardInfoTitle>
+				<CardInfoTitle>{name}</CardInfoTitle>
 				<CardInfoWriter>
+					{/* 여기 이름 수정해야함! */}
 					by Woogie
 					<span>
-						<CardViewIcon /> 12
+						<CardViewIcon /> {`${view}`}
 					</span>
 					<span>
-						<CardCommentIcon /> 1
+						<CardCommentIcon /> {`${commentCount}`}
 					</span>
 				</CardInfoWriter>
-				<CardInfoContent>
-					우당탕탕 프로젝트 만들기 디자인, 기획부터 개발, 배포까지! 어느 하나 쉬운게 없네
-				</CardInfoContent>
+				<CardInfoContent>{simpleDesc}</CardInfoContent>
 				<CardInfoStackContainer>
-					{ex.map((stack, index) => (
+					{requireStack.slice(0, 3).map((stack, index) => (
 						<StackTag key={index}>{stack}</StackTag>
 					))}
 				</CardInfoStackContainer>
-				<CardTimeStamp>23분 전</CardTimeStamp>
+				<CardTimeStamp>{timeStamp(new Date(createdAt))}</CardTimeStamp>
 			</CardInfoContainer>
 		</CardContainer>
 	);

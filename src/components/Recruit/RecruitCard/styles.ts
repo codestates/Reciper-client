@@ -10,9 +10,15 @@ export const CardContainer = styled(Link)`
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
 `;
 export const CardImgContainer = styled.div`
+	overflow: hidden;
+	${({ theme }) => theme.align.flexCenter}
 	width: 100%;
 	height: 120px;
 	background-color: #478bff;
+
+	& > img {
+		width: 100%;
+	}
 `;
 
 export const CardInfoContainer = styled.div`
@@ -48,13 +54,15 @@ export const CardCommentIcon = styled(FaRegCommentDots)`
 `;
 
 export const CardInfoContent = styled.div`
-	margin-bottom: 50px;
+	height: 36px;
+	margin-bottom: 30px;
 	font-size: 16px;
 	color: #666;
 `;
 
 export const CardInfoStackContainer = styled.div`
-	margin-bottom: 30px;
+	height: 66px;
+	margin-bottom: 20px;
 `;
 
 export const CardTimeStamp = styled.div`

@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { RecruitDetailTopDataType } from '../../../types/types';
+
 import {
 	DetailCommentIcon,
 	DetailSimpleIntro,
@@ -8,21 +11,19 @@ import {
 	DetailViewIcon,
 } from './styles';
 
-const DetailTop = (): JSX.Element => {
+const DetailTop = ({ name, view, commentCount, simpleDesc }: RecruitDetailTopDataType): JSX.Element => {
 	return (
 		<DetailTopContainer>
-			<DetailTopTitle>Reciper</DetailTopTitle>
+			<DetailTopTitle>{name}</DetailTopTitle>
 			<DetailTopInfo>
 				<span>
-					<DetailViewIcon /> 조회 12
+					<DetailViewIcon /> 조회 {view}
 				</span>
 				<span>
-					<DetailCommentIcon /> 댓글 1
+					<DetailCommentIcon /> 댓글 {commentCount}
 				</span>
 			</DetailTopInfo>
-			<DetailSimpleIntro>
-				우당탕탕 프로젝트 만들기 디자인, 기획부터 개발, 배포까지! 어느 하나 쉬운게 없네
-			</DetailSimpleIntro>
+			<DetailSimpleIntro>{simpleDesc}</DetailSimpleIntro>
 		</DetailTopContainer>
 	);
 };

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import timeStamp from '../../../utils/timeStamp';
 
 import Button from '../../Common/Button';
+
+import { RecruitDetailCommentDataType } from '../../../types/types';
 
 import {
 	CommentWriter,
@@ -19,8 +22,22 @@ import {
 	CommentTimeStamp,
 	CommentText,
 } from './styles';
+import { axiosRequest } from '../../../utils/axios';
 
-const DetailComment = (): JSX.Element => {
+interface Props {
+	commentListData: RecruitDetailCommentDataType[];
+	params: string;
+}
+
+const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
+	const [commentBody, setCommentBody] = useState<string>('');
+
+	const onAddComment = () => {
+		const data = { body: commentBody };
+
+		axiosRequest('post', `/recruitBoardComment/${params}`, data);
+	};
+
 	return (
 		<DetailCommentContainer>
 			<CommentWritingContainer>
@@ -28,26 +45,32 @@ const DetailComment = (): JSX.Element => {
 					<CommentWriterProfileImg>W</CommentWriterProfileImg>
 					곽은욱
 				</CommentWriter>
-				<CommentWritingInput placeholder="댓글을 작성해주세요" />
+				<CommentWritingInput
+					placeholder="댓글을 작성해주세요"
+					value={commentBody}
+					onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setCommentBody(e.target.value)}
+				/>
 				<CommentWritingBtnWrap>
-					<Button size="medium" clickEvent={() => console.log('작성')}>
+					<Button size="medium" clickEvent={onAddComment}>
 						댓글 작성
 					</Button>
 				</CommentWritingBtnWrap>
 			</CommentWritingContainer>
 			<CommentContainer>
-				<Comment>
-					<CommentLeft>
-						<CommentUserProfileImg>W</CommentUserProfileImg>
-					</CommentLeft>
-					<CommentRight>
-						<CommentInfoWrap>
-							<CommentUserName>곽은욱</CommentUserName>
-							<CommentTimeStamp>4시간전</CommentTimeStamp>
-						</CommentInfoWrap>
-						<CommentText>많이 많이 연락하세요~!</CommentText>
-					</CommentRight>
-				</Comment>
+				{commentListData.map((comment, index) => (
+					<Comment key={index}>
+						<CommentLeft>
+							<CommentUserProfileImg>W</CommentUserProfileImg>
+						</CommentLeft>
+						<CommentRight>
+							<CommentInfoWrap>
+								<CommentUserName>{comment.writer}</CommentUserName>
+								<CommentTimeStamp>{timeStamp(new Date(comment.createdAt))}</CommentTimeStamp>
+							</CommentInfoWrap>
+							<CommentText>{comment.body}</CommentText>
+						</CommentRight>
+					</Comment>
+				))}
 			</CommentContainer>
 		</DetailCommentContainer>
 	);

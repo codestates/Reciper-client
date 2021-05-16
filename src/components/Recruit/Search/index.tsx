@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Select from '../../Common/Select';
@@ -19,19 +18,6 @@ const Search = (): JSX.Element => {
 	const [sortValue, setSortValue] = useState<string>('');
 	const [stack, setStack] = useState<string>('');
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
-
-	useEffect(() => {
-		const getLoginInfo = localStorage.getItem('loginInfo');
-		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
-
-		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/recruitList/1`, {
-				headers: { authorization: `Bearer ${accessToken}`, loginType },
-			})
-			.then(data => {
-				console.log('전송', data.data);
-			});
-	}, []);
 
 	useEffect(() => {
 		if (stack) {

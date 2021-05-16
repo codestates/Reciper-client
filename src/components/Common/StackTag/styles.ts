@@ -5,7 +5,7 @@ export const StackTagContainer = styled.span<{ type: string }>`
 	position: relative;
 	display: inline-block;
 	padding: ${({ type }) => (type === 'delete' ? `6px 25px 6px 10px` : '6px 10px')};
-	margin: 0 0 5px 5px;
+	margin: 0 5px 5px 0;
 	font-family: 'NanumSquareB';
 	font-size: 14px;
 	color: ${({ theme }) => theme.color.pointColor};

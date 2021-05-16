@@ -214,7 +214,7 @@ export const ProfileRecipeCard = styled.div`
 	border-radius: 3px;
 	box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
 
-	&: hover {
+	&:hover {
 		transform: scale(1.03);
 	}
 `;
