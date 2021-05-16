@@ -32,7 +32,7 @@ export interface RecruitListDataType {
 	view: number;
 }
 
-export interface stackData {
+export interface stackDataType {
 	id: number;
 	name: string;
 }
@@ -57,7 +57,7 @@ export interface RecruitMemberType {
 
 export interface RecruitDetailConentDataType {
 	detailTitle: string;
-	recruitImage: string;
+	uploadImage: string;
 	detailDesc: string;
 	recruitMembers: RecruitMemberType[];
 	requireStack: string[];

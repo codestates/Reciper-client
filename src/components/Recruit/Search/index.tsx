@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Select from '../../Common/Select';

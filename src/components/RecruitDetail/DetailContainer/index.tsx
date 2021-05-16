@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import DetailComment from '../DetailComment';
 import DetailContent from '../DetailContent';
@@ -22,7 +22,7 @@ const DetailContainer = (): JSX.Element => {
 
 	const [contentData, setContentData] = useState({
 		detailTitle: '',
-		recruitImage: '',
+		uploadImage: '',
 		detailDesc: '',
 		recruitMembers: [],
 		requireStack: [],
@@ -49,7 +49,7 @@ const DetailContainer = (): JSX.Element => {
 					view,
 					simpleDesc,
 					detailTitle,
-					recruitImage,
+					uploadImage,
 					detailDesc,
 					recruitMembers,
 					requireStack,
@@ -58,14 +58,14 @@ const DetailContainer = (): JSX.Element => {
 				} = data.data;
 
 				setTopData({ name, view, commentCount: commentsList.length, simpleDesc });
-				setContentData({ detailTitle, recruitImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
+				setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
 				setCommentListData(commentsList);
 			});
 	}, []);
 
 	/*
 		top = name, commantList.length, view, simpleDesc
-		content = detailTitle, recruitImage, detailDesc, recruitMembers, requireStack, serviceStep, period
+		content = detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period
 	*/
 	return (
 		<FullDiv>

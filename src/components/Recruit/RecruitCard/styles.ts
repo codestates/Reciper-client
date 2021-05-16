@@ -54,6 +54,7 @@ export const CardCommentIcon = styled(FaRegCommentDots)`
 `;
 
 export const CardInfoContent = styled.div`
+	height: 36px;
 	margin-bottom: 30px;
 	font-size: 16px;
 	color: #666;

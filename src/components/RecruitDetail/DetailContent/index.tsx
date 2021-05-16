@@ -20,7 +20,7 @@ import {
 
 const DetailContent = ({
 	detailTitle,
-	recruitImage,
+	uploadImage,
 	detailDesc,
 	recruitMembers,
 	requireStack,
@@ -31,7 +31,7 @@ const DetailContent = ({
 		<DetailContentContainer>
 			<DetailSubTitle>{detailTitle}</DetailSubTitle>
 			<DetailImg>
-				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${recruitImage}`} />
+				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
 			</DetailImg>
 			<DetailDescription>{detailDesc}</DetailDescription>
 

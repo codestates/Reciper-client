@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
 import timeStamp from '../../../utils/timeStamp';
 
@@ -36,7 +35,7 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 	const onAddComment = () => {
 		const data = { body: commentBody };
 
-		axiosRequest('post', `recruitBoardComment/${params}`, data);
+		axiosRequest('post', `/recruitBoardComment/${params}`, data);
 	};
 
 	return (

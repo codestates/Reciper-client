@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { stackData } from '../../../types/types';
+import { stackDataType } from '../../../types/types';
 import { Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
 
 interface Props {
@@ -24,8 +24,8 @@ interface Props {
 const StackSearch = (props: Props): JSX.Element => {
 	const [showStacks, setShowStacks] = useState<boolean>(false);
 	const [mouseOut, setMouseOut] = useState<boolean>(false);
-	const [fixStackData, setFixStackData] = useState<stackData[]>([]);
-	const [filteredStack, setFilterdStack] = useState<stackData[]>([]);
+	const [fixStackData, setFixStackData] = useState<stackDataType[]>([]);
+	const [filteredStack, setFilterdStack] = useState<stackDataType[]>([]);
 	const [initialValue, setInitialValue] = useState<string>('');
 
 	useEffect(() => {
