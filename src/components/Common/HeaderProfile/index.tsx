@@ -5,15 +5,15 @@ import { useSelector } from 'react-redux';
 import { HeaderProfileImage, HeaderProfileDefault } from './styles';
 
 interface Props {
-	accessToken: string;
+	loginSuccess: string | null;
 }
 
-const HeaderProfile = ({ accessToken }: Props): JSX.Element => {
+const HeaderProfile = ({ loginSuccess }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 
 	return (
 		<>
-			{accessToken ? (
+			{loginSuccess ? (
 				<div>
 					{profileInfo.uploadImage ? (
 						<HeaderProfileImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.uploadImage}`} alt="" />
