@@ -1,10 +1,10 @@
 import React from 'react';
-import { RecruitDetailWriterDataType } from '../../../types/types';
+import { RecruitWriterDataType } from '../../../types/types';
 
 import { DetailWriterContainer, DetailWriterTitle, DetailWriterInfo } from './styles';
 
 interface Props {
-	writerData: RecruitDetailWriterDataType;
+	writerData: RecruitWriterDataType;
 }
 
 const DetailWriter = ({ writerData }: Props): JSX.Element => {

@@ -33,7 +33,12 @@ const App = (): JSX.Element => {
 
 		window.localStorage.setItem('loginSuccess', 'success');
 		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
-		history.push(location as string);
+
+		if (location) {
+			history.push(location as string);
+		} else {
+			history.push('/');
+		}
 	};
 
 	useEffect(() => {
