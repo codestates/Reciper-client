@@ -79,10 +79,12 @@ export const ProfileImg = styled.div`
 
 	& > span {
 		cursor: pointer;
+		width: 200px;
 		margin-top: 210px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
 		color: #f15525;
+		text-align: center;
 	}
 `;
 
@@ -179,11 +181,11 @@ export const ProfileCareer = styled.span`
 
 export const StacksContainer = styled.div`
 	width: 600px;
-	padding: 20px;
+	padding: 20px 28px;
 `;
 
 export const ProfileStacks = styled.span`
-	margin: 0 8px -5px -5px;
+	margin: 0 0 -5px -5px;
 `;
 
 export const ProfileUserRecipeInfo = styled.div`
