@@ -30,9 +30,6 @@ const DetailContent = ({
 	return (
 		<DetailContentContainer>
 			<DetailSubTitle>{detailTitle}</DetailSubTitle>
-			<DetailImg>
-				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
-			</DetailImg>
 			<DetailDescription>{detailDesc}</DetailDescription>
 
 			<DetailRecruiteTitle>모집 인원</DetailRecruiteTitle>
