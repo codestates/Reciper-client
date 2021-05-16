@@ -2,7 +2,6 @@ import React from 'react';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import { useSelector } from 'react-redux';
-import { HeaderProfileImage, HeaderProfileDefault } from './styles';
 import ProfileImage from '../ProfileImage';
 
 interface Props {
