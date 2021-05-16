@@ -1,11 +1,12 @@
 import axios, { Method } from 'axios';
+import getLoginInfo from './getLoginInfo';
 
-const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
+const { accessToken, loginType } = getLoginInfo();
 
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
 export const axiosRequest = async <D>(method: Method, endPoint: string, data?: D): Promise<D | void> => {
+	console.log(accessToken);
 	try {
 		const response = await axios({
 			method: method,

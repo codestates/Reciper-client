@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ChangeEvent } from 'react';
+import getLoginInfo from './getLoginInfo';
 
-const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
+const { accessToken, loginType } = getLoginInfo();
 
 export const changeImage = async (
 	e: ChangeEvent<HTMLInputElement>,

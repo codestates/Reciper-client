@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { stackDataType } from '../../../types/types';
+import getLoginInfo from '../../../utils/getLoginInfo';
 import { Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
 
 interface Props {
@@ -29,8 +30,7 @@ const StackSearch = (props: Props): JSX.Element => {
 	const [initialValue, setInitialValue] = useState<string>('');
 
 	useEffect(() => {
-		const getLoginInfo = localStorage.getItem('loginInfo');
-		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
+		const { accessToken, loginType } = getLoginInfo();
 
 		const getStackData = async (): Promise<void> => {
 			const stackData = await axios.get(`${process.env.REACT_APP_SERVER_URL}/stacks`, {

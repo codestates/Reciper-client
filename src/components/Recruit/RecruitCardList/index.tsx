@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { RecruitListDataType } from '../../../types/types';
+import getLoginInfo from '../../../utils/getLoginInfo';
 
 import RecruitCard from '../RecruitCard';
 import Search from '../Search';
@@ -28,8 +29,7 @@ const RecruitCardList = (): JSX.Element => {
 	]);
 
 	useEffect(() => {
-		const getLoginInfo = localStorage.getItem('loginInfo');
-		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
+		const { accessToken, loginType } = getLoginInfo();
 
 		// redux로 변경 예정
 		axios
