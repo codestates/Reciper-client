@@ -34,9 +34,7 @@ export const ProfileTitle = styled.div`
 // --------------------TODO: image upload-------------------------
 
 export const ProfileUserImage = styled.img`
-	width: 200px;
-	height: 200px;
-	border-radius: 100%;
+	width: 100%;
 `;
 
 // --------------------TODO: user profile Card-------------------------
@@ -53,9 +51,11 @@ export const ProfileImg = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	width: 240px;
-	height: 230px;
+	height: 240px;
 
 	& > div {
+		overflow: hidden;
+		${({ theme }) => theme.align.flexVertical}
 		width: 200px;
 		height: 200px;
 		border-radius: 100%;
@@ -162,14 +162,11 @@ export const UserDetailIntroCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	width: 700px;
-	margin-right: 60px;
 `;
 
 export const ProfileUserDetailInfo = styled.div`
-	display: flex;
-	flex-direction: column;
-	padding: 30px 0 40px 68px;
-	width: 100%;
+	padding: 50px 52px 30px 52px;
+	width: 800px;
 
 	& > div {
 		${({ theme }) => theme.align.flexVertical}
@@ -180,13 +177,18 @@ export const ProfileCareer = styled.span`
 	margin-right: 20px;
 `;
 
+export const StacksContainer = styled.div`
+	width: 600px;
+	padding: 20px;
+`;
+
 export const ProfileStacks = styled.span`
 	margin: 0 8px -5px -5px;
 `;
 
 export const ProfileUserRecipeInfo = styled.div`
 	width: 700px;
-	padding: 0 68px 30px 68px;
+	padding-bottom: 30px;
 `;
 
 export const RecipeCardInitSetting = styled.div`
