@@ -31,7 +31,7 @@ const CreateBottom = ({ setBottomMockData }: Props): JSX.Element => {
 
 	useEffect(() => {
 		setBottomMockData({ detailTitle, detailDesc, uploadImage: image });
-	}, [detailTitle, detailDesc]);
+	}, [detailTitle, detailDesc, image]);
 
 	const onEditorValue = (contentState: RawDraftContentState) => {
 		const stateToHtml: string = draftToHtml(contentState);
