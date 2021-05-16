@@ -8,8 +8,10 @@ import Button from '../../Common/Button';
 import { recruitCreateDataType, recruitCreateBottomDataType, recruitCreateTopDataType } from '../../../types/types';
 import axios from 'axios';
 import useInput from '../../../hooks/useInput';
+import { useHistory } from 'react-router';
 
 const CreaateContainer = (): JSX.Element => {
+	const history = useHistory();
 	const [name, onChangeName] = useInput<string>('');
 	const [topMockData, setTopMockData] = useState<recruitCreateTopDataType>({
 		simpleDesc: '',
@@ -37,7 +39,7 @@ const CreaateContainer = (): JSX.Element => {
 		const getLoginInfo = localStorage.getItem('loginInfo');
 		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
 
-		console.log(mockData);
+		history.push('/recruit');
 
 		axios
 			.post(`${process.env.REACT_APP_SERVER_URL}/recruitBoard`, mockData, {

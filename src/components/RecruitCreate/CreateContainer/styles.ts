@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const FullDiv = styled.div`
 	${({ theme }) => theme.align.flexHorizontal}
+	padding-top: 72px;
 `;
 
 export const Container = styled.div`
