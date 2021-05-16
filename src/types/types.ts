@@ -23,7 +23,7 @@ export interface RecruitListDataType {
 	id: number;
 	name: string;
 	period: string;
-	recruitImage: string;
+	uploadImage: string;
 	recruitMembers: string;
 	requireStack: string[];
 	serviceStep: string;
@@ -65,14 +65,27 @@ export interface RecruitDetailConentDataType {
 	period: string;
 }
 
+export interface RecruitDetailWriterDataType {
+	aboutMe: string;
+	career: string;
+	createdAt: string;
+	email: string;
+	gitId: string;
+	id: number;
+	isOpen: boolean;
+	mobile: string;
+	name: string;
+	profileColor: string;
+	updatedAt: string;
+	uploadImage: string;
+}
+
 export interface RecruitDetailCommentDataType {
 	id: number;
 	body: string;
 	createdAt: string;
 	updatedAt: string;
-	writer: string;
-	writerId: number;
-	recruitBoard: { [index: string]: number | string };
+	writer: RecruitDetailWriterDataType;
 }
 
 ////////////////////////////////////////////////////////
@@ -96,6 +109,7 @@ export interface recruitCreateTopDataType {
 export interface recruitCreateBottomDataType {
 	detailTitle: string;
 	detailDesc: string;
+	uploadImage: string;
 }
 
 export interface recruitCreateDataType {

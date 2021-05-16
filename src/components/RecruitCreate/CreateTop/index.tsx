@@ -29,7 +29,7 @@ interface Props {
 }
 
 const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
-	const positionEx = ['프론트엔드', '백엔드'];
+	const positionEx = ['프론트엔드', '백엔드', '풀스택'];
 	const careerEx = ['경력무관', '1년', '2년', '3년', '5년', '10년'];
 	const personnelEx = ['1', '2', '3', '4', '5'];
 	const stageEx = ['모집', '기획', '개발'];

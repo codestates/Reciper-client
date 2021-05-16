@@ -1,7 +1,7 @@
 const timeStamp = (targetDate: Date): string => {
 	const currentDate = new Date();
 
-	const dateDiff: number = currentDate.getTime() - targetDate.getTime();
+	const dateDiff: number = currentDate.getTime() - targetDate.getTime() - 9 * 3600 * 1000;
 
 	const dateDiffMin: number = dateDiff / 1000 / 60;
 	const dateDiffHour: number = dateDiff / 1000 / 3600;

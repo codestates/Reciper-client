@@ -24,9 +24,8 @@ export const DetailSubTitle = styled.h2`
 `;
 
 export const DetailImg = styled.div`
+	${({ theme }) => theme.align.flexCenter}
 	width: 100%;
-	height: 200px;
-	background-color: #478bff;
 	margin-bottom: 20px;
 `;
 

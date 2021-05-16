@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { RecruitDetailCommentDataType, RecruitDetailWriterDataType } from '../../../types/types';
 
 import DetailComment from '../DetailComment';
 import DetailContent from '../DetailContent';
@@ -30,7 +32,43 @@ const DetailContainer = (): JSX.Element => {
 		period: '',
 	});
 
-	const [commentListData, setCommentListData] = useState([]);
+	const [commentListData, setCommentListData] = useState<RecruitDetailCommentDataType[]>([
+		{
+			id: 0,
+			body: '',
+			createdAt: '',
+			updatedAt: '',
+			writer: {
+				aboutMe: '',
+				career: '',
+				createdAt: '',
+				email: '',
+				gitId: '',
+				id: 0,
+				isOpen: false,
+				mobile: '',
+				name: '',
+				profileColor: '',
+				updatedAt: '',
+				uploadImage: '',
+			},
+		},
+	]);
+
+	const [writerData, setWriterData] = useState<RecruitDetailWriterDataType>({
+		aboutMe: '',
+		career: '',
+		createdAt: '',
+		email: '',
+		gitId: '',
+		id: 0,
+		isOpen: false,
+		mobile: '',
+		name: '',
+		profileColor: '',
+		updatedAt: '',
+		uploadImage: '',
+	});
 
 	useEffect(() => {
 		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
@@ -55,11 +93,13 @@ const DetailContainer = (): JSX.Element => {
 					requireStack,
 					serviceStep,
 					period,
+					writer,
 				} = data.data;
 
 				setTopData({ name, view, commentCount: commentsList.length, simpleDesc });
 				setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
 				setCommentListData(commentsList);
+				setWriterData(writer);
 			});
 	}, []);
 
@@ -72,7 +112,7 @@ const DetailContainer = (): JSX.Element => {
 			<Container>
 				<DetailTop {...topData} />
 				<DetailContent {...contentData} />
-				<DetailWriter />
+				<DetailWriter writerData={writerData} />
 				<DetailComment commentListData={commentListData} params={params} />
 			</Container>
 		</FullDiv>

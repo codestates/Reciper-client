@@ -22,12 +22,12 @@ interface Props {
 }
 
 const RecruitCard = ({ data }: Props): JSX.Element => {
-	const { id, name, simpleDesc, commentCount, view, requireStack, recruitImage, createdAt } = data;
+	const { id, name, simpleDesc, commentCount, view, requireStack, uploadImage, createdAt } = data;
 
 	return (
 		<CardContainer to={`/recruit/${id}`}>
 			<CardImgContainer>
-				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${recruitImage}`} />
+				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
 			</CardImgContainer>
 			<CardInfoContainer>
 				<CardInfoTitle>{name}</CardInfoTitle>

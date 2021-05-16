@@ -64,7 +64,7 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 						</CommentLeft>
 						<CommentRight>
 							<CommentInfoWrap>
-								<CommentUserName>{comment.writer}</CommentUserName>
+								<CommentUserName>{comment.writer.name}</CommentUserName>
 								<CommentTimeStamp>{timeStamp(new Date(comment.createdAt))}</CommentTimeStamp>
 							</CommentInfoWrap>
 							<CommentText>{comment.body}</CommentText>
