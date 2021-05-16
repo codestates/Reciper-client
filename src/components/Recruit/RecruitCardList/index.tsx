@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { RecruitListDataType } from '../../../types/types';
 import getLoginInfo from '../../../utils/getLoginInfo';
 
@@ -13,24 +13,25 @@ const RecruitCardList = (): JSX.Element => {
 	const [recruitList, setRecruitList] = useState<RecruitListDataType[]>([]);
 	const [order, setOrder] = useState<number>(1);
 
-	const option = {
-		root: null,
-		rootMargin: '0px',
-		threshold: 0,
-	};
-
-	const infinite = () => {
-		setOrder(order + 1);
-		console.log(order);
-	};
-
 	useEffect(() => {
-		const observer = new IntersectionObserver(infinite, option);
+		if (recruitList.length >= 1 && recruitList[recruitList.length - 1].id !== 1) {
+			const option = {
+				threshold: 0,
+			};
 
-		if (observeTarget.current) {
+			const infinite: IntersectionObserverCallback = ([entry], observer) => {
+				if (entry.isIntersecting) {
+					observer.unobserve(entry.target);
+					setOrder(order + 1);
+				}
+			};
+
+			const observer = new IntersectionObserver(infinite, option);
 			observer.observe(observeTarget.current as Element);
 		}
+	}, [recruitList]);
 
+	useEffect(() => {
 		const { accessToken, loginType } = getLoginInfo();
 
 		// redux로 변경 예정
@@ -41,13 +42,15 @@ const RecruitCardList = (): JSX.Element => {
 			.then(data => {
 				setRecruitList([...recruitList, ...data.data.boardList]);
 			});
-	}, []);
+	}, [order]);
+
+	console.log(recruitList);
 
 	return (
 		<CardListContainer>
 			<Search />
 			{recruitList && recruitList.map((data, index) => <RecruitCard key={index} data={data} />)}
-			<div ref={observeTarget}></div>
+			<div style={{ width: '100%', height: '50px' }} ref={observeTarget}></div>
 		</CardListContainer>
 	);
 };
