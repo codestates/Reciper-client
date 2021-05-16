@@ -34,7 +34,7 @@ const DetailContent = ({
 			{recruitMembers.map((list, index) => (
 				<DetailRecruiteList key={index}>
 					{`- ${list.position}`}
-					<span>{`${list.career}/${list.personner}명/~${list.deadline}까지`}</span>
+					<span>{`${list.career}/${list.personnel}명/~${list.deadline}까지`}</span>
 				</DetailRecruiteList>
 			))}
 

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { RecruitDetailCommentDataType, RecruitDetailWriterDataType } from '../../../types/types';
+import { RecruitDetailCommentDataType, RecruitWriterDataType } from '../../../types/types';
 
 import DetailComment from '../DetailComment';
 import DetailContent from '../DetailContent';
@@ -55,7 +54,7 @@ const DetailContainer = (): JSX.Element => {
 		},
 	]);
 
-	const [writerData, setWriterData] = useState<RecruitDetailWriterDataType>({
+	const [writerData, setWriterData] = useState<RecruitWriterDataType>({
 		aboutMe: '',
 		career: '',
 		createdAt: '',

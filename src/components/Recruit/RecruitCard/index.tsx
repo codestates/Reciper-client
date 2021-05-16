@@ -22,8 +22,7 @@ interface Props {
 }
 
 const RecruitCard = ({ data }: Props): JSX.Element => {
-	const { id, name, simpleDesc, commentCount, view, requireStack, uploadImage, createdAt } = data;
-
+	const { id, name, simpleDesc, commentCount, view, requireStack, uploadImage, createdAt, writer } = data;
 	return (
 		<CardContainer to={`/recruit/${id}`}>
 			<CardImgContainer>
@@ -33,7 +32,7 @@ const RecruitCard = ({ data }: Props): JSX.Element => {
 				<CardInfoTitle>{name}</CardInfoTitle>
 				<CardInfoWriter>
 					{/* 여기 이름 수정해야함! */}
-					by Woogie
+					by {writer.name}
 					<span>
 						<CardViewIcon /> {`${view}`}
 					</span>
