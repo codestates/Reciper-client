@@ -7,7 +7,6 @@ import { RecruitDetailConentDataType } from '../../../types/types';
 import {
 	DetailContentContainer,
 	DetailDescription,
-	DetailImg,
 	DetailRecruiteTitle,
 	DetailSubTitle,
 	DetailRecruiteList,
@@ -20,7 +19,6 @@ import {
 
 const DetailContent = ({
 	detailTitle,
-	uploadImage,
 	detailDesc,
 	recruitMembers,
 	requireStack,
@@ -30,7 +28,7 @@ const DetailContent = ({
 	return (
 		<DetailContentContainer>
 			<DetailSubTitle>{detailTitle}</DetailSubTitle>
-			<DetailDescription>{detailDesc}</DetailDescription>
+			<DetailDescription dangerouslySetInnerHTML={{ __html: detailDesc }}></DetailDescription>
 
 			<DetailRecruiteTitle>모집 인원</DetailRecruiteTitle>
 			{recruitMembers.map((list, index) => (
