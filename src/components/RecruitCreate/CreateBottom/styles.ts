@@ -6,3 +6,14 @@ export const CreatBottomContainer = styled.div`
 	margin-bottom: 20px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
+
+export const CreateImageWrap = styled.div`
+	overflow: hidden;
+	${({ theme }) => theme.align.flexCenter};
+	width: 410px;
+	height: 150px;
+
+	& > img {
+		width: 100%;
+	}
+`;

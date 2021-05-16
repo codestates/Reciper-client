@@ -21,6 +21,7 @@ const CreaateContainer = (): JSX.Element => {
 	const [bottomMockData, setBottomMockData] = useState<recruitCreateBottomDataType>({
 		detailTitle: '',
 		detailDesc: '',
+		uploadImage: '',
 	});
 	const [mockData, setMockData] = useState<recruitCreateDataType>({
 		name,
@@ -30,7 +31,7 @@ const CreaateContainer = (): JSX.Element => {
 
 	useEffect(() => {
 		setMockData({ name, ...topMockData, ...bottomMockData });
-	}, [topMockData, bottomMockData]);
+	}, [topMockData, bottomMockData, name]);
 
 	const onResponseCreateData = () => {
 		const getLoginInfo = localStorage.getItem('loginInfo');
