@@ -20,7 +20,7 @@ export const changeImage = async (
 			},
 		});
 
-		const imageData = response.data.uplodaImage;
+		const imageData = response.data.uploadImage;
 		setState(imageData);
 	}
 };
