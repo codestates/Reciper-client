@@ -3,9 +3,12 @@ import styled from 'styled-components';
 export const HeaderContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	justify-content: space-between;
+	position: fixed;
+	z-index: 10;
 	width: 100%;
 	height: 72px;
 	padding: 0 32px;
+	background-color: #fff;
 	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
