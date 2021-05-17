@@ -56,7 +56,7 @@ const UserProfileEdit = (): JSX.Element => {
 							accept="image/jpg,image/png,/image/jpeg"
 							name="file"
 							hidden
-							onChange={e => changeImage(e, `/profile`, setImage)}
+							onChange={e => changeImage(e, setImage)}
 							ref={imageInput}
 						/>
 					</form>
