@@ -39,13 +39,11 @@ const CreaateContainer = (): JSX.Element => {
 		const getLoginInfo = localStorage.getItem('loginInfo');
 		const { accessToken, loginType } = JSON.parse(getLoginInfo as string);
 
-		history.push('/recruit');
-
 		axios
 			.post(`${process.env.REACT_APP_SERVER_URL}/recruitBoard`, mockData, {
 				headers: { authorization: `Bearer ${accessToken}`, loginType },
 			})
-			.then(data => console.log('전송', data.data));
+			.then(() => history.push('/recruit'));
 
 		/*
 			input이 비어 있으면 - textForm
