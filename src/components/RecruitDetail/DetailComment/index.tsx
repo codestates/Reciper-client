@@ -25,7 +25,10 @@ import {
 	CommentUserName,
 	CommentTimeStamp,
 	CommentText,
+	CommentDeleteBtn,
 } from './styles';
+import axios from 'axios';
+import getLoginInfo from '../../../utils/getLoginInfo';
 
 interface Props {
 	commentListData: RecruitDetailCommentDataType[];
@@ -34,7 +37,7 @@ interface Props {
 
 const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 	const [commentBody, setCommentBody] = useState<string>('');
-	const getUserInfo = useSelector(getProfileInfoSelector);
+	const userInfo = useSelector(getProfileInfoSelector);
 
 	const onAddComment = () => {
 		if (!commentBody.trim()) {
@@ -46,12 +49,41 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 		axiosRequest('post', `/recruitBoardComment/${params}`, data);
 	};
 
+	const CommentWrap = (comment: RecruitDetailCommentDataType, index: number): JSX.Element => {
+		const { accessToken, loginType } = getLoginInfo();
+		const isMadeByMy = userInfo.id === comment.writer.id;
+
+		const onDeleteComment = () => {
+			axios.delete(`${process.env.REACT_APP_SERVER_URL}/recruitBoardComment/${params}/${comment.id}`, {
+				headers: { authorization: `Bearer ${accessToken}`, loginType },
+			});
+		};
+
+		return (
+			<Comment key={index}>
+				<CommentLeft>
+					<CommentUserProfileImg>W</CommentUserProfileImg>
+				</CommentLeft>
+				<CommentRight>
+					<CommentInfoWrap>
+						<div>
+							<CommentUserName>{comment.writer.name}</CommentUserName>
+							<CommentTimeStamp>{timeStamp(new Date(comment.createdAt))}</CommentTimeStamp>
+						</div>
+						{isMadeByMy && <CommentDeleteBtn onClick={onDeleteComment}>삭제</CommentDeleteBtn>}
+					</CommentInfoWrap>
+					<CommentText>{comment.body}</CommentText>
+				</CommentRight>
+			</Comment>
+		);
+	};
+
 	return (
 		<DetailCommentContainer>
 			<CommentWritingContainer>
 				<CommentWriter>
 					<CommentWriterProfileImg>W</CommentWriterProfileImg>
-					{getUserInfo.name}
+					{userInfo.name}
 				</CommentWriter>
 				<CommentWritingInput
 					placeholder="댓글을 작성해주세요"
@@ -64,22 +96,7 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 					</Button>
 				</CommentWritingBtnWrap>
 			</CommentWritingContainer>
-			<CommentContainer>
-				{commentListData.map((comment, index) => (
-					<Comment key={index}>
-						<CommentLeft>
-							<CommentUserProfileImg>W</CommentUserProfileImg>
-						</CommentLeft>
-						<CommentRight>
-							<CommentInfoWrap>
-								<CommentUserName>{comment.writer.name}</CommentUserName>
-								<CommentTimeStamp>{timeStamp(new Date(comment.createdAt))}</CommentTimeStamp>
-							</CommentInfoWrap>
-							<CommentText>{comment.body}</CommentText>
-						</CommentRight>
-					</Comment>
-				))}
-			</CommentContainer>
+			<CommentContainer>{commentListData.map((comment, index) => CommentWrap(comment, index))}</CommentContainer>
 		</DetailCommentContainer>
 	);
 };

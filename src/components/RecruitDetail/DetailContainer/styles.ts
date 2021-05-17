@@ -19,6 +19,7 @@ export const DeleteBtnWrap = styled.div`
 `;
 
 export const DeleteBtn = styled.button`
+	transition: 0.1s;
 	width: 107px;
 	height: 40px;
 	font-family: 'NanumSquareB';

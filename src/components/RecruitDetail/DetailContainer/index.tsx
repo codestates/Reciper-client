@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { RecruitDetailCommentDataType, RecruitWriterDataType } from '../../../types/types';
+import getLoginInfo from '../../../utils/getLoginInfo';
 
 import DetailComment from '../DetailComment';
 import DetailContent from '../DetailContent';
@@ -76,43 +77,35 @@ const DetailContainer = (): JSX.Element => {
 	const isMadeByMe = userInfo.id === writerData.id;
 
 	useEffect(() => {
-		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
-
 		// redux로 수정 예정
-		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/recruitBoard/${params}`, {
-				headers: { authorization: `Bearer ${accessToken}`, loginType },
-			})
-			.then(data => {
-				console.log(data.data);
-				const {
-					name,
-					commentsList,
-					view,
-					simpleDesc,
-					detailTitle,
-					uploadImage,
-					detailDesc,
-					recruitMembers,
-					requireStack,
-					serviceStep,
-					period,
-					writer,
-				} = data.data;
+		axios.get(`${process.env.REACT_APP_SERVER_URL}/recruitBoard/${params}`).then(data => {
+			console.log(data.data);
+			const {
+				name,
+				commentsList,
+				view,
+				simpleDesc,
+				detailTitle,
+				uploadImage,
+				detailDesc,
+				recruitMembers,
+				requireStack,
+				serviceStep,
+				period,
+				writer,
+			} = data.data;
 
-				setTopData({ name, view, commentCount: commentsList.length, simpleDesc });
-				setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
-				setCommentListData(commentsList);
-				setWriterData(writer);
-				console.log(writer);
-				console.log(userInfo);
-			});
+			setTopData({ name, view, commentCount: commentsList.length, simpleDesc });
+			setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
+			setCommentListData(commentsList);
+			setWriterData(writer);
+			console.log(writer);
+			console.log(userInfo);
+		});
 	}, []);
 
 	const onDeleteBoard = () => {
-		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
-		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
+		const { accessToken, loginType } = getLoginInfo();
 
 		axios
 			.delete(`${process.env.REACT_APP_SERVER_URL}/recruitBoard/${params}`, {
