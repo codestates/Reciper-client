@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getProfileInfoSelector } from '../../../reducer/profile';
 import { UserProfileDefault, UserProfileImage } from './styles';
 
 /* TODO:
