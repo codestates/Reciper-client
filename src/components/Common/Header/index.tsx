@@ -32,7 +32,10 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition }: Prop
 				isScrollShadow={isScrollShadow}
 				isScrollTransition={isScrollTransition}
 			>
-				<LogoWrapper href="#">Reciper</LogoWrapper>
+				<LogoWrapper href="#">
+					<Logo src={ReciperLogo} />
+					Reciper
+				</LogoWrapper>
 				<HeaderRight>
 					<Nav>
 						<Link to="/recruit">팀원모집</Link>
