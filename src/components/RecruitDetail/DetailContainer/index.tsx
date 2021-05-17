@@ -99,8 +99,6 @@ const DetailContainer = (): JSX.Element => {
 			setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
 			setCommentListData(commentsList);
 			setWriterData(writer);
-			console.log(writer);
-			console.log(userInfo);
 		});
 	}, []);
 
