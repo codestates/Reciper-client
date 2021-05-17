@@ -21,7 +21,7 @@ const Header = (): JSX.Element => {
 	return (
 		<>
 			<HeaderContainer>
-				<Logo href="#">Reciper</Logo>
+				<Logo href="http://localhost:3000/landing">Reciper</Logo>
 				<HeaderRight>
 					<Nav>
 						<Link to="/recruit">팀원모집</Link>
