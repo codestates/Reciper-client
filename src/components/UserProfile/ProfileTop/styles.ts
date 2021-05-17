@@ -31,11 +31,6 @@ export const ProfileTitle = styled.div`
 		}
 	}
 `;
-// --------------------TODO: image upload-------------------------
-
-export const ProfileUserImage = styled.img`
-	width: 100%;
-`;
 
 // --------------------TODO: user profile Card-------------------------
 
@@ -64,7 +59,6 @@ export const ProfileImg = styled.div`
 			${({ theme }) => theme.align.flexCenter}
 			width: 100%;
 			height: 100%;
-			margin-top: 6px;
 			font-family: 'NanumSquareR';
 			font-size: 110px;
 			color: #fff;
@@ -80,7 +74,7 @@ export const ProfileImg = styled.div`
 	& > span {
 		cursor: pointer;
 		width: 200px;
-		margin-top: 210px;
+		margin-top: 10px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
 		color: #f15525;
@@ -88,31 +82,49 @@ export const ProfileImg = styled.div`
 	}
 `;
 
-export const ProfileEditImg = styled(ProfileImg)`
-	& > div {
-		opacity: 1;
-		position: absolute;
-		
-		&:hover {
-			cursor: pointer;
+// --------------------TODO: image upload-------------------------
+
+export const ProfileImageUploadWrapper = styled.div`
+	position: relative;
+
+	& > img {
+		width: 100%;
+	}
+
+	&:hover > div {
+		background-color: rgba(0, 0, 0, 0.3);
+
+		& > span {
+			opacity: 1;
 		}
-	
-		&:hover:after {
-			overflow: hidden;
-			opacity: 0.3;
-			${({ theme }) => theme.align.flexCenter}
-			position: absolute;
-			z-index: 10;
-			width: 200px;
-			height:200px;
-			font-family: NanumSquareR;
-			font-size: 18px;
-			color: #fff;
-			background-color: rgba(0, 0, 0.3);
-			border-radius: 100%;
-			content: '이미지 업로드'
-		}
+	}
 `;
+
+export const ProfileUserImage = styled.img`
+	width: 100%;
+`;
+
+export const ProfileImageUploadButton = styled.div`
+	cursor: pointer;
+	${({ theme }) => theme.align.flexCenter}
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: 0.3s;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+
+	& > span {
+		opacity: 0;
+		transition: 0.3s;
+		font-family: 'NanumSquareR';
+		font-size: 18px;
+		color: #fff;
+	}
+`;
+
+// --------------------TODO: image personal info-------------------------
 
 export const ProfileUserInfoCard = styled.div`
 	display: flex;

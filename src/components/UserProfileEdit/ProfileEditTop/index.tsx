@@ -11,13 +11,15 @@ import Input from '../../Common/Input';
 import {
 	ProfileContainer,
 	ProfileTitle,
-	ProfileEditImg,
 	ProfileUserInfo,
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
 	ProfileUserImage,
 	ProfileUserEmail,
+	ProfileImageUploadButton,
+	ProfileImageUploadWrapper,
+	ProfileImg,
 } from '../../UserProfile/ProfileTop/styles';
 
 const UserProfileEdit = (): JSX.Element => {
@@ -48,7 +50,7 @@ const UserProfileEdit = (): JSX.Element => {
 
 			{/* TODO: 유저 개인 정보 */}
 			<ProfileUserCard>
-				<ProfileEditImg>
+				<ProfileImg>
 					{/* TODO: 이미지 요청 테스트중 */}
 					<form encType="multipart/form-data">
 						<input
@@ -67,13 +69,18 @@ const UserProfileEdit = (): JSX.Element => {
 						}}
 					>
 						{image ? (
-							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
+							<ProfileImageUploadWrapper>
+								<ProfileImageUploadButton>
+									<span>이미지 업로드</span>
+								</ProfileImageUploadButton>
+								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
+							</ProfileImageUploadWrapper>
 						) : (
 							<div>{profileInfo.name.slice(0, 1)}</div>
 						)}
 					</div>
 					<span onClick={onResetImage}>기본 이미지로 변경</span>
-				</ProfileEditImg>
+				</ProfileImg>
 
 				<ProfileUserInfoCard>
 					<div>
