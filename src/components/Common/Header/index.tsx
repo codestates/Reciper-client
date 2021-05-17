@@ -1,15 +1,22 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
+import ReciperLogo from '../../../images/Logo.png';
 
 import { Link } from 'react-router-dom';
 
 import LoginModal from '../../LoginModal';
 import Modal from '../Modal';
 
-import { HeaderContainer, HeaderRight, LoginBtn, Logo, Nav } from './styles';
+import { HeaderContainer, HeaderRight, LoginBtn, LogoWrapper, Nav, Logo } from './styles';
 import HeaderProfile from '../HeaderProfile';
 import HeaderUserMenu from '../HeaderUserMenu';
 
-const Header = (): JSX.Element => {
+interface Props {
+	isScrollBackground: boolean;
+	isScrollShadow: boolean;
+	isScrollTransition: boolean;
+}
+
+const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition }: Props): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const loginSuccess = window.localStorage.getItem('loginSuccess');
 
@@ -20,8 +27,12 @@ const Header = (): JSX.Element => {
 
 	return (
 		<>
-			<HeaderContainer>
-				<Logo href="#">Reciper</Logo>
+			<HeaderContainer
+				isScrollBackground={isScrollBackground}
+				isScrollShadow={isScrollShadow}
+				isScrollTransition={isScrollTransition}
+			>
+				<LogoWrapper href="#">Reciper</LogoWrapper>
 				<HeaderRight>
 					<Nav>
 						<Link to="/recruit">팀원모집</Link>
@@ -40,14 +51,13 @@ const Header = (): JSX.Element => {
 						<LoginModal />
 					</Modal>
 				))}
-
-			{/* TODO: 테스트 모드 */}
-			{/* {showModal && (
-				<Modal setShowModal={setShowModal}>
-					<LoginModal />
-				</Modal>
-			)} */}
 		</>
 	);
 };
 export default Header;
+
+Header.defaultProps = {
+	isScrollBackground: 'false',
+	isScrollShadow: 'false',
+	isScrollTransition: 'false',
+};
