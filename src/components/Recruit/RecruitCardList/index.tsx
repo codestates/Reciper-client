@@ -32,16 +32,10 @@ const RecruitCardList = (): JSX.Element => {
 	}, [recruitList]);
 
 	useEffect(() => {
-		const { accessToken, loginType } = getLoginInfo();
-
 		// redux로 변경 예정
-		axios
-			.get(`${process.env.REACT_APP_SERVER_URL}/recruitList/${order}`, {
-				headers: { authorization: `Bearer ${accessToken}`, loginType },
-			})
-			.then(data => {
-				setRecruitList([...recruitList, ...data.data.boardList]);
-			});
+		axios.get(`${process.env.REACT_APP_SERVER_URL}/recruitList/${order}`).then(data => {
+			setRecruitList([...recruitList, ...data.data.boardList]);
+		});
 	}, [order]);
 
 	console.log(recruitList);
