@@ -29,6 +29,7 @@ import {
 } from './styles';
 import axios from 'axios';
 import getLoginInfo from '../../../utils/getLoginInfo';
+import ProfileImage from '../../Common/ProfileImage';
 
 interface Props {
 	commentListData: RecruitDetailCommentDataType[];
@@ -62,7 +63,14 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 		return (
 			<Comment key={index}>
 				<CommentLeft>
-					<CommentUserProfileImg>W</CommentUserProfileImg>
+					<ProfileImage
+						width="40px"
+						height="40px"
+						margin="0 15px 0 0"
+						profileImage={comment.writer.uploadImage}
+						profileColor={comment.writer.profileColor}
+						userName={comment.writer.name}
+					/>
 				</CommentLeft>
 				<CommentRight>
 					<CommentInfoWrap>
@@ -82,7 +90,14 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 		<DetailCommentContainer>
 			<CommentWritingContainer>
 				<CommentWriter>
-					<CommentWriterProfileImg>W</CommentWriterProfileImg>
+					<ProfileImage
+						width="40px"
+						height="40px"
+						margin="0 10px 0 0"
+						profileImage={userInfo.uploadImage}
+						profileColor={userInfo.profileColor}
+						userName={userInfo.name}
+					/>
 					{userInfo.name}
 				</CommentWriter>
 				<CommentWritingInput
