@@ -1,7 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
-import timeStamp from '../../../utils/timeStamp';
+import { useSelector } from 'react-redux';
 
 import Button from '../../Common/Button';
+
+import timeStamp from '../../../utils/timeStamp';
+import { axiosRequest } from '../../../utils/axios';
+import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import { RecruitDetailCommentDataType } from '../../../types/types';
 
@@ -22,7 +26,6 @@ import {
 	CommentTimeStamp,
 	CommentText,
 } from './styles';
-import { axiosRequest } from '../../../utils/axios';
 
 interface Props {
 	commentListData: RecruitDetailCommentDataType[];
@@ -31,8 +34,13 @@ interface Props {
 
 const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 	const [commentBody, setCommentBody] = useState<string>('');
+	const getUserInfo = useSelector(getProfileInfoSelector);
 
 	const onAddComment = () => {
+		if (!commentBody.trim()) {
+			return;
+		}
+
 		const data = { body: commentBody };
 
 		axiosRequest('post', `/recruitBoardComment/${params}`, data);
@@ -43,7 +51,7 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 			<CommentWritingContainer>
 				<CommentWriter>
 					<CommentWriterProfileImg>W</CommentWriterProfileImg>
-					곽은욱
+					{getUserInfo.name}
 				</CommentWriter>
 				<CommentWritingInput
 					placeholder="댓글을 작성해주세요"

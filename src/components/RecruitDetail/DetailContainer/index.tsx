@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
+import { getProfileInfoSelector } from '../../../reducer/profile';
 import { RecruitDetailCommentDataType, RecruitWriterDataType } from '../../../types/types';
 
 import DetailComment from '../DetailComment';
@@ -8,11 +10,13 @@ import DetailContent from '../DetailContent';
 import DetailTop from '../DetailTop';
 import DetailWriter from '../DetailWriter';
 
-import { FullDiv } from './styles';
+import { DeleteBtn, DeleteBtnWrap, FullDiv } from './styles';
 import { Container } from './styles';
 
 const DetailContainer = (): JSX.Element => {
+	const history = useHistory();
 	const { id: params } = useParams<{ id: string }>();
+	const userInfo = useSelector(getProfileInfoSelector);
 
 	const [topData, setTopData] = useState({
 		name: '',
@@ -69,6 +73,8 @@ const DetailContainer = (): JSX.Element => {
 		uploadImage: '',
 	});
 
+	const isMadeByMe = userInfo.id === writerData.id;
+
 	useEffect(() => {
 		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
 		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
@@ -99,16 +105,26 @@ const DetailContainer = (): JSX.Element => {
 				setContentData({ detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period });
 				setCommentListData(commentsList);
 				setWriterData(writer);
+				console.log(writer);
+				console.log(userInfo);
 			});
 	}, []);
 
-	/*
-		top = name, commantList.length, view, simpleDesc
-		content = detailTitle, uploadImage, detailDesc, recruitMembers, requireStack, serviceStep, period
-	*/
+	const onDeleteBoard = () => {
+		const localStorage_loginInfo = window.localStorage.getItem('loginInfo') as string;
+		const { accessToken, loginType } = JSON.parse(localStorage_loginInfo);
+
+		axios
+			.delete(`${process.env.REACT_APP_SERVER_URL}/recruitBoard/${params}`, {
+				headers: { authorization: `Bearer ${accessToken}`, loginType },
+			})
+			.then(() => history.push('/recruit'));
+	};
+
 	return (
 		<FullDiv>
 			<Container>
+				<DeleteBtnWrap>{isMadeByMe && <DeleteBtn onClick={onDeleteBoard}>게시글 삭제</DeleteBtn>}</DeleteBtnWrap>
 				<DetailTop {...topData} />
 				<DetailContent {...contentData} />
 				<DetailWriter writerData={writerData} />
