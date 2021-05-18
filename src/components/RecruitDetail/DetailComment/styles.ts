@@ -65,10 +65,14 @@ export const CommentUserProfileImg = styled.div`
 	border-radius: 100%;
 `;
 
-export const CommentRight = styled.div``;
+export const CommentRight = styled.div`
+	width: 100%;
+`;
 
 export const CommentInfoWrap = styled.div`
 	${({ theme }) => theme.align.flexVertical}
+	justify-content: space-between;
+	width: 100%;
 	margin-bottom: 10px;
 `;
 
@@ -80,6 +84,16 @@ export const CommentUserName = styled.span`
 export const CommentTimeStamp = styled.span`
 	font-size: 14px;
 	color: #888;
+`;
+
+export const CommentDeleteBtn = styled.button`
+	transition: 0.1s;
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.lineColor};
+
+	&:hover {
+		color: ${({ theme }) => theme.color.warningColor};
+	}
 `;
 
 export const CommentText = styled.p`

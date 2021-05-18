@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getProfileInfoSelector } from '../../../reducer/profile';
 import { UserProfileDefault, UserProfileImage } from './styles';
 
 /* TODO:
@@ -12,6 +10,8 @@ import { UserProfileDefault, UserProfileImage } from './styles';
 Props: {
   width
   height
+	margin
+	userNameSize (default: 16px)
   profileImage
   profileColor
   userName
@@ -21,19 +21,22 @@ Props: {
 interface Props {
 	width: string;
 	height: string;
+	margin: string;
+	userNameSize: string;
 	profileImage?: string;
 	profileColor?: string;
 	userName?: string;
-	userNameSize?: string;
 }
 
 const ProfileImage = (props: Props): JSX.Element => {
-	const profileInfo = useSelector(getProfileInfoSelector);
-
 	return (
 		<>
-			{profileInfo.uploadImage ? (
-				<UserProfileImage {...props} src={`${process.env.REACT_APP_SERVER_URL}/images/${props.profileImage}`} alt="" />
+			{props.profileImage ? (
+				<UserProfileImage
+					{...props}
+					src={`${process.env.REACT_APP_SERVER_URL}/images/${props.profileImage}`}
+					alt="사용자 이미지"
+				/>
 			) : (
 				<UserProfileDefault {...props} style={{ backgroundColor: `${props.profileColor}` }}>
 					<span style={{ fontSize: `${props.userNameSize}` }}>{props.userName?.slice(0, 1)}</span>
@@ -46,6 +49,8 @@ const ProfileImage = (props: Props): JSX.Element => {
 ProfileImage.defaultProps = {
 	width: '30px',
 	height: '30px',
+	margin: '0',
+	userNameSize: '16px',
 };
 
 export default ProfileImage;

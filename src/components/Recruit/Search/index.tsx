@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import Select from '../../Common/Select';
 import StackTag from '../../Common/StackTag';
@@ -14,15 +14,19 @@ import {
 	StackSearchCustom,
 } from './styles';
 
-const Search = (): JSX.Element => {
-	const sortData: string[] = ['최신순', '오래된 순'];
-	const [sortValue, setSortValue] = useState<string>('');
+interface Props {
+	stackBucket: string[];
+	setStackBucket: Dispatch<SetStateAction<string[]>>;
+	setSortValue: Dispatch<SetStateAction<string>>;
+}
+
+const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Element => {
+	const sortData: string[] = ['최신순', '오래된순'];
 	const [stack, setStack] = useState<string>('');
-	const [stackBucket, setStackBucket] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (stack) {
-			setStackBucket([...stackBucket, stack]);
+			setStackBucket([stack, ...stackBucket]);
 		}
 	}, [stack]);
 
@@ -30,9 +34,10 @@ const Search = (): JSX.Element => {
 		(index: number) => {
 			const deleteStack = [...stackBucket];
 			deleteStack.splice(index, 1);
+
 			setStackBucket(deleteStack);
 		},
-		[stack],
+		[stackBucket],
 	);
 
 	return (

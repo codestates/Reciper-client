@@ -3,7 +3,7 @@ import { IoEyeOutline } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
 
 export const DetailTopContainer = styled.div`
-	padding: 40px 20px;
+	padding: 0 20px 40px;
 	text-align: center;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;

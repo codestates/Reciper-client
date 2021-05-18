@@ -1,16 +1,20 @@
-import React, { Dispatch, ForwardedRef, forwardRef, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { ForwardedRef, forwardRef, useCallback, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../../styles/react-datepicker-custom.css';
+import { useDispatch } from 'react-redux';
 
-import { recruitCreateTopDataType, recruitMembersDataType } from '../../../types/types';
-import dateFormat from '../../../utils/dateformat';
-
-import useInput from '../../../hooks/useInput';
 import Input from '../../Common/Input';
 import Select from '../../Common/Select';
 import StackSearch from '../../Common/StackSearch';
 import StackTag from '../../Common/StackTag';
+
+import useInput from '../../../hooks/useInput';
+import dateFormat from '../../../utils/dateformat';
+
+import { recruitMembersDataType } from '../../../types/types';
+
+import { writingAction } from '../../../reducer/recruitCreate';
 
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
 import {
@@ -24,23 +28,20 @@ import {
 	DatePickerCustomInput,
 } from './styles';
 
-interface Props {
-	setTopMockData: Dispatch<SetStateAction<recruitCreateTopDataType>>;
-}
-
-const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
+const CreateTop = (): JSX.Element => {
+	const dispatch = useDispatch();
 	const positionEx = ['프론트엔드', '백엔드', '풀스택'];
 	const careerEx = ['경력무관', '1년', '2년', '3년', '5년', '10년'];
 	const personnelEx = ['1', '2', '3', '4', '5'];
 	const stageEx = ['모집', '기획', '개발'];
 
 	const [recruitMembers, setRecruitMembers] = useState<recruitMembersDataType[]>([]);
-	const [requireStack, setRequireStack] = useState<string[]>([]);
-	const [stackValue, setStackValue] = useState<string>('');
 	const [selectReset, setSelectReset] = useState<boolean>(false);
 
-	const [simpleDesc, onChangeSimpleDesc] = useInput<string>('');
+	const [requireStack, setRequireStack] = useState<string[]>([]);
+	const [stackValue, setStackValue] = useState<string>('');
 
+	const [simpleDesc, onChangeSimpleDesc] = useInput<string>('');
 	const [position, setPosition] = useState<string>('');
 	const [career, setCareer] = useState<string>('');
 	const [personnel, setPersonnel] = useState<string>('');
@@ -49,14 +50,24 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 	const [deadline, setDeadline] = useState<Date | [Date, Date] | null>();
 
 	useEffect(() => {
-		setTopMockData({
-			simpleDesc,
-			recruitMembers,
-			requireStack,
-			serviceStep,
-			period: dateFormat(period as Date),
-		});
-	}, [simpleDesc, position, career, personnel, deadline, requireStack, serviceStep, period, recruitMembers]);
+		dispatch(writingAction({ simpleDesc }));
+	}, [simpleDesc]);
+
+	useEffect(() => {
+		dispatch(writingAction({ recruitMembers }));
+	}, [recruitMembers]);
+
+	useEffect(() => {
+		dispatch(writingAction({ requireStack }));
+	}, [requireStack]);
+
+	useEffect(() => {
+		dispatch(writingAction({ serviceStep }));
+	}, [serviceStep]);
+
+	useEffect(() => {
+		dispatch(writingAction({ period: dateFormat(period as Date) }));
+	}, [period]);
 
 	useEffect(() => {
 		if (stackValue) {
@@ -76,6 +87,7 @@ const CreateTop = ({ setTopMockData }: Props): JSX.Element => {
 			personnel,
 			deadline: dateFormat(deadline as Date),
 		};
+
 		setDeadline(null);
 		setSelectReset(!selectReset);
 		setRecruitMembers([...recruitMembers, recruitMembersFrame]);

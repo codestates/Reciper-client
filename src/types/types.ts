@@ -89,6 +89,26 @@ export interface RecruitDetailCommentDataType {
 	writer: RecruitWriterDataType;
 }
 
+export interface RecruitDetailDataType {
+	commentCount: number;
+	commentsList: RecruitDetailCommentDataType[];
+	createdAt: string;
+	detailDesc: string;
+	detailTitle: string;
+	id: number;
+	name: string;
+	period: string;
+	recruitMembers: RecruitMemberType[];
+	requireStack: string[];
+	serviceStep: string;
+	simpleDesc: string;
+	stacks: { id: number; name: string }[];
+	updatedAt: string;
+	uploadImage: string;
+	view: number;
+	writer: RecruitWriterDataType;
+}
+
 ////////////////////////////////////////////////////////
 ///////////          RecruitCreate        //////////////
 ///////////////////////////////////////////////////////
@@ -122,6 +142,7 @@ export interface recruitCreateDataType {
 	period: string;
 	detailTitle: string;
 	detailDesc: string;
+	uploadImage: string;
 }
 
 ////////////////////////////////////////////////////////
