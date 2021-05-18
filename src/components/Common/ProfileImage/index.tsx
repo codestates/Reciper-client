@@ -32,7 +32,11 @@ const ProfileImage = (props: Props): JSX.Element => {
 	return (
 		<>
 			{props.profileImage ? (
-				<UserProfileImage {...props} src={`${process.env.REACT_APP_SERVER_URL}/images/${props.profileImage}`} alt="" />
+				<UserProfileImage
+					{...props}
+					src={`${process.env.REACT_APP_SERVER_URL}/images/${props.profileImage}`}
+					alt="사용자 이미지"
+				/>
 			) : (
 				<UserProfileDefault {...props} style={{ backgroundColor: `${props.profileColor}` }}>
 					<span style={{ fontSize: `${props.userNameSize}` }}>{props.userName?.slice(0, 1)}</span>
