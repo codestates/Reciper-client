@@ -32,8 +32,8 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition }: Prop
 				isScrollShadow={isScrollShadow}
 				isScrollTransition={isScrollTransition}
 			>
-				<LogoWrapper>
-					<Logo href="http://localhost:3000/landing" src={ReciperLogo} />
+				<LogoWrapper href="http://localhost:3000/landing">
+					<Logo src={ReciperLogo} />
 					Reciper
 				</LogoWrapper>
 				<HeaderRight>
