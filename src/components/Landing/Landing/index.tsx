@@ -41,7 +41,12 @@ const LandingHome = (): JSX.Element => {
 
 	return (
 		<>
-			<Header isScrollBackground={isScroll} isScrollShadow={isScroll} isScrollTransition={isScroll} />
+			<Header
+				isScrollBackground={isScroll}
+				isScrollShadow={isScroll}
+				isScrollTransition={isScroll}
+				isLineColor={isScroll}
+			/>
 			<LandingFirst />
 			<LandingSecond />
 			<LandingThird />
