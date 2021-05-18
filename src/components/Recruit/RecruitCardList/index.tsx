@@ -45,7 +45,9 @@ const RecruitCardList = (): JSX.Element => {
 	}, [recruitList]);
 
 	useEffect(() => {
-		listDataRequest(false);
+		if (order > 1) {
+			listDataRequest(false);
+		}
 	}, [order]);
 
 	useEffect(() => {
