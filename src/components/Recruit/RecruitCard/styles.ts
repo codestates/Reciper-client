@@ -9,6 +9,9 @@ export const CardContainer = styled(Link)`
 	font-family: 'NanumSquareR';
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
 	transition: 0.3s;
+	border-radius: 3px;
+	overflow: hidden;
+
 	&:hover {
 		transform: translateY(-10px);
 	}
