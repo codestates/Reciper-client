@@ -1,7 +1,7 @@
 const timeStamp = (targetDate: Date): string => {
 	const currentDate = new Date();
 
-	const dateDiff: number = currentDate.getTime() - targetDate.getTime() - 9 * 3600 * 1000;
+	const dateDiff: number = currentDate.getTime() - targetDate.getTime();
 
 	const dateDiffMin: number = dateDiff / 1000 / 60;
 	const dateDiffHour: number = dateDiff / 1000 / 3600;
@@ -20,7 +20,11 @@ const timeStamp = (targetDate: Date): string => {
 		return `${Math.floor(dateDiffHour)}시간 전`;
 	}
 
-	return `${Math.floor(dateDiffMin)}분 전`;
+	if (dateDiffMin >= 1) {
+		return `${Math.floor(dateDiffMin)}분 전`;
+	}
+
+	return `방금 전`;
 };
 
 export default timeStamp;

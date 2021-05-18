@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
@@ -33,7 +33,12 @@ const App = (): JSX.Element => {
 
 		window.localStorage.setItem('loginSuccess', 'success');
 		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
-		history.push(location as string);
+
+		if (location) {
+			history.push(location as string);
+		} else {
+			history.push('/');
+		}
 	};
 
 	useEffect(() => {

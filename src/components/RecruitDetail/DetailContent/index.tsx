@@ -1,8 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import StackTag from '../../Common/StackTag';
 
-import { RecruitDetailConentDataType } from '../../../types/types';
+import { getRecruitDetailSelector } from '../../../reducer/recruitDetail';
 
 import {
 	DetailContentContainer,
@@ -17,37 +18,32 @@ import {
 	DetailDeadLineText,
 } from './styles';
 
-const DetailContent = ({
-	detailTitle,
-	detailDesc,
-	recruitMembers,
-	requireStack,
-	serviceStep,
-	period,
-}: RecruitDetailConentDataType): JSX.Element => {
+const DetailContent = (): JSX.Element => {
+	const { data } = useSelector(getRecruitDetailSelector);
+
 	return (
 		<DetailContentContainer>
-			<DetailSubTitle>{detailTitle}</DetailSubTitle>
-			<DetailDescription dangerouslySetInnerHTML={{ __html: detailDesc }}></DetailDescription>
+			<DetailSubTitle>{data.detailTitle}</DetailSubTitle>
+			<DetailDescription dangerouslySetInnerHTML={{ __html: data.detailDesc }}></DetailDescription>
 
 			<DetailRecruiteTitle>모집 인원</DetailRecruiteTitle>
-			{recruitMembers.map((list, index) => (
+			{data.recruitMembers.map((list, index) => (
 				<DetailRecruiteList key={index}>
 					{`- ${list.position}`}
-					<span>{`${list.career}/${list.personner}명/~${list.deadline}까지`}</span>
+					<span>{`${list.career}/${list.personnel}명/~${list.deadline}까지`}</span>
 				</DetailRecruiteList>
 			))}
 
 			<DetailStackTitle>기술 스택</DetailStackTitle>
-			{requireStack.map((stack, index) => (
+			{data.requireStack.map((stack, index) => (
 				<StackTag key={index}>{stack}</StackTag>
 			))}
 
 			<DetailStageTitle>개발 단계</DetailStageTitle>
-			<DetailStageText>{serviceStep}</DetailStageText>
+			<DetailStageText>{data.serviceStep}</DetailStageText>
 
 			<DetailDeadLineTitle>목표 기한</DetailDeadLineTitle>
-			<DetailDeadLineText>{`~${period}`}</DetailDeadLineText>
+			<DetailDeadLineText>{`~${data.period}`}</DetailDeadLineText>
 		</DetailContentContainer>
 	);
 };
