@@ -22,7 +22,9 @@ const useScrollFadeIn = ({ direction, duration, delay }: Props): animated => {
 	const onDirection = (name: string) => {
 		switch (name) {
 			case 'up':
-				return 'translate3d(0, 30%, 0)';
+				return 'translate3d(0, 20%, 0)';
+			case 'late-up':
+				return 'translate3d(0, 40%, 0)';
 			case 'down':
 				return 'translate3d(0, -50%, 0)';
 			case 'left':
