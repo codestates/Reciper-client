@@ -1,37 +1,45 @@
-import React, { Dispatch, SetStateAction, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+import { useDispatch } from 'react-redux';
 import draftToHtml from 'draftjs-to-html';
 import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import '../../../styles/react-draft-wysiwyg-custom.css';
 
-import useInput from '../../../hooks/useInput';
-import { recruitCreateBottomDataType } from '../../../types/types';
-
 import Input from '../../Common/Input';
+
+import useInput from '../../../hooks/useInput';
+
+import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
+
+import { writingAction } from '../../../reducer/recruitCreate';
 
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
 import { CreatBottomContainer, CreateImageUpload, CreateImageWrap } from './styles';
-import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
-
-interface Props {
-	setBottomMockData: Dispatch<SetStateAction<recruitCreateBottomDataType>>;
-}
 
 const randomBasicImage = (): string => {
 	const random = Math.floor(Math.random() * 13 + 1);
 	return `basic_img_${random}.png`;
 };
 
-const CreateBottom = ({ setBottomMockData }: Props): JSX.Element => {
+const CreateBottom = (): JSX.Element => {
+	const dispatch = useDispatch();
 	const imageInput = useRef<HTMLInputElement>(null);
 	const [detailTitle, onChangeDetailTitle] = useInput<string>('');
 	const [detailDesc, setDetailDesc] = useState<string>('');
-	const [image, setImage] = useState<string>(randomBasicImage());
+	const [uploadImage, setUploadImage] = useState<string>(randomBasicImage());
 
 	useEffect(() => {
-		setBottomMockData({ detailTitle, detailDesc, uploadImage: image });
-	}, [detailTitle, detailDesc, image]);
+		dispatch(writingAction({ detailTitle }));
+	}, [detailTitle]);
+
+	useEffect(() => {
+		dispatch(writingAction({ detailDesc }));
+	}, [detailDesc]);
+
+	useEffect(() => {
+		dispatch(writingAction({ uploadImage }));
+	}, [uploadImage]);
 
 	const onEditorValue = (contentState: RawDraftContentState) => {
 		const stateToHtml: string = draftToHtml(contentState);
@@ -47,7 +55,7 @@ const CreateBottom = ({ setBottomMockData }: Props): JSX.Element => {
 					<CreateImageUpload>
 						<span>이미지 업로드</span>
 					</CreateImageUpload>
-					<img src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} />
+					<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
 				</CreateImageWrap>
 				<form encType="multipart/form-data">
 					<input
@@ -55,7 +63,7 @@ const CreateBottom = ({ setBottomMockData }: Props): JSX.Element => {
 						accept="image/jpg,image/png,/image/jpeg"
 						name="file"
 						hidden
-						onChange={e => changeImage(e, setImage)}
+						onChange={e => changeImage(e, setUploadImage)}
 						ref={imageInput}
 					/>
 				</form>

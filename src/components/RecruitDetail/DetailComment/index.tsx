@@ -1,44 +1,42 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../Common/Button';
+import ProfileImage from '../../Common/ProfileImage';
 
 import timeStamp from '../../../utils/timeStamp';
-import { axiosRequest } from '../../../utils/axios';
-import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import { RecruitDetailCommentDataType } from '../../../types/types';
+
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { addCommentData, deleteCommentData, getRecruitDetailSelector } from '../../../reducer/recruitDetail';
 
 import {
 	CommentWriter,
 	CommentWritingContainer,
 	CommentWritingInput,
 	DetailCommentContainer,
-	CommentWriterProfileImg,
 	CommentWritingBtnWrap,
 	CommentContainer,
 	Comment,
 	CommentLeft,
 	CommentRight,
-	CommentUserProfileImg,
 	CommentInfoWrap,
 	CommentUserName,
 	CommentTimeStamp,
 	CommentText,
 	CommentDeleteBtn,
 } from './styles';
-import axios from 'axios';
-import getLoginInfo from '../../../utils/getLoginInfo';
-import ProfileImage from '../../Common/ProfileImage';
 
 interface Props {
-	commentListData: RecruitDetailCommentDataType[];
 	params: string;
 }
 
-const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
-	const [commentBody, setCommentBody] = useState<string>('');
+const DetailComment = ({ params }: Props): JSX.Element => {
+	const dispatch = useDispatch();
+	const { data } = useSelector(getRecruitDetailSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
+	const [commentBody, setCommentBody] = useState<string>('');
 
 	const onAddComment = () => {
 		if (!commentBody.trim()) {
@@ -46,18 +44,15 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 		}
 
 		const data = { body: commentBody };
-
-		axiosRequest('post', `/recruitBoardComment/${params}`, data);
+		dispatch(addCommentData({ params, data }));
+		setCommentBody('');
 	};
 
 	const CommentWrap = (comment: RecruitDetailCommentDataType, index: number): JSX.Element => {
-		const { accessToken, loginType } = getLoginInfo();
 		const isMadeByMy = userInfo.id === comment.writer.id;
 
 		const onDeleteComment = () => {
-			axios.delete(`${process.env.REACT_APP_SERVER_URL}/recruitBoardComment/${params}/${comment.id}`, {
-				headers: { authorization: `Bearer ${accessToken}`, loginType },
-			});
+			dispatch(deleteCommentData({ params, id: comment.id }));
 		};
 
 		return (
@@ -111,7 +106,7 @@ const DetailComment = ({ commentListData, params }: Props): JSX.Element => {
 					</Button>
 				</CommentWritingBtnWrap>
 			</CommentWritingContainer>
-			<CommentContainer>{commentListData.map((comment, index) => CommentWrap(comment, index))}</CommentContainer>
+			<CommentContainer>{data.commentsList.map((comment, index) => CommentWrap(comment, index))}</CommentContainer>
 		</DetailCommentContainer>
 	);
 };

@@ -26,7 +26,7 @@ const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Eleme
 
 	useEffect(() => {
 		if (stack) {
-			setStackBucket([...stackBucket, stack]);
+			setStackBucket([stack, ...stackBucket]);
 		}
 	}, [stack]);
 
@@ -34,9 +34,10 @@ const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Eleme
 		(index: number) => {
 			const deleteStack = [...stackBucket];
 			deleteStack.splice(index, 1);
+
 			setStackBucket(deleteStack);
 		},
-		[stack],
+		[stackBucket],
 	);
 
 	return (
