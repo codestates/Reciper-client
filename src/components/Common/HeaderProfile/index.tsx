@@ -25,9 +25,6 @@ const HeaderProfile = ({ loginSuccess }: Props): JSX.Element => {
 				<>로그인/회원가입</>
 			)}
 		</>
-
-		// TODO: 테스트모드
-		// <>테스트</>
 	);
 };
 
