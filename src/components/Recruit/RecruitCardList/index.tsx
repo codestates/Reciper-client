@@ -17,9 +17,12 @@ const RecruitCardList = (): JSX.Element => {
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 
 	const listDataRequest = async (isFilter: boolean) => {
-		const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/DESC`, {
-			searchStacksList: stackBucket,
-		});
+		const response = await axios.post(
+			`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || 'DESC'}`,
+			{
+				searchStacksList: stackBucket,
+			},
+		);
 
 		setIsEnd(response.data.isEnd);
 
@@ -39,7 +42,7 @@ const RecruitCardList = (): JSX.Element => {
 				}
 			};
 
-			const observer = new IntersectionObserver(infinite);
+			const observer = new IntersectionObserver(infinite, { threshold: 1 });
 			observer.observe(observeTarget.current as Element);
 		}
 	}, [recruitList]);
@@ -47,6 +50,8 @@ const RecruitCardList = (): JSX.Element => {
 	useEffect(() => {
 		if (order > 1) {
 			listDataRequest(false);
+		} else {
+			listDataRequest(true);
 		}
 	}, [order]);
 
