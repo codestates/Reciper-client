@@ -31,7 +31,6 @@ const RecruitCard = ({ data }: Props): JSX.Element => {
 			<CardInfoContainer>
 				<CardInfoTitle>{name}</CardInfoTitle>
 				<CardInfoWriter>
-					{/* 여기 이름 수정해야함! */}
 					by {writer.name}
 					<span>
 						<CardViewIcon /> {`${view}`}
