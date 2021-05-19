@@ -10,8 +10,8 @@ export const LandingFifthContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
 	width: 100%;
-	min-height: 160vh;
-	padding: 60px 60px 140px 60px;
+	min-height: 180vh;
+	padding: 20px 60px 140px 60px;
 	background-color: #24272c;
 `;
 
@@ -33,6 +33,7 @@ export const ServiceBackground = styled.div`
 	width: 1400px;
 	height: 1040px;
 	background-color: #1c1f3b;
+	border-radius: 3px;
 `;
 
 export const ServiceMenu = styled.div`
@@ -80,7 +81,7 @@ export const ServiceContent = styled.div`
 	height: 1040px;
 
 	background-color: #fff;
-	border-radius: 20px 0 0 0;
+	border-radius: 20px 3px 3px 3px;
 `;
 
 export const CommnetInitSetting = styled.div`
