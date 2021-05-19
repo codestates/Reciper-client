@@ -11,6 +11,7 @@ export const ContentMessage = styled.div`
 	margin-bottom: 30px;
 	font-family: 'NanumSquareEB';
 	font-size: 40px;
+	color: #555555;
 `;
 export const ContentsWrapper = styled.div`
 	display: flex;

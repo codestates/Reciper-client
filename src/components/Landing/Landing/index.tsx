@@ -6,6 +6,7 @@ import LandingSecond from '../LandingPart-2';
 import LandingThird from '../LandingPart-3';
 import LandingFourth from '../LandingPart-4';
 import LandingFifth from '../LandingPart-5';
+import LandingSixth from '../LandingPart-6';
 
 const LandingHome = (): JSX.Element => {
 	const [isScroll, setIsScroll] = useState<boolean>(false);
@@ -41,12 +42,18 @@ const LandingHome = (): JSX.Element => {
 
 	return (
 		<>
-			<Header isScrollBackground={isScroll} isScrollShadow={isScroll} isScrollTransition={isScroll} />
+			<Header
+				isScrollBackground={isScroll}
+				isScrollShadow={isScroll}
+				isScrollTransition={isScroll}
+				isLineColor={isScroll}
+			/>
 			<LandingFirst />
 			<LandingSecond />
 			<LandingThird />
 			<LandingFourth />
 			<LandingFifth />
+			<LandingSixth />
 		</>
 	);
 };

@@ -37,9 +37,9 @@ export const initialFont = styled.div`
 	color: #000;
 `;
 
-export const Nav = styled(initialFont)`
+export const Nav = styled(initialFont)<{ isLineColor: boolean }>`
 	padding-right: 30px;
-	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-right: ${({ isLineColor }) => (isLineColor ? '0.5px solid #d6d6d8' : '1px solid #000')};
 
 	& > a {
 		color: #000;

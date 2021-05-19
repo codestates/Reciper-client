@@ -14,9 +14,10 @@ interface Props {
 	isScrollBackground: boolean;
 	isScrollShadow: boolean;
 	isScrollTransition: boolean;
+	isLineColor: boolean;
 }
 
-const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition }: Props): JSX.Element => {
+const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLineColor }: Props): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const loginSuccess = window.localStorage.getItem('loginSuccess');
 
@@ -37,7 +38,7 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition }: Prop
 					Reciper
 				</LogoWrapper>
 				<HeaderRight>
-					<Nav>
+					<Nav isLineColor={isLineColor}>
 						<Link to="/recruit">팀원모집</Link>
 						<Link to="/project">레시피 프로젝트</Link>
 					</Nav>
@@ -63,4 +64,5 @@ Header.defaultProps = {
 	isScrollBackground: 'false',
 	isScrollShadow: 'false',
 	isScrollTransition: 'false',
+	isLineColor: 'false',
 };

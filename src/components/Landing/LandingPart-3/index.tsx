@@ -1,6 +1,5 @@
 import React from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
-import landingPart3_Test from '../../../images/landingPart3_Test.jpg';
 
 import { ContentItem, ContentMessage, LandingThirdContainer, ContentsWrapper } from './styles';
 
@@ -14,7 +13,7 @@ const LandingThird = (): JSX.Element => {
 	return (
 		<>
 			<LandingThirdContainer>
-				<div style={{ width: '70%' }}>
+				<div>
 					<ContentMessage>여러분들만의 코드 레시피를 이렇게 만들어 보세요!</ContentMessage>
 					<div>
 						<ContentsWrapper>
