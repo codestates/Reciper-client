@@ -25,6 +25,7 @@ export const ServiceBackground = styled.div`
 	height: 500px;
 	margin: 20px 0;
 	background-color: #1c1f3b;
+	border-radius: 3px;
 `;
 export const ServiceMenu = styled.div`
 	${({ theme }) => theme.align.flexVertical};
@@ -75,7 +76,7 @@ export const ServiceContent = styled.div`
 	width: 800px;
 	height: 500px;
 	background-color: #fff;
-	border-radius: 20px 0 0 0;
+	border-radius: 20px 3px 3px 3px;
 `;
 
 export const ServiceDescription = styled.div`

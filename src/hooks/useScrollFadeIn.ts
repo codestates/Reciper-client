@@ -52,12 +52,12 @@ const useScrollFadeIn = ({ direction, duration, delay }: Props): animated => {
 	);
 
 	useEffect(() => {
-		let observer: any;
+		let observer: IntersectionObserver;
 
 		if (element.current) {
 			observer = new IntersectionObserver(onScroll, { threshold: 0.7 });
 			// TODO: 옵져버 시작
-			observer.observe(element.current);
+			observer.observe(element.current as unknown as Element);
 		}
 
 		// TODO: 옵져버 중지
