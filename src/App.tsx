@@ -71,9 +71,9 @@ const App = (): JSX.Element => {
 				<Route path="/recruit/:id" component={RecruitDetail} />
 				<Route path="/recruitcreate" component={RecruitCreate} />
 				<Route exact path="/profile/:id" component={Profile} />
-				<Route path="/profile/:id/edit" component={ProfileEdit} />
 				<Route exact path="/project/:id" component={Project} />
 				<Route path="/project/:id/create" component={ProjectCreate} />
+				<Route path="/profile/:id/edit" component={ProfileEdit} />
 				<Route path="/project/:id/edit" component={ProjectEdit} />
 			</Switch>
 		</div>

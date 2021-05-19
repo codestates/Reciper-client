@@ -1,7 +1,14 @@
 import React from 'react';
+import Header from '../components/Common/Header';
+import EditContainer from '../components/ProjectEdit';
 
 const ProjectEdit = (): JSX.Element => {
-	return <div></div>;
+	return (
+		<>
+			<Header />
+			<EditContainer />
+		</>
+	);
 };
 
 export default ProjectEdit;
