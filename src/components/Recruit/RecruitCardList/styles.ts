@@ -6,13 +6,10 @@ export const CardListContainer = styled.div`
 	justify-content: center;
 	flex-wrap: wrap;
 	width: 100%;
-	min-height: 1000px;
 	padding-top: 72px;
 `;
 
 export const ObserveBlock = styled.div`
-	position: absolute;
-	bottom: 0;
 	width: 100%;
-	height: 50px;
+	height: 10px;
 `;
