@@ -11,8 +11,8 @@ const CreateContainer = (): JSX.Element => {
 					<SectionDotBtn className="on" />
 					<SectionDotBtn />
 				</SecrionDotBtnWrap>
-				{/* <SectionOne /> */}
-				<SectionTwo />
+				<SectionOne />
+				{/* <SectionTwo /> */}
 			</Inner>
 		</Container>
 	);
