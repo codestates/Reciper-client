@@ -17,9 +17,7 @@ const LandingFirst = (): JSX.Element => {
 					<MainMessage>토이 프로젝트의 에센셜</MainMessage>
 					<SubMessage>동료와 작업공간을 한 곳에서 만나보세요</SubMessage>
 					<FreeExpButton>
-						<Button size="large" clickEvent={onLogin}>
-							무료 체험하기
-						</Button>
+						<button onClick={onLogin}>무료 체험하기</button>
 					</FreeExpButton>
 				</ContentsWrapper>
 			</LandingFirstContainer>
