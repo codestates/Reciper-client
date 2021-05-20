@@ -14,6 +14,7 @@ import axios, { AxiosResponse } from 'axios';
 import { loginRequestType, loginResponseDataType } from './types/types';
 import { getProfileInfo } from './reducer/profile';
 import { useDispatch } from 'react-redux';
+import WorkSpace from './pages/WorkSpace';
 
 const App = (): JSX.Element => {
 	const history = useHistory();
@@ -71,10 +72,11 @@ const App = (): JSX.Element => {
 				<Route path="/recruit/:id" component={RecruitDetail} />
 				<Route path="/recruitcreate" component={RecruitCreate} />
 				<Route exact path="/profile/:id" component={Profile} />
-				<Route exact path="/project/:id" component={Project} />
-				<Route path="/project/:id/create" component={ProjectCreate} />
 				<Route path="/profile/:id/edit" component={ProfileEdit} />
-				<Route path="/project/:id/edit" component={ProjectEdit} />
+				<Route exact path="/project" component={Project} />
+				<Route path="/projectcreate" component={ProjectCreate} />
+				<Route path="/project/:projectUrl/edit" component={ProjectEdit} />
+				<Route path="/workspace/:projectUrl" component={WorkSpace} />
 			</Switch>
 		</div>
 	);
