@@ -19,7 +19,7 @@ const LandingSecond = (): JSX.Element => {
 
 	const onScroll = () => {
 		setScrollPosition(window.pageYOffset);
-		console.log('마우스 위치', window.pageYOffset);
+		// console.log('마우스 위치', window.pageYOffset);
 	};
 
 	useEffect(() => {
@@ -42,8 +42,8 @@ const LandingSecond = (): JSX.Element => {
 				<TopLeftMessage
 					ref={rellaxRef}
 					style={{
-						opacity: `${scrollPosition > 1695 ? `0` : `1`}`,
-						transition: `${scrollPosition > 1695 ? `0.5s` : `0`}`,
+						opacity: `${scrollPosition > 1650 ? `0` : `1`}`,
+						transition: `${scrollPosition > 1650 ? `0.5s` : `0`}`,
 					}}
 				>
 					<div style={{ opacity: `${(scrollPosition - 400) / 50}`, transition: '0.5s' }}>
@@ -56,21 +56,21 @@ const LandingSecond = (): JSX.Element => {
 
 				<ImageWrapper
 					style={{
-						display: `${scrollPosition > 3000 ? `none` : `block`}`,
+						display: `${scrollPosition > 2600 ? `none` : `block`}`,
 						position: 'fixed',
-						top: '200px',
+						top: '260px',
 						right: '220px',
-						opacity: `${scrollPosition > 1760 || scrollPosition < 780 ? `0` : `1`}`,
+						opacity: `${scrollPosition > 1900 || scrollPosition < 780 ? `0` : `1`}`,
 						transition: '0.5s',
 					}}
 				>
-					<img src={solo} {...animation}></img>
+					{/* <img src={solo} {...animation}></img> */}
 				</ImageWrapper>
 			</TopWrapper>
 
 			<BottomWrapper>
 				<div>
-					<SolutionMessage style={{ opacity: `${(scrollPosition - 1560) / 50}`, transition: '1s' }}>
+					<SolutionMessage style={{ opacity: `${(scrollPosition - 1560) / 50}`, transition: '0.5s' }}>
 						이제는 레시퍼에서 한 번에 해결하세요!
 					</SolutionMessage>
 					<SubMessage>

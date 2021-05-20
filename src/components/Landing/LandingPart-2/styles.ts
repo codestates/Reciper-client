@@ -18,6 +18,10 @@ export const TopLeftMessage = styled.div`
 	}
 `;
 
+export const ImageWrapper = styled.div`
+	margin-top: 100px;
+`;
+
 export const BottomWrapper = styled.div`
  	${({ theme }) => theme.align.flexCenter};
 	min-height: 100vh;
@@ -28,11 +32,8 @@ export const BottomWrapper = styled.div`
 	& > div {
 		width:70%;
 		height: 400px;
+		margin-bottom: 100px;
 	}
-`;
-
-export const ImageWrapper = styled.div`
-	margin-top: 100px;
 `;
 
 export const SolutionMessage = styled.div`
