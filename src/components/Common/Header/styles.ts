@@ -18,9 +18,10 @@ export const HeaderContainer = styled.div<{
 `;
 
 export const LogoWrapper = styled.a`
-	font-family: 'NanumSquareR';
-	font-size: 20px;
-	color: #000;
+	margin-top: -8px;
+	font-family: 'Pacifico';
+	font-size: 26px;
+	color: ${({ theme }) => theme.color.pointColor};
 `;
 
 export const Logo = styled.img`
