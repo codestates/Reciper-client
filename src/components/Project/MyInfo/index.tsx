@@ -14,6 +14,7 @@ import {
 
 const MyInfo = (): JSX.Element => {
 	const { uploadImage, name, profileColor, id } = useSelector(getProfileInfoSelector);
+
 	return (
 		<Container>
 			<MyInfoContainer>

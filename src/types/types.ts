@@ -183,3 +183,27 @@ export interface profileEditType {
 	uploadImage: string;
 	stacks: string[];
 }
+
+////////////////////////////////////////////////////////
+///////////            Project           //////////////
+///////////////////////////////////////////////////////
+
+export interface projectListDataTpye {
+	createdAt: string;
+	id: number;
+	inviteList: string;
+	members: number[];
+	name: string;
+	projectColor: string;
+	projectURL: string;
+	updatedAt: string;
+}
+
+////////////////////////////////////////////////////////
+///////////         ProjectCreate        //////////////
+///////////////////////////////////////////////////////
+
+export interface projectCreateDataType {
+	name: string;
+	projectURL: string;
+}

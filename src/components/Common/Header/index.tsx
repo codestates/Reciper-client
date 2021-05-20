@@ -7,8 +7,10 @@ import LoginModal from '../../LoginModal';
 import Modal from '../Modal';
 
 import { HeaderContainer, HeaderRight, LoginBtn, LogoWrapper, Nav, Logo } from './styles';
-import HeaderProfile from '../HeaderProfile';
 import HeaderUserMenu from '../HeaderUserMenu';
+import ProfileImage from '../ProfileImage';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { useSelector } from 'react-redux';
 
 interface Props {
 	isScrollBackground: boolean;
@@ -20,6 +22,7 @@ interface Props {
 const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLineColor }: Props): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const loginSuccess = window.localStorage.getItem('loginSuccess');
+	const { uploadImage, name, profileColor } = useSelector(getProfileInfoSelector);
 
 	const onCloseMenu: MouseEventHandler<HTMLDivElement> = useCallback(e => {
 		e.stopPropagation();
@@ -43,7 +46,13 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLine
 						<Link to="/project">레시피 프로젝트</Link>
 					</Nav>
 					<LoginBtn onClick={() => setShowModal(true)}>
-						<HeaderProfile loginSuccess={loginSuccess} />
+						{loginSuccess ? (
+							<div>
+								<ProfileImage profileImage={uploadImage} profileColor={profileColor} userName={name} />
+							</div>
+						) : (
+							<>로그인/회원가입</>
+						)}
 					</LoginBtn>
 				</HeaderRight>
 			</HeaderContainer>

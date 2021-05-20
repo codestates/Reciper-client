@@ -1,19 +1,36 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { projectListDataTpye } from '../../../types/types';
+import getLoginInfo from '../../../utils/getLoginInfo';
 import { Container } from '../MyInfo/styles';
 import ProjectCard from '../ProjectCard';
 
 import { ProjectCardListContainer, ProjectCreateBtn } from './styles';
 
 const ProjectCardList = (): JSX.Element => {
+	const [projectListData, setProjectListData] = useState<projectListDataTpye[]>([]);
+
+	const getProjectList = async () => {
+		const { accessToken, loginType } = getLoginInfo();
+
+		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/project`, {
+			headers: { authorization: `Bearer ${accessToken}`, loginType },
+		});
+
+		setProjectListData(response.data.projectList);
+	};
+
+	useEffect(() => {
+		getProjectList();
+	}, []);
+
 	return (
 		<Container>
 			<ProjectCardListContainer>
-				<ProjectCreateBtn to="/">+ 레시피를 추가해보세요</ProjectCreateBtn>
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
+				<ProjectCreateBtn to="/projectcreate">+ 레시피를 추가해보세요</ProjectCreateBtn>
+				{projectListData.map((data, index) => (
+					<ProjectCard key={index} data={data} />
+				))}
 			</ProjectCardListContainer>
 		</Container>
 	);

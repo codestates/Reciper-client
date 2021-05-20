@@ -17,3 +17,8 @@
 	font-family: 'NanumSquareEB';
 	src: url('./fonts/NanumSquareEB.otf') format('opentype');
 }
+
+@font-face {
+	font-family: 'Pacifico';
+	src: url('./fonts/Pacifico-Regular.ttf') format('truetype');
+}
