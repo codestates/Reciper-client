@@ -54,5 +54,5 @@ export const ProjectUrl = styled.p`
 
 export const ProjectEditLink = styled(Link)`
 	font-size: 14px;
-	color: #666;
+	color: #478bff;
 `;

@@ -1,15 +1,22 @@
 import React from 'react';
+import { projectListDataTpye } from '../../../types/types';
 import { CardContainer, ProjectEditLink, ProjectImageWrap, ProjectName, ProjectImage, ProjectUrl } from './styles';
 
-const ProjectCard = (): JSX.Element => {
+interface Props {
+	data: projectListDataTpye;
+}
+
+const ProjectCard = ({ data }: Props): JSX.Element => {
+	console.log(data);
+
 	return (
-		<CardContainer to="/">
+		<CardContainer to={`/workspace/${data.projectURL}`}>
 			<ProjectImageWrap>
-				<ProjectImage>R</ProjectImage>
+				<ProjectImage style={{ backgroundColor: `${data.projectColor}` }}>{data.name[0]}</ProjectImage>
 			</ProjectImageWrap>
-			<ProjectName>Reciper</ProjectName>
-			<ProjectUrl>reciper.me/finalproject</ProjectUrl>
-			<ProjectEditLink to="/project">레시피 설정</ProjectEditLink>
+			<ProjectName>{data.name}</ProjectName>
+			<ProjectUrl>reciper.me/{data.projectURL}</ProjectUrl>
+			<ProjectEditLink to={`/project/${data.projectURL}/edit`}>레시피 설정</ProjectEditLink>
 		</CardContainer>
 	);
 };

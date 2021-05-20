@@ -5,6 +5,7 @@ export const ProjectCardListContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	width: 920px;
+	padding-bottom: 120px;
 `;
 
 export const ProjectCreateBtn = styled(Link)`
