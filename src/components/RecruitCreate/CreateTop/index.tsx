@@ -8,13 +8,12 @@ import Input from '../../Common/Input';
 import Select from '../../Common/Select';
 import StackSearch from '../../Common/StackSearch';
 import StackTag from '../../Common/StackTag';
+import { writingAction } from '../../../reducer/recruitCreate';
 
 import useInput from '../../../hooks/useInput';
 import dateFormat from '../../../utils/dateformat';
 
 import { recruitMembersDataType } from '../../../types/types';
-
-import { writingAction } from '../../../reducer/recruitCreate';
 
 import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
 import {
