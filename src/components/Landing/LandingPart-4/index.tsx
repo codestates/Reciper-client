@@ -27,10 +27,10 @@ const LandingFourth = (): JSX.Element => {
 		menuHome: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.2 }),
 		menuLine: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.2 }),
 		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.4 }),
-		menuKanban: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.6 }),
-		menuChat: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.8 }),
-		arrow: useScrollFadeIn({ direction: 'up', duration: 1, delay: 2 }),
-		content: useScrollFadeIn({ direction: 'up', duration: 1, delay: 1 }),
+		menuKanban: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.5 }),
+		menuChat: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.6 }),
+		arrow: useScrollFadeIn({ direction: 'up', duration: 1, delay: 1.4 }),
+		content: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.8 }),
 	};
 
 	const KanbanAnimatedItem = {
@@ -38,10 +38,10 @@ const LandingFourth = (): JSX.Element => {
 		menuHome: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.2 }),
 		menuLine: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.2 }),
 		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.4 }),
-		menuKanban: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.6 }),
-		menuChat: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.8 }),
-		arrow: useScrollFadeIn({ direction: 'up', duration: 1, delay: 2 }),
-		content: useScrollFadeIn({ direction: 'up', duration: 1, delay: 1 }),
+		menuKanban: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.5 }),
+		menuChat: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.6 }),
+		arrow: useScrollFadeIn({ direction: 'up', duration: 1, delay: 1.4 }),
+		content: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.8 }),
 	};
 
 	return (

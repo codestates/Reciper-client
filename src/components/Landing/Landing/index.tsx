@@ -7,6 +7,8 @@ import LandingThird from '../LandingPart-3';
 import LandingFourth from '../LandingPart-4';
 import LandingFifth from '../LandingPart-5';
 import LandingSixth from '../LandingPart-6';
+import LandingSeventh from '../LandingPart-7';
+// import LandingEighth from '../LandingPart-8';
 
 const LandingHome = (): JSX.Element => {
 	const [isScroll, setIsScroll] = useState<boolean>(false);
@@ -54,6 +56,7 @@ const LandingHome = (): JSX.Element => {
 			<LandingFourth />
 			<LandingFifth />
 			<LandingSixth />
+			<LandingSeventh />
 		</>
 	);
 };
