@@ -48,7 +48,7 @@ const SectionOne = ({ projectURL, onChangeProjectURL, setChapter }: Props): JSX.
 		setProjectInfo({ name, projectURL });
 	}, [name, projectURL]);
 
-	const onNextStep = useCallback(() => {
+	const onNextStep = useCallback(async () => {
 		const space_pattern = /\s/;
 		const special_pattern = /[`~!@#$%^&*|\\\'\";:+_\/?]/gi;
 
@@ -63,8 +63,9 @@ const SectionOne = ({ projectURL, onChangeProjectURL, setChapter }: Props): JSX.
 		setUrlValidation(urlCheck);
 
 		if (name && projectURL && nameCheck && urlCheck) {
+			const a = await axiosRequest('post', `/project`, projectInfo);
+			console.log(a);
 			setChapter(false);
-			axiosRequest('post', `/project`, projectInfo);
 		}
 	}, [name, projectURL, projectInfo]);
 
