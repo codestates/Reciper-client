@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { projectCreateDataType } from '../../../types/types';
+
 import SectionOne from '../SectionOne';
 import SectionTwo from '../SectionTwo';
+
+import useInput from '../../../hooks/useInput';
+
 import { Container, Inner, SecrionDotBtnWrap, SectionDotBtn } from './styles';
 
 const CreateContainer = (): JSX.Element => {
+	const [projectURL, onChangeProjectURL] = useInput<string>('');
 	const [chapter, setChapter] = useState(true);
-	const [projectInfo, setProjectInfo] = useState<projectCreateDataType>({
-		name: '',
-		projectURL: '',
-	});
 
 	return (
 		<Container>
@@ -19,9 +19,9 @@ const CreateContainer = (): JSX.Element => {
 					<SectionDotBtn className={chapter ? '' : 'on'} />
 				</SecrionDotBtnWrap>
 				{chapter ? (
-					<SectionOne setChapter={setChapter} setProjectInfo={setProjectInfo} />
+					<SectionOne projectURL={projectURL} onChangeProjectURL={onChangeProjectURL} setChapter={setChapter} />
 				) : (
-					<SectionTwo projectInfo={projectInfo} />
+					<SectionTwo projectURL={projectURL} />
 				)}
 			</Inner>
 		</Container>

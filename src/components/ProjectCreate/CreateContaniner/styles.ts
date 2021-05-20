@@ -12,7 +12,20 @@ export const Inner = styled.div`
 `;
 
 export const SectionConianer = styled.div`
+	overflow: hidden;
 	width: 100%;
+
+	& > .on {
+		transition: 0.5s 0.1s;
+		opacity: 1;
+		margin-left: 0;
+	}
+
+	& > .off {
+		transition: 0.5s 0.1s;
+		opacity: 0;
+		margin-left: -100px;
+	}
 `;
 
 export const SecrionDotBtnWrap = styled.div`
@@ -35,14 +48,21 @@ export const SectionDotBtn = styled.span`
 `;
 
 export const CreateTitle = styled.p`
+	width: 100%;
 	margin-bottom: 60px;
 	font-size: 40px;
+
+	opacity: 0;
+	margin-left: 100px;
 `;
 
 export const CreateSubTitle = styled.p`
 	margin-top: 30px;
 	margin-bottom: 10px;
 	font-size: 18px;
+
+	opacity: 0;
+	margin-left: 100px;
 `;
 
 export const InfoMessage = styled.p`
@@ -52,8 +72,16 @@ export const InfoMessage = styled.p`
 	color: ${({ theme }) => theme.color.warningColor};
 `;
 
+export const CreateInputWrap = styled.div`
+	opacity: 0;
+	margin-left: 200px;
+`;
+
 export const CreateUrlWrap = styled.div`
 	${({ theme }) => theme.align.flexVertical}
+
+	opacity: 0;
+	margin-left: 100px;
 `;
 
 export const CreateUrl = styled.span`
@@ -102,4 +130,7 @@ export const InviteItemDeleteBtn = styled(AiOutlineClose)`
 export const SectionBtnWrap = styled.div`
 	${({ theme }) => theme.align.flexHorizontal}
 	margin-top: 40px;
+
+	opacity: 0;
+	margin-left: 100px;
 `;

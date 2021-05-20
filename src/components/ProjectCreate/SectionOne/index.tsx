@@ -1,10 +1,17 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import useInput from '../../../hooks/useInput';
-import { projectCreateDataType } from '../../../types/types';
+
 import Button from '../../Common/Button';
 import Input from '../../Common/Input';
+
+import useInput from '../../../hooks/useInput';
+import { axiosRequest } from '../../../utils/axios';
+import sequentialEvent from '../../../utils/sequentialEvent';
+
+import { projectCreateDataType } from '../../../types/types';
+
 import {
+	CreateInputWrap,
 	CreateSubTitle,
 	CreateTitle,
 	CreateUrl,
@@ -15,16 +22,31 @@ import {
 } from '../CreateContaniner/styles';
 
 interface Props {
+	projectURL: string;
+	onChangeProjectURL: (e: ChangeEvent<HTMLInputElement>) => void;
 	setChapter: Dispatch<SetStateAction<boolean>>;
-	setProjectInfo: Dispatch<SetStateAction<projectCreateDataType>>;
 }
 
-const SectionOne = ({ setChapter, setProjectInfo }: Props): JSX.Element => {
+const SectionOne = ({ projectURL, onChangeProjectURL, setChapter }: Props): JSX.Element => {
 	const history = useHistory();
+	const sectionRef = useRef<HTMLDivElement>(null);
 	const [name, onChangeName] = useInput<string>('');
-	const [projectURL, onChangeProjectURL] = useInput<string>('');
 	const [nameValidation, setNameValidation] = useState<boolean>(true);
 	const [urlValidation, setUrlValidation] = useState<boolean>(true);
+	const [projectInfo, setProjectInfo] = useState<projectCreateDataType>({
+		name,
+		projectURL,
+	});
+
+	useEffect(() => {
+		if (sectionRef.current) {
+			sequentialEvent(sectionRef.current, 'on', 100);
+		}
+	}, []);
+
+	useEffect(() => {
+		setProjectInfo({ name, projectURL });
+	}, [name, projectURL]);
 
 	const onNextStep = useCallback(() => {
 		const space_pattern = /\s/;
@@ -42,15 +64,17 @@ const SectionOne = ({ setChapter, setProjectInfo }: Props): JSX.Element => {
 
 		if (name && projectURL && nameCheck && urlCheck) {
 			setChapter(false);
-			setProjectInfo({ name, projectURL });
+			axiosRequest('post', `/project`, projectInfo);
 		}
-	}, [name, projectURL]);
+	}, [name, projectURL, projectInfo]);
 
 	return (
-		<SectionConianer>
+		<SectionConianer ref={sectionRef}>
 			<CreateTitle>당신의 레시피를 만들어보세요</CreateTitle>
 			<CreateSubTitle>당신의 레시피 이름을 무엇으로 정하고 싶습니까?</CreateSubTitle>
-			<Input width="long" height="long" placeholderText="레시피 이름을 적어주세요" changeEvent={onChangeName} />
+			<CreateInputWrap>
+				<Input width="long" height="long" placeholderText="레시피 이름을 적어주세요" changeEvent={onChangeName} />
+			</CreateInputWrap>
 			<InfoMessage>{!nameValidation && '레시피의 이름은 15자 이하의 문자여야 합니다.'}</InfoMessage>
 
 			<CreateSubTitle>레시피의 URL을 입력하세요.</CreateSubTitle>
@@ -63,11 +87,11 @@ const SectionOne = ({ setChapter, setProjectInfo }: Props): JSX.Element => {
 			</InfoMessage>
 
 			<SectionBtnWrap>
-				<Button size="medium" buttonType="cancel" clickEvent={() => history.goBack()}>
+				<Button size="medium" buttonType="cancel" clickEvent={() => history.push('/project')}>
 					취소
 				</Button>
 				<Button size="medium" margin="0 0 0 20px;" clickEvent={onNextStep}>
-					다음
+					생성
 				</Button>
 			</SectionBtnWrap>
 		</SectionConianer>

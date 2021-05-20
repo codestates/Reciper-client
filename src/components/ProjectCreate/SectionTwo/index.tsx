@@ -1,8 +1,12 @@
-import React, { KeyboardEvent, useRef, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
-import useInput from '../../../hooks/useInput';
-import { projectCreateDataType } from '../../../types/types';
+
 import Button from '../../Common/Button';
+
+import useInput from '../../../hooks/useInput';
+import { axiosRequest } from '../../../utils/axios';
+import sequentialEvent from '../../../utils/sequentialEvent';
+
 import {
 	CreateSubTitle,
 	CreateTitle,
@@ -13,15 +17,17 @@ import {
 	InviteItemDeleteBtn,
 	InfoMessage,
 	InviteEmailList,
+	CreateInputWrap,
 } from '../CreateContaniner/styles';
 
 interface Props {
-	projectInfo: projectCreateDataType;
+	projectURL: string;
 }
 
-const SectionTwo = ({ projectInfo }: Props): JSX.Element => {
+const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 	const history = useHistory();
-	const inviteInputRef = useRef(null);
+	const sectionRef = useRef<HTMLDivElement>(null);
+	const inviteInputRef = useRef<HTMLInputElement>(null);
 	const [inviteEmail, onChangeInviteEmail, setInviteEmail] = useInput<string>('');
 	const [inviteList, setInviteList] = useState<string[]>([]);
 	const [emailValidation, setEmailValidation] = useState<boolean>(true);
@@ -54,23 +60,31 @@ const SectionTwo = ({ projectInfo }: Props): JSX.Element => {
 		setInviteList(deleteInviteList);
 	};
 
-	const requsetCreateProject = async () => {
-		console.log(projectInfo);
-		console.log(inviteList);
+	const requsetInviteProject = async () => {
+		axiosRequest('post', `/projectInvite/${projectURL}`, { inviteList });
+		history.push(`/workspace/${projectURL}`);
 	};
 
+	useEffect(() => {
+		if (sectionRef.current) {
+			sequentialEvent(sectionRef.current, 'on', 100);
+		}
+	}, []);
+
 	return (
-		<SectionConianer>
+		<SectionConianer ref={sectionRef}>
 			<CreateTitle>당신의 팀원을 레시피에 초대해보세요</CreateTitle>
 			<CreateSubTitle>초대하실 팀원의 이메일을 작성하세요.</CreateSubTitle>
-			<InviteInput
-				value={inviteEmail}
-				placeholder="팀원의 이메일을 입력 후 Enter를 누르세요."
-				ref={inviteInputRef}
-				onKeyPress={onAddInviteList}
-				onChange={onChangeInviteEmail}
-			/>
-			{!emailValidation && <InfoMessage> 올바른 이메일 형식으로 작성해주세요.</InfoMessage>}
+			<CreateInputWrap>
+				<InviteInput
+					value={inviteEmail}
+					placeholder="팀원의 이메일을 입력 후 Enter를 누르세요."
+					ref={inviteInputRef}
+					onKeyPress={onAddInviteList}
+					onChange={onChangeInviteEmail}
+				/>
+				{!emailValidation && <InfoMessage> 올바른 이메일 형식으로 작성해주세요.</InfoMessage>}
+			</CreateInputWrap>
 
 			<InviteEmailList>
 				{inviteList.map((item, index) => (
@@ -82,11 +96,11 @@ const SectionTwo = ({ projectInfo }: Props): JSX.Element => {
 			</InviteEmailList>
 
 			<SectionBtnWrap>
-				<Button size="medium" buttonType="cancel" clickEvent={() => history.goBack()}>
-					취소
+				<Button size="medium" buttonType="cancel" clickEvent={() => history.push(`/workspace/${projectURL}`)}>
+					나중에 하기
 				</Button>
-				<Button size="large" margin="0 0 0 20px;" clickEvent={requsetCreateProject}>
-					초대 및 레시피 생성
+				<Button size="medium" margin="0 0 0 20px;" clickEvent={requsetInviteProject}>
+					초대
 				</Button>
 			</SectionBtnWrap>
 		</SectionConianer>
