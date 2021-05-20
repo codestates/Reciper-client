@@ -6,17 +6,17 @@ interface Props {
 	delay: number;
 }
 
+interface returnType {
+	ref: React.MutableRefObject<any>;
+	style: InitialStyleType;
+}
+
 interface InitialStyleType {
 	opacity: number;
 	transform?: string;
 }
 
-interface animated {
-	ref: any;
-	style: InitialStyleType;
-}
-
-const useScrollFadeIn = ({ direction, duration, delay }: Props): animated => {
+const useScrollFadeIn = ({ direction, duration, delay }: Props): returnType => {
 	const element = useRef();
 
 	const onDirection = (name: string) => {
@@ -38,7 +38,7 @@ const useScrollFadeIn = ({ direction, duration, delay }: Props): animated => {
 
 	const onScroll = useCallback(
 		([entry]) => {
-			const { current }: any = element;
+			const { current }: React.MutableRefObject<any> = element;
 			if (entry.isIntersecting) {
 				current.style.transitionProperty = 'all';
 				current.style.transitionDuration = `${duration}s`;
