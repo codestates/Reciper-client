@@ -183,3 +183,12 @@ export interface profileEditType {
 	uploadImage: string;
 	stacks: string[];
 }
+
+////////////////////////////////////////////////////////
+///////////         ProjectCreate        //////////////
+///////////////////////////////////////////////////////
+
+export interface projectCreateDataType {
+	name: string;
+	projectURL: string;
+}
