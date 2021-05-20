@@ -16,10 +16,12 @@ export const SectionConianer = styled.div`
 `;
 
 export const SecrionDotBtnWrap = styled.div`
+	display: flex;
 	margin-bottom: 10px;
 `;
 
-export const SectionDotBtn = styled.button`
+export const SectionDotBtn = styled.span`
+	display: block;
 	width: 10px;
 	height: 10px;
 	margin-right: 10px;
@@ -27,6 +29,7 @@ export const SectionDotBtn = styled.button`
 	border-radius: 100%;
 
 	&.on {
+		transition: 0.2s;
 		background-color: #478bff;
 	}
 `;
@@ -37,13 +40,20 @@ export const CreateTitle = styled.p`
 `;
 
 export const CreateSubTitle = styled.p`
+	margin-top: 30px;
 	margin-bottom: 10px;
 	font-size: 18px;
 `;
 
+export const InfoMessage = styled.p`
+	padding: 0 10px;
+	margin: 5px 0;
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.warningColor};
+`;
+
 export const CreateUrlWrap = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	margin-bottom: 40px;
 `;
 
 export const CreateUrl = styled.span`
@@ -57,7 +67,6 @@ export const InviteInput = styled.input`
 	width: 100%;
 	height: 40px;
 	padding: 0 10px;
-	margin-bottom: 20px;
 	font-family: 'NanumSquareR';
 	font-size: 16px;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
@@ -66,6 +75,10 @@ export const InviteInput = styled.input`
 	&:placeholder {
 		color: ${({ theme }) => theme.color.lineColor};
 	}
+`;
+
+export const InviteEmailList = styled.div`
+	margin-top: 20px;
 `;
 
 export const InviteItem = styled.div`
@@ -83,6 +96,7 @@ export const InviteItem = styled.div`
 
 export const InviteItemDeleteBtn = styled(AiOutlineClose)`
 	cursor: pointer;
+	color: #a6a6a8;
 `;
 
 export const SectionBtnWrap = styled.div`
