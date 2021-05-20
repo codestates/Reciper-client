@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Button from '../../Common/Button';
-
 import { LandingFirstContainer, FreeExpButton, MainMessage, SubMessage, ContentsWrapper } from './styles';
 
 const LandingFirst = (): JSX.Element => {

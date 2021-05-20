@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import langdingTestImage from '../../../images/maintest.jpg';
+import maintest from '../../../images/maintest.jpg';
 
 export const LandingFirstContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	width: 100%;
 	min-height: 100vh;
-	background: no-repeat center/cover url(${langdingTestImage});
+	background: no-repeat center/cover url(${maintest});
 `;
 
 export const ContentsWrapper = styled.div`
@@ -36,7 +36,7 @@ export const FreeExpButton = styled.div`
 	& > button {
 		cursor: pointer;
 		position: relative;
-		z-index: 10;
+		z-index: 8;
 		transition: 0.3s;
 		width: 200px;
 		height: 60px;
