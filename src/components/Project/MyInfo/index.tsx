@@ -13,7 +13,7 @@ import {
 } from './styles';
 
 const MyInfo = (): JSX.Element => {
-	const { uploadImage, name, profileColor, id } = useSelector(getProfileInfoSelector);
+	const { uploadImage, name, profileColor, id, email } = useSelector(getProfileInfoSelector);
 
 	return (
 		<Container>
@@ -29,8 +29,8 @@ const MyInfo = (): JSX.Element => {
 					/>
 				</MyProfileImage>
 				<MyInfoContentWrap>
-					<MyName>Woogie</MyName>
-					<MyEmail>dmsdmr9411@gmail.com</MyEmail>
+					<MyName>{name}</MyName>
+					<MyEmail>{email}</MyEmail>
 					<MyProfileLink to={`/profile/${id}`}>프로필 설정</MyProfileLink>
 				</MyInfoContentWrap>
 			</MyInfoContainer>
