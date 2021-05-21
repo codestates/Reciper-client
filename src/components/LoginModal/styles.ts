@@ -27,7 +27,9 @@ export const EmailLoginForm = styled.div`
 
 export const EmailLoginContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	margin-bottom: 4px;
+	width: 100%;
+	margin-bottom: 5px;
+
 	& > input {
 		width: calc(100% - 65px);
 		height: 40px;
@@ -61,7 +63,7 @@ export const EmailLoginContainer = styled.div`
 export const Line = styled.div`
 	width: 100%;
 	height: 1px;
-	margin: 15px 0 39px 0;
+	margin: 14px 0 30px 0;
 	background-color: ${({ theme }) => theme.color.lineColor};
 `;
 
@@ -110,11 +112,15 @@ export const LoginGuideText = styled.p`
 `;
 
 export const LoginSuccessMessage = styled.div`
-	font-family: NanumSquareR;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	padding: 0 10px;
 	color: ${({ theme }) => theme.color.pointColor};
 `;
 
 export const LoginErrorMessage = styled.div`
-	font-family: NanumSquareR;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	padding: 0 10px;
 	color: ${({ theme }) => theme.color.warningColor};
 `;
