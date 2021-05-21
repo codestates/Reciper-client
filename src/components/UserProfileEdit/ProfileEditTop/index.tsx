@@ -68,22 +68,6 @@ const UserProfileEdit = (): JSX.Element => {
 							clickUploadImage(imageInput);
 						}}
 					>
-						{/* {image ? (
-							<ProfileImageUploadWrapper>
-								<ProfileImageUploadButton>
-									<span>이미지 업로드</span>
-								</ProfileImageUploadButton>
-
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
-							</ProfileImageUploadWrapper>
-						) : (
-							<ProfileImageUploadWrapper>
-								<ProfileImageUploadButton>
-									<span>이미지 업로드</span>
-								</ProfileImageUploadButton>
-								<div>{profileInfo.name.slice(0, 1)}</div>
-							</ProfileImageUploadWrapper>
-						)} */}
 						<ProfileImageUploadWrapper>
 							<ProfileImageUploadButton>
 								<span>이미지 업로드</span>
