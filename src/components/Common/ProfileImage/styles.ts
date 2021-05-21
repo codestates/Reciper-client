@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-export const UserProfileImage = styled.img<{ width: string; height: string; margin: string }>`
+export const UserProfileImage = styled.img<{ width: string; margin: string }>`
 	cursor: pointer;
+	object-fit: cover;
 	${({ theme }) => theme.align.flexCenter}
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};

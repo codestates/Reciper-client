@@ -15,12 +15,12 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
-	ProfileUserImage,
 	ProfileUserEmail,
 	ProfileImageUploadButton,
 	ProfileImageUploadWrapper,
 	ProfileImg,
 } from '../../UserProfile/ProfileTop/styles';
+import ProfileImage from '../../Common/ProfileImage';
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -73,7 +73,7 @@ const UserProfileEdit = (): JSX.Element => {
 								<span>이미지 업로드</span>
 							</ProfileImageUploadButton>
 							{image ? (
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
+								<ProfileImage width="100%" height="100%" profileImage={image} profileColor={profileInfo.profileColor} />
 							) : (
 								<div>{profileInfo.name.slice(0, 1)}</div>
 							)}
