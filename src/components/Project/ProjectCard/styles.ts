@@ -16,7 +16,7 @@ export const CardContainer = styled(Link)`
 	border-radius: 2px;
 
 	&:hover {
-		transform: scale(1.01);
+		transform: scale(1.02);
 		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
 	}
 `;
