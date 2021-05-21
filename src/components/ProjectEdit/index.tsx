@@ -6,6 +6,7 @@ import Input from '../Common/Input';
 
 import useInput from '../../hooks/useInput';
 import { axiosRequest } from '../../utils/axios';
+import { projectNameValid, projectUrlValid } from '../../utils/validations';
 
 import { projectCreateDataType, projectListDataTpye } from '../../types/types';
 
@@ -42,15 +43,8 @@ const EditContainer = (): JSX.Element => {
 	}, [name, projectURL]);
 
 	const onEditProject = useCallback(async () => {
-		const space_pattern = /\s/;
-		const special_pattern = /[`~!@#$%^&*|\\\'\";:+_\/?]/gi;
-
-		const nameCheck = !!name && name.length <= 15;
-		const urlCheck =
-			projectURL.length >= 4 &&
-			projectURL.length <= 15 &&
-			!special_pattern.test(projectURL) &&
-			projectURL.search(space_pattern) === -1;
+		const nameCheck = projectNameValid(name);
+		const urlCheck = projectUrlValid(projectURL);
 
 		setNameValidation(nameCheck);
 		setUrlValidation(urlCheck);

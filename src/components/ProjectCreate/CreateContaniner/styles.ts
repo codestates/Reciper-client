@@ -57,7 +57,7 @@ export const CreateTitle = styled.p`
 `;
 
 export const CreateSubTitle = styled.p`
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-bottom: 10px;
 	font-size: 18px;
 
@@ -66,6 +66,7 @@ export const CreateSubTitle = styled.p`
 `;
 
 export const InfoMessage = styled.p`
+	height: 16px;
 	padding: 0 10px;
 	margin: 5px 0;
 	font-size: 14px;
@@ -105,9 +106,7 @@ export const InviteInput = styled.input`
 	}
 `;
 
-export const InviteEmailList = styled.div`
-	margin-top: 20px;
-`;
+export const InviteEmailList = styled.div``;
 
 export const InviteItem = styled.div`
 	${({ theme }) => theme.align.flexVertical}

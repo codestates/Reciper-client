@@ -19,6 +19,7 @@ import {
 	InviteEmailList,
 	CreateInputWrap,
 } from '../CreateContaniner/styles';
+import { emailValid } from '../../../utils/validations';
 
 interface Props {
 	projectURL: string;
@@ -31,18 +32,20 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 	const [inviteEmail, onChangeInviteEmail, setInviteEmail] = useInput<string>('');
 	const [inviteList, setInviteList] = useState<string[]>([]);
 	const [emailValidation, setEmailValidation] = useState<boolean>(true);
+	const [duplcate, setDuplcateCheck] = useState<boolean>(true);
 
 	const onAddInviteList = (e: KeyboardEvent): void => {
 		if (e.key === 'Enter') {
-			const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-			const emailCheck = regExp.test(inviteEmail);
+			const emailCheck = emailValid(inviteEmail);
 
+			setDuplcateCheck(true);
 			setEmailValidation(emailCheck);
 
 			if (emailCheck) {
 				const duplcateCheck = inviteList.indexOf(inviteEmail) + 1; // 배열에 찾는 값이 없을 경우 -1이 반환되기 때문에 1을 더해줌
 
 				if (duplcateCheck) {
+					setDuplcateCheck(false);
 					return;
 				}
 
@@ -83,7 +86,10 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 					onKeyPress={onAddInviteList}
 					onChange={onChangeInviteEmail}
 				/>
-				{!emailValidation && <InfoMessage> 올바른 이메일 형식으로 작성해주세요.</InfoMessage>}
+				<InfoMessage>
+					{!emailValidation && '올바른 이메일 형식으로 작성해주세요.'}
+					{!duplcate && '이미 작성 된 이메일 입니다.'}
+				</InfoMessage>
 			</CreateInputWrap>
 
 			<InviteEmailList>
