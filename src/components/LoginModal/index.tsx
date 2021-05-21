@@ -5,6 +5,9 @@ import axios from 'axios';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
 
+import useInput from '../../hooks/useInput';
+import { emailValid } from '../../utils/validations';
+
 import {
 	LoginTitle,
 	EmailLoginForm,
@@ -19,8 +22,6 @@ import {
 	EmailLoginContainer,
 	LoginErrorMessage,
 } from './styles';
-
-import useInput from '../../hooks/useInput';
 
 const LoginModal = (): JSX.Element => {
 	const history = useHistory();
@@ -60,7 +61,11 @@ const LoginModal = (): JSX.Element => {
 		if (email.trim() === '') {
 			// TODO: 에러 메세지 추가 여부?
 			return;
-		} else if (email.indexOf('@') === -1) {
+		}
+
+		const emailCheck = emailValid(email);
+
+		if (!emailCheck) {
 			setErrorMessage(true);
 		} else {
 			axios.post(`${process.env.REACT_APP_SERVER_URL}/sendEmail`, { email });
