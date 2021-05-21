@@ -8,7 +8,10 @@ export const TopWrapper = styled.div`
 `;
 
 export const TopLeftMessage = styled.div`
-	width: 70%;
+	${({ theme }) => theme.align.flexHorizontal};
+	align-items: flex-end;
+	width: 50%;
+	height: 800px;
 	font-family: 'NanumSquareB';
 	font-size: 30px;
 	color: #777777;
@@ -19,7 +22,11 @@ export const TopLeftMessage = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
-	margin-top: 100px;
+	height: 800px;
+
+	& > img {
+		width: 100%;
+	}
 `;
 
 export const BottomWrapper = styled.div`
@@ -50,10 +57,10 @@ export const SubMessage = styled.div`
 
 	& div {
 		& span {
-			padding: 6px;
+			padding: 3px;
 			color: #fff;
 			background-color: ${({ theme }) => theme.color.pointColor};
-			border-radius: 2px;
+			border-radius: 4px;
 		}
 	}
 `;

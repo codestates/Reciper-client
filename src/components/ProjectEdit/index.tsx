@@ -9,7 +9,7 @@ import { axiosRequest } from '../../utils/axios';
 
 import { projectCreateDataType, projectListDataTpye } from '../../types/types';
 
-import { Container, Inner } from '../ProjectCreate/CreateContaniner/styles';
+import { Container, InfoMessage, Inner } from '../ProjectCreate/CreateContaniner/styles';
 import { EditSubTitle, EditTitle, EditUrlWrap, ProjectDeleteBtn, ProjectImage, EditBtnWrap, EditUrl } from './styles';
 
 const EditContainer = (): JSX.Element => {
@@ -19,6 +19,9 @@ const EditContainer = (): JSX.Element => {
 	const [projectURL, onChangeProjectURL, setProjectURL] = useInput<string>('');
 	const [projectData, setProjectData] = useState<projectListDataTpye>();
 	const [projectInfo, setProjectInfo] = useState<projectCreateDataType>();
+	const [nameValidation, setNameValidation] = useState<boolean>(true);
+	const [urlValidation, setUrlValidation] = useState<boolean>(true);
+	const [urlDuplicate, setUrlDuplicate] = useState<boolean>(false);
 
 	const getProjectData = useCallback(async () => {
 		const response: projectListDataTpye | void = await axiosRequest('get', `/project/${projectUrl}`);
@@ -39,9 +42,29 @@ const EditContainer = (): JSX.Element => {
 	}, [name, projectURL]);
 
 	const onEditProject = useCallback(async () => {
-		await axiosRequest('post', `/project/${projectUrl}`, projectInfo);
-		history.push('/project');
-	}, [projectInfo]);
+		const space_pattern = /\s/;
+		const special_pattern = /[`~!@#$%^&*|\\\'\";:+_\/?]/gi;
+
+		const nameCheck = !!name && name.length <= 15;
+		const urlCheck =
+			projectURL.length >= 4 &&
+			projectURL.length <= 15 &&
+			!special_pattern.test(projectURL) &&
+			projectURL.search(space_pattern) === -1;
+
+		setNameValidation(nameCheck);
+		setUrlValidation(urlCheck);
+
+		if (name && projectURL && nameCheck && urlCheck) {
+			const response = await axiosRequest('post', `/project/${projectUrl}`, projectInfo);
+
+			if (!!response) {
+				history.push('/project');
+			} else {
+				setUrlDuplicate(true);
+			}
+		}
+	}, [name, projectURL, projectInfo]);
 
 	const onDeleteProject = useCallback(async () => {
 		await axiosRequest('delete', `/project/${projectUrl}`);
@@ -62,6 +85,8 @@ const EditContainer = (): JSX.Element => {
 						placeholderText="레시피 이름을 적어주세요"
 						changeEvent={onChangeName}
 					/>
+					<InfoMessage>{!nameValidation && '레시피의 이름은 15자 이하의 문자여야 합니다.'}</InfoMessage>
+
 					<EditSubTitle>레시피 URL을 입력하세요.</EditSubTitle>
 					<EditUrlWrap>
 						<EditUrl>reciper.me/</EditUrl>
@@ -73,6 +98,11 @@ const EditContainer = (): JSX.Element => {
 							changeEvent={onChangeProjectURL}
 						/>
 					</EditUrlWrap>
+					<InfoMessage style={{ marginLeft: '117px' }}>
+						{!urlValidation && 'URL은 특수문자와 공백을 제외한 4 ~ 20자 사이의 문자여야 합니다.'}
+						{urlDuplicate && '해당 URL은 이미 존재하는 URL입니다.'}
+					</InfoMessage>
+
 					<ProjectDeleteBtn onClick={onDeleteProject}>레시피 삭제</ProjectDeleteBtn>
 					<EditBtnWrap>
 						<Button size="medium" buttonType="cancel" clickEvent={() => history.push('/project')}>

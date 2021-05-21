@@ -14,8 +14,8 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
-	ProfileUserImage,
 } from './styles';
+import ProfileImage from '../../Common/ProfileImage';
 
 const UserProfile = (): JSX.Element => {
 	const history = useHistory();
@@ -46,7 +46,12 @@ const UserProfile = (): JSX.Element => {
 				<ProfileImg>
 					<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
 						{profileInfo.uploadImage ? (
-							<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${profileInfo.uploadImage}`} alt="" />
+							<ProfileImage
+								width="100%"
+								height="100%"
+								profileImage={profileInfo.uploadImage}
+								profileColor={profileInfo.profileColor}
+							/>
 						) : (
 							<div>{profileInfo.name.slice(0, 1)}</div>
 						)}

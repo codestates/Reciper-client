@@ -15,11 +15,11 @@ export const ProjectCreateBtn = styled(Link)`
 	height: 208px;
 	margin: 10px;
 	color: #a6a6a8;
-	background-color: #e6e6e8;
+	background-color: #f6f6f8;
 	border-radius: 2px;
 
 	&:hover {
-		color: #969698;
-		background-color: #d6d6d8;
+		color: #666;
+		background-color: #e6e6e8;
 	}
 `;

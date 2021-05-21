@@ -15,16 +15,15 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
-	ProfileUserImage,
 	ProfileUserEmail,
 	ProfileImageUploadButton,
 	ProfileImageUploadWrapper,
 	ProfileImg,
 } from '../../UserProfile/ProfileTop/styles';
+import ProfileImage from '../../Common/ProfileImage';
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-
 	const imageInput = useRef<HTMLInputElement>(null);
 	const [image, setImage] = useState<string>(profileInfo.uploadImage);
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
@@ -68,30 +67,14 @@ const UserProfileEdit = (): JSX.Element => {
 							clickUploadImage(imageInput);
 						}}
 					>
-						{/* {image ? (
-							<ProfileImageUploadWrapper>
-								<ProfileImageUploadButton>
-									<span>이미지 업로드</span>
-								</ProfileImageUploadButton>
-
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
-							</ProfileImageUploadWrapper>
-						) : (
-							<ProfileImageUploadWrapper>
-								<ProfileImageUploadButton>
-									<span>이미지 업로드</span>
-								</ProfileImageUploadButton>
-								<div>{profileInfo.name.slice(0, 1)}</div>
-							</ProfileImageUploadWrapper>
-						)} */}
 						<ProfileImageUploadWrapper>
 							<ProfileImageUploadButton>
 								<span>이미지 업로드</span>
 							</ProfileImageUploadButton>
 							{image ? (
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
+								<ProfileImage width="100%" height="100%" profileImage={image} profileColor={profileInfo.profileColor} />
 							) : (
-								<div>{profileInfo.name.slice(0, 1)}</div>
+								<span>{profileInfo.name.slice(0, 1)}</span>
 							)}
 						</ProfileImageUploadWrapper>
 					</div>

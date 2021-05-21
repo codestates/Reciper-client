@@ -1,16 +1,17 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
-import ReciperLogo from '../../../images/Logo.png';
-
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import ProfileImage from '../ProfileImage';
 import LoginModal from '../../LoginModal';
+import HeaderUserMenu from '../HeaderUserMenu';
 import Modal from '../Modal';
 
-import { HeaderContainer, HeaderRight, LoginBtn, LogoWrapper, Nav, Logo } from './styles';
-import HeaderUserMenu from '../HeaderUserMenu';
-import ProfileImage from '../ProfileImage';
+import ReciperLogo from '../../../images/Logo.png';
+
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { useSelector } from 'react-redux';
+
+import { HeaderContainer, HeaderRight, LoginBtn, LogoWrapper, Nav, Logo } from './styles';
 
 interface Props {
 	isScrollBackground: boolean;
@@ -36,7 +37,7 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLine
 				isScrollShadow={isScrollShadow}
 				isScrollTransition={isScrollTransition}
 			>
-				<LogoWrapper href="http://localhost:3000/landing">
+				<LogoWrapper to="/landing">
 					<Logo src={ReciperLogo} />
 					Reciper
 				</LogoWrapper>

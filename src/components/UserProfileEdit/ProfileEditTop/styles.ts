@@ -38,7 +38,7 @@ export const StackClear = styled.span`
 	font-size: 14px;
 	color: #666;
 
-	&: hover {
+	&:hover {
 		font-family: 'NanumSquareR';
 		color: ${({ theme }) => theme.color.warningColor};
 	}

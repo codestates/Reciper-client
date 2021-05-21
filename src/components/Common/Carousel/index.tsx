@@ -12,6 +12,11 @@ import {
 	ItemContent,
 	ViewMoreButton,
 	ViewMoreButtonIcon,
+	ModalContainer,
+	Dimed,
+	ViewMoreContainer,
+	ViewMoreName,
+	ViewMoreContent,
 } from './styles';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -58,6 +63,7 @@ const PrevArrow = (props: {
 };
 
 const Carousel = (): JSX.Element => {
+	const [showModal, setShowModal] = useState<boolean>(false);
 	const [centerCard, setCenterCard] = useState<number>(0);
 
 	const Settings = {
@@ -93,7 +99,7 @@ const Carousel = (): JSX.Element => {
 								{dummy.name} <span>레시퍼님</span>
 							</ItemName>
 							<ItemContent>{dummy.content}</ItemContent>
-							<ViewMoreButton>
+							<ViewMoreButton onClick={() => setShowModal(true)}>
 								더 보기
 								<ViewMoreButtonIcon />
 							</ViewMoreButton>
@@ -101,6 +107,16 @@ const Carousel = (): JSX.Element => {
 					</CarouselItemWrapper>
 				))}
 			</CarouselContents>
+			{showModal && (
+				<ModalContainer>
+					<Dimed onClick={() => setShowModal(false)}>
+						<ViewMoreContainer>
+							<ViewMoreName></ViewMoreName>
+							<ViewMoreContent></ViewMoreContent>
+						</ViewMoreContainer>
+					</Dimed>
+				</ModalContainer>
+			)}
 		</CarouselWrapper>
 	);
 };

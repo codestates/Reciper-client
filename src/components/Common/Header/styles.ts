@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div<{
@@ -17,7 +18,7 @@ export const HeaderContainer = styled.div<{
 	box-shadow: ${({ isScrollShadow }) => (isScrollShadow ? '0px 2px 10px rgba(0, 0, 0, 0.1)' : 'none')};
 `;
 
-export const LogoWrapper = styled.a`
+export const LogoWrapper = styled(Link)`
 	margin-top: -8px;
 	font-family: 'Pacifico';
 	font-size: 26px;
