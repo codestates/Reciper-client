@@ -26,9 +26,9 @@ export const CarouselItemWrapper = styled.div`
 	}
 `;
 
+// height: 450px;
 export const CarouselItem = styled.div`
 	overflow: hidden;
-	height: 450px;
 	padding: 52px;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 5px;
@@ -45,6 +45,7 @@ export const ItemName = styled.div`
 	}
 `;
 
+// height: 245px;
 export const ItemContent = styled.div`
 	overflow: hidden;
 	display: -webkit-box;
@@ -53,7 +54,7 @@ export const ItemContent = styled.div`
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
 	line-height: 1.6em;
-	height: 245px;
+
 	font-family: NanumSquareR;
 	font-size: 22px;
 	color: #444242;
@@ -113,8 +114,29 @@ export const Dimed = styled.div`
 	background-color: rgba(0, 0, 0, 0.3);
 `;
 
-export const ViewMoreContainer = styled.div``;
+export const ViewMoreContainer = styled.div`
+	${({ theme }) => theme.align.positionCenter}
+	width: 600px;
+	padding: 60px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+`;
 
-export const ViewMoreName = styled.div``;
+export const ViewMoreName = styled.div`
+	margin-bottom: 30px;
+	font-family: NanumSquareB;
+	font-size: 24px;
+	color: #c6c6c8;
 
-export const ViewMoreContent = styled.div``;
+	& > span {
+		color: ${({ theme }) => theme.color.pointColor};
+	}
+`;
+
+export const ViewMoreContent = styled.div`
+	line-height: 1.6em;
+	font-family: NanumSquareR;
+	font-size: 22px;
+	color: #444242;
+`;

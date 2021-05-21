@@ -50,8 +50,9 @@ export const SolutionMessage = styled.div`
 `;
 
 export const SubMessage = styled.div`
-	margin-top: 120px;
+	margin-top: 100px;
 	font-family: NanumSquareB;
+	line-height: 1.2rem;
 	font-size: 20px;
 	color: #888888;
 

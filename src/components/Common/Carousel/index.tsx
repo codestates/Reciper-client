@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEventHandler, useState } from 'react';
+import React, { CSSProperties, MouseEventHandler, useCallback, useState } from 'react';
 import dummyData from './dummyData';
 
 import {
@@ -64,6 +64,8 @@ const PrevArrow = (props: {
 
 const Carousel = (): JSX.Element => {
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [modalUserName, setModalUserName] = useState<string>('');
+	const [modalContent, setModalContent] = useState<string>('');
 	const [centerCard, setCenterCard] = useState<number>(0);
 
 	const Settings = {
@@ -82,6 +84,12 @@ const Carousel = (): JSX.Element => {
 		beforeChange: (current: number, next: number) => setCenterCard(next),
 	};
 
+	const onShowModal = useCallback((index: any): void => {
+		setShowModal(true);
+		setModalUserName(dummyData[index].name);
+		setModalContent(dummyData[index].content);
+	}, []);
+
 	return (
 		<CarouselWrapper>
 			<CarouselContents {...Settings}>
@@ -99,10 +107,12 @@ const Carousel = (): JSX.Element => {
 								{dummy.name} <span>레시퍼님</span>
 							</ItemName>
 							<ItemContent>{dummy.content}</ItemContent>
-							<ViewMoreButton onClick={() => setShowModal(true)}>
-								더 보기
-								<ViewMoreButtonIcon />
-							</ViewMoreButton>
+							{dummy.content.length > 169 ? (
+								<ViewMoreButton onClick={(): void => onShowModal(index)}>
+									더 보기
+									<ViewMoreButtonIcon />
+								</ViewMoreButton>
+							) : null}
 						</CarouselItem>
 					</CarouselItemWrapper>
 				))}
@@ -111,8 +121,11 @@ const Carousel = (): JSX.Element => {
 				<ModalContainer>
 					<Dimed onClick={() => setShowModal(false)}>
 						<ViewMoreContainer>
-							<ViewMoreName></ViewMoreName>
-							<ViewMoreContent></ViewMoreContent>
+							<ViewMoreName>
+								{modalUserName}
+								<span>레시퍼님</span>
+							</ViewMoreName>
+							<ViewMoreContent>{modalContent}</ViewMoreContent>
 						</ViewMoreContainer>
 					</Dimed>
 				</ModalContainer>
