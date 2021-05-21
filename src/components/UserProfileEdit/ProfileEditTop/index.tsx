@@ -24,7 +24,6 @@ import {
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-
 	const imageInput = useRef<HTMLInputElement>(null);
 	const [image, setImage] = useState<string>(profileInfo.uploadImage);
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
@@ -75,7 +74,7 @@ const UserProfileEdit = (): JSX.Element => {
 							{image ? (
 								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
 							) : (
-								<div>{profileInfo.name.slice(0, 1)}</div>
+								<span>{profileInfo.name.slice(0, 1)}</span>
 							)}
 						</ProfileImageUploadWrapper>
 					</div>
