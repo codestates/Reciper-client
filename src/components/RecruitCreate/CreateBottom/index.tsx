@@ -18,7 +18,7 @@ import { CreateSection, CreateSubGuideTitle } from '../CreateContainer/styles';
 import { CreatBottomContainer, CreateImageUpload, CreateImageWrap } from './styles';
 
 const randomBasicImage = (): string => {
-	const random = Math.floor(Math.random() * 13 + 1);
+	const random = Math.floor(Math.random() * 34 + 1);
 	return `basic_img_${random}.png`;
 };
 
