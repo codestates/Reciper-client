@@ -68,16 +68,32 @@ const UserProfileEdit = (): JSX.Element => {
 							clickUploadImage(imageInput);
 						}}
 					>
-						{image ? (
+						{/* {image ? (
 							<ProfileImageUploadWrapper>
 								<ProfileImageUploadButton>
 									<span>이미지 업로드</span>
 								</ProfileImageUploadButton>
-								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="" />
+
+								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
 							</ProfileImageUploadWrapper>
 						) : (
-							<div>{profileInfo.name.slice(0, 1)}</div>
-						)}
+							<ProfileImageUploadWrapper>
+								<ProfileImageUploadButton>
+									<span>이미지 업로드</span>
+								</ProfileImageUploadButton>
+								<div>{profileInfo.name.slice(0, 1)}</div>
+							</ProfileImageUploadWrapper>
+						)} */}
+						<ProfileImageUploadWrapper>
+							<ProfileImageUploadButton>
+								<span>이미지 업로드</span>
+							</ProfileImageUploadButton>
+							{image ? (
+								<ProfileUserImage src={`${process.env.REACT_APP_SERVER_URL}/images/${image}`} alt="프로필 이미지" />
+							) : (
+								<div>{profileInfo.name.slice(0, 1)}</div>
+							)}
+						</ProfileImageUploadWrapper>
 					</div>
 					<span onClick={onResetImage}>기본 이미지로 변경</span>
 				</ProfileImg>
