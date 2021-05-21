@@ -97,10 +97,6 @@ export const ProfileImageUploadWrapper = styled.div`
 	}
 `;
 
-export const ProfileUserImage = styled.img`
-	width: 100%;
-`;
-
 export const ProfileImageUploadButton = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	position: absolute;
