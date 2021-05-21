@@ -3,6 +3,7 @@ import solo from '../../../images/solo.png';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
 
 import Rellax from 'rellax';
+import Parallax from 'react-rellax-wrapper';
 
 import {
 	TopWrapper,
@@ -14,57 +15,60 @@ import {
 } from '../LandingPart-2/styles';
 
 const LandingSecond = (): JSX.Element => {
-	const rellaxRef = useRef<HTMLDivElement>(null);
+	// const rellaxRef = useRef<HTMLDivElement>(null);
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 
 	const onScroll = () => {
 		setScrollPosition(window.pageYOffset);
-		// console.log('마우스 위치', window.pageYOffset);
+		console.log('마우스 위치', window.pageYOffset);
 	};
 
 	useEffect(() => {
-		if (rellaxRef.current) {
-			new Rellax(rellaxRef.current, {
-				speed: -6,
-			});
-		}
+		// if (rellaxRef.current) {
+		// 	new Rellax(rellaxRef.current, {
+		// 		speed: -10,
+		// 	});
+		// }
 
 		window.addEventListener('scroll', onScroll);
 		// 컴포넌트가 언마운트 되기 직전에 이벤트를 끝낸다. 메모리 누수 방지
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
 
-	const animation = useScrollFadeIn({ direction: 'late-up', duration: 2, delay: 0 });
+	// const animation = useScrollFadeIn({ direction: 'late-up', duration: 2, delay: 0 });
 
 	return (
 		<>
 			<TopWrapper>
 				<TopLeftMessage
-					ref={rellaxRef}
+					// ref={rellaxRef}
 					style={{
 						opacity: `${scrollPosition > 1650 ? `0` : `1`}`,
 						transition: `${scrollPosition > 1650 ? `0.5s` : `0`}`,
 					}}
 				>
-					<div style={{ opacity: `${(scrollPosition - 400) / 50}`, transition: '0.5s' }}>
-						토이 프로젝트를 하고 싶은데 같이 할 사람을 찾고 계신가요?
-					</div>
-					<div style={{ opacity: `${(scrollPosition - 510) / 50}`, transition: '0.5s' }}>
-						팀원들과 협업을 어디서 해야할지 막막 하시다구요?
-					</div>
+					<Parallax speed={5}>
+						<div style={{ opacity: `${(scrollPosition - 400) / 50}`, transition: '0.5s' }}>
+							토이 프로젝트를 하고 싶은데 같이 할 사람을 찾고 계신가요?
+						</div>
+						<div style={{ opacity: `${(scrollPosition - 510) / 50}`, transition: '0.5s' }}>
+							팀원들과 협업을 어디서 해야할지 막막 하시다구요?
+						</div>
+					</Parallax>
 				</TopLeftMessage>
 
 				<ImageWrapper
 					style={{
-						display: `${scrollPosition > 2600 ? `none` : `block`}`,
-						position: 'fixed',
-						top: '260px',
-						right: '220px',
-						opacity: `${scrollPosition > 1900 || scrollPosition < 780 ? `0` : `1`}`,
-						transition: '0.5s',
+						display: `${scrollPosition > 2000 || scrollPosition < 100 ? `none` : `block`}`,
+						position: 'relative',
+						bottom: '700px',
+						opacity: `${scrollPosition > 1750 || scrollPosition < 740 ? `0` : `1`}`,
+						transition: '0.3s',
 					}}
 				>
-					{/* <img src={solo} {...animation}></img> */}
+					<Parallax speed={-10}>
+						<img src={solo}></img>
+					</Parallax>
 				</ImageWrapper>
 			</TopWrapper>
 
