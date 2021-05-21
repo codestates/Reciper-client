@@ -20,6 +20,7 @@ const RecruitCardList = (): JSX.Element => {
 
 	const listDataRequest = async (isFilter: boolean) => {
 		setIsLoading(false);
+
 		const response = await axios.post(
 			`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || 'DESC'}`,
 			{

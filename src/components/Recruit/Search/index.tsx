@@ -25,7 +25,9 @@ const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Eleme
 	const [stack, setStack] = useState<string>('');
 
 	useEffect(() => {
-		if (stack) {
+		const duplicate = stackBucket.indexOf(stack) + 1; // 중복이 아닐 시 -1를 반환하기 때문에 0으로 초기화 함
+
+		if (stack && !duplicate) {
 			setStackBucket([stack, ...stackBucket]);
 		}
 	}, [stack]);
