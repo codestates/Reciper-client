@@ -85,11 +85,8 @@ export const ProfileImg = styled.div`
 // --------------------TODO: image upload-------------------------
 
 export const ProfileImageUploadWrapper = styled.div`
+	cursor: pointer;
 	position: relative;
-
-	& > img {
-		width: 100%;
-	}
 
 	&:hover > div {
 		background-color: rgba(0, 0, 0, 0.3);
@@ -105,7 +102,6 @@ export const ProfileUserImage = styled.img`
 `;
 
 export const ProfileImageUploadButton = styled.div`
-	cursor: pointer;
 	${({ theme }) => theme.align.flexCenter}
 	position: absolute;
 	top: 0;
@@ -150,17 +146,16 @@ export const ProfileUserEmail = styled.div`
 	border-radius: 3px;
 `;
 
-export const ProfileSubTitle = styled.span`
+export const ProfileSubTitle = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	width: 120px;
 	height: 30px;
 	font-family: 'NanumSquareB';
 `;
 
-export const ProfileUserInfo = styled.span`
+export const ProfileUserInfo = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
-
 	height: 30px;
 	font-family: 'NanumSquareR';
 	text-align: left;
@@ -187,7 +182,7 @@ export const ProfileUserDetailInfo = styled.div`
 		margin-bottom: 28px;
 	}
 `;
-export const ProfileCareer = styled.span`
+export const ProfileCareer = styled.div`
 	margin-right: 20px;
 `;
 
