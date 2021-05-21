@@ -31,7 +31,7 @@ const LoginModal = (): JSX.Element => {
 
 	const onChangeGuideText = useCallback((): string => {
 		return changeGuide ? '회원가입' : '로그인';
-	}, []);
+	}, [changeGuide]);
 
 	const onLogin = useCallback(
 		(type: string): void => {
