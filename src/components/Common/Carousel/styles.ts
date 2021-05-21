@@ -98,3 +98,23 @@ export const ViewMoreButton = styled.div`
 export const ViewMoreButtonIcon = styled(MdKeyboardArrowRight)`
 	font-size: 20px;
 `;
+
+// -------------------TODO: 더 보기 모달창-------------------
+
+export const ModalContainer = styled.div`
+	${({ theme }) => theme.align.positionCenter}
+	position: fixed;
+	z-index: 100;
+`;
+
+export const Dimed = styled.div`
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.3);
+`;
+
+export const ViewMoreContainer = styled.div``;
+
+export const ViewMoreName = styled.div``;
+
+export const ViewMoreContent = styled.div``;
