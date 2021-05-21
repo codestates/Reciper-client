@@ -21,6 +21,7 @@ export const ProjectImage = styled.div`
 
 export const ProjectDeleteBtn = styled.p`
 	cursor: pointer;
+	margin-top: 30px;
 	font-size: 18px;
 	color: ${({ theme }) => theme.color.warningColor};
 `;
@@ -36,7 +37,6 @@ export const EditSubTitle = styled(CreateSubTitle)`
 export const EditUrlWrap = styled(CreateUrlWrap)`
 	opacity: 1;
 	margin-left: 0;
-	margin-bottom: 30px;
 `;
 export const EditUrl = styled(CreateUrl)`
 	opacity: 1;
