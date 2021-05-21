@@ -29,11 +29,14 @@ const RecruitCardList = (): JSX.Element => {
 
 		setIsEnd(response.data.isEnd);
 
-		if (isFilter) {
-			setRecruitList(response.data.boardList);
-		} else {
-			setRecruitList([...recruitList, ...response.data.boardList]);
-		}
+		// 스켈레톤 로딩을 보여주기 위해 약간의 지연 시간을 걸어줌!!
+		setTimeout(() => {
+			if (isFilter) {
+				setRecruitList(response.data.boardList);
+			} else {
+				setRecruitList([...recruitList, ...response.data.boardList]);
+			}
+		}, 200);
 	};
 
 	useEffect(() => {
@@ -47,7 +50,7 @@ const RecruitCardList = (): JSX.Element => {
 				}
 			};
 
-			const observer = new IntersectionObserver(infinite, { threshold: 1 });
+			const observer = new IntersectionObserver(infinite, { rootMargin: '200px', threshold: 0 });
 
 			observer.observe(observeTarget.current as Element);
 		}
