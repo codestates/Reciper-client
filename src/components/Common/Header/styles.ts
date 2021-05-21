@@ -40,12 +40,35 @@ export const initialFont = styled.div`
 `;
 
 export const Nav = styled(initialFont)<{ isLineColor: boolean }>`
+	${({ theme }) => theme.align.flexHorizontal};
 	padding-right: 30px;
 	border-right: ${({ isLineColor }) => (isLineColor ? '0.5px solid #d6d6d8' : '1px solid #000')};
 
 	& > a {
+		display: block;
+		position: relative;
 		color: #000;
 		margin-left: 30px;
+	}
+
+	& > a::after {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: -4px;
+	}
+
+	& > a::after {
+		width: 0;
+		height: 0.2vw;
+		background: ${({ theme }) => theme.color.pointColor};
+		left: 50%;
+	}
+
+	& > a:hover::after {
+		width: 100%;
+		left: 0;
+		transition: all 0.3s;
 	}
 `;
 
