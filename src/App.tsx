@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
 	useEffect(() => {
 		setInterval(() => {
 			setSuccess(window.localStorage.getItem('loginInfo'));
-		}, 2000);
+		}, 0);
 	}, []);
 
 	useEffect(() => {
