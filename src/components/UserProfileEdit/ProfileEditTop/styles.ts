@@ -11,7 +11,7 @@ export const ProfileCareerContainer = styled.div`
 	margin-left: 35px;
 `;
 
-export const CareerInput = styled.span`
+export const CareerInput = styled.div`
 	margin-right: 8px;
 `;
 
