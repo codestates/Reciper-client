@@ -124,7 +124,7 @@ const ProfileEditBottom = ({
 								</CareerInput>
 								<CareerInput>
 									<Input
-										width="120px"
+										width="160px"
 										placeholderText="경력 (ex. 1~3년)"
 										initValue={period}
 										changeEvent={onChangePeriod}

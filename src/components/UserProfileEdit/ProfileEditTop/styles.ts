@@ -8,10 +8,10 @@ export const EditButton = styled.div`
 export const ProfileCareerContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
-	margin-left: 35px;
 `;
 
 export const CareerInput = styled.div`
+	width: 160px;
 	margin-right: 8px;
 `;
 
