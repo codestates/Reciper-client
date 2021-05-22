@@ -5,9 +5,9 @@ import { ContentItem, ContentMessage, LandingThirdContainer, ContentsWrapper } f
 
 const LandingThird = (): JSX.Element => {
 	const animatedItem = {
-		one: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0 }),
-		two: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0.2 }),
-		three: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0.4 }),
+		one: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0 }),
+		two: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0.2 }),
+		three: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0.4 }),
 	};
 
 	return (
