@@ -12,14 +12,14 @@ import {
 	ItemContent,
 	ViewMoreButton,
 	ViewMoreButtonIcon,
-	ModalContainer,
-	Dimed,
 	ViewMoreContainer,
 	ViewMoreName,
 	ViewMoreContent,
+	ModalCloseButton,
 } from './styles';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Modal from '../Modal';
 
 const NextArrow = (props: {
 	className?: string;
@@ -84,7 +84,7 @@ const Carousel = (): JSX.Element => {
 		beforeChange: (current: number, next: number) => setCenterCard(next),
 	};
 
-	const onShowModal = useCallback((index: any): void => {
+	const onShowModal = useCallback((index): void => {
 		setShowModal(true);
 		setModalUserName(dummyData[index].name);
 		setModalContent(dummyData[index].content);
@@ -118,17 +118,16 @@ const Carousel = (): JSX.Element => {
 				))}
 			</CarouselContents>
 			{showModal && (
-				<ModalContainer>
-					<Dimed onClick={() => setShowModal(false)}>
-						<ViewMoreContainer>
-							<ViewMoreName>
-								{modalUserName}
-								<span>레시퍼님</span>
-							</ViewMoreName>
-							<ViewMoreContent>{modalContent}</ViewMoreContent>
-						</ViewMoreContainer>
-					</Dimed>
-				</ModalContainer>
+				<Modal setShowModal={setShowModal}>
+					<ViewMoreContainer>
+						<ViewMoreName>
+							{modalUserName}
+							<span>레시퍼님</span>
+						</ViewMoreName>
+						<ModalCloseButton onClick={() => setShowModal(false)} />
+						<ViewMoreContent>{modalContent}</ViewMoreContent>
+					</ViewMoreContainer>
+				</Modal>
 			)}
 		</CarouselWrapper>
 	);
