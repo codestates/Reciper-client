@@ -35,7 +35,11 @@ const LandingFirst = (): JSX.Element => {
 				<BackToTopButton
 					style={{
 						opacity: `${scrollPosition > 100 ? `1` : `0`}`,
-						color: `${(scrollPosition > 100 && scrollPosition < 2760) || scrollPosition > 6370 ? `#000` : `#fff`}`,
+						color: `${
+							(scrollPosition > 100 && scrollPosition < 2760) || (scrollPosition > 6355 && scrollPosition < 10340)
+								? `#000`
+								: `#fff`
+						}`,
 						transition: '0.3s',
 					}}
 					onClick={(): void => {
