@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -14,6 +14,8 @@ import {
 	ContentBody,
 	ContentTop,
 	ContentWrap,
+	DeleteAlert,
+	DeleteAlertBtnWrap,
 	Frame,
 	HomeIcon,
 	InviteIcon,
@@ -38,6 +40,8 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import calendarCheck from '@iconify/icons-bi/calendar-check';
 import project24 from '@iconify/icons-octicon/project-24';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
+import Modal from '../Modal';
+import Button from '../Button';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -71,6 +75,8 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const [contentTop, setContentTop] = useState<string>(listItems[0]);
 	const [openList, setOpenList] = useState<boolean>(true);
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
+	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
+	const [deleteTarget, setDeleteTarget] = useState<number>(0);
 
 	const loadInitState = useCallback((): void => {
 		if (currentAddress === 'chatting') {
@@ -123,22 +129,26 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		[listItems],
 	);
 
+	const openDeleteAlert = useCallback((e, index: number) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		setShowDeleteAlert(true);
+		setDeleteTarget(index);
+	}, []);
+
 	// 리덕스로 바꿀 예정
-	const deleteListItem = useCallback(
-		(e, index: number): void => {
-			e.preventDefault();
-			e.stopPropagation();
+	const deleteListItem = useCallback((): void => {
+		const copyList = [...listItems];
+		copyList.splice(deleteTarget, 1);
 
-			const copyList = [...listItems];
-			copyList.splice(index, 1);
+		setListItems(copyList);
+		setContentTop('General');
+		setDeleteTarget(0);
+		setShowDeleteAlert(false);
 
-			setListItems(copyList);
-			setContentTop('General');
-
-			history.push(`/workspace/${currentURL}/${currentAddress}/General`);
-		},
-		[listItems],
-	);
+		history.push(`/workspace/${currentURL}/${currentAddress}/General`);
+	}, [listItems, deleteTarget]);
 
 	const activeListItem = useCallback((): void => {
 		const items = document.querySelectorAll('.items');
@@ -209,7 +219,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 							onClick={() => setContentTop(item)}
 						>
 							{item}
-							{index > 0 && <AiOutlineClose onClick={e => deleteListItem(e, index)} />}
+							{index > 0 && <AiOutlineClose onClick={e => openDeleteAlert(e, index)} />}
 						</ListItem>
 					))}
 					{openAddInput && <AddInput placeholder={`작성 후 Enter를 누르세요.`} onKeyPress={addListItem} />}
@@ -225,6 +235,26 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 				</ContentTop>
 				<ContentBody>{children}</ContentBody>
 			</ContentWrap>
+			{showDeleteAlert && (
+				<Modal setShowModal={setShowDeleteAlert}>
+					<DeleteAlert onClick={deleteListItem}>
+						<p>삭제 시 내용이 전부 사라집니다. 삭제 하시겠습니까?</p>
+						<DeleteAlertBtnWrap>
+							<Button
+								size="medium"
+								margin="0 10px 0 0"
+								buttonType="cancel"
+								clickEvent={() => setShowDeleteAlert(false)}
+							>
+								취소
+							</Button>
+							<Button size="medium" clickEvent={deleteListItem}>
+								삭제
+							</Button>
+						</DeleteAlertBtnWrap>
+					</DeleteAlert>
+				</Modal>
+			)}
 		</Frame>
 	);
 };

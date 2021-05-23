@@ -221,6 +221,22 @@ export const AddListItemBtn = styled.div`
 	}
 `;
 
+export const DeleteAlert = styled.div`
+	${({ theme }) => theme.align.positionCenter}
+	padding: 30px;
+	background-color: #fff;
+	border-radius: 3px;
+
+	& > p {
+		font-size: 18px;
+		margin-bottom: 20px;
+	}
+`;
+
+export const DeleteAlertBtnWrap = styled.div`
+	${({ theme }) => theme.align.flexHorizontal}
+`;
+
 ////////////////////////////////////////
 ////////          Content          ////////
 ////////////////////////////////////////
