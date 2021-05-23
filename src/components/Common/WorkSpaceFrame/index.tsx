@@ -116,6 +116,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 				setListItems([...listItems, value]);
 				setOpenAddInput(false);
 				setContentTop(value);
+
 				history.push(`/workspace/${currentURL}/${currentAddress}/${value}`);
 			}
 		},
@@ -125,11 +126,16 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	// 리덕스로 바꿀 예정
 	const deleteListItem = useCallback(
 		(e, index: number): void => {
+			e.preventDefault();
 			e.stopPropagation();
+
 			const copyList = [...listItems];
 			copyList.splice(index, 1);
 
 			setListItems(copyList);
+			setContentTop('General');
+
+			history.push(`/workspace/${currentURL}/${currentAddress}/General`);
 		},
 		[listItems],
 	);
@@ -203,7 +209,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 							onClick={() => setContentTop(item)}
 						>
 							{item}
-							<AiOutlineClose onClick={e => deleteListItem(e, index)} />
+							{index > 0 && <AiOutlineClose onClick={e => deleteListItem(e, index)} />}
 						</ListItem>
 					))}
 					{openAddInput && <AddInput placeholder={`작성 후 Enter를 누르세요.`} onKeyPress={addListItem} />}
