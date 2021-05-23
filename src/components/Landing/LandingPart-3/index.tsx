@@ -5,9 +5,9 @@ import { ContentItem, ContentMessage, LandingThirdContainer, ContentsWrapper } f
 
 const LandingThird = (): JSX.Element => {
 	const animatedItem = {
-		one: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0 }),
-		two: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0.2 }),
-		three: useScrollFadeIn({ direction: 'left', duration: 1, delay: 0.4 }),
+		one: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0 }),
+		two: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0.2 }),
+		three: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0.4 }),
 	};
 
 	return (
@@ -15,6 +15,7 @@ const LandingThird = (): JSX.Element => {
 			<LandingThirdContainer>
 				<div>
 					<ContentMessage>여러분들만의 코드 레시피를 이렇게 만들어 보세요!</ContentMessage>
+					<div>함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요!</div>
 					<div>
 						<ContentsWrapper>
 							<ContentItem {...animatedItem.one}>

@@ -8,6 +8,27 @@ export const LandingFirstContainer = styled.div`
 	background: no-repeat center/cover url(${maintest});
 `;
 
+export const BackToTopButton = styled.button`
+	cursor: pointer;
+	position: fixed;
+	right: 2vw;
+	bottom: 4vh;
+	z-index: 99;
+	width: 60px;
+	hieght: 60px;
+
+	& > img {
+		width: 100%;
+		transform: rotate(180deg);
+	}
+
+	& > p {
+		margin-top: -8px;
+		font-family: NanumSquareB;
+		font-size: 14px;
+	}
+`;
+
 export const ContentsWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	flex-direction: column;

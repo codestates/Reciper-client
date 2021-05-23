@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { default as Slider } from 'react-slick';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward, IoMdClose } from 'react-icons/io';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
 export const CarouselWrapper = styled.div`
@@ -41,6 +41,7 @@ export const ItemName = styled.div`
 	color: #c6c6c8;
 
 	& > span {
+		margin-left: 4px;
 		color: ${({ theme }) => theme.color.pointColor};
 	}
 `;
@@ -49,7 +50,7 @@ export const ItemName = styled.div`
 export const ItemContent = styled.div`
 	overflow: hidden;
 	display: -webkit-box;
-	word-wrap: break-word;
+	word-wrap: normal;
 	-webkit-line-clamp: 7;
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
@@ -102,18 +103,6 @@ export const ViewMoreButtonIcon = styled(MdKeyboardArrowRight)`
 
 // -------------------TODO: 더 보기 모달창-------------------
 
-export const ModalContainer = styled.div`
-	${({ theme }) => theme.align.positionCenter}
-	position: fixed;
-	z-index: 100;
-`;
-
-export const Dimed = styled.div`
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
-`;
-
 export const ViewMoreContainer = styled.div`
 	${({ theme }) => theme.align.positionCenter}
 	width: 600px;
@@ -130,6 +119,7 @@ export const ViewMoreName = styled.div`
 	color: #c6c6c8;
 
 	& > span {
+		margin-left: 4px;
 		color: ${({ theme }) => theme.color.pointColor};
 	}
 `;
@@ -139,4 +129,18 @@ export const ViewMoreContent = styled.div`
 	font-family: NanumSquareR;
 	font-size: 22px;
 	color: #444242;
+`;
+
+export const ModalCloseButton = styled(IoMdClose)`
+	cursor: pointer;
+	position: absolute;
+	right: 60px;
+	top: 40px;
+	font-size: 28px;
+	color: #b6b6b8;
+
+	&:hover {
+		background-color: #e6e6e8;
+		border-radius: 5px;
+	}
 `;
