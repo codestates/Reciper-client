@@ -237,7 +237,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 			</ContentWrap>
 			{showDeleteAlert && (
 				<Modal setShowModal={setShowDeleteAlert}>
-					<DeleteAlert onClick={deleteListItem}>
+					<DeleteAlert>
 						<p>삭제 시 내용이 전부 사라집니다. 삭제 하시겠습니까?</p>
 						<DeleteAlertBtnWrap>
 							<Button
