@@ -126,8 +126,12 @@ export const ListTitle = styled.div`
 		padding-left: 5px;
 	}
 
+	& > svg {
+		transition: 0.1s;
+	}
+
 	&.off > svg {
-		transform: rotate(180deg);
+		transform: rotate(-90deg);
 	}
 `;
 
@@ -215,6 +219,22 @@ export const AddListItemBtn = styled.div`
 		padding-left: 4px;
 		font-size: 15px;
 	}
+`;
+
+export const DeleteAlert = styled.div`
+	${({ theme }) => theme.align.positionCenter}
+	padding: 30px;
+	background-color: #fff;
+	border-radius: 3px;
+
+	& > p {
+		font-size: 18px;
+		margin-bottom: 20px;
+	}
+`;
+
+export const DeleteAlertBtnWrap = styled.div`
+	${({ theme }) => theme.align.flexHorizontal}
 `;
 
 ////////////////////////////////////////
