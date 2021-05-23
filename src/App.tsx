@@ -11,8 +11,10 @@ import RecruitCreate from './pages/RecruitCreate';
 import RecruitDetail from './pages/RecruitDetail';
 import { getProfileInfo } from './reducer/profile';
 import { useDispatch } from 'react-redux';
-import WorkSpace from './pages/WorkSpace';
 import LoginLoading from './pages/LoginLoading';
+import Chatting from './pages/Chatting';
+import Kanban from './pages/Kanban';
+import Calendar from './pages/Calendar';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -44,7 +46,9 @@ const App = (): JSX.Element => {
 				<Route exact path="/project" component={Project} />
 				<Route path="/projectcreate" component={ProjectCreate} />
 				<Route path="/project/:projectUrl/edit" component={ProjectEdit} />
-				<Route path="/workspace/:projectUrl" component={WorkSpace} />
+				<Route path="/workspace/:projectUrl/chatting/:part" component={Chatting} />
+				<Route path="/workspace/:projectUrl/calendar/:part" component={Calendar} />
+				<Route path="/workspace/:projectUrl/kanban/:part" component={Kanban} />
 			</Switch>
 		</div>
 	);
