@@ -69,6 +69,10 @@
     ]
   },
   "devDependencies": {
+    "@iconify/icons-bi": "^1.1.5",
+    "@iconify/icons-octicon": "^1.1.6",
+    "@iconify/icons-ph": "^1.1.2",
+    "@iconify/react": "^1.1.4",
     "@types/draftjs-to-html": "^0.8.0",
     "@types/react-draft-wysiwyg": "^1.13.2",
     "@types/react-slick": "^0.23.4",

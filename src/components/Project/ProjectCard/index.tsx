@@ -10,7 +10,7 @@ const ProjectCard = ({ data }: Props): JSX.Element => {
 	console.log(data);
 
 	return (
-		<CardContainer to={`/workspace/${data.projectURL}`}>
+		<CardContainer to={`/workspace/${data.projectURL}/kanban`}>
 			<ProjectImageWrap>
 				<ProjectImage style={{ backgroundColor: `${data.projectColor}` }}>{data.name[0]}</ProjectImage>
 			</ProjectImageWrap>
