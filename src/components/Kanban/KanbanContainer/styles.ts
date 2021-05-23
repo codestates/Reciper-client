@@ -15,22 +15,33 @@ export const TaskBoxWrap = styled.div`
 	height: 100%;
 `;
 
-export const AddTaskBoxBtn = styled.input`
+export const AddTaskBoxBtn = styled.button`
 	${({ theme }) => theme.align.flexVertical}
 	min-width: 340px;
 	height: 58px;
 	padding: 0 20px;
 	font-family: 'NanumsquareR';
 	font-size: 18px;
-	background-color: #f3f3f3;
-	border: 1px solid #f6f6f8;
+	color: #a6a6a8;
+	background-color: #f1f1f1;
+	border: 1px solid #e6e6e8;
+
+	&:hover {
+		background-color: #e6e6e8;
+	}
+`;
+
+export const AddTaskBoxInput = styled.input`
+	min-width: 340px;
+	max-width: 340px;
+	height: 58px;
+	padding: 0 20px;
+	font-family: 'NanumsquareR';
+	font-size: 18px;
+	background-color: #fff;
+	border: 1px solid #e6e6e8;
 
 	&::placeholder {
 		color: #a6a6a8;
-	}
-
-	&:hover {
-		background-color: #fff;
-		border: 1px solid #e6e6e8;
 	}
 `;

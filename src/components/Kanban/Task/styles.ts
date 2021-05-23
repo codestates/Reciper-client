@@ -81,7 +81,7 @@ export const DotWrap = styled.div`
 	opacity: 0;
 	position: absolute;
 	top: 15px;
-	right: 30px;
+	right: 20px;
 	transition: 0.1s;
 
 	& > span {

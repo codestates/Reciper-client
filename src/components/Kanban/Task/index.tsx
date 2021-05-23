@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { kanbanDataSelector } from '../../../reducer/kanban';
 import {
 	ColorLabel,
 	DotWrap,
@@ -13,23 +15,25 @@ import {
 	TaskSimpleWrap,
 } from './styles';
 
-interface TestProps {
-	period?: boolean;
-	members?: boolean;
-	dot?: boolean;
-	color: string;
+interface Props {
+	taskId: string;
 }
 
-const Task = ({ period, members, dot, color }: TestProps): JSX.Element => {
+const Task = ({ taskId }: Props): JSX.Element => {
+	const { taskItems } = useSelector(kanbanDataSelector);
+	const { taskTitle, taskColor, startDate, endDate, assigness } = taskItems[taskId];
+
 	return (
 		<TaskCoantainer>
-			<ColorLabel style={{ backgroundColor: `${color}` }} />
+			<ColorLabel style={{ backgroundColor: `${taskColor}` }} />
 			<TaskSimpleWrap>
-				<TaskName>Test Task</TaskName>
+				<TaskName>{taskTitle}</TaskName>
+
 				{/* period가 있다면 */}
-				{period && <TaskPeriod>5월 20일 ~ 5월 23일</TaskPeriod>}
+				{startDate && endDate && <TaskPeriod>{`${startDate} ~ ${endDate}`}</TaskPeriod>}
+
 				{/* 참여 멤버가 있다면 */}
-				{members && (
+				{assigness && (
 					<TaskMembers>
 						<EXImage1>W</EXImage1>
 						<EXImage2>U</EXImage2>
@@ -37,14 +41,12 @@ const Task = ({ period, members, dot, color }: TestProps): JSX.Element => {
 						<EXImage4>J</EXImage4>
 					</TaskMembers>
 				)}
-				{/* 내용이나 체크리스트가 있다면 */}
-				{dot && (
-					<DotWrap className="dot">
-						<span></span>
-						<span></span>
-						<span></span>
-					</DotWrap>
-				)}
+
+				<DotWrap className="dot">
+					<span></span>
+					<span></span>
+					<span></span>
+				</DotWrap>
 			</TaskSimpleWrap>
 		</TaskCoantainer>
 	);
