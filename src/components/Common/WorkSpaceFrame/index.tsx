@@ -233,7 +233,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 				<ContentTop>
 					<p>{contentTop}</p>
 				</ContentTop>
-				<ContentBody>{children}</ContentBody>
+				<ContentBody style={{ backgroundColor: `${currentAddress === 'kanban' && '#f6f6f8'}` }}>{children}</ContentBody>
 			</ContentWrap>
 			{showDeleteAlert && (
 				<Modal setShowModal={setShowDeleteAlert}>

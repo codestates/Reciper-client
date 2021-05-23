@@ -238,7 +238,7 @@ export const DeleteAlertBtnWrap = styled.div`
 `;
 
 ////////////////////////////////////////
-////////          Content          ////////
+////////        Content         ////////
 ////////////////////////////////////////
 
 export const ContentWrap = styled.div`
@@ -261,6 +261,7 @@ export const ContentTop = styled.div`
 `;
 
 export const ContentBody = styled.div`
+	overflow-x: auto;
 	width: 100%;
 	height: calc(100vh - 60px);
 `;
