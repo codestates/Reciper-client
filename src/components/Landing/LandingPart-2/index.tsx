@@ -50,7 +50,6 @@ const LandingSecond = (): JSX.Element => {
 						position: 'relative',
 						bottom: '700px',
 						opacity: `${scrollPosition > 1750 || scrollPosition < 740 ? `0` : `1`}`,
-						transition: '0.3s',
 					}}
 				>
 					<Parallax speed={-10}>
@@ -71,7 +70,7 @@ const LandingSecond = (): JSX.Element => {
 							우리들에게 프로젝트는 하나의 <span>레시피</span>와 같습니다.
 						</div>
 						<br />
-						<div>코딩 친구와 협업 스킬을 한 곳에서 !</div>
+						<div>코딩 친구와 협업 스킬을 한 곳에서!</div>
 					</SubMessage>
 				</div>
 			</BottomWrapper>

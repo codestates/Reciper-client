@@ -15,6 +15,7 @@ const LandingThird = (): JSX.Element => {
 			<LandingThirdContainer>
 				<div>
 					<ContentMessage>여러분들만의 코드 레시피를 이렇게 만들어 보세요!</ContentMessage>
+					<div>함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요!</div>
 					<div>
 						<ContentsWrapper>
 							<ContentItem {...animatedItem.one}>
