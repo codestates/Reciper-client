@@ -126,8 +126,12 @@ export const ListTitle = styled.div`
 		padding-left: 5px;
 	}
 
+	& > svg {
+		transition: 0.1s;
+	}
+
 	&.off > svg {
-		transform: rotate(180deg);
+		transform: rotate(-90deg);
 	}
 `;
 
