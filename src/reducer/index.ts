@@ -5,12 +5,14 @@ import logger from 'redux-logger';
 import { profileInfoSlice } from './profile';
 import { recruitCreateSlice } from './recruitCreate';
 import { recruitDetailSlice } from './recruitDetail';
+import { chatInfoSlice } from './chat';
 
 const reducer = combineReducers({
 	profileInfoSlice: profileInfoSlice.reducer,
 	profileEditInfoSlice: profileEditInfoSlice.reducer,
 	recruitCreateSlice: recruitCreateSlice.reducer,
 	recruitDetailSlice: recruitDetailSlice.reducer,
+	chatInfoSlice: chatInfoSlice.reducer,
 });
 
 export default configureStore({
