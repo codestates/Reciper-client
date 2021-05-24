@@ -79,7 +79,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const [deleteTarget, setDeleteTarget] = useState<number>(0);
 
 	const loadInitState = useCallback((): void => {
-		if (currentAddress === 'chatting') {
+		if (currentAddress === 'chat') {
 			const initState = {
 				workSpaceType: '채팅',
 				listType: '채널',
@@ -179,7 +179,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 				</SideBarTop>
 				<SideBarMid>
 					<Pointer style={{ top: `${frameInitState.pointerTop}` }} />
-					<ChatIcon to={`/workspace/${currentURL}/chatting/general`}>
+					<ChatIcon to={`/workspace/${currentURL}/chat/general`}>
 						<Icon icon={chatTeardropDotsLight} />
 					</ChatIcon>
 					<KanbanIcon to={`/workspace/${currentURL}/kanban/general`}>
