@@ -12,14 +12,16 @@ interface Props {
 	data?: string[];
 }
 
-const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, data }: Props): JSX.Element => {
+const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder }: Props): JSX.Element => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const onKeydownChat = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>): void => {
 			if (e.key === 'Enter') {
-				e.preventDefault();
-				onSubmitForm(e);
+				if (!e.shiftKey) {
+					e.preventDefault();
+					onSubmitForm(e);
+				}
 			}
 		},
 		[onSubmitForm],
