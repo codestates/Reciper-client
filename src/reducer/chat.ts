@@ -4,7 +4,25 @@ import { ChatDataType } from '../types/types';
 import { RootStateOrAny } from 'react-redux';
 
 // TODO: 초기 상태
-const initialState: ChatDataType[] = [{ name: '', message: '' }];
+const initialState: ChatDataType[] = [
+	{
+		id: null,
+		text: '',
+		createdAt: '',
+		updatedAt: '',
+		writer: {
+			id: null,
+			name: '',
+			email: '',
+			mobile: '',
+			gitId: '',
+			aboutMe: '',
+			uploadImage: '',
+			profileColor: '',
+			createdAt: '',
+		},
+	},
+];
 
 // TODO: slice 실행
 export const chatInfoSlice = createSlice({

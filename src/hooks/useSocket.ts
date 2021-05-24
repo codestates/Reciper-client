@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import io from 'socket.io-client';
 
 const sockets: { [key: string]: any } = {};
