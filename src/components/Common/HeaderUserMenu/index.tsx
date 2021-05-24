@@ -30,11 +30,11 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 	};
 
 	const onGoToProjectCreate = (): void => {
-		history.push(`/project/${profileInfo.id}/create`);
+		history.push(`/projectcreate`);
 	};
 
 	const onGoToProject = (): void => {
-		history.push(`/project/${profileInfo.id}`);
+		history.push(`/project`);
 	};
 
 	const onLogout = (): void => {
