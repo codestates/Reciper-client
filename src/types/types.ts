@@ -215,4 +215,32 @@ export interface projectCreateDataType {
 export interface ChatDataType {
 	name: string;
 	message: string;
+///////////             Kanban           //////////////
+///////////////////////////////////////////////////////
+
+export interface taskChackListDataType {
+	dese: string;
+	iseChecked: boolean;
+}
+
+export interface taskBoxDataType {
+	taskBoxTitle: string;
+	tasks: string[];
+}
+
+export interface taskDataType {
+	[index: string]: {
+		taskTitle: string;
+		desc: string;
+		taskColor: string;
+		startDate: string;
+		endDate: string;
+		assigness: string;
+		checkList: taskChackListDataType[];
+	};
+}
+
+export interface kanbanDataType {
+	taskBox: taskBoxDataType[];
+	taskItems: taskDataType;
 }

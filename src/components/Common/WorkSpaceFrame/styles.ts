@@ -221,8 +221,24 @@ export const AddListItemBtn = styled.div`
 	}
 `;
 
+export const DeleteAlert = styled.div`
+	${({ theme }) => theme.align.positionCenter}
+	padding: 30px;
+	background-color: #fff;
+	border-radius: 3px;
+
+	& > p {
+		font-size: 18px;
+		margin-bottom: 20px;
+	}
+`;
+
+export const DeleteAlertBtnWrap = styled.div`
+	${({ theme }) => theme.align.flexHorizontal}
+`;
+
 ////////////////////////////////////////
-////////          Content          ////////
+////////        Content         ////////
 ////////////////////////////////////////
 
 export const ContentWrap = styled.div`
@@ -245,6 +261,7 @@ export const ContentTop = styled.div`
 `;
 
 export const ContentBody = styled.div`
+	overflow-x: auto;
 	width: 100%;
 	height: calc(100vh - 60px);
 `;

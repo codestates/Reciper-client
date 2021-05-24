@@ -6,6 +6,7 @@ import { profileInfoSlice } from './profile';
 import { recruitCreateSlice } from './recruitCreate';
 import { recruitDetailSlice } from './recruitDetail';
 import { chatInfoSlice } from './chat';
+import { kanbanDataSlice } from './kanban';
 
 const reducer = combineReducers({
 	profileInfoSlice: profileInfoSlice.reducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
 	recruitCreateSlice: recruitCreateSlice.reducer,
 	recruitDetailSlice: recruitDetailSlice.reducer,
 	chatInfoSlice: chatInfoSlice.reducer,
+	kanbanDataSlice: kanbanDataSlice.reducer,
 });
 
 export default configureStore({
