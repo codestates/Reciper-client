@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-// import { ChatDummy } from '../ChatZone';
+import ProfileImage from '../../Common/ProfileImage';
+import timeStamp from '../../../utils/timeStamp';
 
 import { useSelector } from 'react-redux';
 
 import { ChatContent, ChatCreatedAt, ChatUserId, ChatWrapper } from './styles';
-import ProfileImage from '../../Common/ProfileImage';
-import timeStamp from '../../../utils/timeStamp';
+
 import { ChatDataType } from '../../../types/types';
 
 interface Props {
