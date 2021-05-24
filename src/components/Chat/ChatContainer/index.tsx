@@ -1,14 +1,16 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import useInput from '../../../hooks/useInput';
-import useSocket from '../../../hooks/useSocket';
-// import { getTotalChatSelector } from '../../../reducer/chat';
-import { getProfileInfoSelector } from '../../../reducer/profile';
-import { ChatDataType } from '../../../types/types';
 import WorkSpaceFrame from '../../Common/WorkSpaceFrame';
+import useInput from '../../../hooks/useInput';
+import { getProfileInfoSelector } from '../../../reducer/profile';
 import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
+import useSocket from '../../../hooks/useSocket';
+
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+// import { getTotalChatSelector } from '../../../reducer/chat';
+
+import { ChatDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const listData = ['공지사항'];
@@ -23,13 +25,14 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
-		// console.log('socket', socket);
+		console.log('socket', socket);
 		socket.on('totalMessageGet', (chats: any) => {
-			// console.log('chats??????????', chats);
+			console.log('chats??????????', chats);
 
 			const data = chats.map((chat: any) => {
 				return { name: chat.writer.name, message: chat.text };
 			});
+			console.log('서버로 보내는 data', data);
 			setChatBucket(data);
 		});
 		socket.emit('totalMessageGet');
@@ -41,11 +44,14 @@ const WorkSpaceChat = (): JSX.Element => {
 			console.log('name, message', name, message);
 			setChatBucket([...chatBucket, { name, message }]);
 		});
-	}, []);
+	}, [chatBucket]);
 
 	const onSubmitForm = useCallback(
 		(e: FormEvent<Element>): void => {
 			e.preventDefault();
+			if (chat.trim() === '') {
+				return;
+			}
 			const data = {
 				name: profileInfo.name,
 				message: chat,
