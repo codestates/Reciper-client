@@ -1,11 +1,31 @@
 import styled from 'styled-components';
 
+export const TaskWrap = styled.div`
+	overflow-y: auto;
+	width: 100%;
+	min-height: 130px;
+	max-height: 600px;
+
+	&:hover::-webkit-scrollbar {
+		display: block;
+	}
+
+	&::-webkit-scrollbar {
+		display: none;
+		width: 8px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 50px;
+	}
+`;
+
 export const TaskCoantainer = styled.div`
 	cursor: pointer;
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
 	width: 100%;
-	margin-bottom: 10px;
+	margin-top: 10px;
 	padding: 15px 30px;
 	font-family: 'NanumSquareR';
 	background-color: #fff;

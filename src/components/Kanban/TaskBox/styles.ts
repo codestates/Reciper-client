@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 
 export const TaskBoxContainer = styled.div`
-	transition: 0.1s;
 	width: 340px;
 	min-width: 340px;
 	padding: 0 20px 20px;
@@ -10,19 +9,33 @@ export const TaskBoxContainer = styled.div`
 	background-color: #f6f6f8;
 	border: 1px solid #f6f6f8;
 
+	.deleteBtn {
+		display: none;
+	}
+
 	&:hover {
+		transition: 0.1s;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		border: 1px solid #e6e6e8;
 	}
 
 	&:hover .deleteBtn {
+		display: block;
 		color: #aaa;
+	}
+
+	&.dragging {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		border: 1px solid #e6e6e8;
+
+		.deleteBtn {
+			display: block;
+			color: #aaa;
+		}
 	}
 `;
 
-export const TaskBoxTop = styled.div`
-	margin-bottom: 10px;
-`;
+export const TaskBoxTop = styled.div``;
 
 export const TaskBoxName = styled.div`
 	cursor: pointer;
@@ -55,23 +68,4 @@ export const DeleteTaskBoxBtn = styled(AiOutlineClose)`
 	transition: 0.1s;
 	font-size: 17px;
 	color: #f6f6f8;
-`;
-
-export const TaskWrap = styled.div`
-	overflow: auto;
-	width: 100%;
-	max-height: 600px;
-
-	&:hover::-webkit-scrollbar {
-		display: block;
-	}
-
-	&::-webkit-scrollbar {
-		display: none;
-		width: 8px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: rgba(0, 0, 0, 0.1);
-		border-radius: 50px;
-	}
 `;

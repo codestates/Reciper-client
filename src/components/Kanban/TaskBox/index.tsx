@@ -1,10 +1,16 @@
 import React, { useCallback } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
+
+import Task from '../TaskItem';
+
 import useInput from '../../../hooks/useInput';
-import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
+
 import { taskBoxDataType } from '../../../types/types';
-import Task from '../Task';
-import { AddTaskInput, TaskBoxContainer, TaskBoxName, TaskBoxTop, TaskWrap, DeleteTaskBoxBtn } from './styles';
+
+import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
+
+import { AddTaskInput, TaskBoxContainer, TaskBoxName, TaskBoxTop, DeleteTaskBoxBtn } from './styles';
 
 interface Props {
 	taskBoxData: taskBoxDataType;
@@ -50,31 +56,35 @@ const TaskBox = ({ taskBoxData, index }: Props): JSX.Element => {
 	}, []);
 
 	const onAddTaskItem = () => {
+		if (taskTitle.trim() === '') {
+			return;
+		}
+
 		dispatch(addTaskItem({ taskTitle, index, taskColor: randomColor() }));
 
 		setTaskTitle('');
 	};
 
 	return (
-		<TaskBoxContainer>
-			<TaskBoxTop>
-				<TaskBoxName>
-					<p>{taskBoxTitle}</p>
-					<DeleteTaskBoxBtn className="deleteBtn" onClick={onDeleteTaskBox} />
-				</TaskBoxName>
-				<AddTaskInput
-					placeholder="+ 테스크를 추가하세요"
-					value={taskTitle}
-					onChange={onChangeTaskTitle}
-					onKeyPress={e => e.key === 'Enter' && onAddTaskItem()}
-				/>
-			</TaskBoxTop>
-			<TaskWrap>
-				{tasks.map((task, index) => (
-					<Task key={index} taskId={task} />
-				))}
-			</TaskWrap>
-		</TaskBoxContainer>
+		<Draggable draggableId={`TaskBox-${index}`} index={index}>
+			{provided => (
+				<TaskBoxContainer className={`TaskBox-${index}`} ref={provided.innerRef} {...provided.draggableProps}>
+					<TaskBoxTop {...provided.dragHandleProps}>
+						<TaskBoxName>
+							<p>{taskBoxTitle}</p>
+							<DeleteTaskBoxBtn className="deleteBtn" onClick={onDeleteTaskBox} />
+						</TaskBoxName>
+						<AddTaskInput
+							placeholder="+ 테스크를 추가하세요"
+							value={taskTitle}
+							onChange={onChangeTaskTitle}
+							onKeyPress={e => e.key === 'Enter' && onAddTaskItem()}
+						/>
+					</TaskBoxTop>
+					<Task taskData={tasks} boxIndex={index} />
+				</TaskBoxContainer>
+			)}
+		</Draggable>
 	);
 };
 
