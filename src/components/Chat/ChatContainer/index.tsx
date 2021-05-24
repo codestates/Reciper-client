@@ -16,16 +16,21 @@ const WorkSpaceChat = (): JSX.Element => {
 	const listData = ['공지사항'];
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const [chat, setChat] = useState<string>('');
-	const { projectUrl } = useParams<{ projectUrl: string }>();
+	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
 	const [socket] = useSocket(projectUrl);
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
 
+	// TODO: 해당하는 채팅 Room과 연결 시도
+	useEffect(() => {
+		socket.emit('joinRoom', part);
+	}, [part]);
+
 	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
 		console.log('socket', socket);
-		socket.on('totalMessageGet', (chats: ChatDataType[]) => {
+		socket.on('getAllMessages', (chats: ChatDataType[]) => {
 			const data = chats.map((chat: ChatDataType) => {
 				const { id, writer, text, createdAt, updatedAt } = chat;
 				const { name, email, mobile, gitId, aboutMe, profileColor, uploadImage } = writer;
@@ -51,21 +56,17 @@ const WorkSpaceChat = (): JSX.Element => {
 			// console.log('서버로 보내는 data', data);
 			setChatBucket(data);
 		});
-		socket.emit('totalMessageGet');
+		socket.emit('getAllMessages');
 	}, []);
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket.on('message', ({ id, text, createdAt, updatedAt, writer }: ChatDataType) => {
-			console.log('message1', chatBucket);
-			console.log('message222', { id, text, createdAt, updatedAt, writer });
+		socket.on('sendMessage', ({ id, text, createdAt, updatedAt, writer }: ChatDataType) => {
+			console.log('클라에서 저장한 sendMessage', chatBucket);
+			console.log('서버에서 오는 sendMessage', { id, text, createdAt, updatedAt, writer });
 			setChatBucket([...chatBucket, { id, text, createdAt, updatedAt, writer }]);
 		});
 	}, [chatBucket]);
-
-	// useEffect(() => {
-
-	// }, [])
 
 	const onSubmitForm = useCallback(
 		(e: FormEvent<Element>): void => {
@@ -75,11 +76,13 @@ const WorkSpaceChat = (): JSX.Element => {
 			}
 			// TODO: 채팅치는 순간 유저 정보를 어떻게 알고 보내지?
 			const data = {
-				id: 14,
+				id: profileInfo.id,
 				name: profileInfo.name,
-				message: chat,
+				text: chat,
 			};
-			socket.emit('message', data);
+
+			console.log('채팅치는 순간의 data를 확인', data);
+			socket.emit('sendMessage', data);
 			setChat('');
 		},
 		[chat],
