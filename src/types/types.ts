@@ -213,29 +213,49 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
-	room?: string;
-	id: number | null;
 	text: string;
+	room: string;
+	writer: ChatWriterDataType;
 	createdAt: string;
-	updatedAt: string;
-	writer: ChatSendDataType;
+	project?: ChatUserProjectDataType;
 }
 
-export interface ChatSendDataType {
+export interface ChatWriterDataType {
 	id: number | null;
 	name: string;
 	email: string;
 	mobile: string;
 	gitId: string;
+	career: careerType;
 	aboutMe: string;
 	uploadImage: string;
 	profileColor: string;
 	createdAt: string;
+	updatedAt: string;
 }
 
-export interface ChatTestDataType {
+export interface ChatUserProjectDataType {
+	id: number | null;
 	name: string;
-	message: string;
+	projectURL: string;
+	projectColor: string;
+	inviteList: string[];
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface RoomsListDataType {
+	roomsList: string[];
+}
+
+export interface addRoomDataType {
+	currentURL: string;
+	currentRoom: string;
+	roomName?: RoomNameType;
+}
+
+export interface RoomNameType {
+	name: string;
 }
 
 ////////////////////////////////////////////////////////

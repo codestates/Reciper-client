@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import { profileInfoSlice } from './profile';
 import { recruitCreateSlice } from './recruitCreate';
 import { recruitDetailSlice } from './recruitDetail';
-import { chatInfoSlice } from './chat';
+import { roomsListInfoSlice } from './roomsList';
 import { kanbanDataSlice } from './kanban';
 
 const reducer = combineReducers({
@@ -13,7 +13,7 @@ const reducer = combineReducers({
 	profileEditInfoSlice: profileEditInfoSlice.reducer,
 	recruitCreateSlice: recruitCreateSlice.reducer,
 	recruitDetailSlice: recruitDetailSlice.reducer,
-	chatInfoSlice: chatInfoSlice.reducer,
+	roomsListInfoSlice: roomsListInfoSlice.reducer,
 	kanbanDataSlice: kanbanDataSlice.reducer,
 });
 

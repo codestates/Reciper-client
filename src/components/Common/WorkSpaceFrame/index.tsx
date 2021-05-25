@@ -1,10 +1,11 @@
 import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
+import { addRoom, deleteRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -42,6 +43,7 @@ import project24 from '@iconify/icons-octicon/project-24';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
 import Modal from '../Modal';
 import Button from '../Button';
+import { axiosRequest } from '../../../utils/axios';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -59,24 +61,37 @@ interface Props {
 */
 
 const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
+	const { roomsList } = useSelector(getroomsListSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
 	const historyPath = history.location.pathname.split('/');
 	const currentURL = historyPath[2];
 	const currentAddress = historyPath[3];
+	const currentRoom = historyPath[4];
+	const dispatch = useDispatch();
 
-	const [listItems, setListItems] = useState(['General', ...listData]);
 	const [frameInitState, setFrameInitState] = useState<frameInitType>({
 		workSpaceType: '',
 		pointerTop: '',
 		listType: '',
 	});
 
-	const [contentTop, setContentTop] = useState<string>(listItems[0]);
+	const [contentTop, setContentTop] = useState<string>(currentRoom);
 	const [openList, setOpenList] = useState<boolean>(true);
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 	const [deleteTarget, setDeleteTarget] = useState<number>(0);
+
+	console.log('roomsList', roomsList);
+
+	// TODO: room 조회
+	useEffect(() => {
+		const roomValue = {
+			currentURL: currentURL,
+			currentRoom: currentRoom,
+		};
+		dispatch(getRoomsListInfo(roomValue));
+	}, []);
 
 	const loadInitState = useCallback((): void => {
 		if (currentAddress === 'chat') {
@@ -110,7 +125,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		}
 	}, []);
 
-	// 리덕스로 바꿀 예정
+	// TODO: room 추가
 	const addListItem = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>): void => {
 			const value = e.currentTarget.value;
@@ -119,14 +134,19 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 			}
 
 			if (e.key === 'Enter') {
-				setListItems([...listItems, value]);
-				setOpenAddInput(false);
-				setContentTop(value);
+				const roomValue = {
+					currentURL: currentURL,
+					currentRoom: currentRoom,
+					roomName: { name: value },
+				};
 
+				dispatch(addRoom(roomValue));
+				setContentTop(value);
+				setOpenAddInput(false);
 				history.push(`/workspace/${currentURL}/${currentAddress}/${value}`);
 			}
 		},
-		[listItems],
+		[roomsList],
 	);
 
 	const openDeleteAlert = useCallback((e, index: number) => {
@@ -137,28 +157,33 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		setDeleteTarget(index);
 	}, []);
 
-	// 리덕스로 바꿀 예정
+	// TODO: room 삭제
 	const deleteListItem = useCallback((): void => {
-		const copyList = [...listItems];
-		copyList.splice(deleteTarget, 1);
+		const roomValue = {
+			currentURL: currentURL,
+			currentRoom: currentRoom,
+			roomName: { name: roomsList[deleteTarget] },
+		};
 
-		setListItems(copyList);
+		dispatch(deleteRoom(roomValue));
+
 		setContentTop('General');
 		setDeleteTarget(0);
 		setShowDeleteAlert(false);
 
 		history.push(`/workspace/${currentURL}/${currentAddress}/General`);
-	}, [listItems, deleteTarget]);
+	}, [roomsList, deleteTarget]);
 
 	const activeListItem = useCallback((): void => {
 		const items = document.querySelectorAll('.items');
-		const currentIndex = listItems.indexOf(contentTop);
+		const currentIndex = roomsList.indexOf(contentTop);
 
 		items.forEach(item => {
 			item.classList.remove('active');
 		});
-
-		items[currentIndex].classList.add('active');
+		if (currentIndex !== -1) {
+			items[currentIndex].classList.add('active');
+		}
 	}, [contentTop]);
 
 	useEffect(() => {
@@ -211,7 +236,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 					<span>{frameInitState.listType}</span>
 				</ListTitle>
 				<ListItemWrap className={openList ? 'on' : 'off'}>
-					{listItems.map((item, index) => (
+					{roomsList.map((item, index) => (
 						<ListItem
 							className="items"
 							key={index}
