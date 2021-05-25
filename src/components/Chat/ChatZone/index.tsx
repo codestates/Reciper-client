@@ -12,14 +12,14 @@ export interface Props {
 }
 
 const ChatZone = ({ chatBucket }: Props): JSX.Element => {
-	console.log('여긴 chatZone', chatBucket);
+	// console.log('여긴 chatZone', chatBucket);
 	return (
 		<ChatZoneContainer>
 			<Scrollbars autoHide>
 				<StickyHeader></StickyHeader>
 				<ChatList>
-					{chatBucket.map((chat: ChatDataType) => (
-						<ChatItem key={chat.id} data={chat} />
+					{chatBucket.map((chat: ChatDataType, index: number) => (
+						<ChatItem key={index} data={chat} />
 					))}
 				</ChatList>
 			</Scrollbars>

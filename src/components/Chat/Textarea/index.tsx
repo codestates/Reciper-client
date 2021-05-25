@@ -1,4 +1,4 @@
-import React, { useCallback, KeyboardEvent, FormEvent, useRef, ChangeEvent, useEffect } from 'react';
+import React, { useCallback, KeyboardEvent, FormEvent, useRef, useEffect } from 'react';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';

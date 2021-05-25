@@ -5,7 +5,7 @@ import { RiSendPlane2Fill } from 'react-icons/ri';
 export const ChatArea = styled.div`
 	display: flex;
 	width: 100%;
-	padding: 0 20px 20px 20px;
+	padding: 20px;
 `;
 
 export const ChatForm = styled.div`
