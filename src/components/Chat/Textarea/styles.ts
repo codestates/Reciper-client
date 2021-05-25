@@ -64,6 +64,7 @@ export const MentionsTextarea = styled(MentionsInput)`
 
 export const MentionList = styled.button<{ focus: boolean }>`
 	${({ theme }) => theme.align.flexVertical};
+	flex-direction: column;
 	width: 100%;
 	padding: 12px 10px;
 	font-size: 20px;
@@ -72,8 +73,14 @@ export const MentionList = styled.button<{ focus: boolean }>`
 	border: none;
 	border-radius: 3px;
 
-	& img {
-		margin-right: 12px;
+	& > div {
+		display: flex;
+		flex-direction: row;
+		margin-bottom: 8px;
+
+		& img {
+			margin-right: 12px;
+		}
 	}
 
 	${({ focus }) =>

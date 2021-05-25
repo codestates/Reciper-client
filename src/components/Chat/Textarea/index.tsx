@@ -1,30 +1,30 @@
 import React, { useCallback, KeyboardEvent, FormEvent, useRef, useEffect } from 'react';
-import { getProfileInfoSelector } from '../../../reducer/profile';
+import ProfileImage from '../../Common/ProfileImage';
 
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
 import autosize from 'autosize';
 import { useSelector } from 'react-redux';
 
 import { ChatArea, ChatForm, MentionList, MentionsTextarea, SendChatBox, SendChatButton } from './styles';
-import ProfileImage from '../../Common/ProfileImage';
 
-const memberData = [{ id: 1, name: 'useonglee' }];
-interface dataType {
+import { ChatDataType } from '../../../types/types';
+
+interface DataType {
 	id: number;
 	name: string;
 }
+const members = [{ id: 1, name: 'useonglee' }];
 
 interface Props {
 	onSubmitForm: (e: FormEvent) => void;
 	onChangeChat: OnChangeHandlerFunc;
 	chat?: string;
 	placeholder: string;
-	memberData?: string[];
+	chatBucket: ChatDataType[];
 }
 
-const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder }: Props): JSX.Element => {
+const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }: Props): JSX.Element => {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
-	const profileInfo = useSelector(getProfileInfoSelector);
 
 	useEffect(() => {
 		if (textareaRef.current) {
@@ -52,17 +52,21 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder }: Props): JSX
 		focused: boolean,
 	) => React.ReactNode = useCallback(
 		(member, search, highlightedDisplay, index, focus) => {
-			if (!memberData) {
+			if (!chatBucket) {
 				return null;
 			}
 			return (
 				<MentionList focus={focus}>
-					<ProfileImage profileImage={profileInfo.uploadImage} profileColor={profileInfo.profileColor} />
-					<span>{highlightedDisplay}</span>
+					{chatBucket.map((user: ChatDataType, index: number) => (
+						<div key={index}>
+							<ProfileImage profileImage={user.writer.uploadImage} profileColor={user.writer.profileColor} />
+							<span>{highlightedDisplay}</span>
+						</div>
+					))}
 				</MentionList>
 			);
 		},
-		[memberData],
+		[chatBucket],
 	);
 
 	return (
@@ -76,10 +80,29 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder }: Props): JSX
 					inputRef={textareaRef}
 					allowSuggestionsAboveCursor
 				>
+					{/* <Mention
+						appendSpaceOnAdd
+						trigger="@"
+						data={
+							chatBucket.map((chatInfo: any) => {
+								return chatInfo.project.inviteList.map((user: any) => ({
+									id: user,
+									display: user.split('@')[0],
+								}));
+							}) || []
+						}
+						renderSuggestion={renderUserSuggestion}
+					/> */}
+
 					<Mention
 						appendSpaceOnAdd
 						trigger="@"
-						data={memberData?.map((user: dataType) => ({ id: user.id, display: user.name })) || []}
+						data={
+							members.map((user: DataType) => ({
+								id: user.id,
+								display: user.name,
+							})) || []
+						}
 						renderSuggestion={renderUserSuggestion}
 					/>
 				</MentionsTextarea>

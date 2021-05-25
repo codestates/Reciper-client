@@ -16,11 +16,11 @@ const ChatZone = ({ scrollbarRef, chatBucket }: Props): JSX.Element => {
 	const onScrollFrame = useCallback(
 		values => {
 			if (values.scrollTop === 0 && scrollbarRef.current) {
-				console.log(
-					'현재 스크롤 높이, 스크롤의 스크롤바 높이',
-					scrollbarRef.current?.getScrollHeight(),
-					values.scrollHeight,
-				);
+				// console.log(
+				// 	'현재 스크롤 높이, 스크롤의 스크롤바 높이',
+				// 	scrollbarRef.current?.getScrollHeight(),
+				// 	values.scrollHeight,
+				// );
 				scrollbarRef.current.getScrollHeight() - values.scrollHeight;
 			}
 		},
