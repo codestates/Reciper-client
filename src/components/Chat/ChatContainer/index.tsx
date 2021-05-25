@@ -11,17 +11,27 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
 
 import { ChatDataType } from '../../../types/types';
+import { axiosRequest } from '../../../utils/axios';
+import { getroomsListSelector } from '../../../reducer/roomsList';
 
 const WorkSpaceChat = (): JSX.Element => {
-	const listData = ['공지사항', '자료'];
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const { roomsList } = useSelector(getroomsListSelector);
+	const listData = ['공지사항', '자료'];
 	const scrollbarRef = useRef<Scrollbars>(null);
 	const [chat, setChat] = useState<string>('');
+	const [chatCreated, setChatCreatedAt] = useState<string>('');
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const [socket] = useSocket(projectUrl);
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
+
+	// TODO: 채팅방 조회
+	useEffect(() => {
+		const data = axiosRequest('get', `/workspace/${projectUrl}/chat`);
+		console.log('콘솔확인', data);
+	}, []);
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
 	useEffect(() => {
@@ -46,8 +56,9 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket?.on('sendMessage', ({ text, writer, room, project }: ChatDataType) => {
-			setChatBucket([...chatBucket, { text, writer, room, project }]);
+		socket?.on('sendMessage', ({ text, writer, room, project, createdAt }: ChatDataType) => {
+			setChatCreatedAt(createdAt);
+			setChatBucket([...chatBucket, { text, writer, room, project, createdAt }]);
 		});
 	}, [chatBucket]);
 
@@ -70,12 +81,30 @@ const WorkSpaceChat = (): JSX.Element => {
 				name: profileInfo.name,
 				message: chat,
 			};
+			const newChat: ChatDataType = {
+				text: chat,
+				room: room,
+				createdAt: chatCreated,
+				writer: {
+					id: profileInfo.id,
+					name: profileInfo.name,
+					email: profileInfo.email,
+					mobile: profileInfo.mobile,
+					gitId: profileInfo.gitId,
+					career: profileInfo.career,
+					aboutMe: profileInfo.aboutMe,
+					uploadImage: profileInfo.uploadImage,
+					profileColor: profileInfo.profileColor,
+					createdAt: profileInfo.createdAt,
+					updatedAt: profileInfo.updatedAt,
+				},
+			};
 
 			socket?.emit('sendMessage', data);
+			setChatBucket([...chatBucket, newChat]);
 			setChat('');
 
 			if (scrollbarRef.current) {
-				// console.log('scrollToBottom은 어떤 값일까?', scrollbarRef.current?.getValues()); scrollToBottom()
 				scrollbarRef.current.scrollToBottom();
 			}
 		},
