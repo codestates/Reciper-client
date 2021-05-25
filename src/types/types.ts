@@ -161,7 +161,7 @@ export interface profileInfoDataType {
 	profileColor: string;
 	uploadImage: string;
 	createdAt: string;
-	UpdatedAt: string;
+	updatedAt: string;
 }
 
 export interface careerType {
@@ -213,6 +213,27 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
+	room?: string;
+	id: number | null;
+	text: string;
+	createdAt: string;
+	updatedAt: string;
+	writer: ChatSendDataType;
+}
+
+export interface ChatSendDataType {
+	id: number | null;
+	name: string;
+	email: string;
+	mobile: string;
+	gitId: string;
+	aboutMe: string;
+	uploadImage: string;
+	profileColor: string;
+	createdAt: string;
+}
+
+export interface ChatTestDataType {
 	name: string;
 	message: string;
 }

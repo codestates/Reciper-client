@@ -28,15 +28,66 @@ export const ChatForm = styled.div`
 	}
 `;
 
-export const MentionsTextarea = styled.input`
-	outline: none;
-	line-height: 22px;
-	width: 100%;
-	height: 44px;
+// --------------------TODO: 멘션 기능  --------------------
 
+export const MentionsTextarea = styled(MentionsInput)`
+	${({ theme }) => theme.align.flexVertical};
+	outline: none;
+	width: 100%;
+	padding: 12px 0;
 	font-family: NanumSquareR;
-	font-size: 14px;
+	font-size: 16px;
+
+	& > strong {
+		background: skyblue;
+	}
+
+	& > textarea {
+		padding: 9px 10px !important;
+		outline: none !important;
+		border-radius: 4px !important;
+		resize: none !important;
+		line-height: 22px;
+		border: none;
+	}
+
+	& > ul {
+		overflow-y: auto;
+		width: 150px;
+		max-height: 200px;
+		padding: 9px 10px;
+		background: #fff;
+		border: 1px solid lightgray;
+		border-radius: 4px;
+	}
 `;
+
+export const MentionList = styled.button<{ focus: boolean }>`
+	${({ theme }) => theme.align.flexVertical};
+	width: 100%;
+	padding: 12px 10px;
+	font-size: 20px;
+	color: rgb(28, 29, 28);
+	background: transparent;
+	border: none;
+	border-radius: 3px;
+
+	& img {
+		margin-right: 12px;
+	}
+
+	${({ focus }) =>
+		focus &&
+		`
+	display: flex;
+	align-items: center;
+	font-family: NanumSquareR;
+	color: #333333;
+	background: #f6f6f8;
+`};
+`;
+
+// --------------------TODO: 전송 버튼  --------------------
 
 export const SendChatBox = styled.button`
 	${({ theme }) => theme.align.flexCenter};

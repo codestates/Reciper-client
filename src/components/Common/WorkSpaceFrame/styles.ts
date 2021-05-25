@@ -248,7 +248,7 @@ export const ContentWrap = styled.div`
 `;
 
 export const ContentTop = styled.div`
-	${({ theme }) => theme.align.flexVertical}
+	${({ theme }) => theme.align.flexVertical};
 	width: 100%;
 	height: 60px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
@@ -262,6 +262,9 @@ export const ContentTop = styled.div`
 
 export const ContentBody = styled.div`
 	overflow-x: auto;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 	width: 100%;
 	height: calc(100vh - 60px);
 `;
