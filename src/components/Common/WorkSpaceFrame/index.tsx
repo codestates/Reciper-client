@@ -1,11 +1,11 @@
 import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
+import { addRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -43,8 +43,7 @@ import project24 from '@iconify/icons-octicon/project-24';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
 import Modal from '../Modal';
 import Button from '../Button';
-
-import { RoomsListDataType } from '../../../types/types';
+import { axiosRequest } from '../../../utils/axios';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -62,8 +61,7 @@ interface Props {
 */
 
 const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
-	const { projectUrl } = useParams<{ projectUrl: string }>();
-	const roomsList = useSelector(getroomsListSelector);
+	const { roomsList } = useSelector(getroomsListSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
 	const historyPath = history.location.pathname.split('/');
@@ -71,8 +69,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const currentAddress = historyPath[3];
 	const dispatch = useDispatch();
 
-	// const [listItems, setListItems] = useState(['General', ...listData]);
-	const [listItems, setListItems] = useState<string[]>(roomsList.roomsList);
+	const listItems = ['General', ...roomsList];
 	const [frameInitState, setFrameInitState] = useState<frameInitType>({
 		workSpaceType: '',
 		pointerTop: '',
@@ -85,10 +82,10 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 	const [deleteTarget, setDeleteTarget] = useState<number>(0);
 
+	// TODO: room 조회
 	useEffect(() => {
-		dispatch(getRoomsListInfo(projectUrl));
+		dispatch(getRoomsListInfo(currentURL));
 	}, []);
-	console.log('룸 리스트 확인', listItems);
 
 	const loadInitState = useCallback((): void => {
 		if (currentAddress === 'chat') {
@@ -122,23 +119,28 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		}
 	}, []);
 
-	// 리덕스로 바꿀 예정
+	// TODO: room 추가
 	const addListItem = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>): void => {
 			const value = e.currentTarget.value;
+			console.log('----list 선택한 값----', value, contentTop);
 			if (value.trim() === '') {
 				return;
 			}
 
 			if (e.key === 'Enter') {
-				setListItems([...listItems, value]);
-				setOpenAddInput(false);
-				setContentTop(value);
+				const roomValue = {
+					currentURL: currentURL,
+					roomName: { name: value },
+				};
 
+				dispatch(addRoom(roomValue));
+				setContentTop(value);
+				setOpenAddInput(false);
 				history.push(`/workspace/${currentURL}/${currentAddress}/${value}`);
 			}
 		},
-		[listItems],
+		[roomsList],
 	);
 
 	const openDeleteAlert = useCallback((e, index: number) => {
@@ -149,12 +151,12 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		setDeleteTarget(index);
 	}, []);
 
-	// 리덕스로 바꿀 예정
+	// TODO: room 삭제
 	const deleteListItem = useCallback((): void => {
 		const copyList = [...listItems];
 		copyList.splice(deleteTarget, 1);
 
-		setListItems(copyList);
+		// setListItems(copyList);
 		setContentTop('General');
 		setDeleteTarget(0);
 		setShowDeleteAlert(false);
