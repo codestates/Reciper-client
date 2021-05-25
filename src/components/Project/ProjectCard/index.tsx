@@ -7,8 +7,6 @@ interface Props {
 }
 
 const ProjectCard = ({ data }: Props): JSX.Element => {
-	console.log(data);
-
 	return (
 		<CardContainer to={`/workspace/${data.projectURL}/chat/general`}>
 			<ProjectImageWrap>
