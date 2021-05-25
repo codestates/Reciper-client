@@ -213,6 +213,7 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
+	room?: string;
 	id: number | null;
 	text: string;
 	createdAt: string;
@@ -230,6 +231,11 @@ export interface ChatSendDataType {
 	uploadImage: string;
 	profileColor: string;
 	createdAt: string;
+}
+
+export interface ChatTestDataType {
+	name: string;
+	message: string;
 }
 
 ////////////////////////////////////////////////////////
