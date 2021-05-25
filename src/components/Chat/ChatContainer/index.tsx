@@ -12,11 +12,9 @@ import { OnChangeHandlerFunc } from 'react-mentions';
 
 import { ChatDataType } from '../../../types/types';
 import { axiosRequest } from '../../../utils/axios';
-import { getroomsListSelector } from '../../../reducer/roomsList';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const { roomsList } = useSelector(getroomsListSelector);
 	const listData = ['공지사항', '자료'];
 	const scrollbarRef = useRef<Scrollbars>(null);
 	const [chat, setChat] = useState<string>('');

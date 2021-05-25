@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { addRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
+import { addRoom, deleteRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -67,24 +67,30 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const historyPath = history.location.pathname.split('/');
 	const currentURL = historyPath[2];
 	const currentAddress = historyPath[3];
+	const currentRoom = historyPath[4];
 	const dispatch = useDispatch();
 
-	const listItems = ['General', ...roomsList];
 	const [frameInitState, setFrameInitState] = useState<frameInitType>({
 		workSpaceType: '',
 		pointerTop: '',
 		listType: '',
 	});
 
-	const [contentTop, setContentTop] = useState<string>(listItems[0]);
+	const [contentTop, setContentTop] = useState<string>(currentRoom);
 	const [openList, setOpenList] = useState<boolean>(true);
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 	const [deleteTarget, setDeleteTarget] = useState<number>(0);
 
+	console.log('roomsList', roomsList);
+
 	// TODO: room 조회
 	useEffect(() => {
-		dispatch(getRoomsListInfo(currentURL));
+		const roomValue = {
+			currentURL: currentURL,
+			currentRoom: currentRoom,
+		};
+		dispatch(getRoomsListInfo(roomValue));
 	}, []);
 
 	const loadInitState = useCallback((): void => {
@@ -123,7 +129,6 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const addListItem = useCallback(
 		(e: KeyboardEvent<HTMLInputElement>): void => {
 			const value = e.currentTarget.value;
-			console.log('----list 선택한 값----', value, contentTop);
 			if (value.trim() === '') {
 				return;
 			}
@@ -131,6 +136,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 			if (e.key === 'Enter') {
 				const roomValue = {
 					currentURL: currentURL,
+					currentRoom: currentRoom,
 					roomName: { name: value },
 				};
 
@@ -153,26 +159,31 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 
 	// TODO: room 삭제
 	const deleteListItem = useCallback((): void => {
-		const copyList = [...listItems];
-		copyList.splice(deleteTarget, 1);
+		const roomValue = {
+			currentURL: currentURL,
+			currentRoom: currentRoom,
+			roomName: { name: roomsList[deleteTarget] },
+		};
 
-		// setListItems(copyList);
+		dispatch(deleteRoom(roomValue));
+
 		setContentTop('General');
 		setDeleteTarget(0);
 		setShowDeleteAlert(false);
 
 		history.push(`/workspace/${currentURL}/${currentAddress}/General`);
-	}, [listItems, deleteTarget]);
+	}, [roomsList, deleteTarget]);
 
 	const activeListItem = useCallback((): void => {
 		const items = document.querySelectorAll('.items');
-		const currentIndex = listItems.indexOf(contentTop);
+		const currentIndex = roomsList.indexOf(contentTop);
 
 		items.forEach(item => {
 			item.classList.remove('active');
 		});
-
-		items[currentIndex].classList.add('active');
+		if (currentIndex !== -1) {
+			items[currentIndex].classList.add('active');
+		}
 	}, [contentTop]);
 
 	useEffect(() => {
@@ -225,7 +236,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 					<span>{frameInitState.listType}</span>
 				</ListTitle>
 				<ListItemWrap className={openList ? 'on' : 'off'}>
-					{listItems.map((item, index) => (
+					{roomsList.map((item, index) => (
 						<ListItem
 							className="items"
 							key={index}
