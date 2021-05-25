@@ -1,10 +1,11 @@
 import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
+import { getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -43,6 +44,8 @@ import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
 import Modal from '../Modal';
 import Button from '../Button';
 
+import { RoomsListDataType } from '../../../types/types';
+
 interface frameInitType {
 	workSpaceType: string;
 	pointerTop: string;
@@ -59,13 +62,17 @@ interface Props {
 */
 
 const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
+	const { projectUrl } = useParams<{ projectUrl: string }>();
+	const roomsList = useSelector(getroomsListSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
 	const historyPath = history.location.pathname.split('/');
 	const currentURL = historyPath[2];
 	const currentAddress = historyPath[3];
+	const dispatch = useDispatch();
 
-	const [listItems, setListItems] = useState(['General', ...listData]);
+	// const [listItems, setListItems] = useState(['General', ...listData]);
+	const [listItems, setListItems] = useState<string[]>(roomsList.roomsList);
 	const [frameInitState, setFrameInitState] = useState<frameInitType>({
 		workSpaceType: '',
 		pointerTop: '',
@@ -77,6 +84,11 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 	const [deleteTarget, setDeleteTarget] = useState<number>(0);
+
+	useEffect(() => {
+		dispatch(getRoomsListInfo(projectUrl));
+	}, []);
+	console.log('룸 리스트 확인', listItems);
 
 	const loadInitState = useCallback((): void => {
 		if (currentAddress === 'chat') {
