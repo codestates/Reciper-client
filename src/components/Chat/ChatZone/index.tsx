@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject, useCallback } from 'react';
 import ChatItem from '../ChatItem';
 
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -8,14 +8,28 @@ import { ChatList, ChatZoneContainer, StickyHeader } from './styles';
 import { ChatDataType } from '../../../types/types';
 
 export interface Props {
+	scrollbarRef: RefObject<Scrollbars>;
 	chatBucket: ChatDataType[];
 }
 
-const ChatZone = ({ chatBucket }: Props): JSX.Element => {
-	// console.log('여긴 chatZone', chatBucket);
+const ChatZone = ({ scrollbarRef, chatBucket }: Props): JSX.Element => {
+	const onScrollFrame = useCallback(
+		values => {
+			if (values.scrollTop === 0 && scrollbarRef.current) {
+				console.log(
+					'현재 스크롤 높이, 스크롤의 스크롤바 높이',
+					scrollbarRef.current?.getScrollHeight(),
+					values.scrollHeight,
+				);
+				scrollbarRef.current.getScrollHeight() - values.scrollHeight;
+			}
+		},
+		[scrollbarRef],
+	);
+
 	return (
 		<ChatZoneContainer>
-			<Scrollbars autoHide>
+			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
 				<StickyHeader></StickyHeader>
 				<ChatList>
 					{chatBucket.map((chat: ChatDataType, index: number) => (
