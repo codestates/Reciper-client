@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 export const Frame = styled.div`
 	display: flex;
@@ -161,12 +162,16 @@ export const ListItem = styled(Link)`
 
 	& > svg {
 		position: absolute;
-		top: 9px;
+		top: 8px;
 		right: 10px;
 		opacity: 0;
 		transition: 0.1s;
-		font-size: 12px;
+		font-size: 15px;
 		color: #fff;
+
+		&:hover {
+			color: #d9d2d2;
+		}
 	}
 
 	&:hover {
@@ -221,7 +226,7 @@ export const AddListItemBtn = styled.div`
 	}
 `;
 
-export const DeleteAlert = styled.div`
+export const SettingAlert = styled.div`
 	${({ theme }) => theme.align.positionCenter}
 	padding: 30px;
 	background-color: #fff;
@@ -235,6 +240,17 @@ export const DeleteAlert = styled.div`
 
 export const DeleteAlertBtnWrap = styled.div`
 	${({ theme }) => theme.align.flexHorizontal}
+`;
+
+export const EditButton = styled(HiOutlinePencilAlt)`
+	position: absolute;
+	top: 9px;
+	right: 10px;
+	opacity: 0;
+	transition: 0.1s;
+	margin-right: 20px;
+	font-size: 12px;
+	color: #fff;
 `;
 
 ////////////////////////////////////////
