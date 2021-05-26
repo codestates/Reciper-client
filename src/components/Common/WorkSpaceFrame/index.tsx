@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { addRoom, deleteRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
+import { addRoom, deleteRoom, editRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -15,8 +15,8 @@ import {
 	ContentBody,
 	ContentTop,
 	ContentWrap,
-	DeleteAlert,
 	DeleteAlertBtnWrap,
+	EditButton,
 	Frame,
 	HomeIcon,
 	InviteIcon,
@@ -32,6 +32,7 @@ import {
 	SideBarBottom,
 	SideBarMid,
 	SideBarTop,
+	SettingAlert,
 } from './styles';
 
 import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineClose } from 'react-icons/ai';
@@ -43,7 +44,7 @@ import project24 from '@iconify/icons-octicon/project-24';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
 import Modal from '../Modal';
 import Button from '../Button';
-import { axiosRequest } from '../../../utils/axios';
+import useInput from '../../../hooks/useInput';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -53,14 +54,13 @@ interface frameInitType {
 
 interface Props {
 	children: ReactNode;
-	listData: string[];
 }
 
 /*
 	listData - 채널, 파트에 들어갈 데이터
 */
 
-const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
+const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 	const { roomsList } = useSelector(getroomsListSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
@@ -80,15 +80,15 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 	const [openList, setOpenList] = useState<boolean>(true);
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
-	const [deleteTarget, setDeleteTarget] = useState<number>(0);
-
-	console.log('roomsList', roomsList);
+	const [showEditAlert, setShowEditAlert] = useState<boolean>(false);
+	const [SettingTarget, setSettingTarget] = useState<number>(0);
+	const [listName, onChangeListName, setListName] = useInput<string>('');
 
 	// TODO: room 조회
 	useEffect(() => {
 		const roomValue = {
 			currentURL: currentURL,
-			currentRoom: currentRoom,
+			currentAddress: currentAddress,
 		};
 		dispatch(getRoomsListInfo(roomValue));
 	}, []);
@@ -136,7 +136,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 			if (e.key === 'Enter') {
 				const roomValue = {
 					currentURL: currentURL,
-					currentRoom: currentRoom,
+					currentAddress: currentAddress,
 					roomName: { name: value },
 				};
 
@@ -154,25 +154,58 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 		e.stopPropagation();
 
 		setShowDeleteAlert(true);
-		setDeleteTarget(index);
+		setSettingTarget(index);
+	}, []);
+
+	const openEditAlert = useCallback((e, index: number) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		setShowEditAlert(true);
+		setSettingTarget(index);
 	}, []);
 
 	// TODO: room 삭제
 	const deleteListItem = useCallback((): void => {
 		const roomValue = {
 			currentURL: currentURL,
-			currentRoom: currentRoom,
-			roomName: { name: roomsList[deleteTarget] },
+			currentAddress: currentAddress,
+			roomName: { name: roomsList[SettingTarget] },
 		};
 
 		dispatch(deleteRoom(roomValue));
 
 		setContentTop('General');
-		setDeleteTarget(0);
-		setShowDeleteAlert(false);
-
+		setListName;
 		history.push(`/workspace/${currentURL}/${currentAddress}/General`);
-	}, [roomsList, deleteTarget]);
+	}, [roomsList, SettingTarget]);
+
+	// TODO: room 수정
+	const onChangeListNameEnter = useCallback((): void => {
+		setListName('');
+		if (listName.trim() === '') {
+			return;
+		}
+
+		const roomValue = {
+			currentURL: currentURL,
+			currentAddress: currentAddress,
+			roomName: { name: roomsList[SettingTarget] },
+			changeName: { name: listName },
+		};
+		console.log('입력값', listName);
+		console.log('체크되는지 테스트', roomsList[SettingTarget]);
+		console.log('roomValue', roomValue);
+
+		dispatch(editRoom(roomValue));
+
+		setContentTop(`${listName}`);
+		setSettingTarget(SettingTarget);
+		setListName('');
+		setShowEditAlert(false);
+
+		history.push(`/workspace/${currentURL}/${currentAddress}/${listName}`);
+	}, [listName]);
 
 	const activeListItem = useCallback((): void => {
 		const items = document.querySelectorAll('.items');
@@ -244,6 +277,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 							onClick={() => setContentTop(item)}
 						>
 							{item}
+							{index > 0 && <EditButton onClick={e => openEditAlert(e, index)} />}
 							{index > 0 && <AiOutlineClose onClick={e => openDeleteAlert(e, index)} />}
 						</ListItem>
 					))}
@@ -262,7 +296,7 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 			</ContentWrap>
 			{showDeleteAlert && (
 				<Modal setShowModal={setShowDeleteAlert}>
-					<DeleteAlert>
+					<SettingAlert>
 						<p>삭제 시 내용이 전부 사라집니다. 삭제 하시겠습니까?</p>
 						<DeleteAlertBtnWrap>
 							<Button
@@ -277,7 +311,20 @@ const WorkSpaceFrame = ({ children, listData }: Props): JSX.Element => {
 								삭제
 							</Button>
 						</DeleteAlertBtnWrap>
-					</DeleteAlert>
+					</SettingAlert>
+				</Modal>
+			)}
+			{showEditAlert && (
+				<Modal setShowModal={setShowEditAlert}>
+					<SettingAlert>
+						<p>변경하고 싶은 이름을 적어주세요</p>
+						<input
+							value={listName}
+							placeholder="ex) 공지사항, 자료"
+							onChange={onChangeListName}
+							onKeyPress={e => e.key === 'Enter' && onChangeListNameEnter()}
+						/>
+					</SettingAlert>
 				</Modal>
 			)}
 		</Frame>
