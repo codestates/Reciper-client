@@ -250,8 +250,9 @@ export interface RoomsListDataType {
 
 export interface addRoomDataType {
 	currentURL: string;
-	currentRoom: string;
+	currentAddress: string;
 	roomName?: RoomNameType;
+	changeName?: RoomNameType;
 }
 
 export interface RoomNameType {
