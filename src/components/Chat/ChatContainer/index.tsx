@@ -114,7 +114,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	}, []);
 
 	return (
-		<WorkSpaceFrame listData={listData}>
+		<WorkSpaceFrame>
 			<ChatZone scrollbarRef={scrollbarRef} chatBucket={chatBucket} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
