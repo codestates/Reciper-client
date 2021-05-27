@@ -3,9 +3,19 @@ import ProfileImage from '../../Common/ProfileImage';
 
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
 import autosize from 'autosize';
-import { useSelector } from 'react-redux';
 
-import { ChatArea, ChatForm, MentionList, MentionsTextarea, SendChatBox, SendChatButton } from './styles';
+import {
+	ChatArea,
+	ChatAreaContainer,
+	ChatContentsWrapper,
+	ChatForm,
+	ChatImageUpload,
+	ChatMention,
+	MentionList,
+	MentionsTextarea,
+	SendChatBox,
+	SendChatButton,
+} from './styles';
 
 import { ChatDataType } from '../../../types/types';
 
@@ -70,17 +80,18 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }:
 	);
 
 	return (
-		<ChatArea>
-			<ChatForm className={!chat?.trim() ? 'off' : 'onValue'} onSubmit={onSubmitForm}>
-				<MentionsTextarea
-					value={chat}
-					onChange={onChangeChat}
-					onKeyPress={onKeydownChat}
-					placeholder={placeholder}
-					inputRef={textareaRef}
-					allowSuggestionsAboveCursor
-				>
-					{/* <Mention
+		<ChatAreaContainer>
+			<ChatArea>
+				<ChatForm className={!chat?.trim() ? 'off' : 'onValue'} onSubmit={onSubmitForm}>
+					<MentionsTextarea
+						value={chat}
+						onChange={onChangeChat}
+						onKeyPress={onKeydownChat}
+						placeholder={placeholder}
+						inputRef={textareaRef}
+						allowSuggestionsAboveCursor
+					>
+						{/* <Mention
 						appendSpaceOnAdd
 						trigger="@"
 						data={
@@ -94,23 +105,28 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }:
 						renderSuggestion={renderUserSuggestion}
 					/> */}
 
-					<Mention
-						appendSpaceOnAdd
-						trigger="@"
-						data={
-							members.map((user: DataType) => ({
-								id: user.id,
-								display: user.name,
-							})) || []
-						}
-						renderSuggestion={renderUserSuggestion}
-					/>
-				</MentionsTextarea>
-				<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} type="submit">
-					<SendChatButton />
-				</SendChatBox>
-			</ChatForm>
-		</ChatArea>
+						<Mention
+							appendSpaceOnAdd
+							trigger="@"
+							data={
+								members.map((user: DataType) => ({
+									id: user.id,
+									display: user.name,
+								})) || []
+							}
+							renderSuggestion={renderUserSuggestion}
+						/>
+					</MentionsTextarea>
+				</ChatForm>
+				<ChatContentsWrapper className={!chat?.trim() ? 'off' : 'onValue'}>
+					<ChatMention />
+					<ChatImageUpload />
+					<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} type="submit">
+						<SendChatButton />
+					</SendChatBox>
+				</ChatContentsWrapper>
+			</ChatArea>
+		</ChatAreaContainer>
 	);
 };
 
