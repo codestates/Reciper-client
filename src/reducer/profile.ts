@@ -11,7 +11,7 @@ export const getProfileInfo = createAsyncThunk('profileInfo', (): Promise<void> 
 
 // TODO: 초기 상태
 const initialState: profileInfoDataType = {
-	UpdatedAt: '',
+	updatedAt: '',
 	aboutMe: '',
 	career: {
 		office: '',

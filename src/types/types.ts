@@ -161,7 +161,7 @@ export interface profileInfoDataType {
 	profileColor: string;
 	uploadImage: string;
 	createdAt: string;
-	UpdatedAt: string;
+	updatedAt: string;
 }
 
 export interface careerType {
@@ -213,8 +213,50 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
+	text: string;
+	room: string;
+	writer: ChatWriterDataType;
+	createdAt: string;
+	project?: ChatUserProjectDataType;
+}
+
+export interface ChatWriterDataType {
+	id: number | null;
 	name: string;
-	message: string;
+	email: string;
+	mobile: string;
+	gitId: string;
+	career: careerType;
+	aboutMe: string;
+	uploadImage: string;
+	profileColor: string;
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface ChatUserProjectDataType {
+	id: number | null;
+	name: string;
+	projectURL: string;
+	projectColor: string;
+	inviteList: string[];
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface RoomsListDataType {
+	roomsList: string[];
+}
+
+export interface addRoomDataType {
+	currentURL: string;
+	currentAddress: string;
+	roomName?: RoomNameType;
+	changeName?: RoomNameType;
+}
+
+export interface RoomNameType {
+	name: string;
 }
 
 ////////////////////////////////////////////////////////
