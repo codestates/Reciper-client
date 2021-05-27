@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import Modal from '../components/Common/Modal';
 import { axiosRequest } from '../utils/axios';
 import getLoginInfo from '../utils/getLoginInfo';
-import LoginModal from '../components/LoginModal';
+import LoginModal from '../components/Common/LoginModal';
 import Button from '../components/Common/Button';
 import styled from 'styled-components';
 
