@@ -41,17 +41,13 @@ const KanbanConianer = (): JSX.Element => {
 
 	useEffect(() => {
 		socket?.on('getKanbanData', data => {
-			console.log('getKan');
-			console.log(data);
 			dispatch(getSocketData(data));
 		});
 		socket?.on('addTaskBox', data => {
-			console.log('addTaskBox');
 			dispatch(socketAddTaskBox(data));
 		});
 
 		socket?.on('deleteTaskBox', index => {
-			console.log('deleteTaskBox');
 			dispatch(deleteTaskBox(index));
 		});
 
