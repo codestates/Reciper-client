@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootStateOrAny } from 'react-redux';
 import { kanbanDataType } from '../types/types';
 
-const initialState: kanbanDataType = {
+const kanbaninitialState: kanbanDataType = {
 	taskBox: [],
 	taskItems: {},
 };
 
 export const kanbanDataSlice = createSlice({
 	name: 'kanbanData',
-	initialState,
+	initialState: kanbaninitialState,
 	reducers: {
 		addTaskBox: (state, { payload: taskBoxTitle }: PayloadAction<string>): void => {
 			const taskBoxFrame = {
@@ -85,6 +85,11 @@ export const kanbanDataSlice = createSlice({
 			state.taskBox[targetListIndex].tasks.push(taskKey);
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
+		editTaskDetail: (state, { payload }) => {
+			const { targetTask, detailData } = payload;
+
+			state.taskItems = { ...state.taskItems, [targetTask]: detailData };
+		},
 	},
 	extraReducers: {},
 });
@@ -99,47 +104,7 @@ export const {
 	socketAddTaskBox,
 	socketAddTaskItem,
 	deleteTaskItem,
+	editTaskDetail,
 } = kanbanDataSlice.actions;
 
 export const kanbanDataSelector = (state: RootStateOrAny): kanbanDataType => state.kanbanDataSlice;
-
-// taskBox[targetIndex].tasks.push(id)
-// {
-// 	taskBox: [
-// 		{ taskBoxTitle: 'To Do', tasks: ['0', '1'] },
-// 		{ taskBoxTitle: 'In Progress', tasks: ['2'] },
-// 		{ taskBoxTitle: 'Done', tasks: [] },
-// 	],
-// 	taskItems: {
-// 		'0': {
-// 			taskTitle: 'Task 1',
-// 			desc: '',
-// 			taskColor: '#c41c4f',
-// 			startDate: '5월 30일',
-// 			endDate: '7월 01일',
-// 			assigness: '',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 		'1': {
-// 			taskTitle: 'Task 2',
-// 			desc: '',
-// 			taskColor: '#478bff',
-// 			startDate: '',
-// 			endDate: '',
-// 			assigness: '1',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 		'2': {
-// 			taskTitle: 'Task 3',
-// 			desc: '',
-// 			taskColor: '#00c875',
-// 			startDate: '5월 24일',
-// 			endDate: '6월 7일',
-// 			assigness: '1',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 	},
-// };
