@@ -4,11 +4,13 @@ import { getProfileInfoSelector } from '../../../reducer/profile';
 import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
+import { chatSection } from '../../../utils/chatSection';
 
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
+import dayjs from 'dayjs';
 
 import { ChatDataType } from '../../../types/types';
 
@@ -19,7 +21,6 @@ const WorkSpaceChat = (): JSX.Element => {
 	const scrollbarRef = useRef<Scrollbars>(null);
 
 	const [chat, setChat] = useState<string>('');
-	const [chatCreated, setChatCreatedAt] = useState<string>('');
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
@@ -47,7 +48,6 @@ const WorkSpaceChat = (): JSX.Element => {
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
 		socket?.on('sendMessage', ({ text, writer, room, project, createdAt }: ChatDataType) => {
-			setChatCreatedAt(createdAt);
 			setChatBucket([...chatBucket, { text, writer, room, project, createdAt }]);
 		});
 	}, [chatBucket]);
@@ -57,7 +57,6 @@ const WorkSpaceChat = (): JSX.Element => {
 		if (chatBucket) {
 			scrollbarRef.current?.scrollToBottom();
 		}
-		console.log(chatBucket);
 	}, [chatBucket]);
 
 	const onSubmitForm = useCallback(
@@ -66,6 +65,8 @@ const WorkSpaceChat = (): JSX.Element => {
 			if (chat?.trim() === '') {
 				return;
 			}
+			let newChatDate = dayjs();
+			newChatDate = newChatDate.subtract(9, 'hour');
 
 			const data = {
 				room: room,
@@ -75,7 +76,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			const newChat: ChatDataType = {
 				text: chat,
 				room: room,
-				createdAt: chatCreated,
+				createdAt: newChatDate.toString(),
 				writer: {
 					id: profileInfo.id,
 					name: profileInfo.name,
@@ -91,7 +92,6 @@ const WorkSpaceChat = (): JSX.Element => {
 				},
 			};
 			socket?.emit('sendMessage', data);
-			setChatCreatedAt(newChat.createdAt);
 			setChatBucket([...chatBucket, newChat]);
 			setChat('');
 
@@ -106,9 +106,11 @@ const WorkSpaceChat = (): JSX.Element => {
 		setChat(e.target.value);
 	}, []);
 
+	const chatSections = chatSection(chatBucket ? [...chatBucket] : []);
+
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatBucket={chatBucket} />
+			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}

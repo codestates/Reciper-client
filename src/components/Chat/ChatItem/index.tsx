@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
-import timeStamp from '../../../utils/timeStamp';
+
+import dayjs from 'dayjs';
 
 import {
 	ChatContent,
@@ -20,6 +21,8 @@ interface Props {
 
 const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 	const { uploadImage, profileColor, name } = data.writer;
+	let date = dayjs(data.createdAt);
+	date = date.add(9, 'hour');
 
 	return (
 		<ChatWrapper isSameSender={isSameSender}>
@@ -35,7 +38,7 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 			<div>
 				<ChatUserInfoWrapper isSameSender={isSameSender}>
 					<ChatUserId>{name}</ChatUserId>
-					<ChatCreatedAt>{timeStamp(new Date(data.createdAt))}</ChatCreatedAt>
+					<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
 				</ChatUserInfoWrapper>
 				<ChatContent isSameSender={isSameSender}>{data.text}</ChatContent>
 			</div>

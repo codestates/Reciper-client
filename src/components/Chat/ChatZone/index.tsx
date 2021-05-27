@@ -3,16 +3,16 @@ import ChatItem from '../ChatItem';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { ChatList, ChatZoneContainer, StickyHeader } from './styles';
+import { ChatList, ChatZoneContainer, ChatDateHeader } from './styles';
 
-import { ChatDataType } from '../../../types/types';
+import { ChatDataType, ChatSectionType } from '../../../types/types';
 
 export interface Props {
 	scrollbarRef: RefObject<Scrollbars>;
-	chatBucket: ChatDataType[];
+	chatSections: ChatSectionType;
 }
 
-const ChatZone = ({ scrollbarRef, chatBucket }: Props): JSX.Element => {
+const ChatZone = ({ scrollbarRef, chatSections }: Props): JSX.Element => {
 	const onScrollFrame = useCallback(
 		values => {
 			if (values.scrollTop === 0 && scrollbarRef.current) {
@@ -30,20 +30,26 @@ const ChatZone = ({ scrollbarRef, chatBucket }: Props): JSX.Element => {
 	return (
 		<ChatZoneContainer>
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
-				<StickyHeader></StickyHeader>
-				<ChatList>
-					{chatBucket?.map((chat: ChatDataType, index: number) => {
-						let isSameSender = false;
-						if (index > 0) {
-							isSameSender = chat.writer.email === chatBucket[index - 1].writer.email;
-						}
-						return isSameSender ? (
-							<ChatItem key={index} data={chat} isSameSender={true} />
-						) : (
-							<ChatItem key={index} data={chat} isSameSender={false} />
-						);
-					})}
-				</ChatList>
+				{Object.entries(chatSections).map(([date, chatsBucket]) => {
+					return (
+						<ChatList key={date}>
+							<ChatDateHeader>
+								<button>{date}</button>
+							</ChatDateHeader>
+							{chatsBucket.map((chat: ChatDataType, index: number) => {
+								let isSameSender = false;
+								if (index > 0) {
+									isSameSender = chat.writer.email === chatsBucket[index - 1].writer.email;
+								}
+								return isSameSender ? (
+									<ChatItem key={index} data={chat} isSameSender={true} />
+								) : (
+									<ChatItem key={index} data={chat} isSameSender={false} />
+								);
+							})}
+						</ChatList>
+					);
+				})}
 			</Scrollbars>
 		</ChatZoneContainer>
 	);

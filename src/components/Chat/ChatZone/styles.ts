@@ -9,30 +9,29 @@ export const ChatZoneContainer = styled.div`
 export const ChatList = styled.section`
 	width: 100%;
 	margin-top: 20px;
+	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
-export const StickyHeader = styled.div`
-	display: flex;
-	justify-content: center;
-	flex: 1;
-	width: 100%;
+export const ChatDateHeader = styled.div`
+	${({ theme }) => theme.align.flexHorizontal};
 	position: sticky;
 	top: 14px;
+	flex: 1;
+	width: 100%;
 
 	& button {
-		font-weight: bold;
-		font-size: 13px;
-		height: 28px;
-		line-height: 27px;
-		padding: 0 16px;
-		z-index: 2;
-		--saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
-		box-shadow: 0 0 0 1px var(--saf-0), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
-		border-radius: 24px;
-		position: relative;
-		top: -13px;
-		background: white;
-		border: none;
 		outline: none;
+		position: relative;
+		top: -14px;
+		z-index: 10;
+		height: 28px;
+		line-height: 28px;
+		padding: 0 16px;
+		font-family: 'NanumSquareB';
+		font-size: 14px;
+		background: #fff;
+		border: 1px solid ${({ theme }) => theme.color.lineColor};
+		border-radius: 24px;
+		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 	}
 `;
