@@ -7,7 +7,7 @@ import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
 
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 // import { getTotalChatSelector } from '../../../reducer/chat';
 
 import { ChatDataType } from '../../../types/types';
@@ -18,7 +18,9 @@ const WorkSpaceChat = (): JSX.Element => {
 	// const totalChat = useSelector(getTotalChatSelector);
 	const [chat, onChangeChat, setChat] = useInput<string>('');
 	const { projectUrl } = useParams<{ projectUrl: string }>();
-	const [socket] = useSocket(projectUrl);
+	const history = useHistory();
+	const currentAddress = history.location.pathname.split('/')[3];
+	const [socket] = useSocket(projectUrl, currentAddress);
 
 	// TODO: test socket.io
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
@@ -26,7 +28,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
 		console.log('socket', socket);
-		socket.on('totalMessageGet', (chats: any) => {
+		socket?.on('totalMessageGet', (chats: any) => {
 			console.log('chats??????????', chats);
 
 			const data = chats.map((chat: any) => {
@@ -35,12 +37,12 @@ const WorkSpaceChat = (): JSX.Element => {
 			console.log('서버로 보내는 data', data);
 			setChatBucket(data);
 		});
-		socket.emit('totalMessageGet');
+		socket?.emit('totalMessageGet');
 	}, []);
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket.on('message', ({ name, message }: any) => {
+		socket?.on('message', ({ name, message }: any) => {
 			console.log('name, message', name, message);
 			setChatBucket([...chatBucket, { name, message }]);
 		});
@@ -56,7 +58,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				name: profileInfo.name,
 				message: chat,
 			};
-			socket.emit('message', data);
+			socket?.emit('message', data);
 			setChat('');
 		},
 		[chat],

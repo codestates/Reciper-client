@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
-import io from 'socket.io-client';
+import { useCallback } from 'react';
+import io, { Socket } from 'socket.io-client';
 
-const sockets: { [key: string]: any } = {};
+const sockets: { [key: string]: Socket } = {};
 
-const useSocket = (projectUrl?: string): [any | undefined, () => void] => {
+const useSocket = (projectUrl: string, address: string): [Socket | undefined, () => void] => {
+	const loginInfo = window.localStorage.getItem('loginInfo');
+
+	// TODO: 프로젝트가 바뀌면 연결을 끊고 다시 연결할 수 있는 기능이다.
 	const disconnect = useCallback(() => {
 		if (projectUrl && sockets[projectUrl]) {
 			sockets[projectUrl].disconnect();
@@ -16,30 +19,20 @@ const useSocket = (projectUrl?: string): [any | undefined, () => void] => {
 	}
 
 	// TODO: 연결이 안되어 있다면 요청하고, 되어있으면 한번만 연결할 수 있도록 해준다.
-	if (!sockets[projectUrl]) {
-		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/project`, {
+	if (!sockets[projectUrl] && loginInfo) {
+		const { accessToken, loginType } = JSON.parse(loginInfo);
+
+		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/${address}`, {
 			transports: ['websocket'],
+			auth: {
+				token: accessToken,
+				loginType: loginType,
+			},
 			query: {
 				projectURL: projectUrl,
 			},
 		});
 	}
-
-	// sockets[projectUrl].emit('totalMessageGet', (data: any) => {
-	// 	console.log('message', data);
-	// });
-
-	// sockets[projectUrl].emit('message', (data: any) => {
-	// 	console.log('message', data);
-	// });
-
-	// sockets[projectUrl].on('totalMessageGet', (data: any) => {
-	// 	console.log('totalMessageGet', data);
-	// });
-
-	// sockets[projectUrl].on('message', (data: any) => {
-	// 	console.log(data);
-	// });
 
 	return [sockets[projectUrl], disconnect];
 };
