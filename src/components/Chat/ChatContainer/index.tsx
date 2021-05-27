@@ -7,7 +7,7 @@ import useSocket from '../../../hooks/useSocket';
 import { chatSection } from '../../../utils/chatSection';
 
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
 import dayjs from 'dayjs';
@@ -16,8 +16,11 @@ import { ChatDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	// const totalChat = useSelector(getTotalChatSelector);
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
-	const [socket] = useSocket(projectUrl);
+	const history = useHistory();
+	const currentAddress = history.location.pathname.split('/')[3];
+	const [socket] = useSocket(projectUrl, currentAddress);
 	const scrollbarRef = useRef<Scrollbars>(null);
 
 	const [chat, setChat] = useState<string>('');

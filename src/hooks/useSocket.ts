@@ -3,7 +3,7 @@ import io, { Socket } from 'socket.io-client';
 
 const sockets: { [key: string]: Socket } = {};
 
-const useSocket = (projectUrl?: string): [Socket | undefined, () => void] => {
+const useSocket = (projectUrl: string, address: string): [Socket | undefined, () => void] => {
 	const loginInfo = window.localStorage.getItem('loginInfo');
 
 	// TODO: 프로젝트가 바뀌면 연결을 끊고 다시 연결할 수 있는 기능이다.
@@ -22,7 +22,7 @@ const useSocket = (projectUrl?: string): [Socket | undefined, () => void] => {
 	if (!sockets[projectUrl] && loginInfo) {
 		const { accessToken, loginType } = JSON.parse(loginInfo);
 
-		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/chat`, {
+		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/${address}`, {
 			transports: ['websocket'],
 			auth: {
 				token: accessToken,

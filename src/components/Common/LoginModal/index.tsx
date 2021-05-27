@@ -2,11 +2,11 @@ import React, { KeyboardEvent, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
-import Button from '../Common/Button';
-import Input from '../Common/Input';
+import Button from '../Button';
+import Input from '../Input';
 
-import useInput from '../../hooks/useInput';
-import { emailValid } from '../../utils/validations';
+import useInput from '../../../hooks/useInput';
+import { emailValid } from '../../../utils/validations';
 
 import {
 	LoginTitle,
@@ -34,32 +34,8 @@ const LoginModal = (): JSX.Element => {
 		return changeGuide ? '회원가입' : '로그인';
 	}, [changeGuide]);
 
-	const onLogin = useCallback(
-		(type: string): void => {
-			window.localStorage.setItem('location', history.location.pathname);
-
-			if (type === 'google') {
-				window.location.assign(`${process.env.REACT_APP_GOOGLE_LOGIN_URL}`);
-			}
-			if (type === 'github') {
-				window.location.assign(`${process.env.REACT_APP_GITHUB_LOGIN_URL}`);
-			}
-			if (type === 'email') {
-				if (email.indexOf('@') === -1) {
-					setErrorMessage(true);
-				} else {
-					axios.post(`${process.env.REACT_APP_SERVER_URL}/sendEmail`, { email });
-					setErrorMessage(false);
-					setLoginMessage(true);
-				}
-			}
-		},
-		[email],
-	);
-
 	const onSubmitEmail = (): void => {
 		if (email.trim() === '') {
-			// TODO: 에러 메세지 추가 여부?
 			return;
 		}
 
@@ -73,6 +49,23 @@ const LoginModal = (): JSX.Element => {
 			setLoginMessage(true);
 		}
 	};
+
+	const onLogin = useCallback(
+		(type: string): void => {
+			window.localStorage.setItem('location', `${history.location.pathname}${history.location.search}`);
+
+			if (type === 'google') {
+				window.location.assign(`${process.env.REACT_APP_GOOGLE_LOGIN_URL}`);
+			}
+			if (type === 'github') {
+				window.location.assign(`${process.env.REACT_APP_GITHUB_LOGIN_URL}`);
+			}
+			if (type === 'email') {
+				onSubmitEmail();
+			}
+		},
+		[email],
+	);
 
 	return (
 		<LoginModalContainer>

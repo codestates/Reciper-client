@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 
-import Task from '../TaskItem';
+import TaskItem from '../TaskItem';
 
 import useInput from '../../../hooks/useInput';
 
@@ -11,10 +11,15 @@ import { taskBoxDataType } from '../../../types/types';
 import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
 
 import { AddTaskInput, TaskBoxContainer, TaskBoxName, TaskBoxTop, DeleteTaskBoxBtn } from './styles';
+import { Socket } from 'socket.io-client';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { useParams } from 'react-router';
 
 interface Props {
 	taskBoxData: taskBoxDataType;
 	index: number;
+	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+	openModalHooks: (task: string) => void;
 }
 
 const randomColor = (): string => {
@@ -45,13 +50,15 @@ const randomColor = (): string => {
 	return colors[random];
 };
 
-const TaskBox = ({ taskBoxData, index }: Props): JSX.Element => {
+const TaskBox = ({ socket, taskBoxData, index, openModalHooks }: Props): JSX.Element => {
 	const dispatch = useDispatch();
+	const { part } = useParams<{ part: string }>();
 	const { taskBoxTitle, tasks } = taskBoxData;
 
 	const [taskTitle, onChangeTaskTitle, setTaskTitle] = useInput<string>('');
 
 	const onDeleteTaskBox = useCallback(() => {
+		socket?.emit('deleteTaskBox', { targetListIndex: index, part });
 		dispatch(deleteTaskBox(index));
 	}, []);
 
@@ -60,7 +67,10 @@ const TaskBox = ({ taskBoxData, index }: Props): JSX.Element => {
 			return;
 		}
 
-		dispatch(addTaskItem({ taskTitle, index, taskColor: randomColor() }));
+		const taskColor = randomColor();
+
+		socket?.emit('addTaskItem', { targetListIndex: index, part, taskTitle, taskColor });
+		dispatch(addTaskItem({ taskTitle, index, taskColor }));
 
 		setTaskTitle('');
 	};
@@ -81,7 +91,7 @@ const TaskBox = ({ taskBoxData, index }: Props): JSX.Element => {
 							onKeyPress={e => e.key === 'Enter' && onAddTaskItem()}
 						/>
 					</TaskBoxTop>
-					<Task taskData={tasks} boxIndex={index} />
+					<TaskItem taskData={tasks} boxIndex={index} openModalHooks={openModalHooks} />
 				</TaskBoxContainer>
 			)}
 		</Draggable>
