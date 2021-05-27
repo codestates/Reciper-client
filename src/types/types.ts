@@ -236,7 +236,7 @@ export interface taskDataType {
 	taskColor: string;
 	startDate: string;
 	endDate: string;
-	assigness: string;
+	assignees: string;
 	checkList: taskChackListDataType[];
 	comment: taskCommentDataType[];
 }
