@@ -11,25 +11,18 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
 
 import { ChatDataType } from '../../../types/types';
-import { axiosRequest } from '../../../utils/axios';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const listData = ['공지사항', '자료'];
-	const scrollbarRef = useRef<Scrollbars>(null);
-	const [chat, setChat] = useState<string>('');
-	const [chatCreated, setChatCreatedAt] = useState<string>('');
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const [socket] = useSocket(projectUrl);
+	const scrollbarRef = useRef<Scrollbars>(null);
+
+	const [chat, setChat] = useState<string>('');
+	const [chatCreated, setChatCreatedAt] = useState<string>('');
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
-
-	// TODO: 채팅방 조회
-	useEffect(() => {
-		const data = axiosRequest('get', `/workspace/${projectUrl}/chat`);
-		console.log('콘솔확인', data);
-	}, []);
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
 	useEffect(() => {
@@ -38,7 +31,6 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
-		// console.log('socket', socket);
 		socket?.on('getAllMessages', (chats: ChatDataType[]) => {
 			const data = chats.map((chat: ChatDataType) => {
 				return { ...chat };
@@ -65,6 +57,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		if (chatBucket) {
 			scrollbarRef.current?.scrollToBottom();
 		}
+		console.log(chatBucket);
 	}, [chatBucket]);
 
 	const onSubmitForm = useCallback(
@@ -97,8 +90,8 @@ const WorkSpaceChat = (): JSX.Element => {
 					updatedAt: profileInfo.updatedAt,
 				},
 			};
-
 			socket?.emit('sendMessage', data);
+			setChatCreatedAt(newChat.createdAt);
 			setChatBucket([...chatBucket, newChat]);
 			setChat('');
 
@@ -121,7 +114,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				onChangeChat={onChangeChatValue}
 				chat={chat}
 				chatBucket={chatBucket}
-				placeholder={`#${room}에게 메세지 보내기`}
+				placeholder={`${room}에게 메세지 보내기`}
 			/>
 		</WorkSpaceFrame>
 	);

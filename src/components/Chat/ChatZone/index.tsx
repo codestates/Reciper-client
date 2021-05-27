@@ -32,9 +32,17 @@ const ChatZone = ({ scrollbarRef, chatBucket }: Props): JSX.Element => {
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
 				<StickyHeader></StickyHeader>
 				<ChatList>
-					{chatBucket.map((chat: ChatDataType, index: number) => (
-						<ChatItem key={index} data={chat} />
-					))}
+					{chatBucket?.map((chat: ChatDataType, index: number) => {
+						let isSameSender = false;
+						if (index > 0) {
+							isSameSender = chat.writer.email === chatBucket[index - 1].writer.email;
+						}
+						return isSameSender ? (
+							<ChatItem key={index} data={chat} isSameSender={true} />
+						) : (
+							<ChatItem key={index} data={chat} isSameSender={false} />
+						);
+					})}
 				</ChatList>
 			</Scrollbars>
 		</ChatZoneContainer>

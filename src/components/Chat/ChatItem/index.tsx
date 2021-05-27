@@ -2,20 +2,28 @@ import React, { memo } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import timeStamp from '../../../utils/timeStamp';
 
-import { ChatContent, ChatCreatedAt, ChatUserId, ChatWrapper } from './styles';
+import {
+	ChatContent,
+	ChatCreatedAt,
+	ChatProfileImageWrapper,
+	ChatUserId,
+	ChatUserInfoWrapper,
+	ChatWrapper,
+} from './styles';
 
 import { ChatDataType } from '../../../types/types';
 
 interface Props {
 	data: ChatDataType;
+	isSameSender: boolean;
 }
 
-const ChatItem = ({ data }: Props): JSX.Element => {
+const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 	const { uploadImage, profileColor, name } = data.writer;
 
 	return (
-		<ChatWrapper>
-			<div>
+		<ChatWrapper isSameSender={isSameSender}>
+			<ChatProfileImageWrapper isSameSender={isSameSender}>
 				<ProfileImage
 					width="40px"
 					height="40px"
@@ -23,13 +31,13 @@ const ChatItem = ({ data }: Props): JSX.Element => {
 					profileColor={profileColor}
 					userName={name}
 				/>
-			</div>
+			</ChatProfileImageWrapper>
 			<div>
-				<div>
+				<ChatUserInfoWrapper isSameSender={isSameSender}>
 					<ChatUserId>{name}</ChatUserId>
 					<ChatCreatedAt>{timeStamp(new Date(data.createdAt))}</ChatCreatedAt>
-				</div>
-				<ChatContent>{data.text}</ChatContent>
+				</ChatUserInfoWrapper>
+				<ChatContent isSameSender={isSameSender}>{data.text}</ChatContent>
 			</div>
 		</ChatWrapper>
 	);
