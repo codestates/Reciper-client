@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import ProfileImage from '../ProfileImage';
-import LoginModal from '../../LoginModal';
+import LoginModal from '../LoginModal';
 import HeaderUserMenu from '../HeaderUserMenu';
 import Modal from '../Modal';
 

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
+import { useDispatch } from 'react-redux';
+
+import LoginLoading from './pages/LoginLoading';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
@@ -9,12 +12,12 @@ import ProjectEdit from './pages/ProjectEdit';
 import Recruit from './pages/Recruit';
 import RecruitCreate from './pages/RecruitCreate';
 import RecruitDetail from './pages/RecruitDetail';
-import { getProfileInfo } from './reducer/profile';
-import { useDispatch } from 'react-redux';
-import LoginLoading from './pages/LoginLoading';
+import JoinProject from './pages/JoinProject';
 import Chat from './pages/Chat';
 import Kanban from './pages/Kanban';
 import Calendar from './pages/Calendar';
+
+import { getProfileInfo } from './reducer/profile';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -46,6 +49,7 @@ const App = (): JSX.Element => {
 				<Route exact path="/project" component={Project} />
 				<Route path="/projectcreate" component={ProjectCreate} />
 				<Route path="/project/:projectUrl/edit" component={ProjectEdit} />
+				<Route path="/joinproject" component={JoinProject} />
 				<Route path="/workspace/:projectUrl/chat/:part" component={Chat} />
 				<Route path="/workspace/:projectUrl/calendar/:part" component={Calendar} />
 				<Route path="/workspace/:projectUrl/kanban/:part" component={Kanban} />

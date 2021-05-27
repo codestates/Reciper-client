@@ -264,8 +264,23 @@ export interface RoomNameType {
 ///////////////////////////////////////////////////////
 
 export interface taskChackListDataType {
-	dese: string;
-	iseChecked: boolean;
+	desc: string;
+	isChecked: boolean;
+}
+
+export interface taskCommentDataType {
+	body: string;
+}
+
+export interface taskDataType {
+	taskTitle: string;
+	desc: string;
+	taskColor: string;
+	startDate: string;
+	endDate: string;
+	assignees: string;
+	checkList: taskChackListDataType[];
+	comment: taskCommentDataType[];
 }
 
 export interface taskBoxDataType {
@@ -273,19 +288,11 @@ export interface taskBoxDataType {
 	tasks: string[];
 }
 
-export interface taskDataType {
-	[index: string]: {
-		taskTitle: string;
-		desc: string;
-		taskColor: string;
-		startDate: string;
-		endDate: string;
-		assigness: string;
-		checkList: taskChackListDataType[];
-	};
+export interface taskItemsDataType {
+	[index: string]: taskDataType;
 }
 
 export interface kanbanDataType {
 	taskBox: taskBoxDataType[];
-	taskItems: taskDataType;
+	taskItems: taskItemsDataType;
 }

@@ -63,7 +63,7 @@ export const EmailLoginContainer = styled.div`
 export const Line = styled.div`
 	width: 100%;
 	height: 1px;
-	margin: 14px 0 30px 0;
+	margin: 6px 0 30px 0;
 	background-color: ${({ theme }) => theme.color.lineColor};
 `;
 

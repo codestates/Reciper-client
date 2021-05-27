@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import Button from '../../Common/Button';
@@ -34,26 +34,29 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 	const [emailValidation, setEmailValidation] = useState<boolean>(true);
 	const [duplcate, setDuplcateCheck] = useState<boolean>(true);
 
-	const onAddInviteList = (e: KeyboardEvent): void => {
-		if (e.key === 'Enter') {
-			const emailCheck = emailValid(inviteEmail);
+	const onAddInviteList = useCallback(
+		(e: KeyboardEvent): void => {
+			if (e.key === 'Enter') {
+				const emailCheck = emailValid(inviteEmail);
 
-			setDuplcateCheck(true);
-			setEmailValidation(emailCheck);
+				setDuplcateCheck(true);
+				setEmailValidation(emailCheck);
 
-			if (emailCheck) {
-				const duplcateCheck = inviteList.indexOf(inviteEmail) + 1; // 배열에 찾는 값이 없을 경우 -1이 반환되기 때문에 1을 더해줌
+				if (emailCheck) {
+					const duplcateCheck = inviteList.indexOf(inviteEmail) + 1; // 배열에 찾는 값이 없을 경우 -1이 반환되기 때문에 1을 더해줌
 
-				if (duplcateCheck) {
-					setDuplcateCheck(false);
-					return;
+					if (duplcateCheck) {
+						setDuplcateCheck(false);
+						return;
+					}
+
+					setInviteEmail('');
+					setInviteList([...inviteList, inviteEmail]);
 				}
-
-				setInviteEmail('');
-				setInviteList([...inviteList, inviteEmail]);
 			}
-		}
-	};
+		},
+		[inviteList, inviteEmail],
+	);
 
 	const onDeleteInviteList = (index: number): void => {
 		const deleteInviteList = [...inviteList];
@@ -65,7 +68,7 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 
 	const requsetInviteProject = async () => {
 		axiosRequest('post', `/projectInvite/${projectURL}`, { inviteList });
-		history.push(`/workspace/${projectURL}`);
+		history.push(`/workspace/${projectURL}/chat/general`);
 	};
 
 	useEffect(() => {

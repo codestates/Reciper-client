@@ -61,7 +61,7 @@ export const TaskName = styled.p`
 
 export const TaskPeriod = styled.p`
 	width: 100%;
-	margin: 10px 0;
+	margin-top: 10px;
 	font-size: 14px;
 `;
 
@@ -69,11 +69,13 @@ export const TaskMembers = styled.div`
 	position: relative;
 	width: 100%;
 	height: 30px;
+	margin-top: 10px;
 `;
 
 export const EXImage = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	position: absolute;
+	top: 0;
 	width: 30px;
 	height: 30px;
 	color: #fff;

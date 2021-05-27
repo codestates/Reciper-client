@@ -14,7 +14,6 @@ export const TaskBoxContainer = styled.div`
 	}
 
 	&:hover {
-		transition: 0.1s;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		border: 1px solid #e6e6e8;
 	}
