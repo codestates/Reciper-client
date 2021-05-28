@@ -6,7 +6,7 @@ import useSocket from '../../../hooks/useSocket';
 
 import dayjs from 'dayjs';
 import autosize from 'autosize';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import {
 	AlertButtonWrapper,
@@ -21,6 +21,8 @@ import {
 	ChatEditbutton,
 	ChatEditButtonWrapper,
 	ChatEditTextArea,
+	ChatItemProfileModal,
+	ChatItemProfileModalWrapper,
 	ChatNowDateHover,
 	ChatProfileImageWrapper,
 	ChatUpdateModal,
@@ -36,12 +38,13 @@ import useInput from '../../../hooks/useInput';
 interface Props {
 	data: ChatDataType;
 	isSameSender: boolean;
-	chatBucket: ChatDataType[];
 }
 
-const ChatItem = ({ data, isSameSender, chatBucket }: Props): JSX.Element => {
+const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
-	const [socket] = useSocket(projectUrl);
+	const history = useHistory();
+	const currentAddress = history.location.pathname.split('/')[3];
+	const [socket] = useSocket(projectUrl, currentAddress);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [showChatProfileModal, setShowChatProfileModal] = useState<boolean>(false);
@@ -62,11 +65,8 @@ const ChatItem = ({ data, isSameSender, chatBucket }: Props): JSX.Element => {
 	// TODO: 채팅 프로필 모달
 	const onShowChatProfileModal = useCallback(e => {
 		e.preventDefault();
-		if (editChat.trim() === '') {
-			return;
-		}
 		e.stopPropagation();
-		setShowChatProfileModal(true);
+		setShowChatProfileModal(prev => !prev);
 	}, []);
 
 	// TODO: 채팅 수정 엔터
@@ -90,6 +90,10 @@ const ChatItem = ({ data, isSameSender, chatBucket }: Props): JSX.Element => {
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
 			e.stopPropagation();
+
+			if (editChat.trim() === '') {
+				return;
+			}
 
 			const getChatEditData = {
 				room: room,
@@ -136,11 +140,7 @@ const ChatItem = ({ data, isSameSender, chatBucket }: Props): JSX.Element => {
 					userName={name}
 				/>
 			</ChatProfileImageWrapper>
-			{showChatProfileModal && (
-				<Modal backgroundColor={false} setShowModal={setShowChatProfileModal}>
-					<ChatProfileModal data={data} />
-				</Modal>
-			)}
+
 			<div>
 				<ChatUserInfoWrapper isSameSender={isSameSender}>
 					<ChatUserId>{name}</ChatUserId>
@@ -202,6 +202,16 @@ const ChatItem = ({ data, isSameSender, chatBucket }: Props): JSX.Element => {
 						</AlertButtonWrapper>
 					</ChatDeleteAlert>
 				</Modal>
+			)}
+			{/* showModal={showChatProfileModal} */}
+			{showChatProfileModal && (
+				// <Modal backgroundColor={false} setShowModal={setShowChatProfileModal}>
+				// </Modal>
+				<ChatItemProfileModalWrapper onClick={onShowChatProfileModal}>
+					<ChatItemProfileModal>
+						<ChatProfileModal data={data} />
+					</ChatItemProfileModal>
+				</ChatItemProfileModalWrapper>
 			)}
 		</ChatWrapper>
 	);
