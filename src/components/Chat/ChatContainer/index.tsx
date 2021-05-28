@@ -47,8 +47,8 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket?.on('sendMessage', ({ text, writer, room, project, createdAt }: ChatDataType) => {
-			setChatBucket([...chatBucket, { text, writer, room, project, createdAt }]);
+		socket?.on('sendMessage', ({ id, text, writer, room, project, createdAt }: ChatDataType) => {
+			setChatBucket([...chatBucket, { id, text, writer, room, project, createdAt }]);
 		});
 	}, [chatBucket]);
 
@@ -74,6 +74,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				message: chat,
 			};
 			const newChat: ChatDataType = {
+				id: null,
 				text: chat,
 				room: room,
 				createdAt: newChatDate.toString(),
@@ -110,7 +111,7 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} />
+			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} setChatBucket={setChatBucket} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
