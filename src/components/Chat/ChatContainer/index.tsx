@@ -50,6 +50,14 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.on('sendMessage', ({ id, text, writer, room, project, createdAt }: ChatDataType) => {
 			setChatBucket([...chatBucket, { id, text, writer, room, project, createdAt }]);
 		});
+
+		// TODO: 채팅 수정
+		socket?.on('editMessage', (foundChat: ChatDataType) => {
+			console.log('서버에서 받아오는 값', foundChat);
+			setChatBucket([...chatBucket, foundChat]);
+		});
+
+		// TODO: 채팅 삭제
 		socket?.on('deleteMessage', ({ id }) => {
 			const copyChatBucket = [...chatBucket];
 			const findChat = (copyChatBucket: ChatDataType): true | undefined => {
@@ -122,7 +130,7 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} setChatBucket={setChatBucket} />
+			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} chatBucket={chatBucket} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
