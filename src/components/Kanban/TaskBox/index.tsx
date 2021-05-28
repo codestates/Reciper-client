@@ -19,6 +19,7 @@ interface Props {
 	taskBoxData: taskBoxDataType;
 	index: number;
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+	openDetail: (task: string, targetIndex: number, targetListIndex: number) => void;
 }
 
 const randomColor = (): string => {
@@ -49,7 +50,7 @@ const randomColor = (): string => {
 	return colors[random];
 };
 
-const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
+const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
 	const { taskBoxTitle, tasks, dragging } = taskBoxData;
@@ -94,7 +95,7 @@ const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
 							onKeyPress={e => e.key === 'Enter' && !dragging && onAddTaskItem()}
 						/>
 					</TaskBoxTop>
-					<TaskItem taskData={tasks} boxIndex={index} socket={socket} />
+					<TaskItem taskData={tasks} boxIndex={index} openDetail={openDetail} />
 				</TaskBoxContainer>
 			)}
 		</Draggable>

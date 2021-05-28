@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { useSelector } from 'react-redux';
 
-import Modal from '../../Common/Modal';
-import TaskDetail from '../../Common/TaskDetail';
-
-import { editTaskDetail, kanbanDataSelector } from '../../../reducer/kanban';
-import { taskDataType } from '../../../types/types';
+import { kanbanDataSelector } from '../../../reducer/kanban';
 
 import {
 	ColorLabel,
@@ -29,42 +22,11 @@ import {
 interface Props {
 	taskData: string[];
 	boxIndex: number;
-	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+	openDetail: (task: string, targetIndex: number, targetListIndex: number) => void;
 }
 
-const TaskItem = ({ taskData, boxIndex, socket }: Props): JSX.Element => {
-	const dispatch = useDispatch();
-	const { part } = useParams<{ part: string }>();
+const TaskItem = ({ taskData, boxIndex, openDetail }: Props): JSX.Element => {
 	const { taskItems } = useSelector(kanbanDataSelector);
-	const [showModal, setShowModal] = useState<boolean>(false);
-	const [targetTask, setTargetTask] = useState<string>('');
-	const [targetIndex, setTargetIndex] = useState<number>(0);
-	const [detailData, setDetailData] = useState<taskDataType>({
-		taskTitle: '',
-		desc: '',
-		checkList: [],
-		comment: [],
-		startDate: '',
-		endDate: '',
-		taskColor: '',
-		assignees: [],
-		dragging: false,
-	});
-
-	const openDetail = (task: string, index: number) => {
-		setShowModal(true);
-		setTargetTask(task);
-		setTargetIndex(index);
-
-		socket?.emit('taskItemBlock', { targetListIndex: boxIndex, targetIndex: index, isDragging: true });
-	};
-
-	useEffect(() => {
-		if (!showModal && String(targetTask)) {
-			socket?.emit('editTaskItem', { targetListIndex: boxIndex, targetIndex, task: detailData, part });
-			dispatch(editTaskDetail({ targetListIndex: boxIndex, targetIndex, task: detailData }));
-		}
-	}, [showModal, targetTask, targetIndex]);
 
 	return (
 		<>
@@ -82,7 +44,7 @@ const TaskItem = ({ taskData, boxIndex, socket }: Props): JSX.Element => {
 											ref={provided.innerRef}
 											{...provided.draggableProps}
 											{...provided.dragHandleProps}
-											onClick={() => !dragging && openDetail(task, index)}
+											onClick={() => !dragging && openDetail(task, index, boxIndex)}
 										>
 											<ColorLabel style={{ backgroundColor: `${taskColor}` }} />
 											<TaskSimpleWrap>
@@ -116,11 +78,6 @@ const TaskItem = ({ taskData, boxIndex, socket }: Props): JSX.Element => {
 					</TaskWrap>
 				)}
 			</Droppable>
-			{showModal && (
-				<Modal setShowModal={setShowModal}>
-					<TaskDetail targetTask={targetTask} socket={socket} setShowModal={setShowModal} setData={setDetailData} />
-				</Modal>
-			)}
 		</>
 	);
 };

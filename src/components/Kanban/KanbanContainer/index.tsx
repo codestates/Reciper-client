@@ -8,7 +8,7 @@ import TaskBox from '../TaskBox';
 import useInput from '../../../hooks/useInput';
 import useSocket from '../../../hooks/useSocket';
 
-import { kanbanDataType } from '../../../types/types';
+import { kanbanDataType, taskDataType } from '../../../types/types';
 
 import {
 	addTaskBox,
@@ -27,18 +27,37 @@ import {
 import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
+import Modal from '../../Common/Modal';
+import TaskDetail from '../../Common/TaskDetail';
 
 const KanbanConianer = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
 	const currentAddress = history.location.pathname.split('/')[3];
+	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
+
 	const { taskBox }: kanbanDataType = useSelector(kanbanDataSelector);
 	const projectInfo = useSelector(projectInfoSelector);
+	const [socket] = useSocket(projectUrl, currentAddress);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
-	const [socket] = useSocket(projectUrl, currentAddress);
+
+	const [showModal, setShowModal] = useState<boolean>(false);
+	const [targetTask, setTargetTask] = useState<string>('');
+	const [targetIndex, setTargetIndex] = useState<number>(0);
+	const [targetListIndex, setTargeListIndex] = useState<number>(0);
+	const [detailData, setDetailData] = useState<taskDataType>({
+		taskTitle: '',
+		desc: '',
+		checkList: [],
+		comment: [],
+		startDate: '',
+		endDate: '',
+		taskColor: '',
+		assignees: [],
+		dragging: false,
+	});
 
 	useEffect(() => {
 		console.log(projectInfo);
@@ -64,7 +83,7 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('boxMoving', data => {
-			dispatch(reorderTaskBox(data));
+			dispatch(reorderTaskBox({ data, targetTask }));
 		});
 
 		socket?.on('taskMoving', data => {
@@ -80,7 +99,6 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('taskItemBlock', data => {
-			console.log(data);
 			dispatch(taskItemBlock(data));
 		});
 
@@ -133,10 +151,11 @@ const KanbanConianer = (): JSX.Element => {
 			const currentIndex = source.index;
 			const targetIndex = destination.index;
 			const targetBox = document.querySelector(`.${result.draggableId}`);
+			const data = { currentIndex, targetIndex };
 			targetBox?.classList.remove('dragging');
 
 			socket?.emit('boxMoving', { currentIndex, targetIndex, part, isDragging: false });
-			dispatch(reorderTaskBox({ currentIndex, targetIndex }));
+			dispatch(reorderTaskBox({ data, targetTask }));
 		}
 
 		if (type === 'TaskItem') {
@@ -157,6 +176,22 @@ const KanbanConianer = (): JSX.Element => {
 		}
 	};
 
+	const openDetail = (task: string, targetIndex: number, targetListIndex: number): void => {
+		setShowModal(true);
+		setTargetTask(task);
+		setTargetIndex(targetIndex);
+		setTargeListIndex(targetListIndex);
+
+		socket?.emit('taskItemBlock', { targetListIndex, targetIndex, isDragging: true });
+	};
+
+	useEffect(() => {
+		if (!showModal && String(targetTask)) {
+			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
+			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
+		}
+	}, [showModal, targetTask, targetIndex, targetListIndex]);
+
 	return (
 		<Container>
 			<DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
@@ -164,7 +199,13 @@ const KanbanConianer = (): JSX.Element => {
 					{provided => (
 						<TaskBoxWrap ref={provided.innerRef}>
 							{taskBox.map((taskBox, index) => (
-								<TaskBox key={`TaskBox-${index}`} socket={socket} taskBoxData={taskBox} index={index} />
+								<TaskBox
+									key={`TaskBox-${index}`}
+									socket={socket}
+									taskBoxData={taskBox}
+									index={index}
+									openDetail={openDetail}
+								/>
 							))}
 							{provided.placeholder}
 							{showAddTaskForm ? (
@@ -182,6 +223,12 @@ const KanbanConianer = (): JSX.Element => {
 					)}
 				</Droppable>
 			</DragDropContext>
+
+			{showModal && (
+				<Modal setShowModal={setShowModal}>
+					<TaskDetail targetTask={targetTask} socket={socket} setShowModal={setShowModal} setData={setDetailData} />
+				</Modal>
+			)}
 		</Container>
 	);
 };
