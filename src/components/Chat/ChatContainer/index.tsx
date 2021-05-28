@@ -50,6 +50,17 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.on('sendMessage', ({ id, text, writer, room, project, createdAt }: ChatDataType) => {
 			setChatBucket([...chatBucket, { id, text, writer, room, project, createdAt }]);
 		});
+		socket?.on('deleteMessage', ({ id }) => {
+			const copyChatBucket = [...chatBucket];
+			const findChat = (copyChatBucket: ChatDataType): true | undefined => {
+				if (copyChatBucket.id === id) {
+					return true;
+				}
+			};
+			const findChatIndex = copyChatBucket.findIndex(findChat);
+			copyChatBucket.splice(findChatIndex, 1);
+			setChatBucket([...copyChatBucket]);
+		});
 	}, [chatBucket]);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.

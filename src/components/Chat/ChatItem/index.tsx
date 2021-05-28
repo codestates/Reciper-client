@@ -1,4 +1,4 @@
-import React, { Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, Dispatch, memo, SetStateAction, useCallback, useEffect, useState } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import ChatProfileModal from '../ChatProfileModal';
 import Modal from '../../Common/Modal';
@@ -8,8 +8,14 @@ import dayjs from 'dayjs';
 import { useParams } from 'react-router';
 
 import {
+	AlertButtonWrapper,
+	AlertChatContent,
+	AlertChatDeleteButton,
+	AlertChatItem,
+	AlertChatItemUserInfoWrapper,
 	ChatContent,
 	ChatCreatedAt,
+	ChatDeleteAlert,
 	ChatDeleteButton,
 	ChatEditbutton,
 	ChatNowDateHover,
@@ -21,6 +27,7 @@ import {
 } from './styles';
 
 import { ChatDataType } from '../../../types/types';
+import Button from '../../Common/Button';
 
 interface Props {
 	data: ChatDataType;
@@ -33,40 +40,39 @@ const ChatItem = ({ data, isSameSender, setChatBucket }: Props): JSX.Element => 
 	const [socket] = useSocket(projectUrl);
 
 	const [showChatProfileModal, setShowChatProfileModal] = useState<boolean>(false);
+	const [showChatDeleteAlert, setShowChatDeleteAlert] = useState<boolean>(false);
+	const [showChatEditForm, setShowChatEditForm] = useState<boolean>(false);
 
 	const { uploadImage, profileColor, name } = data.writer;
 	let date = dayjs(data.createdAt);
 	date = date.add(9, 'hour');
 
+	// TODO: 채팅 프로필 모달
 	const onShowChatProfileModal = useCallback(e => {
 		e.preventDefault();
 		e.stopPropagation();
-
 		setShowChatProfileModal(true);
 	}, []);
 
-	// console.log(data.id);
 	const onChatEditButton = useCallback(() => {
 		console.log(data.id);
 	}, []);
 
-	useEffect(() => {
-		socket?.on('deleteMessage', ({ id }) => {
-			console.log({ id });
-			// setChatBucket([...{ id }])
-		});
-	}, []);
+	// TODO: 채팅 삭제 버튼
+	const onChatDeleteButton = useCallback(
+		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+			e.preventDefault();
+			e.stopPropagation();
+			setShowChatDeleteAlert(false);
 
-	const onChatDeleteButton = useCallback(e => {
-		console.log('room확인', room);
-		console.log(data.id);
-		e.preventDefault();
-		const getChatDeleteData = {
-			room: room,
-			id: data.id,
-		};
-		socket?.emit('deleteMessage', getChatDeleteData);
-	}, []);
+			const getChatDeleteData = {
+				room: room,
+				id: data.id,
+			};
+			socket?.emit('deleteMessage', getChatDeleteData);
+		},
+		[data],
+	);
 
 	return (
 		<ChatWrapper isSameSender={isSameSender}>
@@ -94,9 +100,41 @@ const ChatItem = ({ data, isSameSender, setChatBucket }: Props): JSX.Element => 
 			</div>
 			<ChatUpdateModal>
 				<ChatEditbutton onClick={onChatEditButton} />
-				<ChatDeleteButton onClick={onChatDeleteButton} />
+				<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
 			</ChatUpdateModal>
 			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(date).format('A h:mm')}</ChatNowDateHover>
+			{showChatDeleteAlert && (
+				<Modal setShowModal={setShowChatDeleteAlert}>
+					<ChatDeleteAlert>
+						<div>메세지 삭제</div>
+						<p>이 메시지를 삭제하시겠습니까? 이 작업은 실행 취소할 수 없습니다.</p>
+						<AlertChatItem>
+							<div>
+								<ProfileImage
+									width="40px"
+									height="40px"
+									profileImage={uploadImage}
+									profileColor={profileColor}
+									userName={name}
+								/>
+							</div>
+							<AlertChatItemUserInfoWrapper>
+								<div>
+									<ChatUserId>{name}</ChatUserId>
+									<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
+								</div>
+								<AlertChatContent>{data.text}</AlertChatContent>
+							</AlertChatItemUserInfoWrapper>
+						</AlertChatItem>
+						<AlertButtonWrapper>
+							<Button size="small" buttonType="cancel" clickEvent={() => setShowChatDeleteAlert(false)}>
+								취소
+							</Button>
+							<AlertChatDeleteButton onClick={onChatDeleteButton}>삭제</AlertChatDeleteButton>
+						</AlertButtonWrapper>
+					</ChatDeleteAlert>
+				</Modal>
+			)}
 		</ChatWrapper>
 	);
 };
