@@ -98,7 +98,7 @@ export const ChatProfileImageWrapper = styled.div<{ isSameSender: boolean }>`
 export const ChatEditTextArea = styled.textarea`
 	resize: none;
 	${({ theme }) => theme.align.flexVertical};
-	width: 400px;
+	width: 100%;
 	height: 40px;
 	padding: 11px 14px;
 	font-family: NanumSquareR;
@@ -110,6 +110,7 @@ export const ChatEditTextArea = styled.textarea`
 export const ChatEditButtonWrapper = styled.div`
 	margin-top: 2px;
 	& > button {
+		cursor: pointer;
 		padding-right: 6px;
 		font-family: NanumSquareR;
 		font-size: 14px;
@@ -121,6 +122,10 @@ export const ChatEditButtonWrapper = styled.div`
 `;
 
 // ------------------TODO: 채팅 디테일 ------------------
+
+export const ChatContentWrapper = styled.div`
+	width: 90%;
+`;
 
 export const ChatUserInfoWrapper = styled.div<{ isSameSender: boolean }>`
 	${props =>
@@ -146,6 +151,7 @@ export const ChatCreatedAt = styled.span`
 `;
 
 export const ChatContent = styled.div<{ isSameSender: boolean }>`
+	width: 100%;
 	margin-top: 8px;
 	font-family: NanumSquareR;
 	font-size: 16px;
