@@ -7,6 +7,10 @@ import { UserProfileDefault, UserProfileImage } from './styles';
 프로필은 프로필 이미지를 변경하였을 경우 유저의 프로필 이미지를 보여주고, 
 설정하지 않았으면 기본 프로필을 보여준다.
 
+5/28 수정
+radius - true: border-radius 100%;
+radius - false: border-radius 0; 
+
 Props: {
   width
   height
@@ -26,6 +30,7 @@ interface Props {
 	profileImage?: string;
 	profileColor?: string;
 	userName?: string;
+	radius: boolean;
 }
 
 const ProfileImage = (props: Props): JSX.Element => {
@@ -51,6 +56,7 @@ ProfileImage.defaultProps = {
 	height: '30px',
 	margin: '0',
 	userNameSize: '16px',
+	radius: 'true',
 };
 
 export default ProfileImage;

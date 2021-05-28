@@ -27,11 +27,12 @@ const ChatProfileModal = ({ data }: Props): JSX.Element => {
 		<ChatProfileModalWrapper>
 			<ProfileModalTopWrapper>
 				<ProfileImage
-					width="140px"
-					height="140px"
+					width="100%"
+					height="100%"
 					profileImage={uploadImage}
 					profileColor={profileColor}
 					userName={name}
+					radius={false}
 				/>
 			</ProfileModalTopWrapper>
 			<PrfileModalBottomWrapper>

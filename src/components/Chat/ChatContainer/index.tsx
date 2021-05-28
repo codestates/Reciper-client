@@ -133,7 +133,7 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} chatBucket={chatBucket} />
+			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
