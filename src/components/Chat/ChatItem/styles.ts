@@ -80,6 +80,35 @@ export const ChatProfileImageWrapper = styled.div<{ isSameSender: boolean }>`
 	`}
 `;
 
+// ------------------TODO: 채팅 수정 인풋 ------------------
+
+export const ChatEditInputWrapper = styled.div``;
+
+export const ChatEditTextArea = styled.textarea`
+	resize: none;
+	${({ theme }) => theme.align.flexVertical};
+	width: 400px;
+	height: 40px;
+	padding: 11px 14px;
+	font-family: NanumSquareR;
+	font-size: 16px;
+	background-color: ${({ theme }) => theme.color.lineColor};
+	border-radius: 4px;
+`;
+
+export const ChatEditButtonWrapper = styled.div`
+	margin-top: 2px;
+	& > button {
+		padding-right: 6px;
+		font-family: NanumSquareR;
+		font-size: 14px;
+		color: ${({ theme }) => theme.color.pointColor};
+		&:hover {
+			color: ${({ theme }) => theme.hover.pointColorHover};
+		}
+	}
+`;
+
 // ------------------TODO: 채팅 디테일 ------------------
 
 export const ChatUserInfoWrapper = styled.div<{ isSameSender: boolean }>`
@@ -105,7 +134,7 @@ export const ChatCreatedAt = styled.span`
 	color: #888888;
 `;
 
-export const ChatContent = styled.p<{ isSameSender: boolean }>`
+export const ChatContent = styled.div<{ isSameSender: boolean }>`
 	margin-top: 8px;
 	font-family: NanumSquareR;
 	font-size: 16px;
