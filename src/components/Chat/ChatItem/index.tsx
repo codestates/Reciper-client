@@ -5,7 +5,7 @@ import DeleteAlert from '../DeleteAlert';
 import useSocket from '../../../hooks/useSocket';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/sockekData';
+import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
 
 import dayjs from 'dayjs';
 import autosize from 'autosize';
