@@ -14,16 +14,16 @@ export const ChatList = styled.section`
 
 export const ChatDateHeader = styled.div`
 	${({ theme }) => theme.align.flexHorizontal};
+	flex: 1;
 	position: sticky;
 	top: 14px;
-	flex: 1;
+	z-index: 10;
 	width: 100%;
 
 	& button {
 		outline: none;
 		position: relative;
 		top: -14px;
-		z-index: 10;
 		height: 28px;
 		line-height: 28px;
 		padding: 0 16px;
