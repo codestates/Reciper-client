@@ -199,6 +199,13 @@ export interface projectListDataTpye {
 	updatedAt: string;
 }
 
+export interface projectInfoDataType {
+	id: number;
+	members: RecruitWriterDataType[];
+	name: string;
+	projectURL: string;
+}
+
 ////////////////////////////////////////////////////////
 ///////////         ProjectCreate        //////////////
 ///////////////////////////////////////////////////////
@@ -263,6 +270,13 @@ export interface RoomNameType {
 ///////////             Kanban           //////////////
 ///////////////////////////////////////////////////////
 
+export interface taskCommentWriterDataType {
+	profileColor: string;
+	profileImage: string;
+	userName: string;
+	id: number | null;
+}
+
 export interface taskChackListDataType {
 	desc: string;
 	isChecked: boolean;
@@ -270,6 +284,7 @@ export interface taskChackListDataType {
 
 export interface taskCommentDataType {
 	body: string;
+	writer: taskCommentWriterDataType;
 }
 
 export interface taskDataType {
@@ -278,7 +293,7 @@ export interface taskDataType {
 	taskColor: string;
 	startDate: string;
 	endDate: string;
-	assignees: string;
+	assignees: string[];
 	checkList: taskChackListDataType[];
 	comment: taskCommentDataType[];
 }
