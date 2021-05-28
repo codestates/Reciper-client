@@ -29,7 +29,7 @@ interface Props {
 	onSubmitForm: (e: FormEvent) => void;
 	onChangeChat: OnChangeHandlerFunc;
 	chat?: string;
-	placeholder: string;
+	placeholder?: string;
 	chatBucket: ChatDataType[];
 }
 

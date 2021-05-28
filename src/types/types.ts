@@ -213,6 +213,7 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
+	id: number | null;
 	text: string;
 	room: string;
 	writer: ChatWriterDataType;

@@ -50,8 +50,27 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket?.on('sendMessage', ({ text, writer, room, project, createdAt }: ChatDataType) => {
-			setChatBucket([...chatBucket, { text, writer, room, project, createdAt }]);
+		socket?.on('sendMessage', ({ id, text, writer, room, project, createdAt }: ChatDataType) => {
+			setChatBucket([...chatBucket, { id, text, writer, room, project, createdAt }]);
+		});
+
+		// TODO: 채팅 수정
+		socket?.on('editMessage', (foundChat: ChatDataType) => {
+			console.log('서버에서 받아오는 값', foundChat);
+			setChatBucket([...chatBucket, foundChat]);
+		});
+
+		// TODO: 채팅 삭제
+		socket?.on('deleteMessage', ({ id }) => {
+			const copyChatBucket = [...chatBucket];
+			const findChat = (copyChatBucket: ChatDataType): true | undefined => {
+				if (copyChatBucket.id === id) {
+					return true;
+				}
+			};
+			const findChatIndex = copyChatBucket.findIndex(findChat);
+			copyChatBucket.splice(findChatIndex, 1);
+			setChatBucket([...copyChatBucket]);
 		});
 	}, [chatBucket]);
 
@@ -77,6 +96,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				message: chat,
 			};
 			const newChat: ChatDataType = {
+				id: null,
 				text: chat,
 				room: room,
 				createdAt: newChatDate.toString(),
@@ -113,7 +133,7 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} />
+			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} chatBucket={chatBucket} />
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}

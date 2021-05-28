@@ -10,9 +10,10 @@ import { ChatDataType, ChatSectionType } from '../../../types/types';
 export interface Props {
 	scrollbarRef: RefObject<Scrollbars>;
 	chatSections: ChatSectionType;
+	chatBucket: ChatDataType[];
 }
 
-const ChatZone = ({ scrollbarRef, chatSections }: Props): JSX.Element => {
+const ChatZone = ({ scrollbarRef, chatSections, chatBucket }: Props): JSX.Element => {
 	const onScrollFrame = useCallback(
 		values => {
 			if (values.scrollTop === 0 && scrollbarRef.current) {
@@ -42,9 +43,9 @@ const ChatZone = ({ scrollbarRef, chatSections }: Props): JSX.Element => {
 									isSameSender = chat.writer.email === chatsBucket[index - 1].writer.email;
 								}
 								return isSameSender ? (
-									<ChatItem key={index} data={chat} isSameSender={true} />
+									<ChatItem key={index} data={chat} isSameSender={true} chatBucket={chatBucket} />
 								) : (
-									<ChatItem key={index} data={chat} isSameSender={false} />
+									<ChatItem key={index} data={chat} isSameSender={false} chatBucket={chatBucket} />
 								);
 							})}
 						</ChatList>
