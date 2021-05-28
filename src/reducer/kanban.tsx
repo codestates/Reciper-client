@@ -35,7 +35,7 @@ export const kanbanDataSlice = createSlice({
 					taskColor,
 					startDate: '',
 					endDate: '',
-					assignees: '',
+					assignees: [],
 					checkList: [],
 					comment: [],
 				},
@@ -71,7 +71,6 @@ export const kanbanDataSlice = createSlice({
 			targetTasks.splice(targetIndex, 0, ...current);
 		},
 		getSocketData: (state, { payload }) => {
-			console.log(payload);
 			return payload;
 		},
 		socketAddTaskBox: (state, { payload }) => {
@@ -86,9 +85,10 @@ export const kanbanDataSlice = createSlice({
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
 		editTaskDetail: (state, { payload }) => {
-			const { targetTask, detailData } = payload;
+			const { targetListIndex, targetIndex, task } = payload;
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
 
-			state.taskItems = { ...state.taskItems, [targetTask]: detailData };
+			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
 	},
 	extraReducers: {},

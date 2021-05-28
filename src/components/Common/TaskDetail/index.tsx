@@ -1,21 +1,20 @@
-import React, {
-	Dispatch,
-	forwardRef,
-	KeyboardEvent,
-	LegacyRef,
-	SetStateAction,
-	useCallback,
-	useEffect,
-	useState,
-} from 'react';
+import React, { Dispatch, forwardRef, KeyboardEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { Socket } from 'socket.io-client';
+import { useParams } from 'react-router';
+
 import useInput from '../../../hooks/useInput';
-import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
-import { getProfileInfoSelector } from '../../../reducer/profile';
+import dateFormat from '../../../utils/dateformat';
 import { kanbanDataType, taskDataType, taskChackListDataType, taskCommentDataType } from '../../../types/types';
+
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
+
 import Input from '../Input';
 import ProfileImage from '../ProfileImage';
+
 import {
 	CheckBtn,
 	CheckListInput,
@@ -40,17 +39,15 @@ import {
 	ColorLabelWrap,
 	FlexSection,
 } from './styles';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { Socket } from 'socket.io-client';
-import { useParams } from 'react-router';
 
 interface Props {
 	targetTask: string;
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	setShowModal: Dispatch<SetStateAction<boolean>>;
+	setData: Dispatch<SetStateAction<taskDataType>>;
 }
 
-const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element => {
+const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
 	const userInfo = useSelector(getProfileInfoSelector);
@@ -64,8 +61,8 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 	const [desc, setDesc] = useState<string>(taskData.desc);
 	const [checkList, setCheckList] = useState<taskChackListDataType[]>(taskData.checkList);
 	const [comment, setComment] = useState<taskCommentDataType[]>(taskData.comment);
-	const [startDate, setStartDate] = useState<any>(null);
-	const [endDate, setEndDate] = useState<any>(null);
+	const [startDate, setStartDate] = useState<Date>();
+	const [endDate, setEndDate] = useState<Date>();
 
 	const addCheckList = useCallback((): void => {
 		setCheckList([...checkList, { isChecked: false, desc: checkListValue }]);
@@ -73,7 +70,8 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 	}, [checkList, checkListValue]);
 
 	const deleteCheckList = useCallback(
-		(index: number): void => {
+		(e, index: number): void => {
+			e.stopPropagation();
 			const checkListCopy = [...checkList];
 			checkListCopy.splice(index, 1);
 
@@ -85,7 +83,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 	const listChecked = useCallback(
 		(index: number): void => {
 			const checkListCopy = [...checkList];
-			checkListCopy[index].isChecked = !checkListCopy[index].isChecked;
+			checkListCopy[index] = { ...checkListCopy[index], isChecked: !checkListCopy[index].isChecked };
 
 			setCheckList(checkListCopy);
 		},
@@ -93,7 +91,18 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 	);
 
 	const addComment = useCallback((): void => {
-		setComment([...comment, { body: commentValue }]);
+		setComment([
+			...comment,
+			{
+				body: commentValue,
+				writer: {
+					profileColor: userInfo.profileColor,
+					profileImage: userInfo.uploadImage,
+					userName: userInfo.name,
+					id: userInfo.id,
+				},
+			},
+		]);
 		setCommentValue('');
 	}, [comment, commentValue]);
 
@@ -116,12 +125,6 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 	});
 	DatePickerCustomBtn.displayName = 'custom btn';
 
-	useEffect(() => {
-		return () => {
-			console.log('close');
-		};
-	}, []);
-
 	const onDeleteTaskItem = () => {
 		let target = [0, 0];
 
@@ -135,6 +138,19 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 		dispatch(deleteTaskItem({ targetListIndex: target[0], targetIndex: target[1] }));
 		setShowModal(false);
 	};
+
+	useEffect(() => {
+		setData({
+			taskTitle,
+			desc,
+			checkList,
+			comment,
+			startDate: dateFormat(startDate as Date, 'md'),
+			endDate: dateFormat(endDate as Date, 'md'),
+			taskColor: taskData.taskColor,
+			assignees: taskData.assignees,
+		});
+	}, [taskTitle, desc, checkList, comment, startDate, endDate]);
 
 	return (
 		<TaskDetailContainer>
@@ -164,7 +180,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 					<DatePicker
 						dateFormat="M월 d일"
 						selected={startDate}
-						onChange={date => setStartDate(date)}
+						onChange={date => setStartDate(date as Date)}
 						customInput={<DatePickerCustomBtn type={'start'} />}
 						selectsStart
 						startDate={startDate}
@@ -174,7 +190,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 					<DatePicker
 						dateFormat="M월 d일"
 						selected={endDate}
-						onChange={date => setEndDate(date)}
+						onChange={date => setEndDate(date as Date)}
 						customInput={<DatePickerCustomBtn type={'end'} />}
 						selectsEnd
 						startDate={startDate}
@@ -199,7 +215,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal }: Props): JSX.Element =>
 								<CheckBtn className="checkBtn" />
 								<span>{list.desc}</span>
 							</ContentWrap>
-							<CheckDeleteBtn onClick={() => deleteCheckList(index)} />
+							<CheckDeleteBtn onClick={e => deleteCheckList(e, index)} />
 						</Item>
 					))}
 				</CheckListWrap>

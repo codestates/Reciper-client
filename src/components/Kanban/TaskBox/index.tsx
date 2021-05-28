@@ -1,6 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
+import { Socket } from 'socket.io-client';
+import { useParams } from 'react-router';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 
 import TaskItem from '../TaskItem';
 
@@ -11,15 +14,11 @@ import { taskBoxDataType } from '../../../types/types';
 import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
 
 import { AddTaskInput, TaskBoxContainer, TaskBoxName, TaskBoxTop, DeleteTaskBoxBtn } from './styles';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { useParams } from 'react-router';
 
 interface Props {
 	taskBoxData: taskBoxDataType;
 	index: number;
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
-	openModalHooks: (task: string) => void;
 }
 
 const randomColor = (): string => {
@@ -50,7 +49,7 @@ const randomColor = (): string => {
 	return colors[random];
 };
 
-const TaskBox = ({ socket, taskBoxData, index, openModalHooks }: Props): JSX.Element => {
+const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
 	const { taskBoxTitle, tasks } = taskBoxData;
@@ -91,7 +90,7 @@ const TaskBox = ({ socket, taskBoxData, index, openModalHooks }: Props): JSX.Ele
 							onKeyPress={e => e.key === 'Enter' && onAddTaskItem()}
 						/>
 					</TaskBoxTop>
-					<TaskItem taskData={tasks} boxIndex={index} openModalHooks={openModalHooks} />
+					<TaskItem taskData={tasks} boxIndex={index} socket={socket} />
 				</TaskBoxContainer>
 			)}
 		</Draggable>
