@@ -1,22 +1,21 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, memo, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import ChatProfileModal from '../ChatProfileModal';
-import Modal from '../../Common/Modal';
+import DeleteAlert from '../DeleteAlert';
 import useSocket from '../../../hooks/useSocket';
+import useInput from '../../../hooks/useInput';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { getChatDeleteData, getChatEditData, newChatData } from '../ChatSocketData/sockekData';
 
 import dayjs from 'dayjs';
 import autosize from 'autosize';
 import { useHistory, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 
 import {
-	AlertButtonWrapper,
-	AlertChatContent,
-	AlertChatDeleteButton,
-	AlertChatItem,
-	AlertChatItemUserInfoWrapper,
 	ChatContent,
+	ChatContentWrapper,
 	ChatCreatedAt,
-	ChatDeleteAlert,
 	ChatDeleteButton,
 	ChatEditbutton,
 	ChatEditButtonWrapper,
@@ -31,16 +30,18 @@ import {
 	ChatWrapper,
 } from './styles';
 
-import { ChatDataType } from '../../../types/types';
-import Button from '../../Common/Button';
-import useInput from '../../../hooks/useInput';
+import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 interface Props {
 	data: ChatDataType;
+	chatBucket: ChatDataType[];
+	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 	isSameSender: boolean;
+	index: number;
 }
 
-const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
+const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Props): JSX.Element => {
+	const profileInfo = useSelector(getProfileInfoSelector);
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
 	const currentAddress = history.location.pathname.split('/')[3];
@@ -75,14 +76,17 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 			return;
 		}
 
-		const getChatEditData = {
-			room: room,
-			id: data.id,
-			message: editChat,
-		};
+		if (data.id) {
+			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
+			const newChat: ChatDataType = newChatData(editChat, room, profileInfo);
 
-		socket?.emit('editMessage', getChatEditData);
-		setShowChatEditForm(false);
+			const copyChatBucket = [...chatBucket];
+			copyChatBucket[index + 1] = newChat;
+			setChatBucket([...copyChatBucket]);
+
+			socket?.emit('editMessage', getChatEdit);
+			setShowChatEditForm(false);
+		}
 	}, [editChat]);
 
 	// TODO: 채팅 수정 버튼
@@ -94,18 +98,21 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 			if (editChat.trim() === '') {
 				return;
 			}
+			if (data.id) {
+				const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
+				const newChat: ChatDataType = newChatData(editChat, room, profileInfo);
 
-			const getChatEditData = {
-				room: room,
-				id: data.id,
-				message: editChat,
-			};
+				const copyChatBucket = [...chatBucket];
+				copyChatBucket[index + 1] = newChat;
+				setChatBucket([...copyChatBucket]);
 
-			socket?.emit('editMessage', getChatEditData);
-			setShowChatEditForm(false);
+				socket?.emit('editMessage', getChatEdit);
+				setShowChatEditForm(false);
+			}
 		},
 		[editChat],
 	);
+
 	// TODO: 채팅 수정 실행 취소
 	const onChatEditCancel = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 		e.preventDefault();
@@ -120,13 +127,15 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 			e.stopPropagation();
 			setShowChatDeleteAlert(false);
 
-			const getChatDeleteData = {
-				room: room,
-				id: data.id,
-			};
-			socket?.emit('deleteMessage', getChatDeleteData);
+			if (data.id) {
+				const getChatDelete = getChatDeleteData(room, index, data.id);
+				const copyChatBucket = [...chatBucket];
+				copyChatBucket.splice(index + 1, 1);
+				setChatBucket([...copyChatBucket]);
+				socket?.emit('deleteMessage', getChatDelete);
+			}
 		},
-		[data],
+		[chatBucket],
 	);
 
 	return (
@@ -140,8 +149,7 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 					userName={name}
 				/>
 			</ChatProfileImageWrapper>
-
-			<div>
+			<ChatContentWrapper>
 				<ChatUserInfoWrapper isSameSender={isSameSender}>
 					<ChatUserId>{name}</ChatUserId>
 					<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
@@ -165,48 +173,20 @@ const ChatItem = ({ data, isSameSender }: Props): JSX.Element => {
 						<>{data.text}</>
 					)}
 				</ChatContent>
-			</div>
+			</ChatContentWrapper>
 			<ChatUpdateModal>
 				<ChatEditbutton onClick={() => setShowChatEditForm(true)} />
 				<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
 			</ChatUpdateModal>
 			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(date).format('A h:mm')}</ChatNowDateHover>
 			{showChatDeleteAlert && (
-				<Modal setShowModal={setShowChatDeleteAlert}>
-					<ChatDeleteAlert>
-						<div>메세지 삭제</div>
-						<p>이 메시지를 삭제하시겠습니까? 이 작업은 실행 취소할 수 없습니다.</p>
-						<AlertChatItem>
-							<div>
-								<ProfileImage
-									width="40px"
-									height="40px"
-									profileImage={uploadImage}
-									profileColor={profileColor}
-									userName={name}
-								/>
-							</div>
-							<AlertChatItemUserInfoWrapper>
-								<div>
-									<ChatUserId>{name}</ChatUserId>
-									<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
-								</div>
-								<AlertChatContent>{data.text}</AlertChatContent>
-							</AlertChatItemUserInfoWrapper>
-						</AlertChatItem>
-						<AlertButtonWrapper>
-							<Button size="small" buttonType="cancel" clickEvent={() => setShowChatDeleteAlert(false)}>
-								취소
-							</Button>
-							<AlertChatDeleteButton onClick={onChatDeleteButton}>삭제</AlertChatDeleteButton>
-						</AlertButtonWrapper>
-					</ChatDeleteAlert>
-				</Modal>
+				<DeleteAlert
+					data={data}
+					setShowChatDeleteAlert={setShowChatDeleteAlert}
+					onChatDeleteButton={onChatDeleteButton}
+				/>
 			)}
-			{/* showModal={showChatProfileModal} */}
 			{showChatProfileModal && (
-				// <Modal backgroundColor={false} setShowModal={setShowChatProfileModal}>
-				// </Modal>
 				<ChatItemProfileModalWrapper onClick={onShowChatProfileModal}>
 					<ChatItemProfileModal>
 						<ChatProfileModal data={data} />

@@ -5,24 +5,22 @@ import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
 import { chatSection } from '../../../utils/chatSection';
+import { getChatData, newChatData } from '../ChatSocketData/sockekData';
 
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
-import dayjs from 'dayjs';
 
-import { ChatDataType } from '../../../types/types';
+import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	// const totalChat = useSelector(getTotalChatSelector);
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
 	const currentAddress = history.location.pathname.split('/')[3];
 	const [socket] = useSocket(projectUrl, currentAddress);
 	const scrollbarRef = useRef<Scrollbars>(null);
-
 	const [chat, setChat] = useState<string>('');
 
 	// TODO: 채팅기록을 담아줄 바구니
@@ -55,21 +53,18 @@ const WorkSpaceChat = (): JSX.Element => {
 		});
 
 		// TODO: 채팅 수정
-		socket?.on('editMessage', (foundChat: ChatDataType) => {
-			console.log('서버에서 받아오는 값', foundChat);
-			setChatBucket([...chatBucket, foundChat]);
+		socket?.on('editMessage', ({ foundChat, index }: ChatDataType) => {
+			const copyChatBucket = [...chatBucket];
+			if (foundChat && index) {
+				copyChatBucket.splice(index + 1, 1);
+				setChatBucket([...copyChatBucket, foundChat]);
+			}
 		});
 
 		// TODO: 채팅 삭제
-		socket?.on('deleteMessage', ({ id }) => {
+		socket?.on('deleteMessage', ({ index }) => {
 			const copyChatBucket = [...chatBucket];
-			const findChat = (copyChatBucket: ChatDataType): true | undefined => {
-				if (copyChatBucket.id === id) {
-					return true;
-				}
-			};
-			const findChatIndex = copyChatBucket.findIndex(findChat);
-			copyChatBucket.splice(findChatIndex, 1);
+			copyChatBucket.splice(index + 1, 1);
 			setChatBucket([...copyChatBucket]);
 		});
 	}, [chatBucket]);
@@ -87,33 +82,10 @@ const WorkSpaceChat = (): JSX.Element => {
 			if (chat?.trim() === '') {
 				return;
 			}
-			let newChatDate = dayjs();
-			newChatDate = newChatDate.subtract(9, 'hour');
 
-			const data = {
-				room: room,
-				name: profileInfo.name,
-				message: chat,
-			};
-			const newChat: ChatDataType = {
-				id: null,
-				text: chat,
-				room: room,
-				createdAt: newChatDate.toString(),
-				writer: {
-					id: profileInfo.id,
-					name: profileInfo.name,
-					email: profileInfo.email,
-					mobile: profileInfo.mobile,
-					gitId: profileInfo.gitId,
-					career: profileInfo.career,
-					aboutMe: profileInfo.aboutMe,
-					uploadImage: profileInfo.uploadImage,
-					profileColor: profileInfo.profileColor,
-					createdAt: profileInfo.createdAt,
-					updatedAt: profileInfo.updatedAt,
-				},
-			};
+			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat);
+			const newChat: ChatDataType = newChatData(chat, room, profileInfo);
+
 			socket?.emit('sendMessage', data);
 			setChatBucket([...chatBucket, newChat]);
 			setChat('');
@@ -133,7 +105,12 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	return (
 		<WorkSpaceFrame>
-			<ChatZone scrollbarRef={scrollbarRef} chatSections={chatSections} />
+			<ChatZone
+				scrollbarRef={scrollbarRef}
+				chatSections={chatSections}
+				chatBucket={chatBucket}
+				setChatBucket={setChatBucket}
+			/>
 			<Textarea
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
