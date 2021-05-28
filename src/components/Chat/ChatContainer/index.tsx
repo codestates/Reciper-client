@@ -5,7 +5,7 @@ import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
 import { chatSection } from '../../../utils/chatSection';
-import { getChatData, newChatData } from '../ChatSocketData/sockekData';
+import { getChatData, newChatData } from '../../../utils/sockekData';
 
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';

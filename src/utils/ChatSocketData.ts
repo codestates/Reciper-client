@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 
-import { ChatDataType, ChatUpdateDataType, profileInfoDataType } from '../../../types/types';
+import { ChatDataType, ChatUpdateDataType, profileInfoDataType } from '../types/types';
 
 export const newChatData = (inputValue: string, room: string, profileInfo: profileInfoDataType): ChatDataType => {
 	let newChatDate = dayjs();
 	newChatDate = newChatDate.subtract(9, 'hour');
+
 	const result = {
 		id: null,
 		text: inputValue,
