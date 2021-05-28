@@ -45,6 +45,7 @@ import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
 import Modal from '../Modal';
 import Button from '../Button';
 import useInput from '../../../hooks/useInput';
+import { getProjectInfo } from '../../../reducer/projectInfo';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -90,7 +91,9 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 			currentURL: currentURL,
 			currentAddress: currentAddress,
 		};
+
 		dispatch(getRoomsListInfo(roomValue));
+		dispatch(getProjectInfo(currentURL));
 	}, []);
 
 	const loadInitState = useCallback((): void => {
@@ -237,13 +240,13 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 				</SideBarTop>
 				<SideBarMid>
 					<Pointer style={{ top: `${frameInitState.pointerTop}` }} />
-					<ChatIcon to={`/workspace/${currentURL}/chat/general`}>
+					<ChatIcon to={`/workspace/${currentURL}/chat/General`}>
 						<Icon icon={chatTeardropDotsLight} />
 					</ChatIcon>
-					<KanbanIcon to={`/workspace/${currentURL}/kanban/general`}>
+					<KanbanIcon to={`/workspace/${currentURL}/kanban/General`}>
 						<Icon icon={project24} />
 					</KanbanIcon>
-					<CalendarIcon to={`/workspace/${currentURL}/calendar/general`}>
+					<CalendarIcon to={`/workspace/${currentURL}/calendar/General`}>
 						<Icon icon={calendarCheck} />
 					</CalendarIcon>
 				</SideBarMid>
