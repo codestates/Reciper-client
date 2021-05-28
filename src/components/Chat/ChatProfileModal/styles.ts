@@ -2,11 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ChatProfileModalWrapper = styled.div`
-	position: absolute;
-	top: 115px;
-	bottom: 0;
-	left: 372px;
-	right: 0;
+	overflow: hidden;
+
 	width: 240px;
 	height: 330px;
 	font-family: NanumSquareR;
@@ -23,8 +20,6 @@ export const ProfileModalTopWrapper = styled.div`
 	height: 180px;
 	background-color: #eee;
 `;
-
-export const ProfileImage = styled.div``;
 
 export const PrfileModalBottomWrapper = styled.div`
 	display: flex;
