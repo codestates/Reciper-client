@@ -149,6 +149,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 			endDate: dateFormat(endDate as Date, 'md'),
 			taskColor: taskData.taskColor,
 			assignees: taskData.assignees,
+			dragging: false,
 		});
 	}, [taskTitle, desc, checkList, comment, startDate, endDate]);
 

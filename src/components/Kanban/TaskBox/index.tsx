@@ -52,7 +52,7 @@ const randomColor = (): string => {
 const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
-	const { taskBoxTitle, tasks } = taskBoxData;
+	const { taskBoxTitle, tasks, dragging } = taskBoxData;
 
 	const [taskTitle, onChangeTaskTitle, setTaskTitle] = useInput<string>('');
 
@@ -75,9 +75,13 @@ const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
 	};
 
 	return (
-		<Draggable draggableId={`TaskBox-${index}`} index={index}>
+		<Draggable draggableId={`TaskBox-${index}`} isDragDisabled={dragging} index={index}>
 			{provided => (
-				<TaskBoxContainer className={`TaskBox-${index}`} ref={provided.innerRef} {...provided.draggableProps}>
+				<TaskBoxContainer
+					className={`TaskBox-${index} ${dragging ? 'block' : ''}`}
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+				>
 					<TaskBoxTop {...provided.dragHandleProps}>
 						<TaskBoxName>
 							<p>{taskBoxTitle}</p>
@@ -87,7 +91,7 @@ const TaskBox = ({ socket, taskBoxData, index }: Props): JSX.Element => {
 							placeholder="+ 테스크를 추가하세요"
 							value={taskTitle}
 							onChange={onChangeTaskTitle}
-							onKeyPress={e => e.key === 'Enter' && onAddTaskItem()}
+							onKeyPress={e => e.key === 'Enter' && !dragging && onAddTaskItem()}
 						/>
 					</TaskBoxTop>
 					<TaskItem taskData={tasks} boxIndex={index} socket={socket} />

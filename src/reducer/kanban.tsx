@@ -15,6 +15,7 @@ export const kanbanDataSlice = createSlice({
 			const taskBoxFrame = {
 				taskBoxTitle,
 				tasks: [],
+				dragging: false,
 			};
 
 			state.taskBox.push(taskBoxFrame);
@@ -38,6 +39,7 @@ export const kanbanDataSlice = createSlice({
 					assignees: [],
 					checkList: [],
 					comment: [],
+					dragging: false,
 				},
 			};
 
@@ -58,17 +60,22 @@ export const kanbanDataSlice = createSlice({
 			delete state.taskItems[targetItem[0]];
 		},
 		reorderTaskBox: (state, { payload }): void => {
-			const { currentIndex, targetIndex } = payload;
+			const { currentIndex, targetIndex, isDragging } = payload;
 			const targetBox = state.taskBox.splice(currentIndex, 1);
+
 			state.taskBox.splice(targetIndex, 0, ...targetBox);
+			state.taskBox[targetIndex].dragging = isDragging;
 		},
 		reorderTaskItem: (state, { payload }): void => {
-			const { currentIndex, targetIndex, currentListIndex, targetListIndex } = payload;
+			const { currentIndex, targetIndex, currentListIndex, targetListIndex, isDragging } = payload;
 			const currentTasks: string[] = state.taskBox[currentListIndex].tasks;
 			const targetTasks: string[] = state.taskBox[targetListIndex].tasks;
 
 			const current = currentTasks.splice(currentIndex, 1);
 			targetTasks.splice(targetIndex, 0, ...current);
+
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
+			state.taskItems[taskKey].dragging = isDragging;
 		},
 		getSocketData: (state, { payload }) => {
 			return payload;
@@ -85,10 +92,25 @@ export const kanbanDataSlice = createSlice({
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
 		editTaskDetail: (state, { payload }) => {
-			const { targetListIndex, targetIndex, task } = payload;
+			const { targetListIndex, targetIndex, task, isDragging } = payload;
 			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
 
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
+			state.taskItems[taskKey] = isDragging;
+		},
+		taskBoxBlock: (state, { payload }) => {
+			const { targetListIndex, isDragging } = payload;
+
+			state.taskBox[targetListIndex].dragging = isDragging;
+			state.taskBox[targetListIndex].tasks.forEach(taskKey => {
+				state.taskItems[taskKey].dragging = isDragging;
+			});
+		},
+		taskItemBlock: (state, { payload }) => {
+			const { targetListIndex, targetIndex, isDragging } = payload;
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
+
+			state.taskItems[taskKey].dragging = isDragging;
 		},
 	},
 	extraReducers: {},
@@ -105,6 +127,8 @@ export const {
 	socketAddTaskItem,
 	deleteTaskItem,
 	editTaskDetail,
+	taskBoxBlock,
+	taskItemBlock,
 } = kanbanDataSlice.actions;
 
 export const kanbanDataSelector = (state: RootStateOrAny): kanbanDataType => state.kanbanDataSlice;

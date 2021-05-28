@@ -32,6 +32,10 @@ export const TaskBoxContainer = styled.div`
 			color: #aaa;
 		}
 	}
+
+	&.block {
+		opacity: 0.3;
+	}
 `;
 
 export const TaskBoxTop = styled.div``;

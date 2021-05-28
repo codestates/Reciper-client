@@ -37,6 +37,10 @@ export const TaskCoantainer = styled.div`
 	&:hover .dot {
 		opacity: 1;
 	}
+
+	&.block {
+		opacity: 0.3;
+	}
 `;
 
 export const ColorLabel = styled.div`

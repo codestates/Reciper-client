@@ -48,12 +48,15 @@ const TaskItem = ({ taskData, boxIndex, socket }: Props): JSX.Element => {
 		endDate: '',
 		taskColor: '',
 		assignees: [],
+		dragging: false,
 	});
 
-	const test = (task: string, index: number) => {
+	const openDetail = (task: string, index: number) => {
 		setShowModal(true);
 		setTargetTask(task);
 		setTargetIndex(index);
+
+		socket?.emit('taskItemBlock', { targetListIndex: boxIndex, targetIndex: index, isDragging: true });
 	};
 
 	useEffect(() => {
@@ -69,16 +72,17 @@ const TaskItem = ({ taskData, boxIndex, socket }: Props): JSX.Element => {
 				{provided => (
 					<TaskWrap ref={provided.innerRef}>
 						{taskData.map((task, index) => {
-							const { taskTitle, taskColor, startDate, endDate, assignees } = taskItems[task];
+							const { taskTitle, taskColor, startDate, endDate, assignees, dragging } = taskItems[task];
 
 							return (
-								<Draggable key={task} draggableId={String(task)} index={index}>
+								<Draggable key={task} draggableId={String(task)} isDragDisabled={dragging} index={index}>
 									{provided => (
 										<TaskCoantainer
+											className={`${dragging ? 'block' : ''}`}
 											ref={provided.innerRef}
 											{...provided.draggableProps}
 											{...provided.dragHandleProps}
-											onClick={() => test(task, index)}
+											onClick={() => !dragging && openDetail(task, index)}
 										>
 											<ColorLabel style={{ backgroundColor: `${taskColor}` }} />
 											<TaskSimpleWrap>

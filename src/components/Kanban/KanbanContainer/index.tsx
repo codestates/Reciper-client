@@ -21,6 +21,8 @@ import {
 	socketAddTaskItem,
 	deleteTaskItem,
 	editTaskDetail,
+	taskBoxBlock,
+	taskItemBlock,
 } from '../../../reducer/kanban';
 import { projectInfoSelector } from '../../../reducer/projectInfo';
 
@@ -73,6 +75,15 @@ const KanbanConianer = (): JSX.Element => {
 			dispatch(editTaskDetail(data));
 		});
 
+		socket?.on('taskBoxBlock', data => {
+			dispatch(taskBoxBlock(data));
+		});
+
+		socket?.on('taskItemBlock', data => {
+			console.log(data);
+			dispatch(taskItemBlock(data));
+		});
+
 		socket?.emit('joinPart', part);
 		socket?.emit('getKanbanData', part);
 
@@ -94,10 +105,20 @@ const KanbanConianer = (): JSX.Element => {
 	}, [title]);
 
 	const onDragStart = (initial: DragStart): void => {
-		console.log(initial);
-		if (initial.type === 'TaskBox') {
-			const targetBox = document.querySelector(`.${initial.draggableId}`);
+		const { source, draggableId, type } = initial;
+
+		if (type === 'TaskBox') {
+			const targetListIndex = source.index;
+			const targetBox = document.querySelector(`.${draggableId}`);
 			targetBox?.classList.add('dragging');
+
+			socket?.emit('taskBoxBlock', { targetListIndex, isDragging: true });
+		}
+
+		if (type === 'TaskItem') {
+			const targetListIndex = source.droppableId.split('-')[1];
+
+			socket?.emit('taskItemBlock', { targetListIndex, targetIndex: source.index, isDragging: true });
 		}
 	};
 
@@ -114,7 +135,7 @@ const KanbanConianer = (): JSX.Element => {
 			const targetBox = document.querySelector(`.${result.draggableId}`);
 			targetBox?.classList.remove('dragging');
 
-			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
+			socket?.emit('boxMoving', { currentIndex, targetIndex, part, isDragging: false });
 			dispatch(reorderTaskBox({ currentIndex, targetIndex }));
 		}
 
@@ -124,7 +145,14 @@ const KanbanConianer = (): JSX.Element => {
 			const currentListIndex = Number(source.droppableId.split('-')[1]);
 			const targetListIndex = Number(destination.droppableId.split('-')[1]);
 
-			socket?.emit('taskMoving', { currentIndex, targetIndex, currentListIndex, targetListIndex, part });
+			socket?.emit('taskMoving', {
+				currentIndex,
+				targetIndex,
+				currentListIndex,
+				targetListIndex,
+				part,
+				isDragging: false,
+			});
 			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
 		}
 	};

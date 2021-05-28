@@ -296,11 +296,13 @@ export interface taskDataType {
 	assignees: string[];
 	checkList: taskChackListDataType[];
 	comment: taskCommentDataType[];
+	dragging: boolean;
 }
 
 export interface taskBoxDataType {
 	taskBoxTitle: string;
 	tasks: string[];
+	dragging: boolean;
 }
 
 export interface taskItemsDataType {
