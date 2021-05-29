@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 export const ChatProfileModalWrapper = styled.div`
 	overflow: hidden;
-
 	width: 240px;
 	height: 330px;
 	font-family: NanumSquareR;
@@ -25,8 +24,8 @@ export const PrfileModalBottomWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 140px;
-	padding: 12px 20px;
+	height: 150px;
+	padding: 20px 20px;
 	background-color: #fff;
 	color: #333333;
 `;
@@ -44,19 +43,43 @@ export const ProfileModalUserAboutMe = styled.div`
 `;
 
 export const LinkWrapper = styled.div`
-	dispaly: flex;
-	align-items: center;
+	${({ theme }) => theme.align.flexVertical};
+	justify-content: space-between;
+	width: 100%;
 	height: 100%;
-
-	& > div {
-		margin-bottom: 6px;
-	}
+	font-family: NanumSquareB;
 `;
 
 export const GoToProfileLink = styled(Link)`
-	color: ${({ theme }) => theme.color.pointColor};
+	width: 100%;
+	padding: 8px;
+	color: #333333;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-radius: 4px;
 
 	&:hover {
-		color: ${({ theme }) => theme.hover.pointColorHover};
+		transition: 0.1s;
+		color: #eee;
+		background-color: ${({ theme }) => theme.color.pointColor};
+		border: none;
+	}
+`;
+
+export const ProfileModalLink = styled(Link)`
+	width: 95px;
+	padding: 8px;
+	color: #333333;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-radius: 4px;
+
+	&:hover {
+		transition: 0.1s;
+		color: #eee;
+		background-color: ${({ theme }) => theme.color.pointColor};
+		border: none;
 	}
 `;

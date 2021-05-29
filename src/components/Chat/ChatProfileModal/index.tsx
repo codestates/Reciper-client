@@ -1,4 +1,4 @@
-import React, { Dispatch, RefObject, SetStateAction, useCallback, useEffect } from 'react';
+import React from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 
@@ -12,6 +12,7 @@ import {
 	ProfileModalUserName,
 	ProfileModalUserAboutMe,
 	LinkWrapper,
+	ProfileModalLink,
 } from './styles';
 
 import { ChatDataType } from '../../../types/types';
@@ -22,7 +23,7 @@ interface Props {
 
 const ChatProfileModal = ({ data }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const { uploadImage, profileColor, name, aboutMe, email } = data.writer;
+	const { id, uploadImage, profileColor, name, aboutMe, email } = data.writer;
 
 	return (
 		<ChatProfileModalWrapper>
@@ -41,18 +42,13 @@ const ChatProfileModal = ({ data }: Props): JSX.Element => {
 				<ProfileModalUserAboutMe>{aboutMe}</ProfileModalUserAboutMe>
 				{profileInfo.email === email ? (
 					<LinkWrapper>
-						<div>
-							<GoToProfileLink to={`/project`}>내 레시피 보기</GoToProfileLink>
-						</div>
-						<div>
-							<GoToProfileLink to={`/profile/${profileInfo.id}`}>프로필 편집 하기</GoToProfileLink>
-						</div>
+						<GoToProfileLink to={`/profile/${profileInfo.id}/edit`}>프로필 편집 하기</GoToProfileLink>
 					</LinkWrapper>
 				) : (
-					<>
-						<button>디엠 보내기</button>
-						<button>전체 프로필 보기</button>
-					</>
+					<LinkWrapper>
+						<ProfileModalLink to={`profile/${id}`}>메시지</ProfileModalLink>
+						<ProfileModalLink to={`profile/${id}`}>전체 프로필</ProfileModalLink>
+					</LinkWrapper>
 				)}
 			</PrfileModalBottomWrapper>
 		</ChatProfileModalWrapper>
