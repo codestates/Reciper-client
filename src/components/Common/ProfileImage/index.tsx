@@ -8,8 +8,8 @@ import { UserProfileDefault, UserProfileImage } from './styles';
 설정하지 않았으면 기본 프로필을 보여준다.
 
 5/28 수정
-radius - true: border-radius 100%;
-radius - false: border-radius 0; 
+radius 기본값 border-radius 100%;
+radius 조절 가능; 
 
 Props: {
   width
@@ -30,7 +30,7 @@ interface Props {
 	profileImage?: string;
 	profileColor?: string;
 	userName?: string;
-	radius: boolean;
+	radius: string;
 }
 
 const ProfileImage = (props: Props): JSX.Element => {
@@ -56,7 +56,7 @@ ProfileImage.defaultProps = {
 	height: '30px',
 	margin: '0',
 	userNameSize: '16px',
-	radius: 'true',
+	radius: '100%',
 };
 
 export default ProfileImage;

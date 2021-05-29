@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Dispatch, RefObject, SetStateAction, useCallback, useEffect } from 'react';
+import ProfileImage from '../../Common/ProfileImage';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+
 import { useSelector } from 'react-redux';
 
-import { getProfileInfoSelector } from '../../../reducer/profile';
-import { ChatDataType } from '../../../types/types';
-
-import ProfileImage from '../../Common/ProfileImage';
 import {
 	ChatProfileModalWrapper,
 	GoToProfileLink,
@@ -14,6 +13,8 @@ import {
 	ProfileModalUserAboutMe,
 	LinkWrapper,
 } from './styles';
+
+import { ChatDataType } from '../../../types/types';
 
 interface Props {
 	data: ChatDataType;
@@ -32,7 +33,7 @@ const ChatProfileModal = ({ data }: Props): JSX.Element => {
 					profileImage={uploadImage}
 					profileColor={profileColor}
 					userName={name}
-					radius={false}
+					radius={'0'}
 				/>
 			</ProfileModalTopWrapper>
 			<PrfileModalBottomWrapper>

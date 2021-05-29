@@ -1,36 +1,22 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-export const UserProfileImage = styled.img<{ width: string; margin: string; radius: boolean }>`
+export const UserProfileImage = styled.img<{ width: string; margin: string; radius: string }>`
 	cursor: pointer;
 	object-fit: cover;
 	${({ theme }) => theme.align.flexCenter}
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};
 	margin: ${({ margin }) => margin};
-	${props =>
-		props.radius
-			? css`
-					border-radius: 100%;
-			  `
-			: `
-		border-radius: 0;
-	`}
+	border-radius: ${({ radius }) => radius};
 `;
 
-export const UserProfileDefault = styled.div<{ width: string; height: string; margin: string; radius: boolean }>`
+export const UserProfileDefault = styled.div<{ width: string; height: string; margin: string; radius: string }>`
 	cursor: pointer;
 	${({ theme }) => theme.align.flexCenter}
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};
 	margin: ${({ margin }) => margin};
-	${props =>
-		props.radius
-			? css`
-					border-radius: 100%;
-			  `
-			: `
-		border-radius: 0;
-	`}
+	border-radius: ${({ radius }) => radius};
 
 	& > span {
 		${({ theme }) => theme.align.flexCenter}
