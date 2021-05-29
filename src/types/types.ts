@@ -293,7 +293,7 @@ export interface taskDataType {
 	taskColor: string;
 	startDate: string;
 	endDate: string;
-	assignees: string[];
+	assignees: RecruitWriterDataType[];
 	checkList: taskChackListDataType[];
 	comment: taskCommentDataType[];
 	dragging: boolean;
