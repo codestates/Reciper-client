@@ -70,7 +70,7 @@ export const TaskPeriod = styled.p`
 `;
 
 export const TaskMembers = styled.div`
-	position: relative;
+	${({ theme }) => theme.align.flexVertical}
 	width: 100%;
 	height: 30px;
 	margin-top: 10px;
@@ -84,23 +84,6 @@ export const EXImage = styled.div`
 	height: 30px;
 	color: #fff;
 	border-radius: 100%;
-`;
-
-export const EXImage1 = styled(EXImage)`
-	left: 0;
-	background-color: #ff4752;
-`;
-export const EXImage2 = styled(EXImage)`
-	left: 15px;
-	background-color: #478bff;
-`;
-export const EXImage3 = styled(EXImage)`
-	left: 30px;
-	background-color: #2a6a13;
-`;
-export const EXImage4 = styled(EXImage)`
-	left: 45px;
-	background-color: #ff7e47;
 `;
 
 export const DotWrap = styled.div`

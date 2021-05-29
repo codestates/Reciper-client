@@ -7,13 +7,20 @@ import { useParams } from 'react-router';
 
 import useInput from '../../../hooks/useInput';
 import dateFormat from '../../../utils/dateformat';
-import { kanbanDataType, taskDataType, taskChackListDataType, taskCommentDataType } from '../../../types/types';
+import Input from '../Input';
+import ProfileImage from '../ProfileImage';
+import Assignees from './Assignees';
+
+import {
+	kanbanDataType,
+	taskDataType,
+	taskChackListDataType,
+	taskCommentDataType,
+	RecruitWriterDataType,
+} from '../../../types/types';
 
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
-
-import Input from '../Input';
-import ProfileImage from '../ProfileImage';
 
 import {
 	CheckBtn,
@@ -35,7 +42,6 @@ import {
 	CheckDeleteBtn,
 	PeriodWrap,
 	DateCustomBtn,
-	AssigneesWrap,
 	ColorLabelWrap,
 	FlexSection,
 } from './styles';
@@ -63,6 +69,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 	const [comment, setComment] = useState<taskCommentDataType[]>(taskData.comment);
 	const [startDate, setStartDate] = useState<Date>();
 	const [endDate, setEndDate] = useState<Date>();
+	const [selectedMember, setSelectedMember] = useState<RecruitWriterDataType[]>(taskData.assignees);
 
 	const addCheckList = useCallback((): void => {
 		setCheckList([...checkList, { isChecked: false, desc: checkListValue }]);
@@ -116,15 +123,6 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 		[comment],
 	);
 
-	const DatePickerCustomBtn = forwardRef(({ value, onClick, type }: any, ref: any) => {
-		return (
-			<DateCustomBtn className="example-custom-input" onClick={onClick} ref={ref}>
-				{value ? value : type === 'start' ? 'Strat Date' : 'End Date'}
-			</DateCustomBtn>
-		);
-	});
-	DatePickerCustomBtn.displayName = 'custom btn';
-
 	const onDeleteTaskItem = () => {
 		let target = [0, 0];
 
@@ -139,6 +137,15 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 		setShowModal(false);
 	};
 
+	const DatePickerCustomBtn = forwardRef(({ value, onClick, type }: any, ref: any) => {
+		return (
+			<DateCustomBtn className="example-custom-input" onClick={onClick} ref={ref}>
+				{value ? value : type === 'start' ? 'Strat Date' : 'End Date'}
+			</DateCustomBtn>
+		);
+	});
+	DatePickerCustomBtn.displayName = 'custom btn';
+
 	useEffect(() => {
 		setData({
 			taskTitle,
@@ -148,10 +155,10 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 			startDate: dateFormat(startDate as Date, 'md'),
 			endDate: dateFormat(endDate as Date, 'md'),
 			taskColor: taskData.taskColor,
-			assignees: taskData.assignees,
+			assignees: selectedMember,
 			dragging: false,
 		});
-	}, [taskTitle, desc, checkList, comment, startDate, endDate]);
+	}, [taskTitle, desc, checkList, comment, startDate, endDate, selectedMember]);
 
 	return (
 		<TaskDetailContainer>
@@ -168,9 +175,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 				<DescTextArea value={desc} onChange={e => setDesc(e.target.value)} />
 			</Section>
 			<FlexSection>
-				<AssigneesWrap>
-					<SectionTitle>참여</SectionTitle>
-				</AssigneesWrap>
+				<Assignees selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
 				<ColorLabelWrap>
 					<SectionTitle>컬러 라벨</SectionTitle>
 				</ColorLabelWrap>

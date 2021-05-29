@@ -3,14 +3,11 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 
 import { kanbanDataSelector } from '../../../reducer/kanban';
+import ProfileImage from '../../Common/ProfileImage';
 
 import {
 	ColorLabel,
 	DotWrap,
-	EXImage1,
-	EXImage2,
-	EXImage3,
-	EXImage4,
 	TaskCoantainer,
 	TaskMembers,
 	TaskName,
@@ -56,10 +53,17 @@ const TaskItem = ({ taskData, boxIndex, openDetail }: Props): JSX.Element => {
 												{/* 참여 멤버가 있다면 */}
 												{!!assignees.length && (
 													<TaskMembers>
-														<EXImage1>W</EXImage1>
-														<EXImage2>U</EXImage2>
-														<EXImage3>K</EXImage3>
-														<EXImage4>J</EXImage4>
+														{assignees.map((member, index) => (
+															<ProfileImage
+																key={index}
+																width="30px"
+																height="30px"
+																margin="0 -15px 0 0"
+																profileImage={member.uploadImage}
+																profileColor={member.profileColor}
+																userName={member.name}
+															/>
+														))}
 													</TaskMembers>
 												)}
 
