@@ -37,7 +37,7 @@ export const ChatItemProfileModal = styled.div`
 	position: absolute;
 	top: 6px;
 	left: 70px;
-	z-index: 10;
+	z-index: 100;
 `;
 
 // ------------------TODO: 채팅 수정 및 삭제 버튼 모달 ------------------
