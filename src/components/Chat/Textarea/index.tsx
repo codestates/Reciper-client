@@ -7,11 +7,18 @@ import React, {
 	useState,
 	Dispatch,
 	SetStateAction,
+	ChangeEvent,
 } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
+import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
+import useSocket from '../../../hooks/useSocket';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
 import autosize from 'autosize';
+import { useHistory, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 
 import {
 	ChatArea,
@@ -27,12 +34,6 @@ import {
 } from './styles';
 
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
-import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
-import { useHistory, useParams } from 'react-router';
-import useSocket from '../../../hooks/useSocket';
-import { getProfileInfoSelector } from '../../../reducer/profile';
-import { useSelector } from 'react-redux';
-import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 
 interface DataType {
 	id: number;
@@ -60,7 +61,6 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, s
 	const imageInput = useRef<HTMLInputElement>(null);
 
 	const [chatUploadImage, setChatUploadImage] = useState<string>('');
-	console.log('textarea 이미지 상태', chatUploadImage);
 
 	useEffect(() => {
 		if (textareaRef.current) {
@@ -80,14 +80,20 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, s
 		[onSubmitForm],
 	);
 
+	const onChangeUploadImage = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+		e.preventDefault();
+		changeImage(e, setChatUploadImage);
+	}, []);
+
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
-		const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
-		const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+		if (chatUploadImage) {
+			const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
-		setChatBucket([...chatBucket, newChat]);
-
-		socket?.emit('sendImage', getImageData);
+			setChatBucket([...chatBucket, newChat]);
+			socket?.emit('sendImage', getImageData);
+		}
 	}, [chatUploadImage]);
 
 	// TODO: 채팅 이미지 업로드 창 열기
@@ -167,7 +173,7 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, s
 							accept="image/jpg,image/png,/image/jpeg"
 							name="file"
 							hidden
-							onChange={e => changeImage(e, setChatUploadImage)}
+							onChange={onChangeUploadImage}
 							ref={imageInput}
 						/>
 					</form>

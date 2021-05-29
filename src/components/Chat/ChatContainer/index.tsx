@@ -33,30 +33,29 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
-		socket?.on('getAllMessages', (chats: ChatDataType[]) => {
-			const data = chats.map((chat: ChatDataType) => {
-				return { ...chat };
+		if (chatBucket) {
+			socket?.on('getAllMessages', (chats: ChatDataType[]) => {
+				setChatBucket(chats);
 			});
-			setChatBucket(data);
-		});
+		}
 
 		// TODO: room이 바뀌면 room과 다시 연결한다.
 		socket?.emit('getAllMessages', room);
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
-	}, [room]);
+	}, [room, chat]);
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket?.on('sendMessage', ({ id, text, writer, room, project, createdAt }: ChatDataType) => {
-			setChatBucket([...chatBucket, { id, text, writer, room, project, createdAt }]);
+		socket?.on('sendMessage', ({ id, text, uploadImage, writer, room, project, createdAt }: ChatDataType) => {
+			setChatBucket([...chatBucket, { id, text, uploadImage, writer, room, project, createdAt }]);
 		});
 
 		// TODO: 채팅 수정
 		socket?.on('editMessage', ({ foundChat, index }: ChatDataType) => {
 			const copyChatBucket = [...chatBucket];
 			if (foundChat && index) {
-				copyChatBucket.splice(index + 1, 1);
+				copyChatBucket.splice(index, 1);
 				setChatBucket([...copyChatBucket, foundChat]);
 			}
 		});
@@ -64,19 +63,17 @@ const WorkSpaceChat = (): JSX.Element => {
 		// TODO: 채팅 삭제
 		socket?.on('deleteMessage', ({ index }) => {
 			const copyChatBucket = [...chatBucket];
-			copyChatBucket.splice(index + 1, 1);
+			copyChatBucket.splice(index, 1);
 			setChatBucket([...copyChatBucket]);
 		});
 
 		// TODO: 채팅 이미지 업로드
 		socket?.on('sendImage', ({ chat }: ChatDataType) => {
-			console.log('서버에서 받아오는 이미지 데이터', chat);
-			if (chat) {
+			if (chat?.uploadImage) {
 				setChatBucket([...chatBucket, chat]);
 			}
 		});
 	}, [chatBucket]);
-	console.log('이미지 업로드 확인 차', chatBucket);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
@@ -96,14 +93,16 @@ const WorkSpaceChat = (): JSX.Element => {
 			const newChat: ChatDataType = newChatData(chat, '', room, profileInfo);
 
 			socket?.emit('sendMessage', data);
-			setChatBucket([...chatBucket, newChat]);
-			setChat('');
+			if (chat) {
+				setChatBucket([...chatBucket, newChat]);
+				setChat('');
+			}
 
 			if (scrollbarRef.current) {
 				scrollbarRef.current.scrollToBottom();
 			}
 		},
-		[chat],
+		[chat, chatBucket],
 	);
 
 	const onChangeChatValue: OnChangeHandlerFunc = useCallback((e): void => {
