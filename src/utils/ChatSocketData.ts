@@ -2,13 +2,19 @@ import dayjs from 'dayjs';
 
 import { ChatDataType, ChatUpdateDataType, profileInfoDataType } from '../types/types';
 
-export const newChatData = (inputValue: string, room: string, profileInfo: profileInfoDataType): ChatDataType => {
+export const newChatData = (
+	inputValue: string | undefined,
+	uploadImage: string | undefined,
+	room: string,
+	profileInfo: profileInfoDataType,
+): ChatDataType => {
 	let newChatDate = dayjs();
 	newChatDate = newChatDate.subtract(9, 'hour');
 
 	const result = {
 		id: null,
 		text: inputValue,
+		uploadImage: uploadImage,
 		room: room,
 		createdAt: newChatDate.toString(),
 		writer: {
@@ -28,7 +34,12 @@ export const newChatData = (inputValue: string, room: string, profileInfo: profi
 	return result;
 };
 
-export const getChatEditData = (room: string, index: number, id: number, message: string): ChatUpdateDataType => {
+export const getChatEditData = (
+	room: string,
+	index: number,
+	id: number,
+	message: string | undefined,
+): ChatUpdateDataType => {
 	const result = {
 		room: room,
 		index: index,
@@ -54,6 +65,20 @@ export const getChatData = (room: string, profileInfo: profileInfoDataType, mess
 		room: room,
 		name: profileInfo.name,
 		message: message,
+	};
+
+	return result;
+};
+
+export const getChatUploadImageData = (
+	room: string,
+	profileInfo: profileInfoDataType,
+	uploadImage: string,
+): ChatUpdateDataType => {
+	const result = {
+		room: room,
+		name: profileInfo.name,
+		uploadImage: uploadImage,
 	};
 
 	return result;
