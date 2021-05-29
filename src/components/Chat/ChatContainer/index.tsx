@@ -67,7 +67,16 @@ const WorkSpaceChat = (): JSX.Element => {
 			copyChatBucket.splice(index + 1, 1);
 			setChatBucket([...copyChatBucket]);
 		});
+
+		// TODO: 채팅 이미지 업로드
+		socket?.on('sendImage', ({ chat }: ChatDataType) => {
+			console.log('서버에서 받아오는 이미지 데이터', chat);
+			if (chat) {
+				setChatBucket([...chatBucket, chat]);
+			}
+		});
 	}, [chatBucket]);
+	console.log('이미지 업로드 확인 차', chatBucket);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
@@ -84,7 +93,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			}
 
 			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat);
-			const newChat: ChatDataType = newChatData(chat, room, profileInfo);
+			const newChat: ChatDataType = newChatData(chat, '', room, profileInfo);
 
 			socket?.emit('sendMessage', data);
 			setChatBucket([...chatBucket, newChat]);
@@ -116,6 +125,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				onChangeChat={onChangeChatValue}
 				chat={chat}
 				chatBucket={chatBucket}
+				setChatBucket={setChatBucket}
 				placeholder={`${room}에게 메세지 보내기`}
 			/>
 		</WorkSpaceFrame>
