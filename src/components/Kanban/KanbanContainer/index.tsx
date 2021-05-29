@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, DragStart, Droppable, DropResult } from 'react-beautiful-dnd';
+import { useHistory, useParams } from 'react-router';
 
 import TaskBox from '../TaskBox';
 
 import useInput from '../../../hooks/useInput';
 import useSocket from '../../../hooks/useSocket';
 
-import { kanbanDataType } from '../../../types/types';
+import { kanbanDataType, taskDataType } from '../../../types/types';
 
 import {
 	addTaskBox,
@@ -19,27 +20,47 @@ import {
 	deleteTaskBox,
 	socketAddTaskItem,
 	deleteTaskItem,
+	editTaskDetail,
+	taskBoxBlock,
+	taskItemBlock,
 } from '../../../reducer/kanban';
+import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
 import Modal from '../../Common/Modal';
 import TaskDetail from '../../Common/TaskDetail';
-import { useHistory, useParams } from 'react-router';
 
 const KanbanConianer = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
 	const currentAddress = history.location.pathname.split('/')[3];
+	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
+
 	const { taskBox }: kanbanDataType = useSelector(kanbanDataSelector);
+	const projectInfo = useSelector(projectInfoSelector);
+	const [socket] = useSocket(projectUrl, currentAddress);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
+
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [targetTask, setTargetTask] = useState<string>('');
-	const [socket] = useSocket(projectUrl, currentAddress);
+	const [targetIndex, setTargetIndex] = useState<number>(0);
+	const [targetListIndex, setTargeListIndex] = useState<number>(0);
+	const [detailData, setDetailData] = useState<taskDataType>({
+		taskTitle: '',
+		desc: '',
+		checkList: [],
+		comment: [],
+		startDate: '',
+		endDate: '',
+		taskColor: '',
+		assignees: [],
+		dragging: false,
+	});
 
 	useEffect(() => {
+		console.log(projectInfo);
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
 		});
@@ -62,15 +83,31 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('boxMoving', data => {
-			dispatch(reorderTaskBox(data));
+			dispatch(reorderTaskBox({ data, targetTask }));
 		});
 
 		socket?.on('taskMoving', data => {
 			dispatch(reorderTaskItem(data));
 		});
 
+		socket?.on('editTaskItem', data => {
+			dispatch(editTaskDetail(data));
+		});
+
+		socket?.on('taskBoxBlock', data => {
+			dispatch(taskBoxBlock(data));
+		});
+
+		socket?.on('taskItemBlock', data => {
+			dispatch(taskItemBlock(data));
+		});
+
 		socket?.emit('joinPart', part);
 		socket?.emit('getKanbanData', part);
+
+		return () => {
+			socket?.emit('leavePart', part);
+		};
 	}, []);
 
 	const onAddTaskBox = useCallback(() => {
@@ -86,10 +123,20 @@ const KanbanConianer = (): JSX.Element => {
 	}, [title]);
 
 	const onDragStart = (initial: DragStart): void => {
-		console.log(initial);
-		if (initial.type === 'TaskBox') {
-			const targetBox = document.querySelector(`.${initial.draggableId}`);
+		const { source, draggableId, type } = initial;
+
+		if (type === 'TaskBox') {
+			const targetListIndex = source.index;
+			const targetBox = document.querySelector(`.${draggableId}`);
 			targetBox?.classList.add('dragging');
+
+			socket?.emit('taskBoxBlock', { targetListIndex, isDragging: true });
+		}
+
+		if (type === 'TaskItem') {
+			const targetListIndex = source.droppableId.split('-')[1];
+
+			socket?.emit('taskItemBlock', { targetListIndex, targetIndex: source.index, isDragging: true });
 		}
 	};
 
@@ -104,10 +151,11 @@ const KanbanConianer = (): JSX.Element => {
 			const currentIndex = source.index;
 			const targetIndex = destination.index;
 			const targetBox = document.querySelector(`.${result.draggableId}`);
+			const data = { currentIndex, targetIndex };
 			targetBox?.classList.remove('dragging');
 
-			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
-			dispatch(reorderTaskBox({ currentIndex, targetIndex }));
+			socket?.emit('boxMoving', { currentIndex, targetIndex, part, isDragging: false });
+			dispatch(reorderTaskBox({ data, targetTask }));
 		}
 
 		if (type === 'TaskItem') {
@@ -116,15 +164,33 @@ const KanbanConianer = (): JSX.Element => {
 			const currentListIndex = Number(source.droppableId.split('-')[1]);
 			const targetListIndex = Number(destination.droppableId.split('-')[1]);
 
-			socket?.emit('taskMoving', { currentIndex, targetIndex, currentListIndex, targetListIndex, part });
+			socket?.emit('taskMoving', {
+				currentIndex,
+				targetIndex,
+				currentListIndex,
+				targetListIndex,
+				part,
+				isDragging: false,
+			});
 			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
 		}
 	};
 
-	const openModalHooks = (task: string) => {
+	const openDetail = (task: string, targetIndex: number, targetListIndex: number): void => {
 		setShowModal(true);
 		setTargetTask(task);
+		setTargetIndex(targetIndex);
+		setTargeListIndex(targetListIndex);
+
+		socket?.emit('taskItemBlock', { targetListIndex, targetIndex, isDragging: true });
 	};
+
+	useEffect(() => {
+		if (!showModal && String(targetTask)) {
+			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
+			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
+		}
+	}, [showModal, targetTask, targetIndex, targetListIndex]);
 
 	return (
 		<Container>
@@ -138,7 +204,7 @@ const KanbanConianer = (): JSX.Element => {
 									socket={socket}
 									taskBoxData={taskBox}
 									index={index}
-									openModalHooks={openModalHooks}
+									openDetail={openDetail}
 								/>
 							))}
 							{provided.placeholder}
@@ -157,9 +223,10 @@ const KanbanConianer = (): JSX.Element => {
 					)}
 				</Droppable>
 			</DragDropContext>
+
 			{showModal && (
 				<Modal setShowModal={setShowModal}>
-					<TaskDetail targetTask={targetTask} socket={socket} setShowModal={setShowModal} />
+					<TaskDetail targetTask={targetTask} socket={socket} setShowModal={setShowModal} setData={setDetailData} />
 				</Modal>
 			)}
 		</Container>
@@ -167,10 +234,3 @@ const KanbanConianer = (): JSX.Element => {
 };
 
 export default KanbanConianer;
-
-// const [kanbanData, setKanbanData] = useState<kanbanDataType>({
-// 	taskBox: [{ title: '', tasks: ['0'] }],
-// 	taskItem: {
-// 		'0': { title: '', desc: '', taskColor: '', startDate: '', endData: '', assigness: '', checkList: [] },
-// 	},
-// });

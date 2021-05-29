@@ -2,19 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootStateOrAny } from 'react-redux';
 import { kanbanDataType } from '../types/types';
 
-const initialState: kanbanDataType = {
+const kanbaninitialState: kanbanDataType = {
 	taskBox: [],
 	taskItems: {},
 };
 
 export const kanbanDataSlice = createSlice({
 	name: 'kanbanData',
-	initialState,
+	initialState: kanbaninitialState,
 	reducers: {
 		addTaskBox: (state, { payload: taskBoxTitle }: PayloadAction<string>): void => {
 			const taskBoxFrame = {
 				taskBoxTitle,
 				tasks: [],
+				dragging: false,
 			};
 
 			state.taskBox.push(taskBoxFrame);
@@ -35,9 +36,10 @@ export const kanbanDataSlice = createSlice({
 					taskColor,
 					startDate: '',
 					endDate: '',
-					assignees: '',
+					assignees: [],
 					checkList: [],
 					comment: [],
+					dragging: false,
 				},
 			};
 
@@ -58,20 +60,28 @@ export const kanbanDataSlice = createSlice({
 			delete state.taskItems[targetItem[0]];
 		},
 		reorderTaskBox: (state, { payload }): void => {
-			const { currentIndex, targetIndex } = payload;
+			const { currentIndex, targetIndex, isDragging } = payload.data;
 			const targetBox = state.taskBox.splice(currentIndex, 1);
+
 			state.taskBox.splice(targetIndex, 0, ...targetBox);
+			state.taskBox[targetIndex].dragging = isDragging;
+
+			state.taskBox[targetIndex].tasks.forEach(taskKey => {
+				state.taskItems[taskKey].dragging = isDragging;
+			});
 		},
 		reorderTaskItem: (state, { payload }): void => {
-			const { currentIndex, targetIndex, currentListIndex, targetListIndex } = payload;
+			const { currentIndex, targetIndex, currentListIndex, targetListIndex, isDragging } = payload;
 			const currentTasks: string[] = state.taskBox[currentListIndex].tasks;
 			const targetTasks: string[] = state.taskBox[targetListIndex].tasks;
 
 			const current = currentTasks.splice(currentIndex, 1);
 			targetTasks.splice(targetIndex, 0, ...current);
+
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
+			state.taskItems[taskKey].dragging = isDragging;
 		},
 		getSocketData: (state, { payload }) => {
-			console.log(payload);
 			return payload;
 		},
 		socketAddTaskBox: (state, { payload }) => {
@@ -84,6 +94,27 @@ export const kanbanDataSlice = createSlice({
 
 			state.taskBox[targetListIndex].tasks.push(taskKey);
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
+		},
+		editTaskDetail: (state, { payload }) => {
+			const { targetListIndex, targetIndex, task, isDragging } = payload;
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
+
+			state.taskItems = { ...state.taskItems, [taskKey]: task };
+			state.taskItems[taskKey].dragging = isDragging;
+		},
+		taskBoxBlock: (state, { payload }) => {
+			const { targetListIndex, isDragging } = payload;
+
+			state.taskBox[targetListIndex].dragging = isDragging;
+			state.taskBox[targetListIndex].tasks.forEach(taskKey => {
+				state.taskItems[taskKey].dragging = isDragging;
+			});
+		},
+		taskItemBlock: (state, { payload }) => {
+			const { targetListIndex, targetIndex, isDragging } = payload;
+			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
+
+			state.taskItems[taskKey].dragging = isDragging;
 		},
 	},
 	extraReducers: {},
@@ -99,47 +130,9 @@ export const {
 	socketAddTaskBox,
 	socketAddTaskItem,
 	deleteTaskItem,
+	editTaskDetail,
+	taskBoxBlock,
+	taskItemBlock,
 } = kanbanDataSlice.actions;
 
 export const kanbanDataSelector = (state: RootStateOrAny): kanbanDataType => state.kanbanDataSlice;
-
-// taskBox[targetIndex].tasks.push(id)
-// {
-// 	taskBox: [
-// 		{ taskBoxTitle: 'To Do', tasks: ['0', '1'] },
-// 		{ taskBoxTitle: 'In Progress', tasks: ['2'] },
-// 		{ taskBoxTitle: 'Done', tasks: [] },
-// 	],
-// 	taskItems: {
-// 		'0': {
-// 			taskTitle: 'Task 1',
-// 			desc: '',
-// 			taskColor: '#c41c4f',
-// 			startDate: '5월 30일',
-// 			endDate: '7월 01일',
-// 			assigness: '',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 		'1': {
-// 			taskTitle: 'Task 2',
-// 			desc: '',
-// 			taskColor: '#478bff',
-// 			startDate: '',
-// 			endDate: '',
-// 			assigness: '1',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 		'2': {
-// 			taskTitle: 'Task 3',
-// 			desc: '',
-// 			taskColor: '#00c875',
-// 			startDate: '5월 24일',
-// 			endDate: '6월 7일',
-// 			assigness: '1',
-// 			checkList: [],
-// 			comment: [],
-// 		},
-// 	},
-// };
