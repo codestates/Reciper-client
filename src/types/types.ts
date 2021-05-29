@@ -214,13 +214,15 @@ export interface projectCreateDataType {
 
 export interface ChatDataType {
 	id: number | null;
-	text: string;
+	text?: string;
+	uploadImage?: string;
 	room: string;
 	index?: number;
 	writer: ChatWriterDataType;
 	createdAt: string;
 	project?: ChatUserProjectDataType;
 	foundChat?: ChatDataType;
+	chat?: ChatDataType;
 }
 
 export interface ChatWriterDataType {
@@ -272,6 +274,7 @@ export interface ChatUpdateDataType {
 	id?: number;
 	message?: string;
 	name?: string;
+	uploadImage?: string;
 }
 
 ////////////////////////////////////////////////////////

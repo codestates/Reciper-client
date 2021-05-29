@@ -31,15 +31,13 @@ export const ChatWrapper = styled.div<{ isSameSender: boolean }>`
 
 // ------------------TODO: 채팅 프로필 이미지 모달 ------------------
 
-export const ChatItemProfileModalWrapper = styled.div``;
-
 export const ChatItemProfileModal = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: row;
 	position: absolute;
 	top: 6px;
 	left: 70px;
-	z-index: 10;
+	z-index: 100;
 `;
 
 // ------------------TODO: 채팅 수정 및 삭제 버튼 모달 ------------------

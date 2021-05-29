@@ -5,7 +5,7 @@ import DeleteAlert from '../DeleteAlert';
 import useSocket from '../../../hooks/useSocket';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { getChatDeleteData, getChatEditData, newChatData } from '../ChatSocketData/sockekData';
+import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
 
 import dayjs from 'dayjs';
 import autosize from 'autosize';
@@ -21,7 +21,6 @@ import {
 	ChatEditButtonWrapper,
 	ChatEditTextArea,
 	ChatItemProfileModal,
-	ChatItemProfileModalWrapper,
 	ChatNowDateHover,
 	ChatProfileImageWrapper,
 	ChatUpdateModal,
@@ -47,11 +46,13 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 	const currentAddress = history.location.pathname.split('/')[3];
 	const [socket] = useSocket(projectUrl, currentAddress);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const modalRef = useRef<HTMLDivElement>(null);
 
 	const [showChatProfileModal, setShowChatProfileModal] = useState<boolean>(false);
 	const [showChatDeleteAlert, setShowChatDeleteAlert] = useState<boolean>(false);
 	const [showChatEditForm, setShowChatEditForm] = useState<boolean>(false);
-	const [editChat, onChangeChat, setEditChat] = useInput<string>(data.text);
+	const [editChat, onChangeChat, setEditChat] = useInput<string | undefined>(data?.text);
+	const [test, setTest] = useState<number>(0);
 
 	const { uploadImage, profileColor, name } = data.writer;
 	let date = dayjs(data.createdAt);
@@ -64,26 +65,27 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 	}, [textareaRef.current]);
 
 	// TODO: 채팅 프로필 모달
-	const onShowChatProfileModal = useCallback(e => {
-		e.preventDefault();
-		e.stopPropagation();
-		setShowChatProfileModal(prev => !prev);
-	}, []);
+	const onShowChatProfileModal = useCallback(
+		e => {
+			e.preventDefault();
+			e.stopPropagation();
+			setTest(1);
+			console.log(test);
+
+			setShowChatProfileModal(prev => !prev);
+		},
+		[modalRef.current],
+	);
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
-		if (editChat.trim() === '') {
-			return;
-		}
-
 		if (data.id) {
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
-			const newChat: ChatDataType = newChatData(editChat, room, profileInfo);
+			const newChat: ChatDataType = newChatData(editChat, '', room, profileInfo);
 
 			const copyChatBucket = [...chatBucket];
 			copyChatBucket[index + 1] = newChat;
 			setChatBucket([...copyChatBucket]);
-
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
 		}
@@ -95,12 +97,9 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 			e.preventDefault();
 			e.stopPropagation();
 
-			if (editChat.trim() === '') {
-				return;
-			}
 			if (data.id) {
 				const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
-				const newChat: ChatDataType = newChatData(editChat, room, profileInfo);
+				const newChat: ChatDataType = newChatData(editChat, '', room, profileInfo);
 
 				const copyChatBucket = [...chatBucket];
 				copyChatBucket[index + 1] = newChat;
@@ -138,6 +137,24 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 		[chatBucket],
 	);
 
+	// TODO: 채팅 프로필 모달 Close
+	const onCloseModal = useCallback((e: globalThis.MouseEvent) => {
+		if (!modalRef.current?.contains(e.target as Node)) {
+			setShowChatProfileModal(false);
+		}
+		// console.log(modalRef.current);
+	}, []);
+
+	useEffect(() => {
+		document.addEventListener('click', onCloseModal);
+		// console.log('click');
+		// console.log(modalRef.current);
+
+		return () => {
+			document.removeEventListener('click', onCloseModal);
+		};
+	}, []);
+
 	return (
 		<ChatWrapper isSameSender={isSameSender}>
 			<ChatProfileImageWrapper isSameSender={isSameSender} onClick={e => onShowChatProfileModal(e)}>
@@ -170,12 +187,24 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 							</ChatEditButtonWrapper>
 						</div>
 					) : (
-						<>{data.text}</>
+						<>
+							{data.uploadImage ? (
+								<ProfileImage
+									width="400px"
+									height="100%"
+									profileImage={data.uploadImage}
+									userName={name}
+									radius={'0'}
+								/>
+							) : (
+								data.text
+							)}
+						</>
 					)}
 				</ChatContent>
 			</ChatContentWrapper>
 			<ChatUpdateModal>
-				<ChatEditbutton onClick={() => setShowChatEditForm(true)} />
+				<ChatEditbutton onClick={() => setShowChatEditForm(prev => !prev)} />
 				<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
 			</ChatUpdateModal>
 			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(date).format('A h:mm')}</ChatNowDateHover>
@@ -187,11 +216,9 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 				/>
 			)}
 			{showChatProfileModal && (
-				<ChatItemProfileModalWrapper onClick={onShowChatProfileModal}>
-					<ChatItemProfileModal>
-						<ChatProfileModal data={data} />
-					</ChatItemProfileModal>
-				</ChatItemProfileModalWrapper>
+				<ChatItemProfileModal ref={modalRef}>
+					<ChatProfileModal data={data} />
+				</ChatItemProfileModal>
 			)}
 		</ChatWrapper>
 	);
