@@ -31,8 +31,6 @@ export const ChatWrapper = styled.div<{ isSameSender: boolean }>`
 
 // ------------------TODO: 채팅 프로필 이미지 모달 ------------------
 
-export const ChatItemProfileModalWrapper = styled.div``;
-
 export const ChatItemProfileModal = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: row;
