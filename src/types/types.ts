@@ -220,11 +220,16 @@ export interface projectCreateDataType {
 ///////////////////////////////////////////////////////
 
 export interface ChatDataType {
-	text: string;
+	id: number | null;
+	text?: string;
+	uploadImage?: string;
 	room: string;
+	index?: number;
 	writer: ChatWriterDataType;
 	createdAt: string;
 	project?: ChatUserProjectDataType;
+	foundChat?: ChatDataType;
+	chat?: ChatDataType;
 }
 
 export interface ChatWriterDataType {
@@ -264,6 +269,19 @@ export interface addRoomDataType {
 
 export interface RoomNameType {
 	name: string;
+}
+
+export interface ChatSectionType {
+	[key: string]: ChatDataType[];
+}
+
+export interface ChatUpdateDataType {
+	room: string;
+	index?: number;
+	id?: number;
+	message?: string;
+	name?: string;
+	uploadImage?: string;
 }
 
 ////////////////////////////////////////////////////////

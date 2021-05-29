@@ -178,6 +178,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 
 		dispatch(deleteRoom(roomValue));
 
+		setShowDeleteAlert(false);
 		setContentTop('General');
 		setListName;
 		history.push(`/workspace/${currentURL}/${currentAddress}/General`);

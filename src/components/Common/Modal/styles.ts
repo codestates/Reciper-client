@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Modalcontainer = styled.div`
 	${({ theme }) => theme.align.positionCenter}
@@ -6,9 +6,16 @@ export const Modalcontainer = styled.div`
 	z-index: 100;
 `;
 
-export const Dimed = styled.div`
+export const Dimed = styled.div<{ backgroundColor: boolean }>`
 	width: 100vw;
 	height: 100vh;
 	margin-top: -1px;
-	background-color: rgba(0, 0, 0, 0.3);
+	${props =>
+		props.backgroundColor
+			? css`
+					background-color: rgba(0, 0, 0, 0.3);
+			  `
+			: `
+			background-color: transparent;
+	`}
 `;

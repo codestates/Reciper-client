@@ -1,4 +1,13 @@
-import React, { useCallback, KeyboardEvent, FormEvent, useRef, useEffect } from 'react';
+import React, {
+	useCallback,
+	KeyboardEvent,
+	FormEvent,
+	useRef,
+	useEffect,
+	useState,
+	Dispatch,
+	SetStateAction,
+} from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
@@ -17,7 +26,13 @@ import {
 	SendChatButton,
 } from './styles';
 
-import { ChatDataType } from '../../../types/types';
+import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
+import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
+import { useHistory, useParams } from 'react-router';
+import useSocket from '../../../hooks/useSocket';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import { useSelector } from 'react-redux';
+import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 
 interface DataType {
 	id: number;
@@ -29,12 +44,23 @@ interface Props {
 	onSubmitForm: (e: FormEvent) => void;
 	onChangeChat: OnChangeHandlerFunc;
 	chat?: string;
-	placeholder: string;
+	placeholder?: string;
 	chatBucket: ChatDataType[];
+	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 }
 
-const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }: Props): JSX.Element => {
+const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, setChatBucket }: Props): JSX.Element => {
+	const profileInfo = useSelector(getProfileInfoSelector);
+	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
+	const history = useHistory();
+	const currentAddress = history.location.pathname.split('/')[3];
+	const [socket] = useSocket(projectUrl, currentAddress);
+
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const imageInput = useRef<HTMLInputElement>(null);
+
+	const [chatUploadImage, setChatUploadImage] = useState<string>('');
+	console.log('textarea 이미지 상태', chatUploadImage);
 
 	useEffect(() => {
 		if (textareaRef.current) {
@@ -53,6 +79,21 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }:
 		},
 		[onSubmitForm],
 	);
+
+	// TODO: 채팅 이미지 업로드
+	useEffect(() => {
+		const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
+		const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+
+		setChatBucket([...chatBucket, newChat]);
+
+		socket?.emit('sendImage', getImageData);
+	}, [chatUploadImage]);
+
+	// TODO: 채팅 이미지 업로드 창 열기
+	const onChatUploadImage = useCallback(() => {
+		clickUploadImage(imageInput);
+	}, [imageInput]);
 
 	const renderUserSuggestion: (
 		suggestion: SuggestionDataItem,
@@ -119,8 +160,19 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket }:
 					</MentionsTextarea>
 				</ChatForm>
 				<ChatContentsWrapper className={!chat?.trim() ? 'off' : 'onValue'}>
+					{/* TODO: 이미지 요청 테스트 */}
+					<form encType="multipart/form-data">
+						<input
+							type="file"
+							accept="image/jpg,image/png,/image/jpeg"
+							name="file"
+							hidden
+							onChange={e => changeImage(e, setChatUploadImage)}
+							ref={imageInput}
+						/>
+					</form>
 					<ChatMention />
-					<ChatImageUpload />
+					<ChatImageUpload onClick={onChatUploadImage} />
 					<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} type="submit">
 						<SendChatButton />
 					</SendChatBox>

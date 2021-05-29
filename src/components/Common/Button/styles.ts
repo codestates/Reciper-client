@@ -42,6 +42,7 @@ export const ButtonTag = styled.button<{ size: string; buttonType: string; margi
 			border: 1px solid ${({ theme }) => theme.color.lineColor};
 
 			&:hover {
+				transition: 0.1s;
 				color: ${({ theme }) => theme.color.warningColor};
 				background-color: rgba(255, 255, 255, 0);
 				border: 1px solid ${({ theme }) => theme.color.warningColor};
