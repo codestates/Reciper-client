@@ -52,7 +52,7 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 	const [showChatDeleteAlert, setShowChatDeleteAlert] = useState<boolean>(false);
 	const [showChatEditForm, setShowChatEditForm] = useState<boolean>(false);
 	const [editChat, onChangeChat, setEditChat] = useInput<string | undefined>(data?.text);
-	const [test, setTest] = useState<number>(0);
+	// const [test, setTest] = useState<number>(0);
 
 	const { uploadImage, profileColor, name } = data.writer;
 	let date = dayjs(data.createdAt);
@@ -69,8 +69,8 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 		e => {
 			e.preventDefault();
 			e.stopPropagation();
-			setTest(1);
-			console.log(test);
+			// setTest(1);
+			// console.log(test);
 
 			setShowChatProfileModal(prev => !prev);
 		},
@@ -84,7 +84,7 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 			const newChat: ChatDataType = newChatData(editChat, '', room, profileInfo);
 
 			const copyChatBucket = [...chatBucket];
-			copyChatBucket[index + 1] = newChat;
+			copyChatBucket[index] = newChat;
 			setChatBucket([...copyChatBucket]);
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
@@ -102,7 +102,7 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 				const newChat: ChatDataType = newChatData(editChat, '', room, profileInfo);
 
 				const copyChatBucket = [...chatBucket];
-				copyChatBucket[index + 1] = newChat;
+				copyChatBucket[index] = newChat;
 				setChatBucket([...copyChatBucket]);
 
 				socket?.emit('editMessage', getChatEdit);
@@ -129,7 +129,7 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 			if (data.id) {
 				const getChatDelete = getChatDeleteData(room, index, data.id);
 				const copyChatBucket = [...chatBucket];
-				copyChatBucket.splice(index + 1, 1);
+				copyChatBucket.splice(index, 1);
 				setChatBucket([...copyChatBucket]);
 				socket?.emit('deleteMessage', getChatDelete);
 			}
@@ -188,7 +188,7 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 						</div>
 					) : (
 						<>
-							{data.uploadImage ? (
+							{data.uploadImage && (
 								<ProfileImage
 									width="400px"
 									height="100%"
@@ -196,9 +196,8 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 									userName={name}
 									radius={'0'}
 								/>
-							) : (
-								data.text
 							)}
+							{data.text && <>{data.text}</>}
 						</>
 					)}
 				</ChatContent>
