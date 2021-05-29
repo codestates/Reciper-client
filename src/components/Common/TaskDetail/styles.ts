@@ -94,14 +94,6 @@ export const FlexSection = styled(Section)`
 	${({ theme }) => theme.align.flexVertical}
 `;
 
-export const ColorLabelWrap = styled.div`
-	width: 50%;
-
-	& > p {
-		margin-bottom: 0;
-	}
-`;
-
 export const PeriodWrap = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	margin-left: 20px;

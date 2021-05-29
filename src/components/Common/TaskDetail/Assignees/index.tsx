@@ -1,21 +1,19 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import AssigneesModal from '../AssigneesModal';
 import ProfileImage from '../../ProfileImage';
 
-import { projectInfoSelector } from '../../../../reducer/projectInfo';
-import { projectInfoDataType, RecruitWriterDataType } from '../../../../types/types';
+import { RecruitWriterDataType } from '../../../../types/types';
 
 import { AddMemberBtn, AssigneesWrap, MemberWrap, Title } from './styles';
 
 interface Props {
+	members: RecruitWriterDataType[];
 	selectedMember: RecruitWriterDataType[];
 	setSelectedMember: Dispatch<SetStateAction<RecruitWriterDataType[]>>;
 }
 
-const Assignees = ({ selectedMember, setSelectedMember }: Props): JSX.Element => {
-	const { members }: projectInfoDataType = useSelector(projectInfoSelector);
+const Assignees = ({ members, selectedMember, setSelectedMember }: Props): JSX.Element => {
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
 	const onOpenModal = useCallback(() => {
@@ -39,15 +37,15 @@ const Assignees = ({ selectedMember, setSelectedMember }: Props): JSX.Element =>
 						userName={member.name}
 					/>
 				))}
+				{openModal && (
+					<AssigneesModal
+						members={members}
+						setOpenModal={setOpenModal}
+						setSelectedMember={setSelectedMember}
+						selectedMember={selectedMember}
+					/>
+				)}
 			</MemberWrap>
-			{openModal && (
-				<AssigneesModal
-					members={members}
-					setOpenModal={setOpenModal}
-					setSelectedMember={setSelectedMember}
-					selectedMember={selectedMember}
-				/>
-			)}
 		</AssigneesWrap>
 	);
 };

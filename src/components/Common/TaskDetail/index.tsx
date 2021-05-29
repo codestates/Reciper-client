@@ -17,6 +17,7 @@ import {
 	taskChackListDataType,
 	taskCommentDataType,
 	RecruitWriterDataType,
+	projectInfoDataType,
 } from '../../../types/types';
 
 import { getProfileInfoSelector } from '../../../reducer/profile';
@@ -42,9 +43,10 @@ import {
 	CheckDeleteBtn,
 	PeriodWrap,
 	DateCustomBtn,
-	ColorLabelWrap,
 	FlexSection,
 } from './styles';
+import ColorLabel from './ColorLabel';
+import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 interface Props {
 	targetTask: string;
@@ -58,6 +60,8 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 	const { part } = useParams<{ part: string }>();
 	const userInfo = useSelector(getProfileInfoSelector);
 	const { taskBox, taskItems }: kanbanDataType = useSelector(kanbanDataSelector);
+	const { members }: projectInfoDataType = useSelector(projectInfoSelector);
+
 	const taskData: taskDataType = taskItems[targetTask];
 
 	const [checkListValue, onChangeCheckListValue, setCheckListValue] = useInput<string>('');
@@ -70,6 +74,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 	const [startDate, setStartDate] = useState<Date>();
 	const [endDate, setEndDate] = useState<Date>();
 	const [selectedMember, setSelectedMember] = useState<RecruitWriterDataType[]>(taskData.assignees);
+	const [taskColor, setTaskColor] = useState<string>(taskData.taskColor);
 
 	const addCheckList = useCallback((): void => {
 		setCheckList([...checkList, { isChecked: false, desc: checkListValue }]);
@@ -154,11 +159,11 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 			comment,
 			startDate: dateFormat(startDate as Date, 'md'),
 			endDate: dateFormat(endDate as Date, 'md'),
-			taskColor: taskData.taskColor,
+			taskColor,
 			assignees: selectedMember,
 			dragging: false,
 		});
-	}, [taskTitle, desc, checkList, comment, startDate, endDate, selectedMember]);
+	}, [taskTitle, desc, checkList, comment, startDate, endDate, selectedMember, taskColor]);
 
 	return (
 		<TaskDetailContainer>
@@ -171,15 +176,10 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 				changeEvent={onChangeTaskTitle}
 			/>
 			<Section>
-				<SectionTitle>테스크 내용</SectionTitle>
 				<DescTextArea value={desc} onChange={e => setDesc(e.target.value)} />
 			</Section>
-			<FlexSection>
-				<Assignees selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
-				<ColorLabelWrap>
-					<SectionTitle>컬러 라벨</SectionTitle>
-				</ColorLabelWrap>
-			</FlexSection>
+			<Assignees members={members} selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+			<ColorLabel taskColor={taskColor} setTaskColor={setTaskColor} />
 			<FlexSection>
 				<SectionTitle style={{ margin: '0' }}>기간</SectionTitle>
 				<PeriodWrap>
