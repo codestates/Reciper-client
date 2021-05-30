@@ -43,7 +43,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.emit('getAllMessages', room);
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
-	}, [room, chat]);
+	}, [room]);
 
 	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
