@@ -20,10 +20,7 @@ const ColorLabel = ({ taskColor, setTaskColor }: Props): JSX.Element => {
 		'#478bff',
 		'#5d2838',
 		'#155d4f',
-		'#cd3679',
 		'#fed501',
-		'#a0a8a5',
-		'#cfb687',
 	];
 
 	const onOpenColorModal = useCallback(() => {
