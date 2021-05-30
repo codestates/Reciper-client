@@ -45,12 +45,21 @@ interface Props {
 	onSubmitForm: (e: FormEvent) => void;
 	onChangeChat: OnChangeHandlerFunc;
 	chat?: string;
+	setChat: Dispatch<SetStateAction<string>>;
 	placeholder?: string;
 	chatBucket: ChatDataType[];
 	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 }
 
-const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, setChatBucket }: Props): JSX.Element => {
+const Textarea = ({
+	onSubmitForm,
+	onChangeChat,
+	chat,
+	setChat,
+	placeholder,
+	chatBucket,
+	setChatBucket,
+}: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
@@ -100,6 +109,11 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, s
 	const onChatUploadImage = useCallback(() => {
 		clickUploadImage(imageInput);
 	}, [imageInput]);
+
+	// TODO: 멘션
+	const onChatMention = useCallback(() => {
+		setChat('@');
+	}, []);
 
 	const renderUserSuggestion: (
 		suggestion: SuggestionDataItem,
@@ -177,9 +191,9 @@ const Textarea = ({ onSubmitForm, onChangeChat, chat, placeholder, chatBucket, s
 							ref={imageInput}
 						/>
 					</form>
-					<ChatMention />
+					<ChatMention onClick={onChatMention} />
 					<ChatImageUpload onClick={onChatUploadImage} />
-					<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} type="submit">
+					<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} onClick={onSubmitForm}>
 						<SendChatButton />
 					</SendChatBox>
 				</ChatContentsWrapper>

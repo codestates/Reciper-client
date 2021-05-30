@@ -123,6 +123,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
 				chat={chat}
+				setChat={setChat}
 				chatBucket={chatBucket}
 				setChatBucket={setChatBucket}
 				placeholder={`${room}에게 메세지 보내기`}
