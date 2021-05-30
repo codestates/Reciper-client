@@ -22,7 +22,7 @@ const useSocket = (projectUrl: string, address: string): [Socket | undefined, ()
 	if (!sockets[projectUrl] && loginInfo) {
 		const { accessToken, loginType } = JSON.parse(loginInfo);
 
-		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/${address}`, {
+		sockets[projectUrl] = io(`${process.env.REACT_APP_SERVER_URL}/${address}/${projectUrl}`, {
 			transports: ['websocket'],
 			auth: {
 				token: accessToken,
