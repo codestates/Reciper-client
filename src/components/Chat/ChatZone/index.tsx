@@ -56,8 +56,11 @@ const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Pro
 		}
 	}, [chatUploadImage]);
 
+	// TODO: 채팅 이미지 drag & drop
 	const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>): void => {
 		e.preventDefault();
+		e.stopPropagation();
+
 		onDragUploadImage(e, setDragOver, setChatUploadImage);
 		setDragOver(false);
 	}, []);
@@ -67,8 +70,15 @@ const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Pro
 		setDragOver(true);
 	}, []);
 
+	const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		if (e.clientX === 0 && e.clientY === 0) {
+			setDragOver(false);
+		}
+	}, []);
+
 	return (
-		<ChatZoneContainer onDrop={onDrop} onDragOver={onDragOver}>
+		<ChatZoneContainer onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
 				{Object.entries(chatSections).map(([date, chatsBucket]) => {
 					return (
