@@ -52,9 +52,8 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 	const [showChatDeleteAlert, setShowChatDeleteAlert] = useState<boolean>(false);
 	const [showChatEditForm, setShowChatEditForm] = useState<boolean>(false);
 	const [editChat, onChangeChat, setEditChat] = useInput<string | undefined>(data?.text);
-	// const [test, setTest] = useState<number>(0);
 
-	const { uploadImage, profileColor, name } = data.writer;
+	const { uploadImage, profileColor, name, email } = data.writer;
 	let date = dayjs(data.createdAt);
 	date = date.add(9, 'hour');
 
@@ -69,8 +68,6 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 		e => {
 			e.preventDefault();
 			e.stopPropagation();
-			// setTest(1);
-			// console.log(test);
 
 			setShowChatProfileModal(prev => !prev);
 		},
@@ -142,13 +139,10 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 		if (!modalRef.current?.contains(e.target as Node)) {
 			setShowChatProfileModal(false);
 		}
-		// console.log(modalRef.current);
 	}, []);
 
 	useEffect(() => {
 		document.addEventListener('click', onCloseModal);
-		// console.log('click');
-		// console.log(modalRef.current);
 
 		return () => {
 			document.removeEventListener('click', onCloseModal);
@@ -202,10 +196,12 @@ const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Prop
 					)}
 				</ChatContent>
 			</ChatContentWrapper>
-			<ChatUpdateModal>
-				<ChatEditbutton onClick={() => setShowChatEditForm(prev => !prev)} />
-				<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
-			</ChatUpdateModal>
+			{profileInfo.email === email ? (
+				<ChatUpdateModal>
+					<ChatEditbutton onClick={() => setShowChatEditForm(prev => !prev)} />
+					<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
+				</ChatUpdateModal>
+			) : null}
 			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(date).format('A h:mm')}</ChatNowDateHover>
 			{showChatDeleteAlert && (
 				<DeleteAlert
