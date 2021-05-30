@@ -21,14 +21,20 @@ import {
 	socketAddTaskItem,
 	deleteTaskItem,
 	editTaskDetail,
-	taskBoxBlock,
-	taskItemBlock,
+	boxDragBlock,
+	itemDragStart,
+	itemDragEnd,
+	itemEditBlock,
 } from '../../../reducer/kanban';
 import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
 import Modal from '../../Common/Modal';
 import TaskDetail from '../../Common/TaskDetail';
+import { io } from 'socket.io-client';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { Socket } from 'dgram';
+import { isNull } from 'util';
 
 const KanbanConianer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -38,7 +44,7 @@ const KanbanConianer = (): JSX.Element => {
 
 	const { taskBox }: kanbanDataType = useSelector(kanbanDataSelector);
 	const projectInfo = useSelector(projectInfoSelector);
-	const [socket] = useSocket(projectUrl, currentAddress);
+	const [socket, disconnect] = useSocket(projectUrl, currentAddress);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
@@ -60,7 +66,6 @@ const KanbanConianer = (): JSX.Element => {
 	});
 
 	useEffect(() => {
-		console.log(projectInfo);
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
 		});
@@ -94,17 +99,25 @@ const KanbanConianer = (): JSX.Element => {
 			dispatch(editTaskDetail(data));
 		});
 
-		socket?.on('taskBoxBlock', data => {
-			dispatch(taskBoxBlock(data));
+		socket?.on('boxDragBlock', data => {
+			dispatch(boxDragBlock(data));
 		});
 
-		socket?.on('taskItemBlock', data => {
-			dispatch(taskItemBlock(data));
+		socket?.on('itemDragStart', data => {
+			dispatch(itemDragStart(data));
+		});
+
+		socket?.on('itemDragEnd', data => {
+			dispatch(itemDragEnd(data));
+		});
+
+		socket?.on('itemEditBlock', data => {
+			dispatch(itemEditBlock(data));
 		});
 
 		socket?.emit('joinPart', part);
 		socket?.emit('getKanbanData', part);
-
+		console.log('kanban', socket);
 		return () => {
 			socket?.emit('leavePart', part);
 		};
@@ -124,25 +137,23 @@ const KanbanConianer = (): JSX.Element => {
 
 	const onDragStart = (initial: DragStart): void => {
 		const { source, draggableId, type } = initial;
-
 		if (type === 'TaskBox') {
 			const targetListIndex = source.index;
 			const targetBox = document.querySelector(`.${draggableId}`);
 			targetBox?.classList.add('dragging');
 
-			socket?.emit('taskBoxBlock', { targetListIndex, isDragging: true });
+			socket?.emit('boxDragBlock', { targetListIndex, isDragging: true });
 		}
 
 		if (type === 'TaskItem') {
 			const targetListIndex = source.droppableId.split('-')[1];
 
-			socket?.emit('taskItemBlock', { targetListIndex, targetIndex: source.index, isDragging: true });
+			socket?.emit('itemDragStart', { targetListIndex, isDragging: true });
 		}
 	};
 
 	const onDragEnd = (result: DropResult): void => {
 		const { type, source, destination } = result;
-
 		if (!destination) {
 			return;
 		}
@@ -154,7 +165,9 @@ const KanbanConianer = (): JSX.Element => {
 			const data = { currentIndex, targetIndex };
 			targetBox?.classList.remove('dragging');
 
-			socket?.emit('boxMoving', { currentIndex, targetIndex, part, isDragging: false });
+			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
+			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, isDragging: false });
+
 			dispatch(reorderTaskBox({ data, targetTask }));
 		}
 
@@ -173,6 +186,7 @@ const KanbanConianer = (): JSX.Element => {
 				isDragging: false,
 			});
 			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
+			socket?.emit('itemDragEnd', { targetListIndex, currentListIndex, targetIndex, isDragging: false });
 		}
 	};
 
@@ -182,12 +196,13 @@ const KanbanConianer = (): JSX.Element => {
 		setTargetIndex(targetIndex);
 		setTargeListIndex(targetListIndex);
 
-		socket?.emit('taskItemBlock', { targetListIndex, targetIndex, isDragging: true });
+		socket?.emit('itemEditBlock', { targetListIndex, isDragging: true });
 	};
 
 	useEffect(() => {
 		if (!showModal && String(targetTask)) {
 			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
+			socket?.emit('itemEditBlock', { targetListIndex, isDragging: false });
 			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
 		}
 	}, [showModal, targetTask, targetIndex, targetListIndex]);
