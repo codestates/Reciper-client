@@ -26,15 +26,10 @@ import {
 	itemDragEnd,
 	itemEditBlock,
 } from '../../../reducer/kanban';
-import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
 import Modal from '../../Common/Modal';
 import TaskDetail from '../../Common/TaskDetail';
-import { io } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { Socket } from 'dgram';
-import { isNull } from 'util';
 
 const KanbanConianer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -43,8 +38,7 @@ const KanbanConianer = (): JSX.Element => {
 	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
 
 	const { taskBox }: kanbanDataType = useSelector(kanbanDataSelector);
-	const projectInfo = useSelector(projectInfoSelector);
-	const [socket, disconnect] = useSocket(projectUrl, currentAddress);
+	const [socket, connectSocket, disconnectSocket] = useSocket(projectUrl, currentAddress);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
@@ -64,6 +58,8 @@ const KanbanConianer = (): JSX.Element => {
 		assignees: [],
 		dragging: false,
 	});
+
+	connectSocket();
 
 	useEffect(() => {
 		socket?.on('getKanbanData', data => {
@@ -115,13 +111,19 @@ const KanbanConianer = (): JSX.Element => {
 			dispatch(itemEditBlock(data));
 		});
 
-		socket?.emit('joinPart', part);
-		socket?.emit('getKanbanData', part);
-		console.log('kanban', socket);
+		console.log('kanban Join', socket);
+
 		return () => {
 			socket?.emit('leavePart', part);
+			disconnectSocket();
 		};
 	}, []);
+
+	useEffect(() => {
+		socket?.emit('leavePart', part);
+		socket?.emit('joinPart', part);
+		socket?.emit('getKanbanData', part);
+	}, [part]);
 
 	const onAddTaskBox = useCallback(() => {
 		if (title.trim() === '') {
@@ -142,13 +144,13 @@ const KanbanConianer = (): JSX.Element => {
 			const targetBox = document.querySelector(`.${draggableId}`);
 			targetBox?.classList.add('dragging');
 
-			socket?.emit('boxDragBlock', { targetListIndex, isDragging: true });
+			socket?.emit('boxDragBlock', { targetListIndex, part, isDragging: true });
 		}
 
 		if (type === 'TaskItem') {
 			const targetListIndex = source.droppableId.split('-')[1];
 
-			socket?.emit('itemDragStart', { targetListIndex, isDragging: true });
+			socket?.emit('itemDragStart', { targetListIndex, part, isDragging: true });
 		}
 	};
 
@@ -166,7 +168,7 @@ const KanbanConianer = (): JSX.Element => {
 			targetBox?.classList.remove('dragging');
 
 			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
-			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, isDragging: false });
+			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, part, isDragging: false });
 
 			dispatch(reorderTaskBox({ data, targetTask }));
 		}
@@ -186,7 +188,7 @@ const KanbanConianer = (): JSX.Element => {
 				isDragging: false,
 			});
 			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
-			socket?.emit('itemDragEnd', { targetListIndex, currentListIndex, targetIndex, isDragging: false });
+			socket?.emit('itemDragEnd', { targetListIndex, currentListIndex, targetIndex, isDragging: false, part });
 		}
 	};
 
