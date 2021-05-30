@@ -28,6 +28,7 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
 	useEffect(() => {
+		console.log('soooocket', socket);
 		socket?.emit('joinRoom', room);
 	}, []);
 
@@ -37,6 +38,8 @@ const WorkSpaceChat = (): JSX.Element => {
 			const data = chats.map((chat: ChatDataType) => {
 				return { ...chat };
 			});
+
+			console.log('asdasdasd', chats);
 			setChatBucket(data);
 		});
 
