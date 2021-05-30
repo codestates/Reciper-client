@@ -25,7 +25,7 @@ const JoinProject = (): JSX.Element => {
 
 		if (email === loginEmail) {
 			axiosRequest('post', '/projectParticipate', { email, authorizationCode, projectURL });
-			history.push(`/workspace/${projectURL}/chat/general`);
+			history.push(`/workspace/${projectURL}/chat/General`);
 		} else {
 			setIsLogin(false);
 		}
