@@ -36,7 +36,7 @@ export const ChatDateHeader = styled.div`
 	}
 `;
 
-export const DragOver = styled.div`
+export const DragOverZone = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	position: absolute;
 	top: 0px;
@@ -44,7 +44,7 @@ export const DragOver = styled.div`
 	z-index: 1000;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
-	font-family: NanumSquareB;
-	font-size: 40px;
+	background-color: rgba(0, 0, 0, 0.7);
+	font-family: NanumSquareEB;
+	font-size: 32px;
 `;

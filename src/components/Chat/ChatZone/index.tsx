@@ -4,7 +4,7 @@ import { onDragUploadImage } from '../../../utils/imageUpload';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { ChatList, ChatZoneContainer, ChatDateHeader, DragOver } from './styles';
+import { ChatList, ChatZoneContainer, ChatDateHeader, DragOverZone } from './styles';
 
 import { ChatDataType, ChatSectionType, ChatUpdateDataType } from '../../../types/types';
 import { useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import { useHistory, useParams } from 'react-router';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import useSocket from '../../../hooks/useSocket';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
+import DragUploadModal from '../DragUploadModal';
 
 export interface Props {
 	scrollbarRef: RefObject<Scrollbars>;
@@ -105,9 +106,9 @@ const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Pro
 				})}
 			</Scrollbars>
 			{dragOver && (
-				<DragOver>
-					<div>{`${room}에 올리기`}</div>
-				</DragOver>
+				<DragOverZone>
+					<DragUploadModal room={room} />
+				</DragOverZone>
 			)}
 		</ChatZoneContainer>
 	);
