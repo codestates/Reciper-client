@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const UserProfileImage = styled.img<{ width: string; margin: string; radius: string }>`
 	cursor: pointer;
 	object-fit: cover;
+	-webkit-user-drag: none;
 	${({ theme }) => theme.align.flexCenter}
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};

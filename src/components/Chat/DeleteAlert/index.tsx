@@ -49,7 +49,9 @@ const DeleteAlert = ({ data, setShowChatDeleteAlert, onChatDeleteButton }: Props
 								<ChatUserId>{name}</ChatUserId>
 								<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
 							</div>
-							<AlertChatContent>{data.text}</AlertChatContent>
+							<AlertChatContent>
+								{data.uploadImage ? <>{data.uploadImage.toString()}</> : <>{data.text}</>}
+							</AlertChatContent>
 						</AlertChatItemUserInfoWrapper>
 					</AlertChatItem>
 					<AlertButtonWrapper>

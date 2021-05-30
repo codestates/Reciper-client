@@ -1,11 +1,18 @@
-import React, { Dispatch, RefObject, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useState } from 'react';
 import ChatItem from '../ChatItem';
+import { onDragUploadImage } from '../../../utils/imageUpload';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { ChatList, ChatZoneContainer, ChatDateHeader } from './styles';
+import { ChatList, ChatZoneContainer, ChatDateHeader, DragOverZone } from './styles';
 
-import { ChatDataType, ChatSectionType } from '../../../types/types';
+import { ChatDataType, ChatSectionType, ChatUpdateDataType } from '../../../types/types';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
+import { getProfileInfoSelector } from '../../../reducer/profile';
+import useSocket from '../../../hooks/useSocket';
+import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
+import DragUploadModal from '../DragUploadModal';
 
 export interface Props {
 	scrollbarRef: RefObject<Scrollbars>;
@@ -15,6 +22,15 @@ export interface Props {
 }
 
 const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Props): JSX.Element => {
+	const profileInfo = useSelector(getProfileInfoSelector);
+	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
+	const history = useHistory();
+	const currentAddress = history.location.pathname.split('/')[3];
+	const [socket] = useSocket(projectUrl, currentAddress);
+
+	const [dragOver, setDragOver] = useState<boolean>(false);
+	const [chatUploadImage, setChatUploadImage] = useState<string>('');
+
 	const onScrollFrame = useCallback(
 		values => {
 			if (values.scrollTop === 0 && scrollbarRef.current) {
@@ -29,8 +45,40 @@ const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Pro
 		[scrollbarRef],
 	);
 
+	// TODO: 채팅 이미지 업로드
+	useEffect(() => {
+		if (chatUploadImage) {
+			const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
+
+			setChatBucket([...chatBucket, newChat]);
+			socket?.emit('sendImage', getImageData);
+		}
+	}, [chatUploadImage]);
+
+	// TODO: 채팅 이미지 drag & drop
+	const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		onDragUploadImage(e, setDragOver, setChatUploadImage);
+		setDragOver(false);
+	}, []);
+
+	const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		setDragOver(true);
+	}, []);
+
+	const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+		if (e.clientX === 0 && e.clientY === 0) {
+			setDragOver(false);
+		}
+	}, []);
+
 	return (
-		<ChatZoneContainer>
+		<ChatZoneContainer onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
 				{Object.entries(chatSections).map(([date, chatsBucket]) => {
 					return (
@@ -67,6 +115,11 @@ const ChatZone = ({ scrollbarRef, chatSections, chatBucket, setChatBucket }: Pro
 					);
 				})}
 			</Scrollbars>
+			{dragOver && (
+				<DragOverZone>
+					<DragUploadModal room={room} />
+				</DragOverZone>
+			)}
 		</ChatZoneContainer>
 	);
 };
