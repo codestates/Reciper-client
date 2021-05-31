@@ -2,14 +2,14 @@ import React, { Dispatch, memo, SetStateAction, useCallback, useEffect, useRef, 
 import ProfileImage from '../../Common/ProfileImage';
 import ChatProfileModal from '../ChatProfileModal';
 import DeleteAlert from '../DeleteAlert';
-import useSocket from '../../../hooks/useSocket';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
 
+import { Socket } from 'socket.io-client';
 import dayjs from 'dayjs';
 import autosize from 'autosize';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import {
@@ -29,9 +29,11 @@ import {
 	ChatWrapper,
 } from './styles';
 
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 interface Props {
+	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	data: ChatDataType;
 	chatBucket: ChatDataType[];
 	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
@@ -39,12 +41,10 @@ interface Props {
 	index: number;
 }
 
-const ChatItem = ({ data, chatBucket, setChatBucket, isSameSender, index }: Props): JSX.Element => {
+const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
-	const history = useHistory();
-	const currentAddress = history.location.pathname.split('/')[3];
-	const [socket] = useSocket(projectUrl, currentAddress);
+	const { part: room } = useParams<{ projectUrl: string; part: string }>();
+
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const modalRef = useRef<HTMLDivElement>(null);
 

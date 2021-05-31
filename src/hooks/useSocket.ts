@@ -14,6 +14,7 @@ const useSocket = (projectUrl: string, address: string): [Socket | undefined, ()
 	}, []);
 
 	// TODO: 연결이 안되어 있다면 요청하고, 되어있으면 한번만 연결할 수 있도록 해준다.
+
 	const connectSocket = () => {
 		if (!socket && loginInfo) {
 			const { accessToken, loginType } = JSON.parse(loginInfo);
