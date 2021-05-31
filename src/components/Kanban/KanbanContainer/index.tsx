@@ -27,7 +27,7 @@ import {
 	itemEditBlock,
 } from '../../../reducer/kanban';
 
-import { AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
+import { AddInputMessage, AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
 import Modal from '../../Common/Modal';
 import TaskDetail from '../../Common/TaskDetail';
 
@@ -44,6 +44,7 @@ const KanbanConianer = (): JSX.Element => {
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
 
+	const [boxDuplicate, setBoxDuplicate] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [targetTask, setTargetTask] = useState<string>('');
 	const [targetIndex, setTargetIndex] = useState<number>(0);
@@ -60,7 +61,105 @@ const KanbanConianer = (): JSX.Element => {
 		dragging: false,
 	});
 
+	// 소켓 연결
+	connectSocket();
+
+	const onAddTaskBox = useCallback(() => {
+		const isDuplicate = taskBox.filter(box => {
+			return box.taskBoxTitle === title;
+		})[0];
+
+		if (title.trim() === '' || isDuplicate) {
+			setBoxDuplicate(true);
+			return;
+		}
+
+		socket?.emit('addTaskBox', { title, index: taskBox.length, part });
+
+		dispatch(addTaskBox(title));
+		setTitle('');
+		setShowAddTask(false);
+		setBoxDuplicate(false);
+	}, [title]);
+
+	const onDragStart = (initial: DragStart): void => {
+		const { source, draggableId, type } = initial;
+		if (type === 'TaskBox') {
+			const targetListIndex = source.index;
+			const targetBox = document.querySelector(`.${draggableId}`);
+			targetBox?.classList.add('dragging');
+
+			socket?.emit('boxDragBlock', { targetListIndex, part, isDragging: true });
+		}
+
+		if (type === 'TaskItem') {
+			const targetListIndex = source.droppableId.split('-')[1];
+
+			socket?.emit('itemDragStart', { targetListIndex, part, isDragging: true });
+		}
+	};
+
+	const onDragEnd = (result: DropResult): void => {
+		const { type, source, destination } = result;
+		if (!destination) {
+			return;
+		}
+
+		if (type === 'TaskBox') {
+			const currentIndex = source.index;
+			const targetIndex = destination.index;
+			const targetBox = document.querySelector(`.${result.draggableId}`);
+			const data = { currentIndex, targetIndex };
+			targetBox?.classList.remove('dragging');
+
+			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
+			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, part, isDragging: false });
+
+			dispatch(reorderTaskBox({ data, targetTask }));
+		}
+
+		if (type === 'TaskItem') {
+			const currentIndex = source.index;
+			const targetIndex = destination.index;
+			const currentListIndex = Number(source.droppableId.split('-')[1]);
+			const targetListIndex = Number(destination.droppableId.split('-')[1]);
+
+			socket?.emit('taskMoving', {
+				currentIndex,
+				targetIndex,
+				currentListIndex,
+				targetListIndex,
+				part,
+				isDragging: false,
+			});
+			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
+			socket?.emit('itemDragEnd', { targetListIndex, currentListIndex, targetIndex, isDragging: false, part });
+		}
+	};
+
+	const openDetail = useCallback((task: string, targetIndex: number, targetListIndex: number): void => {
+		setShowModal(true);
+		setTargetTask(task);
+		setTargetIndex(targetIndex);
+		setTargeListIndex(targetListIndex);
+
+		socket?.emit('itemEditBlock', { targetListIndex, isDragging: true });
+	}, []);
+
 	useEffect(() => {
+		if (!showModal && String(targetTask)) {
+			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
+			socket?.emit('itemEditBlock', { targetListIndex, isDragging: false });
+			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
+		}
+	}, [showModal, targetTask, targetIndex, targetListIndex]);
+
+	useEffect(() => {
+		socket?.emit('joinPart', part);
+	}, [connect, part]);
+
+	useEffect(() => {
+		// 소켓 이벤트 모음
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
 		});
@@ -119,96 +218,6 @@ const KanbanConianer = (): JSX.Element => {
 		};
 	}, []);
 
-	connectSocket();
-
-	useEffect(() => {
-		socket?.emit('joinPart', part);
-	}, [connect, part]);
-
-	const onAddTaskBox = useCallback(() => {
-		if (title.trim() === '') {
-			return;
-		}
-
-		socket?.emit('addTaskBox', { title, index: taskBox.length, part });
-
-		dispatch(addTaskBox(title));
-		setTitle('');
-		setShowAddTask(false);
-	}, [title]);
-
-	const onDragStart = (initial: DragStart): void => {
-		const { source, draggableId, type } = initial;
-		if (type === 'TaskBox') {
-			const targetListIndex = source.index;
-			const targetBox = document.querySelector(`.${draggableId}`);
-			targetBox?.classList.add('dragging');
-
-			socket?.emit('boxDragBlock', { targetListIndex, part, isDragging: true });
-		}
-
-		if (type === 'TaskItem') {
-			const targetListIndex = source.droppableId.split('-')[1];
-
-			socket?.emit('itemDragStart', { targetListIndex, part, isDragging: true });
-		}
-	};
-
-	const onDragEnd = (result: DropResult): void => {
-		const { type, source, destination } = result;
-		if (!destination) {
-			return;
-		}
-
-		if (type === 'TaskBox') {
-			const currentIndex = source.index;
-			const targetIndex = destination.index;
-			const targetBox = document.querySelector(`.${result.draggableId}`);
-			const data = { currentIndex, targetIndex };
-			targetBox?.classList.remove('dragging');
-
-			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
-			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, part, isDragging: false });
-
-			dispatch(reorderTaskBox({ data, targetTask }));
-		}
-
-		if (type === 'TaskItem') {
-			const currentIndex = source.index;
-			const targetIndex = destination.index;
-			const currentListIndex = Number(source.droppableId.split('-')[1]);
-			const targetListIndex = Number(destination.droppableId.split('-')[1]);
-
-			socket?.emit('taskMoving', {
-				currentIndex,
-				targetIndex,
-				currentListIndex,
-				targetListIndex,
-				part,
-				isDragging: false,
-			});
-			dispatch(reorderTaskItem({ currentIndex, targetIndex, currentListIndex, targetListIndex }));
-			socket?.emit('itemDragEnd', { targetListIndex, currentListIndex, targetIndex, isDragging: false, part });
-		}
-	};
-
-	const openDetail = (task: string, targetIndex: number, targetListIndex: number): void => {
-		setShowModal(true);
-		setTargetTask(task);
-		setTargetIndex(targetIndex);
-		setTargeListIndex(targetListIndex);
-
-		socket?.emit('itemEditBlock', { targetListIndex, isDragging: true });
-	};
-
-	useEffect(() => {
-		if (!showModal && String(targetTask)) {
-			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
-			socket?.emit('itemEditBlock', { targetListIndex, isDragging: false });
-			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
-		}
-	}, [showModal, targetTask, targetIndex, targetListIndex]);
-
 	return (
 		<Container>
 			<DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
@@ -226,13 +235,16 @@ const KanbanConianer = (): JSX.Element => {
 							))}
 							{provided.placeholder}
 							{showAddTaskForm ? (
-								<AddTaskBoxInput
-									placeholder="+ 테스크 박스를 추가하세요"
-									value={title}
-									onChange={onChangeTitle}
-									onKeyPress={e => e.key === 'Enter' && onAddTaskBox()}
-									onBlur={onAddTaskBox}
-								/>
+								<div>
+									<AddTaskBoxInput
+										placeholder="+ 테스크 박스를 추가하세요"
+										value={title}
+										onChange={onChangeTitle}
+										onKeyPress={e => e.key === 'Enter' && onAddTaskBox()}
+										onBlur={onAddTaskBox}
+									/>
+									{boxDuplicate && <AddInputMessage>이미 존재하는 테스크 박스입니다.</AddInputMessage>}
+								</div>
 							) : (
 								<AddTaskBoxBtn onClick={() => setShowAddTask(true)}>+ 테스크 박스를 추가하세요</AddTaskBoxBtn>
 							)}

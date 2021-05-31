@@ -36,7 +36,8 @@ export const AddTaskBoxInput = styled.input`
 	max-width: 340px;
 	height: 58px;
 	padding: 0 20px;
-	font-family: 'NanumsquareR';
+	margin-bottom: 5px;
+	font-family: 'NanumsquareB';
 	font-size: 18px;
 	background-color: #fff;
 	border: 1px solid #e6e6e8;
@@ -44,4 +45,10 @@ export const AddTaskBoxInput = styled.input`
 	&::placeholder {
 		color: #a6a6a8;
 	}
+`;
+
+export const AddInputMessage = styled.p`
+	padding-left: 10px;
+	font-size: 16px;
+	color: ${({ theme }) => theme.color.warningColor};
 `;
