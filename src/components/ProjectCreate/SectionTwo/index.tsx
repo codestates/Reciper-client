@@ -68,7 +68,7 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 
 	const requsetInviteProject = async () => {
 		axiosRequest('post', `/projectInvite/${projectURL}`, { inviteList });
-		history.push(`/workspace/${projectURL}/chat/general`);
+		history.push(`/workspace/${projectURL}/chat/General`);
 	};
 
 	useEffect(() => {

@@ -19,7 +19,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
 	const currentAddress = history.location.pathname.split('/')[3];
-	const [socket] = useSocket(projectUrl, currentAddress);
+	const [socket, connectionSocket, disconnectSocket] = useSocket(projectUrl, currentAddress);
 	const scrollbarRef = useRef<Scrollbars>(null);
 
 	const [order, setOrder] = useState<number>(0);
@@ -30,9 +30,17 @@ const WorkSpaceChat = (): JSX.Element => {
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
+	connectionSocket();
+
 	useEffect(() => {
 		// console.log(socket);
 		socket?.emit('joinRoom', room);
+		console.log('soooocket Join', socket);
+
+		return () => {
+			disconnectSocket();
+			console.log('soooocket Dis', socket);
+		};
 	}, []);
 
 	useEffect(() => {
