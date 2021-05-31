@@ -39,6 +39,7 @@ const KanbanConianer = (): JSX.Element => {
 
 	const { taskBox }: kanbanDataType = useSelector(kanbanDataSelector);
 	const [socket, connectSocket, disconnectSocket] = useSocket(projectUrl, currentAddress);
+	const [connect, setConnect] = useState<boolean>(false);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
@@ -59,12 +60,11 @@ const KanbanConianer = (): JSX.Element => {
 		dragging: false,
 	});
 
-	connectSocket();
-
 	useEffect(() => {
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
 		});
+
 		socket?.on('addTaskBox', data => {
 			dispatch(socketAddTaskBox(data));
 		});
@@ -111,18 +111,25 @@ const KanbanConianer = (): JSX.Element => {
 			dispatch(itemEditBlock(data));
 		});
 
-		console.log('kanban Join', socket);
+		socket?.on('connection', () => {
+			setConnect(true);
+		});
 
 		return () => {
-			socket?.emit('leavePart', part);
 			disconnectSocket();
+			console.log('kanban Join', socket);
 		};
 	}, []);
 
+	connectSocket();
+
 	useEffect(() => {
-		socket?.emit('leavePart', part);
 		socket?.emit('joinPart', part);
-		socket?.emit('getKanbanData', part);
+	}, [connect, part]);
+
+	useEffect(() => {
+		console.log('parrrrrrrrrrrrrrrrt', projectUrl);
+		console.log('kanban jooooooooooooooin ', socket);
 	}, [part]);
 
 	const onAddTaskBox = useCallback(() => {

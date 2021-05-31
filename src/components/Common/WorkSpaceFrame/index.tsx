@@ -235,7 +235,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 		<Frame>
 			<SideBar>
 				<SideBarTop>
-					<HomeIcon to="/recruit">
+					<HomeIcon to="/project">
 						<AiOutlineHome />
 					</HomeIcon>
 				</SideBarTop>

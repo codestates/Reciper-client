@@ -11,7 +11,7 @@ const useSocket = (projectUrl: string, address: string): [Socket | undefined, ()
 		if (projectUrl && socket) {
 			socket.disconnect();
 		}
-	}, []);
+	}, [socket]);
 
 	// TODO: 연결이 안되어 있다면 요청하고, 되어있으면 한번만 연결할 수 있도록 해준다.
 
@@ -28,7 +28,7 @@ const useSocket = (projectUrl: string, address: string): [Socket | undefined, ()
 					projectURL: projectUrl,
 				},
 			});
-
+			console.log('커넥트 됨', address, socket);
 			setSocket(socket);
 		}
 	};
