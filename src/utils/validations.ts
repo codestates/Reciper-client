@@ -14,7 +14,7 @@ export const projectNameValid = (name: string): boolean => {
 export const projectUrlValid = (url: string): boolean => {
 	const spacePattern = /\s/;
 	const specialPattern = /[`~!@#$%^&*|\\\'\";:+_\/?]/gi;
-	const koreanPattern = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/;
+	const koreanPattern = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/gi;
 
 	const pass =
 		url.length >= 4 &&
