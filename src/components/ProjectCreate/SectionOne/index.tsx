@@ -83,7 +83,7 @@ const SectionOne = ({ projectURL, onChangeProjectURL, setChapter }: Props): JSX.
 				<Input width="long" height="long" placeholderText="레시피 이름을 적어주세요" changeEvent={onChangeProjectURL} />
 			</CreateUrlWrap>
 			<InfoMessage style={{ marginLeft: '117px' }}>
-				{!urlValidation && 'URL은 특수문자와 공백을 제외한 4 ~ 20자 사이의 문자여야 합니다.'}
+				{!urlValidation && 'URL은 한글, 특수문자, 공백을 제외한 4 ~ 20자 사이의 문자여야 합니다.'}
 				{urlDuplicate && '해당 URL은 이미 존재하는 URL입니다.'}
 				{}
 			</InfoMessage>
