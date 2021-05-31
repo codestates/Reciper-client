@@ -57,19 +57,15 @@ interface Props {
 	children: ReactNode;
 }
 
-/*
-	listData - 채널, 파트에 들어갈 데이터
-*/
-
 const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const { roomsList } = useSelector(getroomsListSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
-	const history = useHistory();
 	const historyPath = history.location.pathname.split('/');
 	const currentURL = historyPath[2];
 	const currentAddress = historyPath[3];
 	const currentRoom = historyPath[4];
-	const dispatch = useDispatch();
 
 	const [frameInitState, setFrameInitState] = useState<frameInitType>({
 		workSpaceType: '',
@@ -144,9 +140,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 				};
 
 				dispatch(addRoom(roomValue));
-				// setContentTop(value);
 				setOpenAddInput(false);
-				history.push(`/workspace/${currentURL}/${currentAddress}/${value}`);
 			}
 		},
 		[roomsList],
