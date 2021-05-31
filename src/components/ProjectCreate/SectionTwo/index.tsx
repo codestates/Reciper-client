@@ -105,7 +105,11 @@ const SectionTwo = ({ projectURL }: Props): JSX.Element => {
 			</InviteEmailList>
 
 			<SectionBtnWrap>
-				<Button size="medium" buttonType="cancel" clickEvent={() => history.push(`/workspace/${projectURL}`)}>
+				<Button
+					size="medium"
+					buttonType="cancel"
+					clickEvent={() => history.push(`/workspace/${projectURL}/chat/General`)}
+				>
 					나중에 하기
 				</Button>
 				<Button size="medium" margin="0 0 0 20px;" clickEvent={requsetInviteProject}>

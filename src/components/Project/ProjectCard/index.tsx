@@ -8,7 +8,7 @@ interface Props {
 
 const ProjectCard = ({ data }: Props): JSX.Element => {
 	return (
-		<CardContainer to={`/workspace/${data.projectURL}/chat/general`}>
+		<CardContainer to={`/workspace/${data.projectURL}/chat/General`}>
 			<ProjectImageWrap>
 				<ProjectImage style={{ backgroundColor: `${data.projectColor}` }}>{data.name[0]}</ProjectImage>
 			</ProjectImageWrap>
