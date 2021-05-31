@@ -5,7 +5,14 @@ import { useHistory } from 'react-router';
 
 import ProfileImage from '../ProfileImage';
 import { getProfileInfoSelector } from '../../../reducer/profile';
-import { addRoom, deleteRoom, editRoom, getRoomsListInfo, getroomsListSelector } from '../../../reducer/roomsList';
+import {
+	addRoom,
+	deleteRoom,
+	editRoom,
+	getRoomsListInfo,
+	getroomsListSelector,
+	resetRoomList,
+} from '../../../reducer/roomsList';
 
 import {
 	AddInput,
@@ -90,6 +97,10 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 
 		dispatch(getRoomsListInfo(roomValue));
 		dispatch(getProjectInfo(currentURL));
+
+		return () => {
+			dispatch(resetRoomList());
+		};
 	}, []);
 
 	const loadInitState = useCallback((): void => {
