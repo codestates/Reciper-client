@@ -12,7 +12,7 @@ import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { OnChangeHandlerFunc } from 'react-mentions';
 
-import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
+import { AllMessagesDataType, ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -21,6 +21,9 @@ const WorkSpaceChat = (): JSX.Element => {
 	const currentAddress = history.location.pathname.split('/')[3];
 	const [socket] = useSocket(projectUrl, currentAddress);
 	const scrollbarRef = useRef<Scrollbars>(null);
+
+	const [order, setOrder] = useState<number>(0);
+	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [chat, setChat] = useState<string>('');
 
 	// TODO: 채팅기록을 담아줄 바구니
@@ -31,24 +34,28 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.emit('joinRoom', room);
 	}, []);
 
-	// TODO: 이전까지의 전체 채팅 내용을 불러온다.
 	useEffect(() => {
+		// TODO: 이전까지의 전체 채팅 내용을 불러온다.
+		console.log(chatBucket);
 		if (chatBucket) {
-			socket?.on('getAllMessages', (chats: ChatDataType[]) => {
-				setChatBucket(chats);
+			socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
+				setIsEnd(isEnd);
+				setChatBucket([...chats, ...chatBucket]);
 			});
 		}
 
 		// TODO: room이 바뀌면 room과 다시 연결한다.
-		socket?.emit('getAllMessages', room);
+		socket?.emit('getAllMessages', { room, order });
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
-	}, [room]);
+	}, [room, order]);
 
-	// TODO: 메세지를 받으면 재렌더링 한다.
 	useEffect(() => {
-		socket?.on('sendMessage', ({ id, text, uploadImage, writer, room, project, createdAt }: ChatDataType) => {
-			setChatBucket([...chatBucket, { id, text, uploadImage, writer, room, project, createdAt }]);
+		// TODO: 메세지를 받으면 재렌더링 한다.
+		socket?.on('sendMessage', ({ chat }: ChatDataType) => {
+			if (chat) {
+				setChatBucket([...chatBucket, chat]);
+			}
 		});
 
 		// TODO: 채팅 수정
@@ -77,11 +84,12 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
-		if (chatBucket) {
+		if (chatBucket && order === 0) {
 			scrollbarRef.current?.scrollToBottom();
 		}
 	}, [chatBucket]);
 
+	// TODO: 채팅 입력
 	const onSubmitForm = useCallback(
 		(e: FormEvent<Element>): void => {
 			e.preventDefault();
@@ -110,16 +118,25 @@ const WorkSpaceChat = (): JSX.Element => {
 	}, []);
 
 	const chatSections = chatSection(chatBucket ? [...chatBucket] : []);
+	const isEmpty = chatBucket.length === 0;
+	const isReachingEnd = isEmpty || (chatBucket && chatBucket.length < 30);
 
 	return (
 		<WorkSpaceFrame>
 			<ChatZone
+				socket={socket}
 				scrollbarRef={scrollbarRef}
 				chatSections={chatSections}
 				chatBucket={chatBucket}
 				setChatBucket={setChatBucket}
+				order={order}
+				setOrder={setOrder}
+				isEnd={isEnd}
+				isEmpty={isEmpty}
+				isReachingEnd={isReachingEnd}
 			/>
 			<Textarea
+				socket={socket}
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
 				chat={chat}
