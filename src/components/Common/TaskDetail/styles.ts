@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const TaskDetailContainer = styled.div`
-	overflow: hidden;
 	${({ theme }) => theme.align.positionCenter}
 	width: 560px;
 	padding: 50px 40px 10px;
@@ -28,16 +27,18 @@ export const SectionTitle = styled.p`
 `;
 
 export const TaskDeleteBtn = styled.button`
+	float: right;
 	margin-bottom: 20px;
 	font-family: 'NanumSquareB';
 	font-size: 16px;
 	color: ${({ theme }) => theme.color.warningColor};
 `;
 
-export const Test = styled.div`
+export const ColorHat = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 22px;
+	border-radius: 6px 6px 0 0;
 `;

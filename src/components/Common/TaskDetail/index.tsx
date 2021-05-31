@@ -19,7 +19,7 @@ import {
 
 import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
 
-import { TaskDeleteBtn, TaskDetailContainer, Test } from './styles';
+import { ColorHat, TaskDeleteBtn, TaskDetailContainer } from './styles';
 import ColorLabel from './ColorLabel';
 import { projectInfoSelector } from '../../../reducer/projectInfo';
 import Title from './Title';
@@ -86,7 +86,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 
 	return (
 		<TaskDetailContainer>
-			<Test style={{ backgroundColor: `${taskColor}` }} />
+			<ColorHat style={{ backgroundColor: `${taskColor}` }} />
 			<TaskDeleteBtn onClick={() => onDeleteTaskItem()}>테스크 삭제</TaskDeleteBtn>
 			<Title taskTitle={taskTitle} onChangeTaskTitle={onChangeTaskTitle} />
 			<Desc desc={desc} onChangeDesc={onChangeDesc} />
