@@ -88,21 +88,6 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 	const [SettingTarget, setSettingTarget] = useState<number>(0);
 	const [listName, onChangeListName, setListName] = useInput<string>('');
 
-	// TODO: room 조회
-	useEffect(() => {
-		const roomValue = {
-			currentURL: currentURL,
-			currentAddress: currentAddress,
-		};
-
-		dispatch(getRoomsListInfo(roomValue));
-		dispatch(getProjectInfo(currentURL));
-
-		return () => {
-			dispatch(resetRoomList());
-		};
-	}, []);
-
 	const loadInitState = useCallback((): void => {
 		if (currentAddress === 'chat') {
 			const initState = {
@@ -185,13 +170,12 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 
 		setShowDeleteAlert(false);
 		setContentTop('General');
-		setListName;
+
 		history.push(`/workspace/${currentURL}/${currentAddress}/General`);
 	}, [roomsList, SettingTarget]);
 
 	// TODO: room 수정
 	const onChangeListNameEnter = useCallback((): void => {
-		setListName('');
 		if (listName.trim() === '') {
 			return;
 		}
@@ -202,13 +186,10 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 			roomName: { name: roomsList[SettingTarget] },
 			changeName: { name: listName },
 		};
-		console.log('입력값', listName);
-		console.log('체크되는지 테스트', roomsList[SettingTarget]);
-		console.log('roomValue', roomValue);
 
 		dispatch(editRoom(roomValue));
 
-		setContentTop(`${listName}`);
+		setContentTop(listName);
 		setSettingTarget(SettingTarget);
 		setListName('');
 		setShowEditAlert(false);
@@ -226,15 +207,35 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 		if (currentIndex !== -1) {
 			items[currentIndex].classList.add('active');
 		}
-	}, [contentTop]);
+	}, [contentTop, roomsList]);
 
 	useEffect(() => {
+		const roomValue = {
+			currentURL: currentURL,
+			currentAddress: currentAddress,
+		};
+
+		dispatch(getRoomsListInfo(roomValue));
+		dispatch(getProjectInfo(currentURL));
 		loadInitState();
+
+		return () => {
+			dispatch(resetRoomList());
+		};
 	}, []);
 
 	useEffect(() => {
+		// 최초 접속 시 General 채널 하이라이팅
+		const items = document.querySelectorAll('.items')[0];
+
+		if (items) {
+			items.classList.add('active');
+		}
+	}, [roomsList]);
+
+	useEffect(() => {
 		activeListItem();
-	}, [contentTop]);
+	}, [contentTop, roomsList]);
 
 	return (
 		<Frame>
