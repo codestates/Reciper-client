@@ -74,12 +74,10 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('addTaskItem', data => {
-			console.log('addTaskItem');
 			dispatch(socketAddTaskItem(data));
 		});
 
 		socket?.on('deleteTaskItem', data => {
-			console.log('deleteTaskItem');
 			dispatch(deleteTaskItem(data));
 		});
 
@@ -117,7 +115,7 @@ const KanbanConianer = (): JSX.Element => {
 
 		return () => {
 			disconnectSocket();
-			console.log('kanban Join', socket);
+			dispatch(getSocketData({ taskBox: [], taskItems: {} }));
 		};
 	}, []);
 
@@ -126,11 +124,6 @@ const KanbanConianer = (): JSX.Element => {
 	useEffect(() => {
 		socket?.emit('joinPart', part);
 	}, [connect, part]);
-
-	useEffect(() => {
-		console.log('parrrrrrrrrrrrrrrrt', projectUrl);
-		console.log('kanban jooooooooooooooin ', socket);
-	}, [part]);
 
 	const onAddTaskBox = useCallback(() => {
 		if (title.trim() === '') {
