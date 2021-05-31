@@ -51,13 +51,12 @@ const ChatZone = ({
 		values => {
 			if (values.scrollTop === 0 && !isEmpty && !isReachingEnd && !isEnd) {
 				setOrder(order + 1);
-				console.log(isEnd, order);
-				if (scrollbarRef.current) {
-					scrollbarRef.current.scrollTop(scrollbarRef.current.getScrollHeight() - values.scrollHeight);
-					// console.log(scrollbarRef.current);
-					// console.log(scrollbarRef.current.scrollTop(scrollbarRef.current.getScrollHeight()));
-					// console.log(values.scrollHeight);
-				}
+				setTimeout(() => {
+					if (scrollbarRef.current) {
+						const scrollLocation = scrollbarRef.current.getScrollHeight() - values.scrollHeight;
+						scrollbarRef.current.scrollTop(scrollLocation);
+					}
+				}, 50);
 			}
 		},
 		[order, isReachingEnd],
