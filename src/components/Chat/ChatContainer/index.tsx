@@ -47,17 +47,19 @@ const WorkSpaceChat = (): JSX.Element => {
 			setIsEnd(isEnd);
 			setChatBucket([...chats, ...chatBucket]);
 		});
-	}, []);
+	}, [chatBucket]);
 
 	useEffect(() => {
-		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
-		setOrder(0);
-
 		// TODO: room이 바뀌면 room과 다시 연결한다.
 		socket?.emit('getAllMessages', { room, order });
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
 	}, [room, order]);
+
+	useEffect(() => {
+		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
+		setOrder(0);
+	}, [room]);
 
 	useEffect(() => {
 		// TODO: 메세지를 받으면 재렌더링 한다.
