@@ -11,13 +11,13 @@ import React, {
 } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
-import useSocket from '../../../hooks/useSocket';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 
+import { Socket } from 'socket.io-client';
 import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
 import autosize from 'autosize';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import {
@@ -33,6 +33,7 @@ import {
 	SendChatButton,
 } from './styles';
 
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 interface DataType {
@@ -42,6 +43,7 @@ interface DataType {
 const members = [{ id: 1, name: 'useonglee' }];
 
 interface Props {
+	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	onSubmitForm: (e: FormEvent) => void;
 	onChangeChat: OnChangeHandlerFunc;
 	chat?: string;
@@ -52,6 +54,7 @@ interface Props {
 }
 
 const Textarea = ({
+	socket,
 	onSubmitForm,
 	onChangeChat,
 	chat,
@@ -61,10 +64,7 @@ const Textarea = ({
 	setChatBucket,
 }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
-	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
-	const history = useHistory();
-	const currentAddress = history.location.pathname.split('/')[3];
-	const [socket] = useSocket(projectUrl, currentAddress);
+	const { part: room } = useParams<{ projectUrl: string; part: string }>();
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const imageInput = useRef<HTMLInputElement>(null);
