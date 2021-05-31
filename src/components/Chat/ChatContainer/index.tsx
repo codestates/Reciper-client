@@ -33,7 +33,6 @@ const WorkSpaceChat = (): JSX.Element => {
 	connectionSocket();
 
 	useEffect(() => {
-		// console.log(socket);
 		socket?.emit('joinRoom', room);
 		console.log('soooocket Join', socket);
 
