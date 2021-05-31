@@ -32,14 +32,18 @@ export const editRoom = createAsyncThunk('editRoom', (roomValue: addRoomDataType
 
 // TODO: 초기 상태
 const initialState: RoomsListDataType = {
-	roomsList: ['General'],
+	roomsList: [],
 };
 
 // TODO: slice 실행
 export const roomsListInfoSlice = createSlice({
 	name: 'roomsList',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetRoomList: (state: RoomsListDataType): void => {
+			state.roomsList = [];
+		},
+	},
 	extraReducers: {
 		[getRoomsListInfo.fulfilled.type]: (state, { payload }: PayloadAction<RoomsListDataType>) => payload,
 		[addRoom.fulfilled.type]: (state, { payload }: PayloadAction<RoomsListDataType>) => payload,
@@ -48,23 +52,6 @@ export const roomsListInfoSlice = createSlice({
 	},
 });
 
-export const getroomsListSelector = (state: RootStateOrAny): RoomsListDataType => state.roomsListInfoSlice;
+export const { resetRoomList } = roomsListInfoSlice.actions;
 
-// return {
-// 	text: text,
-// 	room: room,
-// 	project: project,
-// 	writer: {
-// 		id: id,
-// 		name: name,
-// 		email: email,
-// 		mobile: mobile,
-// 		gitId: gitId,
-// 		career: career,
-// 		aboutMe: aboutMe,
-// 		uploadImage: uploadImage,
-// 		profileColor: profileColor,
-// 		createdAt: createdAt,
-// 		updatedAt: updatedAt,
-// 	},
-// };
+export const getroomsListSelector = (state: RootStateOrAny): RoomsListDataType => state.roomsListInfoSlice;
