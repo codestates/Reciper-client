@@ -12,10 +12,10 @@ import {
 	ProfileModalUserName,
 	ProfileModalUserAboutMe,
 	LinkWrapper,
-	ProfileModalLink,
 } from './styles';
 
 import { ChatDataType } from '../../../types/types';
+import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
 
 interface Props {
 	data: ChatDataType;
@@ -25,8 +25,12 @@ const ChatProfileModal = ({ data }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const { id, uploadImage, profileColor, name, aboutMe, email } = data.writer;
 
+	const profileModalAnimated = {
+		profileModal: useScrollFadeIn({ direction: 'short-left', duration: 0.3, delay: 0 }),
+	};
+
 	return (
-		<ChatProfileModalWrapper>
+		<ChatProfileModalWrapper {...profileModalAnimated.profileModal}>
 			<ProfileModalTopWrapper>
 				<ProfileImage
 					width="100%"
@@ -46,8 +50,7 @@ const ChatProfileModal = ({ data }: Props): JSX.Element => {
 					</LinkWrapper>
 				) : (
 					<LinkWrapper>
-						<ProfileModalLink to={`profile/${id}`}>메시지</ProfileModalLink>
-						<ProfileModalLink to={`profile/${id}`}>전체 프로필</ProfileModalLink>
+						<GoToProfileLink to={`profile/${id}`}>전체 프로필</GoToProfileLink>
 					</LinkWrapper>
 				)}
 			</PrfileModalBottomWrapper>
