@@ -12,7 +12,7 @@ export const TaskWrap = styled.div`
 
 	&::-webkit-scrollbar {
 		display: none;
-		width: 8px;
+		width: 6px;
 	}
 	&::-webkit-scrollbar-thumb {
 		background-color: rgba(0, 0, 0, 0.1);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { useSelector } from 'react-redux';
 
 import { kanbanDataSelector } from '../../../reducer/kanban';

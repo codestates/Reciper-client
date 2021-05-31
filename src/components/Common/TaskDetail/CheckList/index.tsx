@@ -1,4 +1,5 @@
 import React, { Dispatch, KeyboardEvent, MouseEvent, SetStateAction, useCallback } from 'react';
+import Scrollbars from 'react-custom-scrollbars';
 import useInput from '../../../../hooks/useInput';
 import { taskChackListDataType } from '../../../../types/types';
 import { Section, SectionTitle } from '../styles';

@@ -10,18 +10,23 @@ export const WritingInput = styled.input`
 	width: 100%;
 	height: 40px;
 	padding: 0 10px;
+	font-family: 'NanumSquareR';
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
-
-	&::placeholder {
-		font-family: 'NanumSquareR';
-	}
 `;
 
 export const CommentWrap = styled.div`
 	overflow: auto;
 	width: 100%;
 	max-height: 100px;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 50px;
+	}
 `;
 
 export const CommentItem = styled.div`
@@ -47,7 +52,7 @@ export const CommentUser = styled.div`
 
 	& span,
 	button {
-		margin-left: 5px;
+		margin-right: 5px;
 		font-size: 13px;
 		color: #c6c6c8;
 	}
