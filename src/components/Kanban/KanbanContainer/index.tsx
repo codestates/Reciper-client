@@ -159,6 +159,10 @@ const KanbanConianer = (): JSX.Element => {
 	}, [connect, part]);
 
 	useEffect(() => {
+		setBoxDuplicate(false);
+	}, [title]);
+
+	useEffect(() => {
 		// 소켓 이벤트 모음
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
