@@ -31,12 +31,13 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
 	useEffect(() => {
+		// console.log(socket);
 		socket?.emit('joinRoom', room);
 	}, []);
 
 	useEffect(() => {
-		// TODO: 이전까지의 전체 채팅 내용을 불러온다.
-		console.log(chatBucket);
+		// TODO: 전체 채팅 내용에서 30개씩 불러온다.
+		// console.log(chatBucket);
 		if (chatBucket) {
 			socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
 				setIsEnd(isEnd);
@@ -48,7 +49,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.emit('getAllMessages', { room, order });
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
-	}, [room, order]);
+	}, [order]);
 
 	useEffect(() => {
 		// TODO: 메세지를 받으면 재렌더링 한다.

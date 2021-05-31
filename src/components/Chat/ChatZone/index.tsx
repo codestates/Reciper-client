@@ -51,17 +51,16 @@ const ChatZone = ({
 		values => {
 			if (values.scrollTop === 0 && !isEmpty && !isReachingEnd && !isEnd) {
 				setOrder(order + 1);
-				// scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight);
-			}
-			console.log(isEnd, order);
-			console.log(scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight));
-			if (scrollbarRef.current) {
-				const location = scrollbarRef.current.getScrollHeight() - values.scrollHeight;
-				window.scrollTo({ top: location, behavior: 'smooth' });
-				// scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight);
+				console.log(isEnd, order);
+				if (scrollbarRef.current) {
+					scrollbarRef.current.scrollTop(scrollbarRef.current.getScrollHeight() - values.scrollHeight);
+					// console.log(scrollbarRef.current);
+					// console.log(scrollbarRef.current.scrollTop(scrollbarRef.current.getScrollHeight()));
+					// console.log(values.scrollHeight);
+				}
 			}
 		},
-		[order, , isReachingEnd],
+		[order, isReachingEnd],
 	);
 
 	// TODO: 채팅 이미지 업로드
