@@ -31,11 +31,11 @@ export const ChatWrapper = styled.div<{ isSameSender: boolean }>`
 
 // ------------------TODO: 채팅 프로필 이미지 모달 ------------------
 
-export const ChatItemProfileModal = styled.div`
+export const ChatItemProfileModal = styled.div<{ chatLocation: string }>`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: row;
 	position: absolute;
-	top: 6px;
+	top: ${({ chatLocation }) => chatLocation};
 	left: 70px;
 	z-index: 100;
 `;

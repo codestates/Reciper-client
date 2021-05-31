@@ -34,29 +34,33 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	useEffect(() => {
 		socket?.emit('joinRoom', room);
-		console.log('soooocket Join', socket);
 
 		return () => {
 			disconnectSocket();
-			console.log('soooocket Dis', socket);
 		};
 	}, []);
 
 	useEffect(() => {
 		// TODO: 전체 채팅 내용에서 30개씩 불러온다.
 		// console.log(chatBucket);
-		if (chatBucket) {
-			socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
-				setIsEnd(isEnd);
-				setChatBucket([...chats, ...chatBucket]);
-			});
-		}
+		socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
+			setIsEnd(isEnd);
+			setChatBucket([...chats, ...chatBucket]);
+		});
+	}, [order]);
 
+	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
 		socket?.emit('getAllMessages', { room, order });
 		socket?.emit('leaveRoom', room);
 		socket?.emit('joinRoom', room);
 	}, [room, order]);
+
+	useEffect(() => {
+		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
+		setOrder(0);
+		setChatBucket([]);
+	}, [room]);
 
 	useEffect(() => {
 		// TODO: 메세지를 받으면 재렌더링 한다.
