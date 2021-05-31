@@ -16,6 +16,7 @@ export const Title = styled.p`
 
 export const ChangeColorBtn = styled.button`
 	${({ theme }) => theme.align.flexCenter}
+	transition: 0.1s;
 	width: 25px;
 	height: 25px;
 	margin-right: 10px;
@@ -23,6 +24,11 @@ export const ChangeColorBtn = styled.button`
 	color: #a6a6a8;
 	background-color: #e6e6e8;
 	border-radius: 100%;
+
+	&:hover {
+		background-color: #dfdfdf;
+		color: #a0a0a0;
+	}
 `;
 
 export const Label = styled.div`

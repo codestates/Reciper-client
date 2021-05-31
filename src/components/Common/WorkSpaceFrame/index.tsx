@@ -144,7 +144,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 				};
 
 				dispatch(addRoom(roomValue));
-				setContentTop(value);
+				// setContentTop(value);
 				setOpenAddInput(false);
 				history.push(`/workspace/${currentURL}/${currentAddress}/${value}`);
 			}

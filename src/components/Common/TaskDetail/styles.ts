@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const TaskDetailContainer = styled.div`
+	overflow: hidden;
 	${({ theme }) => theme.align.positionCenter}
 	width: 560px;
-	padding: 40px 50px 20px 50px;
+	padding: 50px 40px 10px;
 	margin-right: 10px;
 	font-family: 'NanumSquareR';
 	background-color: #fff;
@@ -24,4 +25,19 @@ export const SectionTitle = styled.p`
 	margin-bottom: 15px;
 	font-family: 'NanumSquareB';
 	font-size: 16px;
+`;
+
+export const TaskDeleteBtn = styled.button`
+	margin-bottom: 20px;
+	font-family: 'NanumSquareB';
+	font-size: 16px;
+	color: ${({ theme }) => theme.color.warningColor};
+`;
+
+export const Test = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 22px;
 `;

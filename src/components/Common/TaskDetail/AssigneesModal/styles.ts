@@ -5,7 +5,7 @@ export const ModalWrap = styled.div`
 	position: absolute;
 	z-index: 10;
 	top: 30px;
-	right: 13%;
+	right: 0;
 	width: 150px;
 	background-color: #fff;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};

@@ -6,17 +6,22 @@ export const CheckListInput = styled.input`
 	height: 40px;
 	padding: 0 10px;
 	margin-bottom: 10px;
+	font-family: 'NanumSquareR';
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
-
-	&::placeholder {
-		font-family: 'NanumSquareR';
-	}
 `;
 export const CheckListWrap = styled.div`
 	overflow: auto;
 	width: 100%;
 	max-height: 90px;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 50px;
+	}
 `;
 
 export const CheckListItem = styled.div`
