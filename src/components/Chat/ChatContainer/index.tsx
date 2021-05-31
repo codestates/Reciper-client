@@ -47,7 +47,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			setIsEnd(isEnd);
 			setChatBucket([...chats, ...chatBucket]);
 		});
-	}, [chatBucket]);
+	}, [order]);
 
 	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
@@ -59,6 +59,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	useEffect(() => {
 		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
 		setOrder(0);
+		setChatBucket([]);
 	}, [room]);
 
 	useEffect(() => {
