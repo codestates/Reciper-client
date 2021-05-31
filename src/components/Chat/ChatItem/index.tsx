@@ -52,6 +52,7 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 	const [showChatDeleteAlert, setShowChatDeleteAlert] = useState<boolean>(false);
 	const [showChatEditForm, setShowChatEditForm] = useState<boolean>(false);
 	const [editChat, onChangeChat, setEditChat] = useInput<string | undefined>(data?.text);
+	const [chatLocation, setChatLocation] = useState<string>('6px');
 
 	const { uploadImage, profileColor, name, email } = data.writer;
 	let date = dayjs(data.createdAt);
@@ -62,17 +63,6 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			autosize(textareaRef.current);
 		}
 	}, [textareaRef.current]);
-
-	// TODO: 채팅 프로필 모달
-	const onShowChatProfileModal = useCallback(
-		e => {
-			e.preventDefault();
-			e.stopPropagation();
-
-			setShowChatProfileModal(prev => !prev);
-		},
-		[modalRef.current],
-	);
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
@@ -134,7 +124,11 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 		[chatBucket],
 	);
 
-	// TODO: 채팅 프로필 모달 Close
+	// TODO: 채팅 프로필 모달 실행
+	const onShowChatProfileModal = useCallback((): void => {
+		setShowChatProfileModal(true);
+	}, []);
+
 	const onCloseModal = useCallback((e: globalThis.MouseEvent) => {
 		if (!modalRef.current?.contains(e.target as Node)) {
 			setShowChatProfileModal(false);
@@ -149,9 +143,18 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 		};
 	}, []);
 
+	const onClickChatItem = useCallback(() => {
+		if (modalRef.current) {
+			const location = modalRef.current.getBoundingClientRect();
+			if (location.y > 520) {
+				setChatLocation(`-${String(location.y - 520)}px`);
+			}
+		}
+	}, []);
+
 	return (
-		<ChatWrapper isSameSender={isSameSender}>
-			<ChatProfileImageWrapper isSameSender={isSameSender} onClick={e => onShowChatProfileModal(e)}>
+		<ChatWrapper isSameSender={isSameSender} ref={modalRef} onClick={onClickChatItem}>
+			<ChatProfileImageWrapper isSameSender={isSameSender} ref={modalRef} onClick={onShowChatProfileModal}>
 				<ProfileImage
 					width="40px"
 					height="40px"
@@ -211,7 +214,7 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 				/>
 			)}
 			{showChatProfileModal && (
-				<ChatItemProfileModal ref={modalRef}>
+				<ChatItemProfileModal chatLocation={chatLocation}>
 					<ChatProfileModal data={data} />
 				</ChatItemProfileModal>
 			)}
