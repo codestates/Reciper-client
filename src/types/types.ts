@@ -219,6 +219,11 @@ export interface projectCreateDataType {
 /////////////////        Chat        //////////////////
 ///////////////////////////////////////////////////////
 
+export interface AllMessagesDataType {
+	chats: ChatDataType[];
+	isEnd: boolean;
+}
+
 export interface ChatDataType {
 	id: number | null;
 	text?: string;
