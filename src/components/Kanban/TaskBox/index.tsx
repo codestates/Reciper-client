@@ -62,7 +62,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 		dispatch(deleteTaskBox(index));
 	}, []);
 
-	const onAddTaskItem = () => {
+	const onAddTaskItem = useCallback(() => {
 		if (taskTitle.trim() === '') {
 			return;
 		}
@@ -73,7 +73,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 		dispatch(addTaskItem({ taskTitle, index, taskColor }));
 
 		setTaskTitle('');
-	};
+	}, [taskTitle]);
 
 	return (
 		<Draggable draggableId={`TaskBox-${index}`} isDragDisabled={dragging} index={index}>

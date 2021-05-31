@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootStateOrAny } from 'react-redux';
-import { kanbanDataType } from '../types/types';
+import { kanbanDataType, taskBoxDataType, taskDataType } from '../types/types';
 
 const kanbaninitialState: kanbanDataType = {
 	taskBox: [],
@@ -53,19 +53,22 @@ export const kanbanDataSlice = createSlice({
 
 			state.taskBox.splice(index, 1);
 		},
-		deleteTaskItem: (state, { payload }) => {
+		deleteTaskItem: (state, { payload }: PayloadAction<{ [key: string]: number }>): void => {
 			const { targetListIndex, targetIndex } = payload;
 
 			const targetItem = state.taskBox[targetListIndex].tasks.splice(targetIndex, 1);
 			delete state.taskItems[targetItem[0]];
 		},
-		reorderTaskBox: (state, { payload }): void => {
+		reorderTaskBox: (
+			state,
+			{ payload }: PayloadAction<{ data: { [key: string]: number }; targetTask: string }>,
+		): void => {
 			const { currentIndex, targetIndex } = payload.data;
 			const targetBox = state.taskBox.splice(currentIndex, 1);
 
 			state.taskBox.splice(targetIndex, 0, ...targetBox);
 		},
-		reorderTaskItem: (state, { payload }): void => {
+		reorderTaskItem: (state, { payload }: PayloadAction<{ [key: string]: number }>): void => {
 			const { currentIndex, targetIndex, currentListIndex, targetListIndex } = payload;
 			const currentTasks: string[] = state.taskBox[currentListIndex].tasks;
 			const targetTasks: string[] = state.taskBox[targetListIndex].tasks;
@@ -73,13 +76,13 @@ export const kanbanDataSlice = createSlice({
 			const current = currentTasks.splice(currentIndex, 1);
 			targetTasks.splice(targetIndex, 0, ...current);
 		},
-		getSocketData: (state, { payload }) => {
+		getSocketData: (state, { payload }: PayloadAction<kanbanDataType>): kanbanDataType => {
 			return payload;
 		},
-		socketAddTaskBox: (state, { payload }) => {
+		socketAddTaskBox: (state, { payload }: PayloadAction<taskBoxDataType>): void => {
 			state.taskBox.push(payload);
 		},
-		socketAddTaskItem: (state, { payload }) => {
+		socketAddTaskItem: (state, { payload }: PayloadAction<{ targetListIndex: number; task: taskDataType }>): void => {
 			const { targetListIndex, task } = payload;
 			const keys = Object.keys(state.taskItems);
 			const taskKey = String(Number(keys[keys.length - 1]) + 1 || '0');
@@ -87,13 +90,16 @@ export const kanbanDataSlice = createSlice({
 			state.taskBox[targetListIndex].tasks.push(taskKey);
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
-		editTaskDetail: (state, { payload }) => {
+		editTaskDetail: (
+			state,
+			{ payload }: PayloadAction<{ targetListIndex: number; targetIndex: number; task: taskDataType }>,
+		): void => {
 			const { targetListIndex, targetIndex, task } = payload;
 			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
 
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
 		},
-		boxDragBlock: (state, { payload }) => {
+		boxDragBlock: (state, { payload }: PayloadAction<{ targetListIndex: number; isDragging: boolean }>): void => {
 			const { targetListIndex, isDragging } = payload;
 
 			state.taskBox[targetListIndex].dragging = isDragging;
@@ -101,13 +107,23 @@ export const kanbanDataSlice = createSlice({
 				state.taskItems[taskKey].dragging = isDragging;
 			});
 		},
-		itemDragStart: (state, { payload }) => {
+		itemDragStart: (state, { payload }: PayloadAction<{ targetListIndex: number; isDragging: boolean }>) => {
 			const { targetListIndex, isDragging } = payload;
 
 			state.taskBox[targetListIndex].dragging = isDragging;
 			state.taskBox[targetListIndex].tasks.forEach(taskKey => (state.taskItems[taskKey].dragging = isDragging));
 		},
-		itemDragEnd: (state, { payload }) => {
+		itemDragEnd: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{
+				targetListIndex: number;
+				currentListIndex: number;
+				targetIndex: number;
+				isDragging: boolean;
+			}>,
+		): void => {
 			const { targetListIndex, currentListIndex, targetIndex, isDragging } = payload;
 			const taskKey = state.taskBox[targetListIndex].tasks[targetIndex];
 
@@ -115,7 +131,7 @@ export const kanbanDataSlice = createSlice({
 			state.taskItems[taskKey].dragging = isDragging;
 			state.taskBox[currentListIndex].tasks.forEach(taskKey => (state.taskItems[taskKey].dragging = isDragging));
 		},
-		itemEditBlock: (state, { payload }) => {
+		itemEditBlock: (state, { payload }: PayloadAction<{ targetListIndex: number; isDragging: boolean }>): void => {
 			const { targetListIndex, isDragging } = payload;
 
 			state.taskBox[targetListIndex].dragging = isDragging;
