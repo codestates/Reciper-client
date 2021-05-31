@@ -97,7 +97,6 @@ const ChatZone = ({
 	return (
 		<ChatZoneContainer onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
-				{/* <ObserveBlock ref={observeTargetRef} /> */}
 				{Object.entries(chatSections).map(([date, chatsBucket]) => {
 					return (
 						<ChatList key={date}>
