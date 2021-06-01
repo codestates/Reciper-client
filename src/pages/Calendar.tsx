@@ -1,8 +1,13 @@
 import React from 'react';
+import CalendarContainer from '../components/Calendar/CalendarContainer';
 import WorkSpaceFrame from '../components/Common/WorkSpaceFrame';
 
 const Calendar = (): JSX.Element => {
-	return <WorkSpaceFrame>123</WorkSpaceFrame>;
+	return (
+		<WorkSpaceFrame>
+			<CalendarContainer />
+		</WorkSpaceFrame>
+	);
 };
 
 export default Calendar;
