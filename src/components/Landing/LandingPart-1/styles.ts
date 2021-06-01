@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import maintest from '../../../images/maintest.jpg';
+import maintest from '../../../images/landingTest.jpg';
 
 export const LandingFirstContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter}
