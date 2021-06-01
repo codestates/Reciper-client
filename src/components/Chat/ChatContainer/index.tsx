@@ -10,7 +10,6 @@ import { getChatData, newChatData } from '../../../utils/ChatSocketData';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { OnChangeHandlerFunc } from 'react-mentions';
 
 import { AllMessagesDataType, ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
