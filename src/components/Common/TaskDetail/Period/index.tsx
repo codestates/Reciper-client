@@ -13,7 +13,12 @@ interface Props {
 const Period = ({ startDate, endDate, setStartDate, setEndDate }: Props): JSX.Element => {
 	const DatePickerCustomBtn = forwardRef(({ value, onClick, type }: any, ref: any) => {
 		return (
-			<DateCustomBtn className="example-custom-input" onClick={onClick} ref={ref}>
+			<DateCustomBtn
+				className="example-custom-input"
+				style={{ color: value ? '#222' : '#a8a8a8', fontFamily: value ? 'NanumSquareR' : 'NanumSquareB' }}
+				onClick={onClick}
+				ref={ref}
+			>
 				{value ? value : type === 'start' ? 'Strat Date' : 'End Date'}
 			</DateCustomBtn>
 		);
@@ -25,7 +30,7 @@ const Period = ({ startDate, endDate, setStartDate, setEndDate }: Props): JSX.El
 			<SectionTitle style={{ width: '80px', margin: '0' }}>기간</SectionTitle>
 			<PeriodWrap>
 				<DatePicker
-					dateFormat="M월 d일"
+					dateFormat="M월 dd일"
 					selected={startDate}
 					onChange={date => setStartDate(date as Date)}
 					customInput={<DatePickerCustomBtn type={'start'} />}
@@ -35,7 +40,7 @@ const Period = ({ startDate, endDate, setStartDate, setEndDate }: Props): JSX.El
 					monthsShown={2}
 				/>
 				<DatePicker
-					dateFormat="M월 d일"
+					dateFormat="M월 dd일"
 					selected={endDate}
 					onChange={date => setEndDate(date as Date)}
 					customInput={<DatePickerCustomBtn type={'end'} />}
