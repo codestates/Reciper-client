@@ -75,22 +75,24 @@ const ChatItem = ({
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
+		setCurrentIndex(data.id + 1);
 		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 		const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
 		const copyChatBucket = [...chatBucket];
 		copyChatBucket[index] = newChat;
 		setChatBucket([...copyChatBucket]);
+
 		socket?.emit('editMessage', getChatEdit);
 		setShowChatEditForm(false);
-	}, [editChat, chatBucket]);
+	}, [editChat]);
 
 	// TODO: 채팅 수정 버튼
 	const onChatEditButton = useCallback(
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
-			e.stopPropagation();
 
+			setCurrentIndex(data.id + 1);
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
@@ -115,7 +117,6 @@ const ChatItem = ({
 	const onChatDeleteButton = useCallback(
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
-			e.stopPropagation();
 			setShowChatDeleteAlert(false);
 
 			setCurrentIndex(data.id + 1);
@@ -126,7 +127,7 @@ const ChatItem = ({
 			setChatBucket([...copyChatBucket]);
 			socket?.emit('deleteMessage', getChatDelete);
 		},
-		[chatBucket],
+		[chatBucket, index],
 	);
 
 	// TODO: 채팅 프로필 모달 실행

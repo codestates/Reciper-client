@@ -47,7 +47,9 @@ const WorkSpaceChat = (): JSX.Element => {
 			if (scrollbarRef.current) {
 				scrollbarRef.current.scrollToBottom();
 			}
-			setCurrentIndex(chats[chats.length - 1].id + 1);
+			if (chats.length > 0) {
+				setCurrentIndex(chats[chats.length - 1].id + 1);
+			}
 			setIsEnd(isEnd);
 			setChatBucket([...chats, ...chatBucket]);
 		});
@@ -130,7 +132,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		[chat, chatBucket],
 	);
 
-	const onChangeChatValue: OnChangeHandlerFunc = useCallback((e): void => {
+	const onChangeChatValue: React.ChangeEventHandler<HTMLTextAreaElement> = useCallback((e): void => {
 		setChat(e.target.value);
 	}, []);
 
@@ -158,7 +160,6 @@ const WorkSpaceChat = (): JSX.Element => {
 				onSubmitForm={onSubmitForm}
 				onChangeChat={onChangeChatValue}
 				chat={chat}
-				setChat={setChat}
 				chatBucket={chatBucket}
 				setChatBucket={setChatBucket}
 				placeholder={`${room}에게 메세지 보내기`}
