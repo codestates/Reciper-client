@@ -47,7 +47,9 @@ const WorkSpaceChat = (): JSX.Element => {
 			if (scrollbarRef.current) {
 				scrollbarRef.current.scrollToBottom();
 			}
-			setCurrentIndex(chats[chats.length - 1].id + 1);
+			if (chats.length > 0) {
+				setCurrentIndex(chats[chats.length - 1].id + 1);
+			}
 			setIsEnd(isEnd);
 			setChatBucket([...chats, ...chatBucket]);
 		});
