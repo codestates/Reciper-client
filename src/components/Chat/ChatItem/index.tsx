@@ -64,9 +64,6 @@ const ChatItem = ({
 
 	const { uploadImage, profileColor, name, email } = data.writer;
 
-	let date = dayjs(data.createdAt);
-	date = date.add(9, 'hour');
-
 	useEffect(() => {
 		if (textareaRef.current) {
 			autosize(textareaRef.current);
@@ -172,7 +169,7 @@ const ChatItem = ({
 			<ChatContentWrapper>
 				<ChatUserInfoWrapper isSameSender={isSameSender}>
 					<ChatUserId>{name}</ChatUserId>
-					<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
+					<ChatCreatedAt>{dayjs(data.createdAt).format('A h:mm')}</ChatCreatedAt>
 				</ChatUserInfoWrapper>
 				<ChatContent isSameSender={isSameSender}>
 					{showChatEditForm ? (
@@ -211,7 +208,7 @@ const ChatItem = ({
 					<ChatDeleteButton onClick={() => setShowChatDeleteAlert(true)} />
 				</ChatUpdateModal>
 			) : null}
-			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(date).format('A h:mm')}</ChatNowDateHover>
+			<ChatNowDateHover isSameSender={isSameSender}>{dayjs(data.createdAt).format('A h:mm')}</ChatNowDateHover>
 			{showChatDeleteAlert && (
 				<DeleteAlert
 					data={data}
