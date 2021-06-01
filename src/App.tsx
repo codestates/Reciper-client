@@ -34,12 +34,13 @@ const App = (): JSX.Element => {
 				loginType,
 			},
 		});
-		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
+		if (response.status === 200) {
+			window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
+		}
 	};
 
 	useEffect(() => {
 		setInterval(() => {
-			//수정요망
 			setSuccess(window.localStorage.getItem('loginInfo'));
 		}, 0);
 	}, []);
@@ -47,9 +48,7 @@ const App = (): JSX.Element => {
 	useEffect(() => {
 		if (success) {
 			dispatch(getProfileInfo());
-
 			refreshRequest();
-
 			setInterval(() => {
 				refreshRequest();
 			}, 10000);
