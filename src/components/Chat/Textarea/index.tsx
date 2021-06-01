@@ -9,13 +9,11 @@ import React, {
 	SetStateAction,
 	ChangeEvent,
 } from 'react';
-import ProfileImage from '../../Common/ProfileImage';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 
 import { Socket } from 'socket.io-client';
-import { Mention, OnChangeHandlerFunc, SuggestionDataItem } from 'react-mentions';
 import autosize from 'autosize';
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
@@ -26,9 +24,7 @@ import {
 	ChatContentsWrapper,
 	ChatForm,
 	ChatImageUpload,
-	ChatMention,
-	MentionList,
-	MentionsTextarea,
+	ChatTextarea,
 	SendChatBox,
 	SendChatButton,
 } from './styles';
@@ -36,18 +32,11 @@ import {
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
-interface DataType {
-	id: number;
-	name: string;
-}
-const members = [{ id: 1, name: 'useonglee' }];
-
 interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	onSubmitForm: (e: FormEvent) => void;
-	onChangeChat: OnChangeHandlerFunc;
+	onChangeChat: React.ChangeEventHandler<HTMLTextAreaElement>;
 	chat?: string;
-	setChat: Dispatch<SetStateAction<string>>;
 	placeholder?: string;
 	chatBucket: ChatDataType[];
 	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
@@ -58,7 +47,6 @@ const Textarea = ({
 	onSubmitForm,
 	onChangeChat,
 	chat,
-	setChat,
 	placeholder,
 	chatBucket,
 	setChatBucket,
@@ -97,7 +85,8 @@ const Textarea = ({
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+			const chatLastIndex = chatBucket[chatBucket.length - 1].id + 1;
+			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
 			setChatBucket([...chatBucket, newChat]);
@@ -110,77 +99,20 @@ const Textarea = ({
 		clickUploadImage(imageInput);
 	}, [imageInput]);
 
-	// TODO: 멘션
-	const onChatMention = useCallback(() => {
-		setChat('@');
-	}, []);
-
-	const renderUserSuggestion: (
-		suggestion: SuggestionDataItem,
-		search: string,
-		highlightedDisplay: React.ReactNode,
-		index: number,
-		focused: boolean,
-	) => React.ReactNode = useCallback(
-		(member, search, highlightedDisplay, index, focus) => {
-			if (!chatBucket) {
-				return null;
-			}
-			return (
-				<MentionList focus={focus}>
-					{chatBucket.map((user: ChatDataType, index: number) => (
-						<div key={index}>
-							<ProfileImage profileImage={user.writer.uploadImage} profileColor={user.writer.profileColor} />
-							<span>{highlightedDisplay}</span>
-						</div>
-					))}
-				</MentionList>
-			);
-		},
-		[chatBucket],
-	);
-
 	return (
 		<ChatAreaContainer>
 			<ChatArea>
 				<ChatForm className={!chat?.trim() ? 'off' : 'onValue'} onSubmit={onSubmitForm}>
-					<MentionsTextarea
+					<ChatTextarea
 						value={chat}
 						onChange={onChangeChat}
 						onKeyPress={onKeydownChat}
 						placeholder={placeholder}
-						inputRef={textareaRef}
-						allowSuggestionsAboveCursor
-					>
-						{/* <Mention
-						appendSpaceOnAdd
-						trigger="@"
-						data={
-							chatBucket.map((chatInfo: any) => {
-								return chatInfo.project.inviteList.map((user: any) => ({
-									id: user,
-									display: user.split('@')[0],
-								}));
-							}) || []
-						}
-						renderSuggestion={renderUserSuggestion}
-					/> */}
-
-						<Mention
-							appendSpaceOnAdd
-							trigger="@"
-							data={
-								members.map((user: DataType) => ({
-									id: user.id,
-									display: user.name,
-								})) || []
-							}
-							renderSuggestion={renderUserSuggestion}
-						/>
-					</MentionsTextarea>
+						ref={textareaRef}
+					></ChatTextarea>
 				</ChatForm>
 				<ChatContentsWrapper className={!chat?.trim() ? 'off' : 'onValue'}>
-					{/* TODO: 이미지 요청 테스트 */}
+					{/* TODO: 이미지 요청 */}
 					<form encType="multipart/form-data">
 						<input
 							type="file"
@@ -191,7 +123,6 @@ const Textarea = ({
 							ref={imageInput}
 						/>
 					</form>
-					<ChatMention onClick={onChatMention} />
 					<ChatImageUpload onClick={onChatUploadImage} />
 					<SendChatBox className={!chat?.trim() ? 'off' : 'onValue'} onClick={onSubmitForm}>
 						<SendChatButton />
