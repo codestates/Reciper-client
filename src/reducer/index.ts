@@ -8,6 +8,7 @@ import { recruitDetailSlice } from './recruitDetail';
 import { roomsListInfoSlice } from './roomsList';
 import { kanbanDataSlice } from './kanban';
 import { projectInfoSlice } from './projectInfo';
+import { loginSlice } from './login';
 
 const reducer = combineReducers({
 	profileInfoSlice: profileInfoSlice.reducer,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
 	roomsListInfoSlice: roomsListInfoSlice.reducer,
 	kanbanDataSlice: kanbanDataSlice.reducer,
 	projectInfoSlice: projectInfoSlice.reducer,
+	loginSlice: loginSlice.reducer,
 });
 
 export default configureStore({

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 import LoginLoading from './pages/LoginLoading';
 import Landing from './pages/Landing';
@@ -18,12 +19,16 @@ import Kanban from './pages/Kanban';
 import Calendar from './pages/Calendar';
 
 import { getProfileInfo } from './reducer/profile';
-import axios from 'axios';
+import { loginSelector } from './reducer/login';
+
 import getLoginInfo from './utils/getLoginInfo';
+
+import { loginDataType } from './types/types';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const [success, setSuccess] = useState<string | null>();
+	const loginSuccess: loginDataType = useSelector(loginSelector);
+	const [success, setSuccess] = useState<boolean>(false);
 
 	axios.defaults.withCredentials = true;
 
@@ -42,10 +47,8 @@ const App = (): JSX.Element => {
 	}, []);
 
 	useEffect(() => {
-		setTimeout(() => {
-			setSuccess(window.localStorage.getItem('loginInfo'));
-		}, 500);
-	}, []);
+		setSuccess(loginSuccess.success);
+	}, [loginSuccess]);
 
 	useEffect(() => {
 		if (success) {
