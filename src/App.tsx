@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { useDispatch } from 'react-redux';
 
@@ -24,9 +24,10 @@ import getLoginInfo from './utils/getLoginInfo';
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const [success, setSuccess] = useState<string | null>();
+
 	axios.defaults.withCredentials = true;
 
-	const refreshRequest = async () => {
+	const refreshRequest = useCallback(async () => {
 		const { accessToken, loginType } = getLoginInfo();
 		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
 			headers: {
@@ -34,10 +35,11 @@ const App = (): JSX.Element => {
 				loginType,
 			},
 		});
+
 		if (response.status === 200) {
 			window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		setInterval(() => {
@@ -48,10 +50,12 @@ const App = (): JSX.Element => {
 	useEffect(() => {
 		if (success) {
 			dispatch(getProfileInfo());
+
 			refreshRequest();
+
 			setInterval(() => {
 				refreshRequest();
-			}, 10000);
+			}, 1500000);
 		}
 	}, [success]);
 
