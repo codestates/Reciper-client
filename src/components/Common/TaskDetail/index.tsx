@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { Socket } from 'socket.io-client';
@@ -31,11 +31,12 @@ import Comment from './Comment';
 interface Props {
 	targetTask: string;
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+	setTargetTask: Dispatch<SetStateAction<string>>;
 	setShowModal: Dispatch<SetStateAction<boolean>>;
 	setData: Dispatch<SetStateAction<taskDataType>>;
 }
 
-const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.Element => {
+const TaskDetail = ({ targetTask, socket, setTargetTask, setShowModal, setData }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
 	const { taskBox, taskItems }: kanbanDataType = useSelector(kanbanDataSelector);
@@ -56,7 +57,7 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 	const [selectedMember, setSelectedMember] = useState<RecruitWriterDataType[]>(taskData.assignees);
 	const [taskColor, setTaskColor] = useState<string>(taskData.taskColor);
 
-	const onDeleteTaskItem = () => {
+	const onDeleteTaskItem = useCallback(() => {
 		let target = [0, 0];
 
 		taskBox.forEach((box, index) => {
@@ -68,7 +69,8 @@ const TaskDetail = ({ targetTask, socket, setShowModal, setData }: Props): JSX.E
 		socket?.emit('deleteTaskItem', { targetListIndex: target[0], targetIndex: target[1], part });
 		dispatch(deleteTaskItem({ targetListIndex: target[0], targetIndex: target[1] }));
 		setShowModal(false);
-	};
+		setTargetTask('');
+	}, []);
 
 	useEffect(() => {
 		setData({
