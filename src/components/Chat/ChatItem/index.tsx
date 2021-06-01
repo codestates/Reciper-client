@@ -91,7 +91,6 @@ const ChatItem = ({
 	const onChatEditButton = useCallback(
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
-			e.stopPropagation();
 
 			setCurrentIndex(data.id + 1);
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
@@ -118,7 +117,6 @@ const ChatItem = ({
 	const onChatDeleteButton = useCallback(
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
-			e.stopPropagation();
 			setShowChatDeleteAlert(false);
 
 			setCurrentIndex(data.id + 1);
