@@ -18,6 +18,8 @@ import Kanban from './pages/Kanban';
 import Calendar from './pages/Calendar';
 
 import { getProfileInfo } from './reducer/profile';
+import axios from 'axios';
+import getLoginInfo from './utils/getLoginInfo';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -25,8 +27,21 @@ const App = (): JSX.Element => {
 
 	useEffect(() => {
 		setInterval(() => {
+			//수정요망
 			setSuccess(window.localStorage.getItem('loginInfo'));
 		}, 0);
+		setInterval(async () => {
+			//수정요망
+			const { accessToken, loginType } = getLoginInfo();
+			const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
+				headers: {
+					accessToken: `Bearer ${accessToken}`,
+					loginType,
+				},
+				withCredentials: true,
+			});
+			console.log(response);
+		}, 10000);
 	}, []);
 
 	useEffect(() => {
