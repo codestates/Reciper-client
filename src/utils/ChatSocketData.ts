@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { ChatDataType, ChatUpdateDataType, profileInfoDataType } from '../types/types';
 
 export const newChatData = (
+	id: number,
 	inputValue: string | undefined,
 	uploadImage: string | undefined,
 	room: string,
@@ -12,7 +13,7 @@ export const newChatData = (
 	newChatDate = newChatDate.subtract(9, 'hour');
 
 	const result = {
-		id: null,
+		id: id,
 		text: inputValue,
 		uploadImage: uploadImage,
 		room: room,
