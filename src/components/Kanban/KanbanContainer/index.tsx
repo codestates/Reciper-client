@@ -259,7 +259,13 @@ const KanbanConianer = (): JSX.Element => {
 
 			{showModal && (
 				<Modal setShowModal={setShowModal}>
-					<TaskDetail targetTask={targetTask} socket={socket} setShowModal={setShowModal} setData={setDetailData} />
+					<TaskDetail
+						targetTask={targetTask}
+						socket={socket}
+						setTargetTask={setTargetTask}
+						setShowModal={setShowModal}
+						setData={setDetailData}
+					/>
 				</Modal>
 			)}
 		</Container>
