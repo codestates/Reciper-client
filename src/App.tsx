@@ -24,7 +24,7 @@ import getLoginInfo from './utils/getLoginInfo';
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const [success, setSuccess] = useState<string | null>();
-
+	axios.defaults.withCredentials = true;
 	useEffect(() => {
 		setInterval(() => {
 			//수정요망
@@ -38,7 +38,6 @@ const App = (): JSX.Element => {
 					authorization: `Bearer ${accessToken}`,
 					loginType,
 				},
-				withCredentials: true,
 			});
 			console.log(response);
 		}, 10000);
