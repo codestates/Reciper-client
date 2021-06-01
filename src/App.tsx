@@ -42,9 +42,9 @@ const App = (): JSX.Element => {
 	}, []);
 
 	useEffect(() => {
-		setInterval(() => {
+		setTimeout(() => {
 			setSuccess(window.localStorage.getItem('loginInfo'));
-		}, 0);
+		}, 500);
 	}, []);
 
 	useEffect(() => {
