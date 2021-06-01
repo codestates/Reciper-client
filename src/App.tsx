@@ -18,10 +18,26 @@ import Kanban from './pages/Kanban';
 import Calendar from './pages/Calendar';
 
 import { getProfileInfo } from './reducer/profile';
+import axios from 'axios';
+import getLoginInfo from './utils/getLoginInfo';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const [success, setSuccess] = useState<string | null>();
+	axios.defaults.withCredentials = true;
+
+	const refreshRequest = async () => {
+		const { accessToken, loginType } = getLoginInfo();
+		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
+			headers: {
+				authorization: `Bearer ${accessToken}`,
+				loginType,
+			},
+		});
+		if (response.status === 200) {
+			window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
+		}
+	};
 
 	useEffect(() => {
 		setInterval(() => {
@@ -32,6 +48,10 @@ const App = (): JSX.Element => {
 	useEffect(() => {
 		if (success) {
 			dispatch(getProfileInfo());
+			refreshRequest();
+			setInterval(() => {
+				refreshRequest();
+			}, 10000);
 		}
 	}, [success]);
 
