@@ -25,27 +25,34 @@ const App = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const [success, setSuccess] = useState<string | null>();
 	axios.defaults.withCredentials = true;
+
+	const refreshRequest = async () => {
+		const { accessToken, loginType } = getLoginInfo();
+		const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
+			headers: {
+				authorization: `Bearer ${accessToken}`,
+				loginType,
+			},
+		});
+		window.localStorage.setItem('loginInfo', response.data);
+	};
+
 	useEffect(() => {
 		setInterval(() => {
 			//수정요망
 			setSuccess(window.localStorage.getItem('loginInfo'));
 		}, 0);
-		setInterval(async () => {
-			//수정요망
-			const { accessToken, loginType } = getLoginInfo();
-			const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
-				headers: {
-					authorization: `Bearer ${accessToken}`,
-					loginType,
-				},
-			});
-			console.log(response);
-		}, 10000);
 	}, []);
 
 	useEffect(() => {
 		if (success) {
 			dispatch(getProfileInfo());
+
+			refreshRequest();
+
+			setInterval(() => {
+				refreshRequest();
+			}, 10000);
 		}
 	}, [success]);
 
