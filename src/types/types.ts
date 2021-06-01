@@ -225,7 +225,7 @@ export interface AllMessagesDataType {
 }
 
 export interface ChatDataType {
-	id: number | null;
+	id: number;
 	text?: string;
 	uploadImage?: string;
 	room: string;

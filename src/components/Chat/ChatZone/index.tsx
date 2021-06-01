@@ -26,6 +26,7 @@ export interface Props {
 	isEnd: boolean;
 	isEmpty: boolean;
 	isReachingEnd: boolean;
+	setCurrentIndex: Dispatch<SetStateAction<number>>;
 }
 
 const ChatZone = ({
@@ -39,6 +40,7 @@ const ChatZone = ({
 	isEnd,
 	isEmpty,
 	isReachingEnd,
+	setCurrentIndex,
 }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const { part: room } = useParams<{ part: string }>();
@@ -59,13 +61,14 @@ const ChatZone = ({
 				}, 50);
 			}
 		},
-		[order, isReachingEnd],
+		[scrollbarRef, order, isReachingEnd, isEnd],
 	);
 
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const newChat: ChatDataType = newChatData('', chatUploadImage, room, profileInfo);
+			const chatLastIndex = chatBucket[chatBucket.length - 1].id + 1;
+			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
 			setChatBucket([...chatBucket, newChat]);
@@ -118,6 +121,7 @@ const ChatZone = ({
 											setChatBucket={setChatBucket}
 											index={index}
 											isSameSender={isSameSender}
+											setCurrentIndex={setCurrentIndex}
 										/>
 									);
 								})}
