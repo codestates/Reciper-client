@@ -25,6 +25,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	const [order, setOrder] = useState<number>(0);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [chat, setChat] = useState<string>('');
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
@@ -42,12 +43,15 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	useEffect(() => {
 		// TODO: 전체 채팅 내용에서 30개씩 불러온다.
-		// console.log(chatBucket);
 		socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
+			if (scrollbarRef.current) {
+				scrollbarRef.current.scrollToBottom();
+			}
+			setCurrentIndex(chats[chats.length - 1].id + 1);
 			setIsEnd(isEnd);
 			setChatBucket([...chats, ...chatBucket]);
 		});
-	}, [order]);
+	}, [chatBucket]);
 
 	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
@@ -64,18 +68,18 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	useEffect(() => {
 		// TODO: 메세지를 받으면 재렌더링 한다.
-		socket?.on('sendMessage', ({ chat }: ChatDataType) => {
+		socket?.on('sendMessage', (chat: ChatDataType) => {
 			if (chat) {
 				setChatBucket([...chatBucket, chat]);
 			}
 		});
 
 		// TODO: 채팅 수정
-		socket?.on('editMessage', ({ foundChat, index }: ChatDataType) => {
+		socket?.on('editMessage', ({ chat, index }: ChatDataType) => {
 			const copyChatBucket = [...chatBucket];
-			if (foundChat && index) {
-				copyChatBucket.splice(index, 1);
-				setChatBucket([...copyChatBucket, foundChat]);
+			if (chat && index) {
+				copyChatBucket.splice(index, 1, chat);
+				setChatBucket([...copyChatBucket]);
 			}
 		});
 
@@ -110,9 +114,10 @@ const WorkSpaceChat = (): JSX.Element => {
 			}
 
 			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat);
-			const newChat: ChatDataType = newChatData(chat, '', room, profileInfo);
+			const newChat: ChatDataType = newChatData(currentIndex, chat, '', room, profileInfo);
 
 			socket?.emit('sendMessage', data);
+
 			if (chat) {
 				setChatBucket([...chatBucket, newChat]);
 				setChat('');
@@ -146,6 +151,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				isEnd={isEnd}
 				isEmpty={isEmpty}
 				isReachingEnd={isReachingEnd}
+				setCurrentIndex={setCurrentIndex}
 			/>
 			<Textarea
 				socket={socket}
