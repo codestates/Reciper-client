@@ -12,6 +12,11 @@ export interface loginResponseDataType {
 	loginType: string;
 }
 
+export interface loginDataType {
+	success: boolean;
+	data: loginResponseDataType;
+}
+
 ////////////////////////////////////////////////////////
 ///////////            Recruit           //////////////
 ///////////////////////////////////////////////////////
