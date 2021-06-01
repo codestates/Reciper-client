@@ -34,7 +34,7 @@ const App = (): JSX.Element => {
 				loginType,
 			},
 		});
-		window.localStorage.setItem('loginInfo', response.data);
+		window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
 	};
 
 	useEffect(() => {
