@@ -211,8 +211,8 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 
 	useEffect(() => {
 		const roomValue = {
-			currentURL: currentURL,
-			currentAddress: currentAddress,
+			currentURL,
+			currentAddress: currentAddress === 'calendar' ? 'kanban' : currentAddress,
 		};
 
 		dispatch(getRoomsListInfo(roomValue));

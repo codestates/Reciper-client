@@ -64,6 +64,77 @@ const KanbanConianer = (): JSX.Element => {
 	// 소켓 연결
 	connectSocket();
 
+	useEffect(() => {
+		// 소켓 이벤트 모음
+		socket?.on('getKanbanData', data => {
+			dispatch(getSocketData(data));
+		});
+
+		socket?.on('addTaskBox', data => {
+			dispatch(socketAddTaskBox(data));
+		});
+
+		socket?.on('deleteTaskBox', index => {
+			dispatch(deleteTaskBox(index));
+		});
+
+		socket?.on('addTaskItem', data => {
+			dispatch(socketAddTaskItem(data));
+		});
+
+		socket?.on('deleteTaskItem', data => {
+			dispatch(deleteTaskItem(data));
+		});
+
+		socket?.on('boxMoving', data => {
+			dispatch(reorderTaskBox({ data, targetTask }));
+		});
+
+		socket?.on('taskMoving', data => {
+			dispatch(reorderTaskItem(data));
+		});
+
+		socket?.on('editTaskItem', data => {
+			dispatch(editTaskDetail(data));
+		});
+
+		socket?.on('boxDragBlock', data => {
+			dispatch(boxDragBlock(data));
+		});
+
+		socket?.on('itemDragStart', data => {
+			dispatch(itemDragStart(data));
+		});
+
+		socket?.on('itemDragEnd', data => {
+			dispatch(itemDragEnd(data));
+		});
+
+		socket?.on('itemEditBlock', data => {
+			dispatch(itemEditBlock(data));
+		});
+
+		socket?.on('connection', () => {
+			setTimeout(() => {
+				setConnect(true);
+			}, 100);
+		});
+
+		return () => {
+			disconnectSocket();
+			dispatch(getSocketData({ taskBox: [], taskItems: {} }));
+			setConnect(false);
+		};
+	}, []);
+
+	useEffect(() => {
+		socket?.emit('joinPart', part);
+
+		return () => {
+			socket?.emit('leavePart', part);
+		};
+	}, [connect, part]);
+
 	const onAddTaskBox = useCallback(() => {
 		const isDuplicate = taskBox.filter(box => {
 			return box.taskBoxTitle === title;
@@ -155,72 +226,8 @@ const KanbanConianer = (): JSX.Element => {
 	}, [showModal, targetTask, targetIndex, targetListIndex]);
 
 	useEffect(() => {
-		socket?.emit('joinPart', part);
-	}, [connect, part]);
-
-	useEffect(() => {
 		setBoxDuplicate(false);
 	}, [title]);
-
-	useEffect(() => {
-		// 소켓 이벤트 모음
-		socket?.on('getKanbanData', data => {
-			dispatch(getSocketData(data));
-		});
-
-		socket?.on('addTaskBox', data => {
-			dispatch(socketAddTaskBox(data));
-		});
-
-		socket?.on('deleteTaskBox', index => {
-			dispatch(deleteTaskBox(index));
-		});
-
-		socket?.on('addTaskItem', data => {
-			dispatch(socketAddTaskItem(data));
-		});
-
-		socket?.on('deleteTaskItem', data => {
-			dispatch(deleteTaskItem(data));
-		});
-
-		socket?.on('boxMoving', data => {
-			dispatch(reorderTaskBox({ data, targetTask }));
-		});
-
-		socket?.on('taskMoving', data => {
-			dispatch(reorderTaskItem(data));
-		});
-
-		socket?.on('editTaskItem', data => {
-			dispatch(editTaskDetail(data));
-		});
-
-		socket?.on('boxDragBlock', data => {
-			dispatch(boxDragBlock(data));
-		});
-
-		socket?.on('itemDragStart', data => {
-			dispatch(itemDragStart(data));
-		});
-
-		socket?.on('itemDragEnd', data => {
-			dispatch(itemDragEnd(data));
-		});
-
-		socket?.on('itemEditBlock', data => {
-			dispatch(itemEditBlock(data));
-		});
-
-		socket?.on('connection', () => {
-			setConnect(true);
-		});
-
-		return () => {
-			disconnectSocket();
-			dispatch(getSocketData({ taskBox: [], taskItems: {} }));
-		};
-	}, []);
 
 	return (
 		<Container>
