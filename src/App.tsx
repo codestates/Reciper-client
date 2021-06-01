@@ -35,7 +35,7 @@ const App = (): JSX.Element => {
 			const { accessToken, loginType } = getLoginInfo();
 			const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/newAccessToken`, {
 				headers: {
-					accessToken: `Bearer ${accessToken}`,
+					authorization: `Bearer ${accessToken}`,
 					loginType,
 				},
 				withCredentials: true,
