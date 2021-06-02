@@ -28,7 +28,14 @@ export const LandingThirdContainer = styled.div`
 		width: 100%;
 	}
 `;
-
+// ${props =>
+// 	props.scrollPosition > 1300
+// 		? css`
+// 				animation: ${arrow} 2.5s 1s;
+// 			`
+// 		: `
+// 	animation: none;
+// `}
 export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
@@ -39,14 +46,15 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 		width: 1700px;
 		height: 150px;
 		margin-left: 12px;
+		animation: ${arrow} 2.5s 1s;
 		${props =>
 			props.scrollPosition > 1400
 				? css`
-						animation: ${arrow} 2.5s 1s;
+						display: block;
 				  `
 				: `
-			animation: none;
-	`}
+		display: none;
+`}
 	}
 
 	& > div {
