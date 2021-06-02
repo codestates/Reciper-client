@@ -39,6 +39,7 @@ interface Props {
 	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 	isSameSender: boolean;
 	index: number;
+	currentIndex: number;
 	setCurrentIndex: Dispatch<SetStateAction<number>>;
 }
 
@@ -49,6 +50,7 @@ const ChatItem = ({
 	setChatBucket,
 	isSameSender,
 	index,
+	currentIndex,
 	setCurrentIndex,
 }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -72,24 +74,27 @@ const ChatItem = ({
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
-		setCurrentIndex(data.id + 1);
-		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
+		// setCurrentIndex(data.id + 1);
+		// console.log('data.id', data.id + 1);
+
+		console.log('수정 시 인덱스', currentIndex);
+		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, currentIndex, editChat);
 		const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
 		const copyChatBucket = [...chatBucket];
-		copyChatBucket[index] = newChat;
+		copyChatBucket.splice(index, 1, newChat);
 		setChatBucket([...copyChatBucket]);
 
 		socket?.emit('editMessage', getChatEdit);
 		setShowChatEditForm(false);
-	}, [editChat]);
+	}, [editChat, currentIndex]);
 
 	// TODO: 채팅 수정 버튼
 	const onChatEditButton = useCallback(
 		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 			e.preventDefault();
 
-			setCurrentIndex(data.id + 1);
+			// setCurrentIndex(data.id + 1);
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
@@ -100,15 +105,18 @@ const ChatItem = ({
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
 		},
-		[editChat],
+		[editChat, currentIndex],
 	);
 
 	// TODO: 채팅 수정 실행 취소
-	const onChatEditCancel = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-		e.preventDefault();
-		setEditChat(data.text);
-		setShowChatEditForm(false);
-	}, []);
+	const onChatEditCancel = useCallback(
+		(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+			e.preventDefault();
+			setEditChat(data.text);
+			setShowChatEditForm(false);
+		},
+		[showChatEditForm],
+	);
 
 	// TODO: 채팅 삭제 버튼
 	const onChatDeleteButton = useCallback(
@@ -116,7 +124,8 @@ const ChatItem = ({
 			e.preventDefault();
 			setShowChatDeleteAlert(false);
 
-			setCurrentIndex(data.id + 1);
+			console.log('삭제 시 index', currentIndex);
+			// setCurrentIndex(data.id + 1);
 			const getChatDelete = getChatDeleteData(room, index, data.id);
 
 			const copyChatBucket = [...chatBucket];
@@ -124,7 +133,7 @@ const ChatItem = ({
 			setChatBucket([...copyChatBucket]);
 			socket?.emit('deleteMessage', getChatDelete);
 		},
-		[chatBucket, index],
+		[chatBucket, currentIndex, index],
 	);
 
 	// TODO: 채팅 프로필 모달 실행
