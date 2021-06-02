@@ -313,7 +313,7 @@ export interface taskChackListDataType {
 export interface taskCommentDataType {
 	body: string;
 	writer: taskCommentWriterDataType;
-	createdAt: Date;
+	createdAt?: string;
 }
 
 export interface taskDataType {
