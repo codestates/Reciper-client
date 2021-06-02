@@ -28,33 +28,36 @@ export const LandingThirdContainer = styled.div`
 		width: 100%;
 	}
 `;
-// ${props =>
-// 	props.scrollPosition > 1300
-// 		? css`
-// 				animation: ${arrow} 2.5s 1s;
-// 			`
-// 		: `
-// 	animation: none;
-// `}
+
 export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
 	width: 100%;
 
 	& > img {
+		transition: 0.5s;
 		text-align: right;
 		width: 1700px;
 		height: 150px;
 		margin-left: 12px;
-		animation: ${arrow} 2.5s 1s;
 		${props =>
-			props.scrollPosition > 1400
+			props.scrollPosition > 1350
 				? css`
-						display: block;
+						animation: ${arrow};
+						animation-duration: 2s;
+						animation-delay: 1s;
 				  `
 				: `
-		display: none;
-`}
+			animation: none;
+		`}
+		${props =>
+			props.scrollPosition > 1650
+				? css`
+						opacity: 1;
+				  `
+				: `
+				opacity: 0;
+		`}
 	}
 
 	& > div {
