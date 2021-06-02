@@ -37,7 +37,6 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 					userName: userInfo.name,
 					id: userInfo.id,
 				},
-				createdAt: new Date(),
 			},
 		]);
 		setCommentValue('');
@@ -77,7 +76,8 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 						<CommentInfo>
 							<CommentUser>
 								<p>
-									{comment.writer.userName} <span>{timeStamp(comment.createdAt)}</span>
+									{comment.writer.userName}{' '}
+									<span>{timeStamp(comment.createdAt ? new Date(comment.createdAt) : new Date())}</span>
 								</p>
 								<button onClick={() => deleteComment(index)}>삭제</button>
 							</CommentUser>
