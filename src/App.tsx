@@ -42,6 +42,7 @@ const App = (): JSX.Element => {
 		});
 
 		if (response.status === 200) {
+			window.localStorage.setItem('loginSuccess', 'success');
 			window.localStorage.setItem('loginInfo', JSON.stringify(response.data));
 		}
 	}, []);
@@ -51,15 +52,11 @@ const App = (): JSX.Element => {
 	}, [loginSuccess]);
 
 	useEffect(() => {
-		if (success) {
-			dispatch(getProfileInfo());
+		dispatch(getProfileInfo());
 
+		setInterval(() => {
 			refreshRequest();
-
-			setInterval(() => {
-				refreshRequest();
-			}, 1500000);
-		}
+		}, 1500000);
 	}, [success]);
 
 	return (
