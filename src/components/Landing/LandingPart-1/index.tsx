@@ -8,6 +8,7 @@ import {
 	SubMessage,
 	ContentsWrapper,
 	BackToTopButton,
+	Dimed,
 } from './styles';
 
 const LandingFirst = (): JSX.Element => {
@@ -32,34 +33,38 @@ const LandingFirst = (): JSX.Element => {
 	return (
 		<>
 			<LandingFirstContainer ref={BackToTopRef}>
-				<BackToTopButton
-					style={{
-						opacity: `${scrollPosition > 100 ? `1` : `0`}`,
-						color: `${
-							(scrollPosition > 100 && scrollPosition < 2760) || (scrollPosition > 6355 && scrollPosition < 10330)
-								? `#000`
-								: `#fff`
-						}`,
-						transition: '0.3s',
-					}}
-					onClick={(): void => {
-						if (BackToTopRef.current) {
-							BackToTopRef.current.scrollIntoView({
-								behavior: 'smooth',
-							});
-						}
-					}}
-				>
-					<img src={BackToTop} />
-					<p>맨위로</p>
-				</BackToTopButton>
-				<ContentsWrapper>
-					<MainMessage>토이 프로젝트의 에센셜</MainMessage>
-					<SubMessage>동료와 작업공간을 한 곳에서 만나보세요</SubMessage>
-					<FreeExpButton>
-						<button onClick={onLogin}>무료 체험하기</button>
-					</FreeExpButton>
-				</ContentsWrapper>
+				<Dimed>
+					<BackToTopButton
+						style={{
+							opacity: `${scrollPosition > 100 ? `1` : `0`}`,
+							color: `${
+								(scrollPosition > 100 && scrollPosition < 2760) || (scrollPosition > 6355 && scrollPosition < 10330)
+									? `#000`
+									: `#fff`
+							}`,
+							transition: '0.3s',
+						}}
+						onClick={(): void => {
+							if (BackToTopRef.current) {
+								BackToTopRef.current.scrollIntoView({
+									behavior: 'smooth',
+								});
+							}
+						}}
+					>
+						<img src={BackToTop} />
+						<p>맨위로</p>
+					</BackToTopButton>
+					<ContentsWrapper>
+						<MainMessage>토이 프로젝트의 에센셜</MainMessage>
+						<SubMessage>동료와 작업공간을 한 곳에서 만나보세요</SubMessage>
+						<FreeExpButton>
+							<button onClick={onLogin}>
+								<p>무료 체험하기</p>
+							</button>
+						</FreeExpButton>
+					</ContentsWrapper>
+				</Dimed>
 			</LandingFirstContainer>
 		</>
 	);
