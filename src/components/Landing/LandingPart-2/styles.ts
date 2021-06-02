@@ -5,7 +5,7 @@ export const TopWrapper = styled.div`
 	align-items: start;
 	width: 100%;
 	height: 500px;
-	padding: 0 180px;
+	padding: 0 366px;
 	background-color: #fff;
 `;
 
@@ -51,7 +51,7 @@ export const BottomWrapper = styled.div`
 	align-items: flex-start;
 	width: 100%;
 	height: 70vh;
-	padding: 100px 132px;
+	padding: 100px 0;
 	background-color: #f8f8f8;
 	}
 `;
@@ -61,7 +61,7 @@ export const MessageWrapper = styled.div`
 	justify-content: center;
 	align-items: flex-start;
 	flex-direction: column;
-	width: 50%;
+	width: 600px;
 `;
 
 export const SubMessage = styled.div`
@@ -88,12 +88,16 @@ export const MessageTitle = styled.div`
 	}
 `;
 
-export const BottomImageWrapper = styled.div``;
+export const BottomImageWrapper = styled.div`
+	width: 600px;
+`;
 
 export const SpeechBubbleWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	margin-top: -200px;
+	margin-left: -80px;
+
 	& > img {
 		object-fit: cover;
 		width: 252px;

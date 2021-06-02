@@ -18,17 +18,9 @@ import {
 	CopyImageWrapper,
 	SpeechBubbleWrapper,
 } from '../LandingPart-2/styles';
-import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
 
 const LandingSecond = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
-
-	const animatedItem = {
-		title: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.5 }),
-		part2_1: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0 }),
-		part2_2: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.2 }),
-		part2_3: useScrollFadeIn({ direction: 'up', duration: 1, delay: 0.4 }),
-	};
 
 	const onScroll = () => {
 		setScrollPosition(window.pageYOffset);
@@ -74,21 +66,20 @@ const LandingSecond = (): JSX.Element => {
 						display: `${scrollPosition > 1200 || scrollPosition < 150 ? `none` : `block`}`,
 						position: 'fixed',
 						top: '400px',
-						left: '1113px',
+						left: '1003px',
 						transition: '0.5s',
 					}}
 				>
-					{/* scrollPosition > 1320 ||   */}
 					<img src={solo} />
 				</ImageWrapper>
 			</TopWrapper>
 
 			<BottomWrapper>
 				<MessageWrapper>
-					<MessageTitle {...animatedItem.title}>
+					<MessageTitle style={{ opacity: `${(scrollPosition - 1000) / 50}`, transition: '0.5s' }}>
 						우리들에게 프로젝트는 하나의 <span>레시피</span>와 같습니다.
 					</MessageTitle>
-					<SubMessage style={{ opacity: `${(scrollPosition - 950) / 50}`, transition: '0.5s' }}>
+					<SubMessage style={{ opacity: `${(scrollPosition - 1050) / 50}`, transition: '0.5s' }}>
 						<div>결국 프로그래밍의 본질은 프로그램을 만드는 것 입니다.</div>
 						<div>
 							개발자들에게 코드는 재료와도 같습니다. 프로그램은 재료들을 모아 <br />
@@ -106,7 +97,7 @@ const LandingSecond = (): JSX.Element => {
 				</MessageWrapper>
 				<BottomImageWrapper>
 					<SpeechBubbleWrapper>
-						<img src={part2_1} style={{ opacity: `${(scrollPosition - 1050) / 50}`, transition: '0.5s' }} />
+						<img src={part2_1} style={{ opacity: `${(scrollPosition - 1000) / 50}`, transition: '0.5s' }} />
 						<img src={part2_2} style={{ opacity: `${(scrollPosition - 1100) / 50}`, transition: '0.5s' }} />
 						<img src={part2_3} style={{ opacity: `${(scrollPosition - 1150) / 50}`, transition: '0.5s' }} />
 					</SpeechBubbleWrapper>
@@ -114,7 +105,6 @@ const LandingSecond = (): JSX.Element => {
 						style={{
 							opacity: `${scrollPosition < 630 ? `0` : `1`}`,
 							display: `${scrollPosition > 1200 || scrollPosition < 150 ? `block` : `none`}`,
-
 							transition: '0.5s',
 						}}
 					>
