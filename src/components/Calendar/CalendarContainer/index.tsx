@@ -1,85 +1,110 @@
-import dayjs, { Dayjs } from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import React, { useCallback, useEffect, useState } from 'react';
+import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
+import isLeapYear from 'dayjs/plugin/isLeapYear';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import useSocket from '../../../hooks/useSocket';
+import dayjs, { Dayjs } from 'dayjs';
+dayjs.extend(weekOfYear);
+dayjs.extend(isoWeeksInYear);
+dayjs.extend(isLeapYear);
 
 import { getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
 import { taskDataType } from '../../../types/types';
-dayjs.extend(weekOfYear);
+
+import {
+	CalendarWrap,
+	Container,
+	Day,
+	DayName,
+	DaysWrap,
+	DirectionDate,
+	DirectionLeftBtn,
+	DirectionRightBtn,
+	DirectionWrap,
+	Week,
+	DayDate,
+} from './styles';
 
 const CalendarContainer = (): JSX.Element => {
-	const [addNumber, setAddNumber] = useState<number>(0);
-	let dayJs = dayjs().startOf('month').add(addNumber, 'month').startOf('week');
-	const startWeek = dayJs.startOf('month').week();
-	const endWeek = dayJs.endOf('month').week() === 1 ? 53 : dayJs.endOf('month').week();
-	const blankWeek = endWeek - startWeek === 4 ? endWeek + 1 : endWeek;
-	const arr: Dayjs[][] = [];
-
 	const dispatch = useDispatch();
 	const { taskItems } = useSelector(kanbanDataSelector);
 	const { projectUrl, part } = useParams<{ projectUrl: string; part: string }>();
 	const [socket, connectSocket, disconnectSocket] = useSocket(projectUrl, 'kanban');
 	const [connect, setConnect] = useState<boolean>(false);
 
+	const [calendarData, setCalendarData] = useState<Dayjs[][]>([]);
+	const [taskByDate, setTaskByDate] = useState<{ [key: string]: taskDataType[] }>({});
+	const [calendarCheck, setCalendarCheck] = useState<boolean>(false);
+	const [addNumber, setAddNumber] = useState<number>(0);
+	const today = dayjs().add(addNumber, 'month');
+	let date = dayjs().add(addNumber, 'month');
+	const startWeek = date.startOf('month').week();
+	const endWeek = date.endOf('month').week() === 1 ? 53 : date.endOf('month').week();
+	const blankWeek = endWeek - startWeek === 4 ? endWeek + 1 : endWeek;
+	date = date.startOf('week').week(startWeek);
+
 	connectSocket();
 
-	const [calendarData, setCalendarData] = useState<{ [key: string]: { date: Dayjs; tasks: taskDataType[] } }>({});
-
 	useEffect(() => {
-		let init: { [key: string]: { date: Dayjs; tasks: taskDataType[] } } = {};
+		const calendarDataFrame: Dayjs[][] = [];
+		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
 
-		for (let week = startWeek; week <= blankWeek; week++) {
-			arr.push(
+		for (let week = 0; week <= blankWeek - startWeek; week++) {
+			calendarDataFrame.push(
 				Array(7)
 					.fill(0)
 					.map((_, index) => {
-						if (startWeek - week === 0 && index === 0) {
-							init = { ...init, [dayJs.format('YYYYMDD')]: { date: dayJs, tasks: [] } };
-							return dayJs;
+						if (week === 0 && index === 0) {
+							taskByDateFrame[date.format('YYYYMDD')] = [];
+							return date;
 						}
 
-						dayJs = dayJs.add(1, 'day');
-						init = { ...init, [dayJs.format('YYYYMDD')]: { date: dayJs, tasks: [] } };
-						return dayJs;
+						date = date.add(1, 'day');
+						taskByDateFrame[date.format('YYYYMDD')] = [];
+						return date;
 					}),
 			);
 		}
 
 		Object.values(taskItems).map(task => {
 			if (task.startDate || task.endDate) {
-				const startDate = `${dayJs.format('YYYY')}${task.startDate.split('월')[0]}${task.startDate
-					.split(' ')[1]
-					.slice(0, 2)}`;
-				const endDate = `${dayJs.format('YYYY')}${task.endDate.split('월')[0]}${task.endDate
-					.split(' ')[1]
-					.slice(0, 2)}`;
-				const targetDays = Number(endDate) - Number(startDate);
+				const startDate = Number(
+					`${new Date().getFullYear()}${task.startDate.split('월')[0]}${task.startDate.split(' ')[1].slice(0, 2)}`,
+				);
+				const endDate = Number(
+					`${new Date().getFullYear()}${task.endDate.split('월')[0]}${task.endDate.split(' ')[1].slice(0, 2)}`,
+				);
+				const targetDays = endDate - startDate;
 
 				for (let i = 0; i <= targetDays; i++) {
-					if (init[String(Number(startDate) + i)]) {
-						init = {
-							...init,
-							[String(Number(startDate) + i)]: {
-								...init[String(Number(startDate) + i)],
-								tasks: [...init[String(Number(startDate) + i)].tasks, task],
-							},
-						};
+					if (taskByDateFrame[String(startDate + i)]) {
+						taskByDateFrame[String(startDate + i)] = [...taskByDateFrame[startDate + i], task];
 					}
 				}
 			}
 		});
 
-		setCalendarData(init);
+		setTaskByDate({ ...taskByDateFrame });
+		setCalendarData([...calendarDataFrame]);
+		setCalendarCheck(true);
 	}, [addNumber, taskItems]);
 
 	useEffect(() => {
-		console.log(calendarData);
-	}, [calendarData]);
+		if (calendarCheck) {
+			console.log(blankWeek);
+			console.log(calendarData);
+			console.log(taskByDate);
+		}
+	}, [calendarData, taskByDate, calendarCheck]);
 
 	useEffect(() => {
 		socket?.emit('joinPart', part);
+
+		return () => {
+			socket?.emit('leavePart', part);
+		};
 	}, [connect, part]);
 
 	useEffect(() => {
@@ -88,7 +113,9 @@ const CalendarContainer = (): JSX.Element => {
 		});
 
 		socket?.on('connection', () => {
-			setConnect(true);
+			setTimeout(() => {
+				setConnect(true);
+			}, 100);
 		});
 
 		return () => {
@@ -97,48 +124,47 @@ const CalendarContainer = (): JSX.Element => {
 	}, []);
 
 	return (
-		<div>
-			<div onClick={() => setAddNumber(addNumber - 1)}>-</div>
-			<div onClick={() => setAddNumber(addNumber + 1)}>+</div>
-		</div>
+		<Container>
+			<DirectionWrap>
+				<DirectionLeftBtn onClick={() => setAddNumber(addNumber => addNumber - 1)} />
+				<DirectionDate>{`${date.format('YYYY')} ${today.format('MM')}월`}</DirectionDate>
+				<DirectionRightBtn onClick={() => setAddNumber(addNumber => addNumber + 1)} />
+			</DirectionWrap>
+			<DaysWrap>
+				<DayName>일</DayName>
+				<DayName>월</DayName>
+				<DayName>화</DayName>
+				<DayName>수</DayName>
+				<DayName>목</DayName>
+				<DayName>금</DayName>
+				<DayName>토</DayName>
+			</DaysWrap>
+			<CalendarWrap>
+				{calendarData.map((week, index) => (
+					<Week key={index}>
+						{week.map((day, index) => {
+							const currentMonth = date
+								.startOf('month')
+								.week(startWeek + 2)
+								.format('M');
+
+							console.log(Number(day.format('M')), currentMonth);
+							const notThisMonth = Number(day.format('M')) === Number(currentMonth);
+
+							return (
+								<Day className={notThisMonth ? '' : 'notThisMonth'} key={index}>
+									<DayDate>{day.format('DD')}</DayDate>
+									{taskByDate[day.format('YYYYMDD')].map((task, index) => (
+										<p key={index}>{task.taskTitle}</p>
+									))}
+								</Day>
+							);
+						})}
+					</Week>
+				))}
+			</CalendarWrap>
+		</Container>
 	);
 };
 
 export default CalendarContainer;
-
-// class Calendar {
-//   public targetDate: Moment;
-//   private _startWeek: number;
-//   private _endWeek: number;
-//   private _blankWeek: number;
-//   public calendarArr: Moment[][];
-
-//   constructor(monthChange: number) {
-//     this.targetDate = moment();
-//     this.targetDate.add(monthChange, "month");
-//     this._startWeek = this.targetDate.clone().startOf("month").week();
-//     this._endWeek = this.targetDate.clone().endOf("month").week() === 1 ? 53 : this.targetDate.clone().endOf("month").week();
-//     this._blankWeek = this._endWeek - this._startWeek === 4 ? this._endWeek + 1 : this._endWeek;
-//     this.calendarArr = [];
-
-//     this.calenarLoop();
-//   }
-
-//   calenarLoop() {
-//     for (let week = this._startWeek; week <= this._blankWeek; week++) {
-//       this.calendarArr.push(
-//         Array(7)
-//           .fill(0)
-//           .map((n, i) => {
-//             return this.targetDate
-//               .clone()
-//               .week(week)
-//               .startOf("week")
-//               .add(n + i, "day");
-//           })
-//       );
-//     }
-//   }
-// }
-
-// export default Calendar;
