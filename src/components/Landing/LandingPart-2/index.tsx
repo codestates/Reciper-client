@@ -63,7 +63,7 @@ const LandingSecond = (): JSX.Element => {
 				<ImageWrapper
 					style={{
 						opacity: `${scrollPosition < 530 ? `0` : `1`}`,
-						display: `${scrollPosition > 1140 || scrollPosition < 150 ? `none` : `block`}`,
+						display: `${scrollPosition > 1150 || scrollPosition < 150 ? `none` : `block`}`,
 						position: 'fixed',
 						top: '400px',
 						left: '1003px',
@@ -104,7 +104,7 @@ const LandingSecond = (): JSX.Element => {
 					<CopyImageWrapper
 						style={{
 							opacity: `${scrollPosition < 530 ? `0` : `1`}`,
-							display: `${scrollPosition > 1140 || scrollPosition < 150 ? `block` : `none`}`,
+							display: `${scrollPosition > 1150 || scrollPosition < 150 ? `block` : `none`}`,
 						}}
 					>
 						<img src={solo} />
