@@ -208,19 +208,22 @@ const KanbanConianer = (): JSX.Element => {
 		}
 	};
 
-	const openDetail = useCallback((task: string, targetIndex: number, targetListIndex: number): void => {
-		setShowModal(true);
-		setTargetTask(task);
-		setTargetIndex(targetIndex);
-		setTargeListIndex(targetListIndex);
+	const openDetail = useCallback(
+		(task: string, targetIndex: number, targetListIndex: number): void => {
+			setShowModal(true);
+			setTargetTask(task);
+			setTargetIndex(targetIndex);
+			setTargeListIndex(targetListIndex);
 
-		socket?.emit('itemEditBlock', { targetListIndex, isDragging: true });
-	}, []);
+			socket?.emit('itemEditBlock', { part, targetListIndex, targetIndex, isDragging: true });
+		},
+		[socket],
+	);
 
 	useEffect(() => {
 		if (!showModal && String(targetTask)) {
 			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
-			socket?.emit('itemEditBlock', { targetListIndex, isDragging: false });
+			socket?.emit('itemEditBlock', { part, targetListIndex, targetIndex, isDragging: false });
 			dispatch(editTaskDetail({ targetListIndex, targetIndex, task: detailData }));
 		}
 	}, [showModal, targetTask, targetIndex, targetListIndex]);
