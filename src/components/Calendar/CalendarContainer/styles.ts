@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 export const Container = styled.div`
+	position: relative;
 	width: 100%;
 	height: 100%;
 	font-family: 'NanumSquareR';
@@ -17,12 +18,12 @@ export const DirectionWrap = styled.div`
 export const DirectionLeftBtn = styled(HiChevronLeft)`
 	cursor: pointer;
 	font-size: 28px;
-	color: #888;
+	color: #aaa;
 `;
 export const DirectionRightBtn = styled(HiChevronRight)`
 	cursor: pointer;
 	font-size: 28px;
-	color: #888;
+	color: #aaa;
 `;
 
 export const DirectionDate = styled.p`

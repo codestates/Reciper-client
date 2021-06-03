@@ -1,4 +1,3 @@
-import { IoIosMore } from 'react-icons/io';
 import styled from 'styled-components';
 
 export const ControlCalenderWrap = styled.div`
@@ -16,7 +15,7 @@ export const ControlDay = styled.div`
 	position: relative;
 	width: 100%;
 	height: 100%;
-	padding-top: 31px;
+	padding-top: 36px;
 
 	&:hover {
 	}
@@ -38,7 +37,7 @@ export const TaskBar = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
 	width: 100%;
-	height: 18px;
+	height: 20px;
 	margin-bottom: 1px;
 	padding-left: 10px;
 	font-size: 13px;
@@ -61,17 +60,9 @@ export const TaskBar = styled.div`
 	}
 `;
 
-export const MoreIcon = styled.div`
-	position: absolute;
-	bottom: 2px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 18px;
-
-	& > div {
-		width: 18px;
-		height: 1px;
-		background-color: #999;
-		margin-bottom: 3px;
-	}
+export const More = styled.div`
+	margin-top: 5px;
+	padding-left: 10px;
+	font-size: 13px;
+	color: #888;
 `;

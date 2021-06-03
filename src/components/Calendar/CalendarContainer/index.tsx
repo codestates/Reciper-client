@@ -4,13 +4,18 @@ import isLeapYear from 'dayjs/plugin/isLeapYear';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import useSocket from '../../../hooks/useSocket';
 import dayjs, { Dayjs } from 'dayjs';
 dayjs.extend(weekOfYear);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(isLeapYear);
 
+import ViewCalendar from '../ViewCalendar';
+import ControlCalender from '../ControlCalendar';
+import Modal from '../../Common/Modal';
+
 import { getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
+import useSocket from '../../../hooks/useSocket';
+
 import { taskDataType } from '../../../types/types';
 
 import {
@@ -23,8 +28,7 @@ import {
 	DirectionRightBtn,
 	DirectionWrap,
 } from './styles';
-import ViewCalendar from '../ViewCalendar';
-import ControlCalender from '../ControlCalendar';
+import TaskDetail from '../../Common/TaskDetail';
 
 const CalendarContainer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -70,7 +74,7 @@ const CalendarContainer = (): JSX.Element => {
 			disconnectSocket();
 		};
 	}, []);
-	console.log(taskByDate);
+
 	useEffect(() => {
 		const calendarDataFrame: Dayjs[][] = [];
 		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
@@ -135,26 +139,6 @@ const CalendarContainer = (): JSX.Element => {
 			<CalendarWrap>
 				<ViewCalendar calendarData={calendarData} date={date} startWeek={startWeek} />
 				<ControlCalender calendarData={calendarData} taskByDate={taskByDate} />
-
-				{/* {calendarData.map((week, index) => (
-					<Week key={index}>
-						{week.map((day, index) => {
-							const currentMonth = date
-								.startOf('month')
-								.week(startWeek + 2)
-								.format('M');
-							const notThisMonth = Number(day.format('M')) === Number(currentMonth);
-							return (
-								<Day className={notThisMonth ? '' : 'notThisMonth'} key={index}>
-									<DayDate>{day.format('DD')}</DayDate>
-									{taskByDate[day.format('YYYYMDD')].map((task, index) => (
-										<p key={index}>{task.taskTitle}</p>
-									))}
-								</Day>
-							);
-						})}
-					</Week>
-				))} */}
 			</CalendarWrap>
 		</Container>
 	);
