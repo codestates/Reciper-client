@@ -2,16 +2,17 @@ import styled from 'styled-components';
 import { HiCode } from 'react-icons/hi';
 
 export const LandingSixthContainer = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	flex-direction: column;
 	position: relative;
 	width: 100%;
-	height: 2900px;
 	padding: 350px 0;
 `;
 
 export const LandingSixthTop = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
-	max-height: 1800px;
+	height: 2700px;
 `;
 
 // ---------------- TODO: Card ----------------
@@ -37,7 +38,7 @@ export const PersonalCard = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 160px;
-	height: 200px;
+	height: 220px;
 	margin: 0 10px;
 	border: 0.3px solid ${({ theme }) => theme.color.lineColor};
 
@@ -47,8 +48,14 @@ export const PersonalCard = styled.div`
 `;
 
 export const PersonalAvatar = styled.div`
-	height: 60%;
+	height: 70%;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
+
+	& > img {
+		object-fit: cover;
+		width: 136px;
+		height: 112px;
+	}
 `;
 
 export const PersonalCode = styled(HiCode)`
@@ -71,15 +78,22 @@ export const SvgWrapper = styled.svg`
 export const LandingSixthBottom = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
-	position: relative;
-	bottom: 400px;
+	position: absolute;
+	bottom: 240px;
 	width: 100%;
 	min-height: 100vh;
 	background-color: #eeeff2;
 
 	& > div {
+		padding: 12px;
 		font-family: NanumSquareEB;
 		font-size: 160px;
 		color: #444444;
+	}
+
+	& > p {
+		font-size: NanumSquareB;
+		font-size: 24px;
+		color: #777777;
 	}
 `;
