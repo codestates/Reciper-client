@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import { BiCalendarCheck } from 'react-icons/bi';
-import { BsKanban, BsChatDots } from 'react-icons/bs';
-import { TiHomeOutline } from 'react-icons/ti';
-import { AiOutlineLine } from 'react-icons/ai';
+import { AiOutlineHome, AiOutlineLine } from 'react-icons/ai';
 import { RiArrowLeftSFill } from 'react-icons/ri';
 import { RiSendPlane2Fill } from 'react-icons/ri';
+import { BsImages } from 'react-icons/bs';
 
 export const LandingFifthContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
@@ -41,33 +39,38 @@ export const ServiceMenu = styled.div`
 	flex-direction: column;
 	width: 80px;
 	height: 1040px;
-	margin-top: 28px;
 	font-size: 28px;
 	color: #fff;
 `;
 
-export const ServiceMenuHome = styled(TiHomeOutline)`
-	margin-top: 10px;
+export const ServiceMenuHome = styled(AiOutlineHome)`
+	margin-top: 32px;
 	font-size: 32px;
 `;
 
-export const ServiceMenuLine = styled(AiOutlineLine)``;
-
-export const ServiceMenuCalendar = styled(BiCalendarCheck)`
-	margin: 10px 0;
-	font-size: 34px;
+export const ServiceMenuLine = styled(AiOutlineLine)`
+	font-size: 32px;
 `;
 
-export const ServiceMenuKanban = styled(BsKanban)`
-	margin: 10px 0;
+export const ServiceMenuChat = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	padding: 12px 0;
+	font-size: 37px;
 `;
 
-export const ServiceMenuChat = styled(BsChatDots)`
-	margin: 10px 0;
+export const ServiceMenuKanban = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	padding: 12px 0;
+	font-size: 33px;
 `;
 
+export const ServiceMenuCalendar = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	padding: 14px 0;
+	font-size: 28px;
+`;
 export const ServiceArrowWrapper = styled.span`
-	margin-top: -52px;
+	margin-top: -47px;
 `;
 
 export const ServiceChatArrow = styled(RiArrowLeftSFill)`
@@ -144,8 +147,9 @@ export const ChatInputWrapper = styled.div`
 		width: 1260px;
 		height: 50px;
 		margin-top: 100px;
-
+		padding: 0 8px;
 		border: 1px solid ${({ theme }) => theme.color.lineColor};
+		border-radius: 5px;
 	}
 `;
 
@@ -153,8 +157,15 @@ export const ChatSendWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	width: 40px;
 	height: 40px;
-	margin-right: 4px;
+	border-radius: 5px;
 	background-color: ${({ theme }) => theme.color.lineColor};
+`;
+
+export const ChatUploadImage = styled(BsImages)`
+	margin-right: 16px;
+	width: 34px;
+	height: 34px;
+	color: #898585;
 `;
 
 export const ChatSendButton = styled(RiSendPlane2Fill)`

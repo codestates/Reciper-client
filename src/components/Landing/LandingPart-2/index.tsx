@@ -62,12 +62,12 @@ const LandingSecond = (): JSX.Element => {
 				</TopLeftMessage>
 				<ImageWrapper
 					style={{
-						opacity: `${scrollPosition < 630 ? `0` : `1`}`,
-						display: `${scrollPosition > 1200 || scrollPosition < 150 ? `none` : `block`}`,
+						opacity: `${scrollPosition < 530 ? `0` : `1`}`,
+						display: `${scrollPosition > 1150 || scrollPosition < 150 ? `none` : `block`}`,
 						position: 'fixed',
 						top: '400px',
 						left: '1003px',
-						transition: '0.5s',
+						transition: `${scrollPosition > 300 ? `0` : `0.5s`}`,
 					}}
 				>
 					<img src={solo} />
@@ -97,15 +97,14 @@ const LandingSecond = (): JSX.Element => {
 				</MessageWrapper>
 				<BottomImageWrapper>
 					<SpeechBubbleWrapper>
-						<img src={part2_1} style={{ opacity: `${(scrollPosition - 1000) / 50}`, transition: '0.5s' }} />
-						<img src={part2_2} style={{ opacity: `${(scrollPosition - 1100) / 50}`, transition: '0.5s' }} />
-						<img src={part2_3} style={{ opacity: `${(scrollPosition - 1150) / 50}`, transition: '0.5s' }} />
+						<img src={part2_1} style={{ opacity: `${(scrollPosition - 900) / 50}`, transition: '0.5s' }} />
+						<img src={part2_2} style={{ opacity: `${(scrollPosition - 950) / 50}`, transition: '0.5s' }} />
+						<img src={part2_3} style={{ opacity: `${(scrollPosition - 1050) / 50}`, transition: '0.5s' }} />
 					</SpeechBubbleWrapper>
 					<CopyImageWrapper
 						style={{
-							opacity: `${scrollPosition < 630 ? `0` : `1`}`,
-							display: `${scrollPosition > 1200 || scrollPosition < 150 ? `block` : `none`}`,
-							transition: '0.5s',
+							opacity: `${scrollPosition < 530 ? `0` : `1`}`,
+							display: `${scrollPosition > 1150 || scrollPosition < 150 ? `block` : `none`}`,
 						}}
 					>
 						<img src={solo} />

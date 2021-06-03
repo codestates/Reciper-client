@@ -1,6 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import introCard1 from '../../../images/introCard1.gif';
-import introCard2 from '../../../images/introCard2.gif';
 
 const arrow = keyframes`
 from {
@@ -28,33 +26,36 @@ export const LandingThirdContainer = styled.div`
 		width: 100%;
 	}
 `;
-// ${props =>
-// 	props.scrollPosition > 1300
-// 		? css`
-// 				animation: ${arrow} 2.5s 1s;
-// 			`
-// 		: `
-// 	animation: none;
-// `}
+
 export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
 	width: 100%;
 
 	& > img {
+		transition: 0.5s;
 		text-align: right;
 		width: 1700px;
 		height: 150px;
 		margin-left: 12px;
-		animation: ${arrow} 2.5s 1s;
 		${props =>
-			props.scrollPosition > 1400
+			props.scrollPosition > 1350
 				? css`
-						display: block;
+						animation: ${arrow};
+						animation-duration: 2s;
+						animation-delay: 1s;
 				  `
 				: `
-		display: none;
-`}
+			animation: none;
+		`}
+		${props =>
+			props.scrollPosition > 1650
+				? css`
+						opacity: 1;
+				  `
+				: `
+				opacity: 0;
+		`}
 	}
 
 	& > div {
@@ -66,7 +67,7 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 	}
 `;
 
-export const NumberIconInitSetup = styled.div`
+export const NumberIcon = styled.div`
 	color: ${({ theme }) => theme.color.pointColor};
 	font-size: 80px;
 	& > svg {
@@ -77,28 +78,25 @@ export const NumberIconInitSetup = styled.div`
 	}
 `;
 
-export const NumberIconOne = styled(NumberIconInitSetup)`
-	top: 0;
-	left: 280px;
-`;
-
-export const NumberIconTwo = styled(NumberIconInitSetup)``;
-
-export const NumberIconThree = styled(NumberIconInitSetup)``;
-
 export const ContentMessage = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	margin-bottom: 32px;
 	font-family: 'NanumSquareEB';
 	font-size: 52px;
-	color: #333333;
+	color: #595454;
 `;
 
 export const ContentSubMessage = styled.div`
+	display: flex;
+	flex-direction: row;
 	margin-bottom: 16px;
 	font-family: 'NanumSquareEB';
 	font-size: 24px;
-	color: #333333;
+	color: #595454;
+	& > p {
+		margin-top: -5px;
+		margin-left: 4px;
+	}
 `;
 
 export const ContentsWrapper = styled.div`
@@ -107,45 +105,44 @@ export const ContentsWrapper = styled.div`
 `;
 
 export const ContentItemInitSetUp = styled.div`
-	display: flex;
+	${({ theme }) => theme.align.flexVertical};
+	justify-content: flex-start;
 	flex-direction: column;
 	width: 500px;
-	height: 580px;
-	margin: 0 40px;
-	padding: 20px 32px;
+	height: 520px;
+	margin: 0 34px;
+	padding: 20px 0;
 	font-family: NanumSquareB;
 	font-size: 16px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
-	& > span {
-		margin-bottom: 16px;
-		font-size: 20px;
-		text-align: center;
-	}
 	& > p {
-		margin-bottom: 24px;
+		padding: 8px 32px 24px 32px;
 		font-size: 16px;
 		color: #545454;
 		text-align: left;
 	}
-
-	& > div {
-		object-fit: cover;
-		width: 440px;
-		height: 440px;
+	${({ theme }) => theme.align.flexCenter};
+	object-fit: cover;
+	& > img {
+		width: 480px;
+		height: 340px;
 	}
 `;
 
-export const ContentItemFirst = styled(ContentItemInitSetUp)`
-	& > div {
-		background: no-repeat center/cover url(${introCard1});
-	}
+export const ContentItemEmoji = styled.div`
+	padding: 4px 0;
+	font-size: 40px;
 `;
 
-export const ContentItemSecond = styled(ContentItemInitSetUp)`
-	& > div {
-		background: no-repeat center/cover url(${introCard2});
-	}
+export const ContentItemTitle = styled.div`
+	padding: 4px 0;
+	font-size: 20px;
+	text-align: center;
 `;
+
+export const ContentItemFirst = styled(ContentItemInitSetUp)``;
+
+export const ContentItemSecond = styled(ContentItemInitSetUp)``;
 
 export const ContentItemThird = styled(ContentItemInitSetUp)``;

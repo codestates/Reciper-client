@@ -95,7 +95,7 @@ export const BottomImageWrapper = styled.div`
 export const SpeechBubbleWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
-	margin-top: -200px;
+	margin-top: -240px;
 	margin-left: -80px;
 
 	& > img {
@@ -106,7 +106,7 @@ export const SpeechBubbleWrapper = styled.div`
 `;
 
 export const CopyImageWrapper = styled.div`
-	margin-top: -12px;
+	margin-top: -32px;
 	text-align: center;
 	& > img {
 		object-fit: cover;

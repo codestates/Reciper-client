@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
 import arrow from '../../../images/arrow.png';
+import introCard1 from '../../../images/introCard1.gif';
+import introCard2 from '../../../images/introCard2.gif';
+import introCard3 from '../../../images/introCard3.gif';
 
 import { Icon } from '@iconify/react';
 import numberCircleOneBold from '@iconify/icons-ph/number-circle-one-bold';
@@ -10,15 +13,15 @@ import numberCircleThreeBold from '@iconify/icons-ph/number-circle-three-bold';
 import {
 	ContentItemFirst,
 	ContentMessage,
+	ContentItemTitle,
 	LandingThirdContainer,
 	ContentsWrapper,
 	ContentSubMessage,
 	ContentItemSecond,
 	ContentItemThird,
 	ArrowWrapper,
-	NumberIconOne,
-	NumberIconTwo,
-	NumberIconThree,
+	NumberIcon,
+	ContentItemEmoji,
 } from './styles';
 
 const LandingThird = (): JSX.Element => {
@@ -49,39 +52,47 @@ const LandingThird = (): JSX.Element => {
 				<div>
 					<ContentMessage>여러분들만의 코드 레시피를 이렇게 만들어 보세요!</ContentMessage>
 					<ContentSubMessage>
-						함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요!
+						함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요<p>🙌</p>
 					</ContentSubMessage>
 					<ArrowWrapper scrollPosition={scrollPosition}>
 						<img src={arrow} />
 						<div>
-							<NumberIconOne {...animatedItem.numberOne}>
+							<NumberIcon {...animatedItem.numberOne}>
 								<Icon icon={numberCircleOneBold} />
-							</NumberIconOne>
-							<NumberIconTwo {...animatedItem.numberTwo}>
+							</NumberIcon>
+							<NumberIcon {...animatedItem.numberTwo}>
 								<Icon icon={numberCircleTwoBold} />
-							</NumberIconTwo>
-							<NumberIconThree {...animatedItem.numberThree}>
+							</NumberIcon>
+							<NumberIcon {...animatedItem.numberThree}>
 								<Icon icon={numberCircleThreeBold} />
-							</NumberIconThree>
+							</NumberIcon>
 						</div>
 					</ArrowWrapper>
 					<div>
 						<ContentsWrapper>
 							<ContentItemFirst {...animatedItem.listOne}>
-								<span>팀원을 모집하세요!</span>
+								<ContentItemEmoji>👫</ContentItemEmoji>
+								<ContentItemTitle>팀원을 모집하세요!</ContentItemTitle>
 								<p>
 									레시퍼에서는 팀원을 직접 모집하거나, 마음에 드는 프로젝트에 참여할 수 있습니다. 팀원을 먼저
 									찾아보세요.
 								</p>
-								<div />
+								<img src={introCard1} />
 							</ContentItemFirst>
 							<ContentItemSecond {...animatedItem.listTwo}>
-								<span>프로젝트를 생성해 보세요!</span>
-								<p>어떤 프로젝트를 만들고 싶으신가요? 팀원들과 프로젝트 기획 논의를 해보세요.</p>
-								<div />
+								<ContentItemEmoji>📂</ContentItemEmoji>
+								<ContentItemTitle>프로젝트를 생성해 보세요!</ContentItemTitle>
+								<p>
+									팀원을 모집하셨나요? 그러면 멋진 아이디어로 프로젝트를 생성해 보세요! 어떤 프로젝트를 만들고
+									싶으신가요?
+								</p>
+								<img src={introCard2} />
 							</ContentItemSecond>
 							<ContentItemThird {...animatedItem.listThree}>
-								<span>자! 이제는 여러분들만의 레시피를 만들 차례입니다!</span>
+								<ContentItemEmoji>🎉</ContentItemEmoji>
+								<ContentItemTitle>이제는 여러분들만의 레시피를 만들 차례입니다!</ContentItemTitle>
+								<p>{'프로젝트를 생성하셨군요! 이제 팀원들과 즐겁게 프로젝트를 진행하는 일만 남았습니다! :)'} </p>
+								<img src={introCard3} />
 							</ContentItemThird>
 						</ContentsWrapper>
 					</div>

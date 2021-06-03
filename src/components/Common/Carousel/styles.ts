@@ -6,8 +6,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 export const CarouselWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	max-width: 1800px;
-	height: 800px;
-	padding-top: 120px;
+	height: 600px;
 `;
 
 export const CarouselContents = styled(Slider)`
@@ -19,14 +18,13 @@ export const CarouselContents = styled(Slider)`
 
 export const CarouselItemWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	height: 600px;
+	height: 300px;
 
 	&: focus {
 		outline: none;
 	}
 `;
 
-// height: 450px;
 export const CarouselItem = styled.div`
 	overflow: hidden;
 	padding: 52px;
@@ -46,7 +44,6 @@ export const ItemName = styled.div`
 	}
 `;
 
-// height: 245px;
 export const ItemContent = styled.div`
 	overflow: hidden;
 	display: -webkit-box;

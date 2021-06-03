@@ -1,11 +1,11 @@
 import React from 'react';
 import useScrollCount from '../../../hooks/useScrollCount';
 import Carousel from '../../Common/Carousel';
-import { LandingSeventhContainer, UserCounter, UserCountWrapper, UserReviewWrapper } from './styles';
+import { LandingSeventhContainer, UserCounter, UserCountWrapper } from './styles';
 
 const LandingSeventh = (): JSX.Element => {
-	// const end = Number(String(Date.now()).slice(-2)) + 138226;
 	const countUserNumber = useScrollCount({ end: 168226, start: 107826, duration: 3500, delay: 0 });
+
 	return (
 		<LandingSeventhContainer>
 			<UserCountWrapper>
@@ -15,9 +15,9 @@ const LandingSeventh = (): JSX.Element => {
 				</div>
 				<div>서로의 미래를 만들어 가고 있습니다</div>
 			</UserCountWrapper>
-			<UserReviewWrapper>
+			<div>
 				<Carousel />
-			</UserReviewWrapper>
+			</div>
 		</LandingSeventhContainer>
 	);
 };
