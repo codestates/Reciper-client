@@ -45,8 +45,7 @@ export const DayName = styled.div`
 `;
 
 export const CalendarWrap = styled.div`
-	display: grid;
-	grid-template-rows: repeat(6, 1fr);
+	position: relative;
 	width: 100%;
 	height: calc(100% - 96px);
 `;
@@ -54,18 +53,4 @@ export const Week = styled.div`
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	width: 100%;
-	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
-`;
-
-export const Day = styled.div`
-	padding: 10px;
-	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
-
-	&.notThisMonth {
-		color: #888;
-	}
-`;
-
-export const DayDate = styled.p`
-	font-size: 14px;
 `;
