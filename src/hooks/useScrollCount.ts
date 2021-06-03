@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 interface Props {
 	end: number;
@@ -8,31 +8,27 @@ interface Props {
 }
 
 interface returnType {
-	ref: React.MutableRefObject<any>;
+	ref: React.RefObject<HTMLDivElement>;
 }
 
 const useScrollCount = ({ end, start, duration }: Props): returnType => {
-	const element = useRef();
-	const observer: MutableRefObject<null | any> = useRef(null);
+	const element = useRef<HTMLDivElement>(null);
 	const countTime = Math.abs(Math.floor(duration / (end - start)));
 
 	const onScroll = useCallback(
 		([entry]) => {
-			const { current }: MutableRefObject<undefined | any> = element;
+			const { current }: React.RefObject<HTMLDivElement> = element;
 
 			// TODO: 화면이랑 교차 되는 시점에 시작한다.
-			if (entry.isIntersecting) {
+			if (entry.isIntersecting && current) {
 				let currentNumber = start;
 				const counter = setInterval(() => {
 					currentNumber += 100;
-					current.innerHTML = currentNumber;
+					current.innerHTML = String(currentNumber);
 
 					if (currentNumber === end) {
 						// TODO: count stop
 						clearInterval(counter);
-						if (observer.current !== null) {
-							observer.current.disconnect(element.current);
-						}
 					}
 				}, countTime);
 			}
