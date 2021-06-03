@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useCallback, useLayoutEffect } from 'react';
 
 interface Props {
 	direction: string;
@@ -46,13 +46,14 @@ const useScrollFadeIn = ({ direction, duration, delay }: Props): returnType => {
 				current.style.transitionDuration = `${duration}s`;
 				current.style.transitionTimingFunction = 'cubic-bezier(0, 0, 0.2, 1)';
 				current.style.transitionDelay = `${delay}s`;
+				current.style.opacity = '1';
 				current.style.transform = 'translate3d(0, 0, 0)';
 			}
 		},
 		[delay, duration],
 	);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let observer: IntersectionObserver;
 
 		if (element.current) {

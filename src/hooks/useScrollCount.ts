@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useLayoutEffect, useRef } from 'react';
 
 interface Props {
 	end: number;
@@ -15,7 +15,7 @@ const useScrollCount = ({ end, start, duration }: Props): returnType => {
 	const element = useRef<HTMLDivElement>(null);
 	const countTime = Math.abs(Math.floor(duration / (end - start)));
 
-	const onScroll = useCallback(
+	const onScroll: IntersectionObserverCallback = useCallback(
 		([entry]) => {
 			const { current }: React.RefObject<HTMLDivElement> = element;
 
@@ -36,7 +36,7 @@ const useScrollCount = ({ end, start, duration }: Props): returnType => {
 		[end, start, element, countTime],
 	);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let observer: IntersectionObserver;
 
 		if (element.current) {
