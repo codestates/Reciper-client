@@ -1,5 +1,4 @@
 import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import WorkSpaceFrame from '../../Common/WorkSpaceFrame';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
@@ -24,7 +23,6 @@ const WorkSpaceChat = (): JSX.Element => {
 	const [order, setOrder] = useState<number>(0);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [chat, setChat] = useState<string>('');
-	const [currentIndex, setCurrentIndex] = useState<number>(0);
 
 	// TODO: 채팅기록을 담아줄 바구니
 	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
@@ -42,14 +40,9 @@ const WorkSpaceChat = (): JSX.Element => {
 
 	useEffect(() => {
 		// TODO: 전체 채팅 내용에서 30개씩 불러온다.
-		console.log('처음 불러올 때 index', currentIndex);
 		socket?.on('getAllMessages', ({ chats, isEnd }: AllMessagesDataType) => {
-			// console.log('서버에서 받아오는 chat 정보', chats);
 			if (scrollbarRef.current) {
 				scrollbarRef.current.scrollToBottom();
-			}
-			if (chats.length > 0) {
-				setCurrentIndex(chats[chats.length - 1].id + 1);
 			}
 
 			setIsEnd(isEnd);
@@ -79,15 +72,16 @@ const WorkSpaceChat = (): JSX.Element => {
 		});
 
 		// TODO: 채팅 고유 아이디
-		socket?.on('nowMessageId', ({ id }: ChatIdType) => {
-			setCurrentIndex(id);
-			console.log('잘 받아와??', id);
+		socket?.on('nowMessageId', ({ id, chatLength }: ChatIdType) => {
+			if (chatBucket[chatLength]) {
+				chatBucket[chatLength].id = id;
+			}
 		});
 
 		// TODO: 채팅 수정
 		socket?.on('editMessage', ({ chat, index }: ChatDataType) => {
 			const copyChatBucket = [...chatBucket];
-			if (chat && index) {
+			if (chat) {
 				copyChatBucket.splice(index, 1, chat);
 				setChatBucket([...copyChatBucket]);
 			}
@@ -106,7 +100,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				setChatBucket([...chatBucket, chat]);
 			}
 		});
-	}, [chatBucket, currentIndex]);
+	}, [chatBucket]);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
@@ -123,8 +117,8 @@ const WorkSpaceChat = (): JSX.Element => {
 				return;
 			}
 
-			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat);
-			const newChat: ChatDataType = newChatData(currentIndex, chat, '', room, profileInfo);
+			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat, chatBucket.length);
+			const newChat: ChatDataType = newChatData(-1, chat, '', room, profileInfo);
 
 			socket?.emit('sendMessage', data);
 
@@ -137,7 +131,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				scrollbarRef.current.scrollToBottom();
 			}
 		},
-		[chat, chatBucket, currentIndex],
+		[chat, chatBucket],
 	);
 
 	const onChangeChatValue: React.ChangeEventHandler<HTMLTextAreaElement> = useCallback((e): void => {
@@ -149,7 +143,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	const isReachingEnd = isEmpty || (chatBucket && chatBucket.length < 30);
 
 	return (
-		<WorkSpaceFrame>
+		<>
 			<ChatZone
 				socket={socket}
 				scrollbarRef={scrollbarRef}
@@ -161,8 +155,6 @@ const WorkSpaceChat = (): JSX.Element => {
 				isEnd={isEnd}
 				isEmpty={isEmpty}
 				isReachingEnd={isReachingEnd}
-				currentIndex={currentIndex}
-				setCurrentIndex={setCurrentIndex}
 			/>
 			<Textarea
 				socket={socket}
@@ -173,7 +165,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				setChatBucket={setChatBucket}
 				placeholder={`${room}에게 메세지 보내기`}
 			/>
-		</WorkSpaceFrame>
+		</>
 	);
 };
 

@@ -50,7 +50,7 @@ const UserProfileEdit = (): JSX.Element => {
 			{/* TODO: 유저 개인 정보 */}
 			<ProfileUserCard>
 				<ProfileImg>
-					{/* TODO: 이미지 요청 테스트중 */}
+					{/* TODO: 이미지 요청 */}
 					<form encType="multipart/form-data">
 						<input
 							type="file"

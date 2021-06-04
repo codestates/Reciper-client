@@ -22,7 +22,6 @@ import {
 	ContentBody,
 	ContentTop,
 	ContentWrap,
-	DeleteAlertBtnWrap,
 	EditButton,
 	Frame,
 	HomeIcon,
@@ -40,6 +39,8 @@ import {
 	SideBarMid,
 	SideBarTop,
 	SettingAlert,
+	DeleteAlertBtnWrap,
+	EditAlertBtnWrap,
 } from './styles';
 
 import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineClose } from 'react-icons/ai';
@@ -53,6 +54,7 @@ import Modal from '../Modal';
 import Button from '../Button';
 import useInput from '../../../hooks/useInput';
 import { getProjectInfo } from '../../../reducer/projectInfo';
+import Input from '../Input';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -317,7 +319,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 							>
 								취소
 							</Button>
-							<Button size="medium" clickEvent={deleteListItem}>
+							<Button size="medium" backgroundColor="delete" clickEvent={deleteListItem}>
 								삭제
 							</Button>
 						</DeleteAlertBtnWrap>
@@ -327,13 +329,23 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 			{showEditAlert && (
 				<Modal setShowModal={setShowEditAlert}>
 					<SettingAlert>
-						<p>변경하고 싶은 이름을 적어주세요</p>
-						<input
-							value={listName}
-							placeholder="ex) 공지사항, 자료"
-							onChange={onChangeListName}
-							onKeyPress={e => e.key === 'Enter' && onChangeListNameEnter()}
+						<p>변경하고 싶은 {currentAddress === 'chat' ? '채널' : '파트'} 이름을 적어주세요</p>
+						<Input
+							width={'long'}
+							height={'long'}
+							initValue={listName}
+							placeholderText={currentAddress === 'chat' ? 'ex) 공지사항, 자료' : 'ex) 1주차, 2주차'}
+							changeEvent={onChangeListName}
+							keyEvent={e => e.key === 'Enter' && onChangeListNameEnter()}
 						/>
+						<EditAlertBtnWrap>
+							<Button size="medium" margin="0 10px 0 0" buttonType="cancel" clickEvent={() => setShowEditAlert(false)}>
+								취소
+							</Button>
+							<Button size="medium" clickEvent={onChangeListNameEnter}>
+								변경
+							</Button>
+						</EditAlertBtnWrap>
 					</SettingAlert>
 				</Modal>
 			)}

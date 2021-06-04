@@ -17,6 +17,7 @@ export const newChatData = (
 		text: inputValue,
 		uploadImage: uploadImage,
 		room: room,
+		index: -1,
 		createdAt: newChatDate.toString(),
 		writer: {
 			id: profileInfo.id,
@@ -38,34 +39,39 @@ export const newChatData = (
 export const getChatEditData = (
 	room: string,
 	index: number,
-	id: number,
+	dataId: number,
 	message: string | undefined,
 ): ChatUpdateDataType => {
 	const result = {
 		room: room,
 		index: index,
-		id: id,
+		id: dataId,
 		message: message,
 	};
 
 	return result;
 };
 
-export const getChatDeleteData = (room: string, index: number, id: number): ChatUpdateDataType => {
+export const getChatDeleteData = (room: string, index: number, dataId: number): ChatUpdateDataType => {
 	const result = {
 		room: room,
 		index: index,
-		id: id,
+		id: dataId,
 	};
-
 	return result;
 };
 
-export const getChatData = (room: string, profileInfo: profileInfoDataType, message: string): ChatUpdateDataType => {
+export const getChatData = (
+	room: string,
+	profileInfo: profileInfoDataType,
+	message: string,
+	chatLength: number,
+): ChatUpdateDataType => {
 	const result = {
 		room: room,
 		name: profileInfo.name,
 		message: message,
+		chatLength: chatLength,
 	};
 
 	return result;
