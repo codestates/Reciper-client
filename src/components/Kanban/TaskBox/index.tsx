@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io-client';
@@ -13,7 +13,15 @@ import { taskBoxDataType } from '../../../types/types';
 
 import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
 
-import { AddTaskInput, TaskBoxContainer, TaskBoxName, TaskBoxTop, DeleteTaskBoxBtn } from './styles';
+import {
+	AddTaskInput,
+	TaskBoxContainer,
+	TaskBoxName,
+	TaskBoxTop,
+	DeleteTaskBoxBtn,
+	BtnWrap,
+	EditTaskBoxBtn,
+} from './styles';
 
 interface Props {
 	taskBoxData: taskBoxDataType;
@@ -56,6 +64,8 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 	const { taskBoxTitle, tasks, dragging } = taskBoxData;
 
 	const [taskTitle, onChangeTaskTitle, setTaskTitle] = useInput<string>('');
+	const [BoxTitle, onChangeBoxTitle, setBoxTitle] = useInput<string>(taskBoxTitle);
+	const [taskBoxForm, setTaskBoxForm] = useState<boolean>(false);
 
 	const onDeleteTaskBox = useCallback(() => {
 		socket?.emit('deleteTaskBox', { targetListIndex: index, part });
@@ -75,6 +85,15 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 		setTaskTitle('');
 	}, [taskTitle]);
 
+	const onChangeTaskBoxTitle = useCallback(() => {
+		setTaskBoxForm(false);
+		socket?.emit('editTaskBox', { targetListIndex: index, title: BoxTitle, part });
+	}, [BoxTitle]);
+
+	useEffect(() => {
+		setBoxTitle(taskBoxTitle);
+	}, [taskBoxTitle]);
+
 	return (
 		<Draggable draggableId={`TaskBox-${index}`} isDragDisabled={dragging} index={index}>
 			{provided => (
@@ -85,8 +104,21 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 				>
 					<TaskBoxTop {...provided.dragHandleProps}>
 						<TaskBoxName>
-							<p>{taskBoxTitle}</p>
-							<DeleteTaskBoxBtn className="deleteBtn" onClick={onDeleteTaskBox} />
+							{taskBoxForm ? (
+								<input
+									autoFocus
+									value={BoxTitle}
+									onChange={onChangeBoxTitle}
+									onBlur={onChangeTaskBoxTitle}
+									onKeyPress={(e: KeyboardEvent) => e.key === 'Enter' && onChangeTaskBoxTitle()}
+								/>
+							) : (
+								<p>{BoxTitle}</p>
+							)}
+							<BtnWrap>
+								<EditTaskBoxBtn className="editBtn" onClick={() => setTaskBoxForm(true)} />
+								<DeleteTaskBoxBtn className="deleteBtn" onClick={onDeleteTaskBox} />
+							</BtnWrap>
 						</TaskBoxName>
 						<AddTaskInput
 							placeholder="+ 테스크를 추가하세요"

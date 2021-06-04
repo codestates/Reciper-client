@@ -25,6 +25,7 @@ import {
 	itemDragStart,
 	itemDragEnd,
 	itemEditBlock,
+	editTaskBox,
 } from '../../../reducer/kanban';
 
 import { AddInputMessage, AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
@@ -92,6 +93,10 @@ const KanbanConianer = (): JSX.Element => {
 
 		socket?.on('taskMoving', data => {
 			dispatch(reorderTaskItem(data));
+		});
+
+		socket?.on('editTaskBox', data => {
+			dispatch(editTaskBox(data));
 		});
 
 		socket?.on('editTaskItem', data => {
