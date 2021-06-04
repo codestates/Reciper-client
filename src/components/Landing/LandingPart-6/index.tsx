@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import part6_1 from '../../../images/part6-1.svg';
+import part6_2 from '../../../images/part6-2.svg';
+import part6_3 from '../../../images/part6-3.svg';
+import part6_4 from '../../../images/part6-4.svg';
+import part6_5 from '../../../images/part6-5.svg';
 
 import {
 	LandingSixthBottom,
@@ -18,7 +23,6 @@ const LandingSixth = (): JSX.Element => {
 
 	const onScroll = () => {
 		setScrollPosition(window.pageYOffset);
-		// console.log('마우스 위치', window.pageYOffset);
 	};
 
 	useEffect(() => {
@@ -29,7 +33,6 @@ const LandingSixth = (): JSX.Element => {
 
 	useEffect(() => {
 		const svg: HTMLCollectionOf<Element> = document.getElementsByClassName('rainbowLine');
-		// console.log('svg 길이', length);
 
 		Array.from(svg).forEach(line => {
 			if (line instanceof SVGPathElement) {
@@ -38,17 +41,9 @@ const LandingSixth = (): JSX.Element => {
 				line.style.strokeDashoffset = String(length);
 
 				const drawScrollPosition = () => {
+					// TODO:
 					// drawLine: 0 ~ 1970 동안 그려진다.
 					// length: 1970, 위치: -949
-					// const drawLine = length - calcScrollPercent();
-					// 간격
-					// svg.style.strokeDasharray = length;
-					// svg.style.strokeDashoffset = length;
-					// array === offset => 처음에 보이지 않음
-					// console.log('1. 스크롤 위치', document.documentElement.scrollTop);
-					// console.log('2. 높이', document.documentElement.clientHeight);
-					// console.log('3. 위치', calcScrollPercent());
-					// console.log('4. 결과', drawLine);
 					const drawLine = length * (1 - calcScrollPercent());
 					line.style.strokeDashoffset = String(drawLine);
 				};
@@ -67,10 +62,12 @@ const LandingSixth = (): JSX.Element => {
 		<LandingSixthContainer>
 			<LandingSixthTop>
 				<TopContentsWrapper>
-					<TopMessage>개발의 문화</TopMessage>
+					<TopMessage>우리는</TopMessage>
 					<TopPersonalCardWrapper>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
-							<PersonalAvatar></PersonalAvatar>
+							<PersonalAvatar>
+								<img src={part6_1} alt={'개발하는 이미지1'} />
+							</PersonalAvatar>
 							<div
 								style={{
 									opacity: `${(scrollPosition - 7200) / 50}`,
@@ -82,7 +79,9 @@ const LandingSixth = (): JSX.Element => {
 							</div>
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
-							<PersonalAvatar></PersonalAvatar>
+							<PersonalAvatar>
+								<img src={part6_2} alt={'개발하는 이미지2'} />
+							</PersonalAvatar>
 							<div
 								style={{
 									opacity: `${(scrollPosition - 7200) / 50}`,
@@ -94,7 +93,9 @@ const LandingSixth = (): JSX.Element => {
 							</div>
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
-							<PersonalAvatar></PersonalAvatar>
+							<PersonalAvatar>
+								<img src={part6_3} alt={'개발하는 이미지3'} />
+							</PersonalAvatar>
 							<div
 								style={{
 									opacity: `${(scrollPosition - 7200) / 50}`,
@@ -106,7 +107,9 @@ const LandingSixth = (): JSX.Element => {
 							</div>
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
-							<PersonalAvatar></PersonalAvatar>
+							<PersonalAvatar>
+								<img src={part6_4} alt={'개발하는 이미지4'} />
+							</PersonalAvatar>
 							<div
 								style={{
 									opacity: `${(scrollPosition - 7200) / 50}`,
@@ -118,7 +121,9 @@ const LandingSixth = (): JSX.Element => {
 							</div>
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
-							<PersonalAvatar></PersonalAvatar>
+							<PersonalAvatar>
+								<img src={part6_5} alt={'개발하는 이미지5'} />
+							</PersonalAvatar>
 							<div
 								style={{
 									opacity: `${(scrollPosition - 7200) / 50}`,
@@ -180,7 +185,10 @@ const LandingSixth = (): JSX.Element => {
 				</div>
 			</LandingSixthTop>
 			<LandingSixthBottom>
-				<div style={{ opacity: `${scrollPosition > 8850 ? `1` : `0.3`}`, transition: '0.3s' }}>트렌드의 시작</div>
+				<div style={{ opacity: `${scrollPosition > 8950 ? `1` : `0.3`}`, transition: '0.3s' }}>함께 성장합니다</div>
+				<p style={{ opacity: `${scrollPosition > 9000 ? `1` : `00`}`, transition: '0.3s' }}>
+					레시퍼는 공동의 가치를 추구합니다. 모두가 성장하는 문화를 만들어 갈 것을 약속드립니다.
+				</p>
 			</LandingSixthBottom>
 		</LandingSixthContainer>
 	);

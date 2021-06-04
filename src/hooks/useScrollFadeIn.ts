@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useCallback, useLayoutEffect } from 'react';
 
 interface Props {
 	direction: string;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 interface returnType {
-	ref: React.MutableRefObject<any>;
+	ref: React.RefObject<HTMLDivElement>;
 	style: InitialStyleType;
 }
 
@@ -17,14 +17,14 @@ interface InitialStyleType {
 }
 
 const useScrollFadeIn = ({ direction, duration, delay }: Props): returnType => {
-	const element = useRef();
+	const element = useRef<HTMLDivElement>(null);
 
 	const onDirection = (name: string) => {
 		switch (name) {
 			case 'up':
 				return 'translate3d(0, 20%, 0)';
 			case 'late-up':
-				return 'translate3d(0, 40%, 0)';
+				return 'translate3d(0, 50%, 0)';
 			case 'down':
 				return 'translate3d(0, -50%, 0)';
 			case 'left':
@@ -38,22 +38,22 @@ const useScrollFadeIn = ({ direction, duration, delay }: Props): returnType => {
 		}
 	};
 
-	const onScroll = useCallback(
+	const onScroll: IntersectionObserverCallback = useCallback(
 		([entry]) => {
-			const { current }: React.MutableRefObject<any> = element;
-			if (entry.isIntersecting) {
+			const { current }: React.RefObject<HTMLDivElement> = element;
+			if (entry.isIntersecting && current) {
 				current.style.transitionProperty = 'all';
 				current.style.transitionDuration = `${duration}s`;
 				current.style.transitionTimingFunction = 'cubic-bezier(0, 0, 0.2, 1)';
 				current.style.transitionDelay = `${delay}s`;
-				current.style.opacity = 1;
+				current.style.opacity = '1';
 				current.style.transform = 'translate3d(0, 0, 0)';
 			}
 		},
 		[delay, duration],
 	);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let observer: IntersectionObserver;
 
 		if (element.current) {

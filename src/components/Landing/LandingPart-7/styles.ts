@@ -4,7 +4,7 @@ export const LandingSeventhContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	flex-direction: column;
 	width: 100%;
-	padding-top: 112px;
+	padding-bottom: 60px;
 `;
 
 export const UserCountWrapper = styled.div`
@@ -26,5 +26,3 @@ export const UserCounter = styled.div`
 	color: ${({ theme }) => theme.color.pointColor};
 	margin: 0 8px;
 `;
-
-export const UserReviewWrapper = styled.div``;

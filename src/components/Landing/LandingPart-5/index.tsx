@@ -4,6 +4,11 @@ import chatAvatar1 from '../../../images/chatAvatar1.png';
 import chatAvatar2 from '../../../images/chatAvatar2.png';
 import chatAvatar3 from '../../../images/chatAvatar3.png';
 
+import Icon from '@iconify/react';
+import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
+import calendarCheck from '@iconify/icons-bi/calendar-check';
+import project24 from '@iconify/icons-octicon/project-24';
+
 import {
 	LandingFifthContainer,
 	ServiceContent,
@@ -13,10 +18,7 @@ import {
 	RightComment,
 	LeftComment,
 	ServiceChatArrow,
-	ServiceMenuCalendar,
-	ServiceMenuChat,
 	ServiceMenuHome,
-	ServiceMenuKanban,
 	ServiceMenuLine,
 	ServiceArrowWrapper,
 	ChatUserName,
@@ -25,13 +27,17 @@ import {
 	ChatInputWrapper,
 	ChatSendButton,
 	ChatSendWrapper,
+	ServiceMenuChat,
+	ServiceMenuKanban,
+	ServiceMenuCalendar,
+	ChatUploadImage,
 } from './styles';
 
 const LandingFifth = (): JSX.Element => {
 	const ChatAnimatedItem = {
-		firstChat: useScrollFadeIn({ direction: 'late-up', duration: 2, delay: 0 }),
-		secondChat: useScrollFadeIn({ direction: 'late-up', duration: 2, delay: 0.4 }),
-		thirdChat: useScrollFadeIn({ direction: 'late-up', duration: 2, delay: 0.6 }),
+		firstChat: useScrollFadeIn({ direction: 'late-up', duration: 1.5, delay: 0 }),
+		secondChat: useScrollFadeIn({ direction: 'late-up', duration: 1.5, delay: 0.4 }),
+		thirdChat: useScrollFadeIn({ direction: 'late-up', duration: 1.5, delay: 0.6 }),
 	};
 	return (
 		<LandingFifthContainer>
@@ -42,21 +48,21 @@ const LandingFifth = (): JSX.Element => {
 			</ServiceMessage>
 			<ServiceBackground>
 				<ServiceMenu>
-					<span>
+					<div>
 						<ServiceMenuHome />
-					</span>
-					<span>
+					</div>
+					<div>
 						<ServiceMenuLine />
-					</span>
-					<span>
-						<ServiceMenuCalendar />
-					</span>
-					<span>
-						<ServiceMenuKanban />
-					</span>
-					<span>
-						<ServiceMenuChat />
-					</span>
+					</div>
+					<ServiceMenuChat>
+						<Icon icon={chatTeardropDotsLight} />
+					</ServiceMenuChat>
+					<ServiceMenuKanban>
+						<Icon icon={project24} />
+					</ServiceMenuKanban>
+					<ServiceMenuCalendar>
+						<Icon icon={calendarCheck} />
+					</ServiceMenuCalendar>
 					<ServiceArrowWrapper>
 						<ServiceChatArrow />
 					</ServiceArrowWrapper>
@@ -104,6 +110,7 @@ const LandingFifth = (): JSX.Element => {
 					</div>
 					<ChatInputWrapper>
 						<div>
+							<ChatUploadImage />
 							<ChatSendWrapper>
 								<ChatSendButton />
 							</ChatSendWrapper>
