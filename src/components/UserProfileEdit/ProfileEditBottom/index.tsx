@@ -94,9 +94,13 @@ const ProfileEditBottom = ({
 
 	const onChangeProfileInfo = (): void => {
 		// TODO: 프로필 갱신 요청하기
+		if (image === '') {
+			data.uploadImage = 'deleteImage';
+		}
 		dispatch(getProfileEdit(data));
 		history.push(`/profile/${profileInfo.id}`);
 	};
+
 	return (
 		<>
 			<UserDetailIntroCard>
