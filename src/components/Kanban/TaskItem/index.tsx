@@ -1,9 +1,9 @@
 import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { useSelector } from 'react-redux';
 
 import { kanbanDataSelector } from '../../../reducer/kanban';
+import dateFormat from '../../../utils/dateformat';
 import ProfileImage from '../../Common/ProfileImage';
 
 import {
@@ -49,7 +49,11 @@ const TaskItem = ({ taskData, boxIndex, openDetail }: Props): JSX.Element => {
 												<TaskName>{taskTitle}</TaskName>
 
 												{/* period가 있다면 */}
-												{(startDate || endDate) && <TaskPeriod>{`${startDate} ~ ${endDate}`}</TaskPeriod>}
+												{(startDate || endDate) && (
+													<TaskPeriod>
+														{`${dateFormat(new Date(startDate), 'md')} ~ ${dateFormat(new Date(endDate), 'md')}`}
+													</TaskPeriod>
+												)}
 
 												{/* 참여 멤버가 있다면 */}
 												{!!assignees.length && (

@@ -7,6 +7,12 @@ import { useParams } from 'react-router';
 import useInput from '../../../hooks/useInput';
 import dateFormat from '../../../utils/dateformat';
 import Assignees from './Assignees';
+import ColorLabel from './ColorLabel';
+import Title from './Title';
+import Desc from './Desc';
+import Period from './Period';
+import CheckList from './CheckList';
+import Comment from './Comment';
 
 import {
 	kanbanDataType,
@@ -18,15 +24,9 @@ import {
 } from '../../../types/types';
 
 import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
+import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { ColorHat, TaskDeleteBtn, TaskDetailContainer } from './styles';
-import ColorLabel from './ColorLabel';
-import { projectInfoSelector } from '../../../reducer/projectInfo';
-import Title from './Title';
-import Desc from './Desc';
-import Period from './Period';
-import CheckList from './CheckList';
-import Comment from './Comment';
 
 interface Props {
 	targetTask: string;
@@ -43,10 +43,8 @@ const TaskDetail = ({ targetTask, socket, setTargetTask, setShowModal, setData }
 	const { members }: projectInfoDataType = useSelector(projectInfoSelector);
 
 	const taskData: taskDataType = taskItems[targetTask];
-	const startDateInit = taskData.startDate
-		? new Date(`${taskData.startDate[0]}-${taskData.startDate.slice(3, 5)}`)
-		: undefined;
-	const endDateInit = taskData.endDate ? new Date(`${taskData.endDate[0]}-${taskData.endDate.slice(3, 5)}`) : undefined;
+	const startDateInit = taskData.startDate ? new Date(taskData.startDate) : undefined;
+	const endDateInit = taskData.endDate ? new Date(taskData.endDate) : undefined;
 
 	const [taskTitle, onChangeTaskTitle] = useInput<string>(taskData.taskTitle);
 	const [desc, onChangeDesc] = useInput<string>(taskData.desc);
@@ -78,8 +76,8 @@ const TaskDetail = ({ targetTask, socket, setTargetTask, setShowModal, setData }
 			desc,
 			checkList,
 			comment,
-			startDate: dateFormat(startDate as Date, 'md'),
-			endDate: dateFormat(endDate as Date, 'md'),
+			startDate: dateFormat(startDate as Date),
+			endDate: dateFormat(endDate as Date),
 			taskColor,
 			assignees: selectedMember,
 			dragging: false,

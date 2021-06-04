@@ -1,30 +1,31 @@
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
 import isLeapYear from 'dayjs/plugin/isLeapYear';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import useSocket from '../../../hooks/useSocket';
 import dayjs, { Dayjs } from 'dayjs';
 dayjs.extend(weekOfYear);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(isLeapYear);
 
-import { getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
+import ViewCalendar from '../ViewCalendar';
+import ControlCalender from '../ControlCalendar';
+
+import { editTaskDetail, getSocketData, itemEditBlock, kanbanDataSelector } from '../../../reducer/kanban';
+import useSocket from '../../../hooks/useSocket';
+
 import { taskDataType } from '../../../types/types';
 
 import {
 	CalendarWrap,
 	Container,
-	Day,
 	DayName,
 	DaysWrap,
 	DirectionDate,
 	DirectionLeftBtn,
 	DirectionRightBtn,
 	DirectionWrap,
-	Week,
-	DayDate,
 } from './styles';
 
 const CalendarContainer = (): JSX.Element => {
@@ -36,8 +37,9 @@ const CalendarContainer = (): JSX.Element => {
 
 	const [calendarData, setCalendarData] = useState<Dayjs[][]>([]);
 	const [taskByDate, setTaskByDate] = useState<{ [key: string]: taskDataType[] }>({});
-	const [calendarCheck, setCalendarCheck] = useState<boolean>(false);
+	const [taskByPosition, setTaskByPosition] = useState<{ [key: number]: taskDataType[] }>({});
 	const [addNumber, setAddNumber] = useState<number>(0);
+
 	const today = dayjs().add(addNumber, 'month');
 	let date = dayjs().add(addNumber, 'month');
 	const startWeek = date.startOf('month').week();
@@ -45,59 +47,33 @@ const CalendarContainer = (): JSX.Element => {
 	const blankWeek = endWeek - startWeek === 4 ? endWeek + 1 : endWeek;
 	date = date.startOf('week').week(startWeek);
 
+	// 소켓 연결
 	connectSocket();
 
-	useEffect(() => {
-		const calendarDataFrame: Dayjs[][] = [];
-		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
+	const currentFormatYYYYMMDD = useCallback((start: string, end: string): [number, number, number] => {
+		const startDate = Number(start.split('-').join(''));
+		const endDate = Number(end.split('-').join(''));
+		const yearDate = Number(start.split('-')[0]);
 
-		for (let week = 0; week <= blankWeek - startWeek; week++) {
-			calendarDataFrame.push(
-				Array(7)
-					.fill(0)
-					.map((_, index) => {
-						if (week === 0 && index === 0) {
-							taskByDateFrame[date.format('YYYYMDD')] = [];
-							return date;
-						}
+		return [startDate, endDate, yearDate];
+	}, []);
 
-						date = date.add(1, 'day');
-						taskByDateFrame[date.format('YYYYMDD')] = [];
-						return date;
-					}),
-			);
-		}
+	const taskItemSort = useCallback((): taskDataType[] => {
+		return Object.values(taskItems).sort((a, b): number => {
+			const [aStartDate, aEndDate] = currentFormatYYYYMMDD(a.startDate, a.endDate);
+			const [bStartDate, bEndDate] = currentFormatYYYYMMDD(b.startDate, b.endDate);
 
-		Object.values(taskItems).map(task => {
-			if (task.startDate || task.endDate) {
-				const startDate = Number(
-					`${new Date().getFullYear()}${task.startDate.split('월')[0]}${task.startDate.split(' ')[1].slice(0, 2)}`,
-				);
-				const endDate = Number(
-					`${new Date().getFullYear()}${task.endDate.split('월')[0]}${task.endDate.split(' ')[1].slice(0, 2)}`,
-				);
-				const targetDays = endDate - startDate;
-
-				for (let i = 0; i <= targetDays; i++) {
-					if (taskByDateFrame[String(startDate + i)]) {
-						taskByDateFrame[String(startDate + i)] = [...taskByDateFrame[startDate + i], task];
-					}
-				}
+			if (aStartDate === bStartDate && aEndDate < bEndDate) {
+				return -1;
 			}
+
+			if (aStartDate < bStartDate) {
+				return -1;
+			}
+
+			return 0;
 		});
-
-		setTaskByDate({ ...taskByDateFrame });
-		setCalendarData([...calendarDataFrame]);
-		setCalendarCheck(true);
-	}, [addNumber, taskItems]);
-
-	useEffect(() => {
-		if (calendarCheck) {
-			console.log(blankWeek);
-			console.log(calendarData);
-			console.log(taskByDate);
-		}
-	}, [calendarData, taskByDate, calendarCheck]);
+	}, [taskItems]);
 
 	useEffect(() => {
 		socket?.emit('joinPart', part);
@@ -108,26 +84,114 @@ const CalendarContainer = (): JSX.Element => {
 	}, [connect, part]);
 
 	useEffect(() => {
-		socket?.on('getKanbanData', data => {
-			dispatch(getSocketData(data));
-		});
-
 		socket?.on('connection', () => {
 			setTimeout(() => {
 				setConnect(true);
 			}, 100);
 		});
 
+		socket?.on('getKanbanData', data => {
+			dispatch(getSocketData(data));
+		});
+
+		socket?.on('itemEditBlock', data => {
+			dispatch(itemEditBlock(data));
+		});
+
+		socket?.on('editTaskItem', data => {
+			dispatch(editTaskDetail(data));
+		});
+
 		return () => {
 			disconnectSocket();
 		};
-	}, []);
+	}, [socket]);
+
+	useEffect(() => {
+		const calendarDataFrame: Dayjs[][] = [];
+		const taskByPositionFrame: { [key: number]: taskDataType[] } = {};
+		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
+		const taskItemSorted = taskItemSort();
+		const startMonthDay = Number(date.startOf('week').week(startWeek).format('YYYYMMDD'));
+		const endMonthDay = Number(
+			date
+				.endOf('week')
+				.week(endWeek + 1)
+				.format('YYYYMMDD'),
+		);
+
+		// 달력을 그릴 데이터와 Task를 넣어 줄 틀을 만듬
+		for (let week = 0; week <= blankWeek - startWeek; week++) {
+			if (week === 0 || week === 5) {
+				taskByPositionFrame[Number(date.format('YYYYMMDD'))] = [];
+			} else {
+				taskByPositionFrame[Number(date.format('YYYYMMDD')) + 1] = [];
+			}
+
+			calendarDataFrame.push(
+				Array(7)
+					.fill(0)
+					.map((_, index) => {
+						if (week === 0 && index === 0) {
+							taskByDateFrame[date.format('YYYYMMDD')] = [];
+							return date;
+						}
+
+						date = date.add(1, 'day');
+						taskByDateFrame[date.format('YYYYMMDD')] = [];
+
+						return date;
+					}),
+			);
+		}
+
+		// Day마다 Task 정보를 포함 시켜줌. ( Day 클릭 시 Task 정보 출력 )
+		Object.values(taskItems).map(task => {
+			if (task.startDate || task.endDate) {
+				const [startDate, endDate] = currentFormatYYYYMMDD(task.startDate, task.endDate);
+				const targetDays = endDate - startDate;
+
+				for (let i = 0; i <= targetDays; i++) {
+					if (taskByDateFrame[String(startDate + i)]) {
+						taskByDateFrame[String(startDate + i)] = [...taskByDateFrame[startDate + i], task];
+					}
+				}
+			}
+		});
+
+		// Task가 달력 어느 부분에 위치해야 하는지 정보를 담음
+		Object.keys(taskByPositionFrame).map((weekDate, index) => {
+			const endWeekDay = Number(date.week(startWeek + index).format('YYYYMMDD'));
+
+			for (let i = 0; i < taskItemSorted.length; i++) {
+				const [startDate, endDate, yearDate] = currentFormatYYYYMMDD(
+					taskItemSorted[i].startDate,
+					taskItemSorted[i].endDate,
+				);
+				if (yearDate === dayjs().get('year')) {
+					console.log(taskItemSorted[i], endWeekDay, startMonthDay);
+					if (endWeekDay >= startDate && Number(weekDate) <= endDate) {
+						taskByPositionFrame[Number(weekDate)].push(taskItemSorted[i]);
+					}
+				}
+			}
+		});
+
+		// console.log(taskItems);
+		console.log('sorted', taskItemSorted);
+		console.log('taskByPositionFrame', taskByPositionFrame);
+		// console.log('taskByDate', taskByDateFrame);
+
+		setCalendarData([...calendarDataFrame]);
+		setTaskByDate({ ...taskByDateFrame });
+		setTaskByPosition({ ...taskByPositionFrame });
+	}, [addNumber, taskItems]);
 
 	return (
 		<Container>
 			<DirectionWrap>
 				<DirectionLeftBtn onClick={() => setAddNumber(addNumber => addNumber - 1)} />
-				<DirectionDate>{`${date.format('YYYY')} ${today.format('MM')}월`}</DirectionDate>
+				<DirectionDate>{`${today.format('YYYY')} ${today.format('MM')}월`}</DirectionDate>
 				<DirectionRightBtn onClick={() => setAddNumber(addNumber => addNumber + 1)} />
 			</DirectionWrap>
 			<DaysWrap>
@@ -140,28 +204,8 @@ const CalendarContainer = (): JSX.Element => {
 				<DayName>토</DayName>
 			</DaysWrap>
 			<CalendarWrap>
-				{calendarData.map((week, index) => (
-					<Week key={index}>
-						{week.map((day, index) => {
-							const currentMonth = date
-								.startOf('month')
-								.week(startWeek + 2)
-								.format('M');
-
-							console.log(Number(day.format('M')), currentMonth);
-							const notThisMonth = Number(day.format('M')) === Number(currentMonth);
-
-							return (
-								<Day className={notThisMonth ? '' : 'notThisMonth'} key={index}>
-									<DayDate>{day.format('DD')}</DayDate>
-									{taskByDate[day.format('YYYYMDD')].map((task, index) => (
-										<p key={index}>{task.taskTitle}</p>
-									))}
-								</Day>
-							);
-						})}
-					</Week>
-				))}
+				<ViewCalendar calendarData={calendarData} date={date} startWeek={startWeek} />
+				<ControlCalender calendarData={calendarData} taskByDate={taskByDate} taskByPosition={taskByPosition} />
 			</CalendarWrap>
 		</Container>
 	);
