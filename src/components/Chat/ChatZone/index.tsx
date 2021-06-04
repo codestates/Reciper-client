@@ -26,8 +26,6 @@ export interface Props {
 	isEnd: boolean;
 	isEmpty: boolean;
 	isReachingEnd: boolean;
-	currentIndex: number;
-	setCurrentIndex: Dispatch<SetStateAction<number>>;
 }
 
 const ChatZone = ({
@@ -41,8 +39,6 @@ const ChatZone = ({
 	isEnd,
 	isEmpty,
 	isReachingEnd,
-	currentIndex,
-	setCurrentIndex,
 }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const { part: room } = useParams<{ part: string }>();
@@ -123,8 +119,6 @@ const ChatZone = ({
 											setChatBucket={setChatBucket}
 											index={index}
 											isSameSender={isSameSender}
-											currentIndex={currentIndex}
-											setCurrentIndex={setCurrentIndex}
 										/>
 									);
 								})}
