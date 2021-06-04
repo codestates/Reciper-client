@@ -1,17 +1,12 @@
 import styled, { css } from 'styled-components';
 
-export const ButtonTag = styled.button<{ size: string; buttonType: string; margin: string }>`
+export const ButtonTag = styled.button<{ size: string; backgroundColor: string; buttonType: string; margin: string }>`
 	transition: 0.1s;
 	height: 40px;
 	margin: ${({ margin }) => margin};
 	font-family: 'NanumSquareB';
 	color: #fff;
-	background-color: ${({ theme }) => theme.color.pointColor};
 	border-radius: 3px;
-
-	&:hover {
-		background-color: ${({ theme }) => theme.hover.pointColorHover};
-	}
 
 	${({ size }) =>
 		size === 'small' &&
@@ -32,6 +27,21 @@ export const ButtonTag = styled.button<{ size: string; buttonType: string; margi
 		css`
 			width: 167px;
 			font-size: 16px;
+		`}
+		${({ backgroundColor }) =>
+		backgroundColor === 'basic'
+			? css`
+					background-color: #478bff;
+					&:hover {
+						background-color: #2569ee;
+					}
+			  `
+			: `
+		background-color: #F35656;
+		&:hover {
+			background-color: #c91b1b;
+		}
+		
 		`}
     
   ${({ buttonType }) =>

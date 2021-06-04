@@ -4,6 +4,7 @@ import { ButtonTag } from './styles';
 interface Props {
 	children: string;
 	size: string;
+	backgroundColor: string;
 	buttonType: string;
 	margin: string;
 	clickEvent: () => void;
@@ -20,6 +21,11 @@ interface Props {
 		2. cancel - borderColor: #d6d6d8
 	margin - '0 10px 0 0' 처럼 전달해주면 마진이 적용 됨
 	clickEvent - click 이벤트가 필요할 시 전달하여 사용
+
+	6/4 수정
+	backgroundColor
+	basic - color: ${({ theme }) => theme.color.pointColor}
+	delete - color: ${({ theme }) => theme.color.warnigColor}
 */
 
 const Button = (props: Props): JSX.Element => {
@@ -32,6 +38,7 @@ const Button = (props: Props): JSX.Element => {
 
 Button.defaultProps = {
 	size: 'small',
+	backgroundColor: 'basic',
 	buttonType: 'basic',
 	margin: '0',
 };
