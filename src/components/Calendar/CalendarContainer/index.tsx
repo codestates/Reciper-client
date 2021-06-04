@@ -12,7 +12,14 @@ dayjs.extend(isLeapYear);
 import ViewCalendar from '../ViewCalendar';
 import ControlCalender from '../ControlCalendar';
 
-import { editTaskDetail, getSocketData, itemEditBlock, kanbanDataSelector } from '../../../reducer/kanban';
+import {
+	deleteTaskItem,
+	editTaskDetail,
+	getSocketData,
+	itemEditBlock,
+	kanbanDataSelector,
+	socketAddTaskItem,
+} from '../../../reducer/kanban';
 import useSocket from '../../../hooks/useSocket';
 
 import { taskDataType } from '../../../types/types';
@@ -94,12 +101,12 @@ const CalendarContainer = (): JSX.Element => {
 			dispatch(getSocketData(data));
 		});
 
-		socket?.on('itemEditBlock', data => {
-			dispatch(itemEditBlock(data));
-		});
-
 		socket?.on('editTaskItem', data => {
 			dispatch(editTaskDetail(data));
+		});
+
+		socket?.on('deleteTaskItem', data => {
+			dispatch(deleteTaskItem(data));
 		});
 
 		return () => {
@@ -169,11 +176,6 @@ const CalendarContainer = (): JSX.Element => {
 				}
 			}
 		});
-
-		// console.log(taskItems);
-		console.log('sorted', taskItemSorted);
-		console.log('taskByPositionFrame', taskByPositionFrame);
-		console.log('taskByDate', taskByDateFrame);
 
 		setCalendarData([...calendarDataFrame]);
 		setTaskByDate({ ...taskByDateFrame });
