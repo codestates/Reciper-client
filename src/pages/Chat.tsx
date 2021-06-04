@@ -1,8 +1,13 @@
 import React from 'react';
 import WorkSpaceChat from '../components/Chat/ChatContainer';
+import WorkSpaceFrame from '../components/Common/WorkSpaceFrame';
 
 const Chat = (): JSX.Element => {
-	return <WorkSpaceChat />;
+	return (
+		<WorkSpaceFrame>
+			<WorkSpaceChat />
+		</WorkSpaceFrame>
+	);
 };
 
 export default Chat;
