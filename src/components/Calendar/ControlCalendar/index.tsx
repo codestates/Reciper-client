@@ -29,8 +29,8 @@ const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): J
 					<Week key={weekIndex}>
 						{taskByPosition[positionKey] &&
 							taskByPosition[positionKey].map((task, index) => {
-								const currentStartDay = dayjs(task.startDate).dayOfYear();
-								const currentEndDay = dayjs(task.endDate).dayOfYear();
+								const currentStartDay = dayjs(task.startDate || task.endDate).dayOfYear();
+								const currentEndDay = dayjs(task.endDate || task.startDate).dayOfYear();
 								const diffStartDay = currentStartDay - startDay;
 								const diffEndDay = currentEndDay - startDay + 1;
 								const left = diffStartDay > 0 ? (100 / 7) * diffStartDay : 0;

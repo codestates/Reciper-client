@@ -55,6 +55,7 @@ import Button from '../Button';
 import useInput from '../../../hooks/useInput';
 import { getProjectInfo } from '../../../reducer/projectInfo';
 import Input from '../Input';
+import { getSocketData } from '../../../reducer/kanban';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -249,13 +250,16 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 				</SideBarTop>
 				<SideBarMid>
 					<Pointer style={{ top: `${frameInitState.pointerTop}` }} />
-					<ChatIcon to={`/workspace/${currentURL}/chat/General`}>
+					<ChatIcon
+						to={`/workspace/${currentURL}/chat/General`}
+						onClick={() => dispatch(getSocketData({ taskBox: [], taskItems: {} }))}
+					>
 						<Icon icon={chatTeardropDotsLight} />
 					</ChatIcon>
-					<KanbanIcon to={`/workspace/${currentURL}/kanban/General`}>
+					<KanbanIcon to={`/workspace/${currentURL}/kanban/${contentTop}`}>
 						<Icon icon={project24} />
 					</KanbanIcon>
-					<CalendarIcon to={`/workspace/${currentURL}/calendar/General`}>
+					<CalendarIcon to={`/workspace/${currentURL}/calendar/${contentTop}`}>
 						<Icon icon={calendarCheck} />
 					</CalendarIcon>
 				</SideBarMid>
