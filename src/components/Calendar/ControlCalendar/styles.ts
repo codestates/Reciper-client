@@ -35,19 +35,25 @@ export const DayHover = styled.div`
 
 export const TaskBar = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	position: relative;
-	width: 100%;
+	position: absolute;
 	height: 20px;
-	margin-bottom: 1px;
 	padding-left: 10px;
+	margin-bottom: 1px;
 	font-size: 13px;
 	color: #fff;
+	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
-	&.lastTask {
-		border-right: 1px solid ${({ theme }) => theme.color.lineColor};
+	&.index0 {
+		top: 36px;
+	}
+	&.index1 {
+		top: 57px;
+	}
+	&.index2 {
+		top: 78px;
 	}
 
-	&.lastTask:after {
+	&:after {
 		content: '';
 		display: block;
 		position: absolute;
@@ -61,6 +67,8 @@ export const TaskBar = styled.div`
 `;
 
 export const More = styled.div`
+	position: absolute;
+	bottom: 4px;
 	margin-top: 5px;
 	padding-left: 10px;
 	font-size: 13px;

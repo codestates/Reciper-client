@@ -23,7 +23,10 @@ const MoreTasks = ({ index, day, tasks, setOpenTargetDate }: Props): JSX.Element
 				<CloseBtn onClick={onCloseMore} />
 			</MoreTop>
 			{tasks.map((task, index) => (
-				<TaskItem key={index} style={{ backgroundColor: `${task.taskColor}` }}>
+				<TaskItem
+					key={index}
+					style={{ backgroundColor: `${task.taskColor}`, opacity: `${task.dragging ? '0.3' : '1'}` }}
+				>
 					{task.taskTitle}
 				</TaskItem>
 			))}

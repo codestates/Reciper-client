@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import dayOfYear from 'dayjs/plugin/dayOfYear';
+dayjs.extend(dayOfYear);
 
 import { taskDataType } from '../../../types/types';
 
@@ -10,53 +12,64 @@ import MoreTasks from '../MoreTasks';
 interface Props {
 	calendarData: Dayjs[][];
 	taskByDate: { [key: string]: taskDataType[] };
+	taskByPosition: { [key: number]: taskDataType[] };
 }
 
 // Task가 포함되어 있고 여러 기능이 있는 캘린더
-const ControlCalender = ({ calendarData, taskByDate }: Props): JSX.Element => {
+const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): JSX.Element => {
 	const [openTargetDate, setOpenTargetDate] = useState<string>('');
 
 	return (
 		<ControlCalenderWrap>
-			{calendarData.map((week, index) => (
-				<Week key={index}>
-					{week.map((day, dayIndex) => {
-						const currentDay = day.format('YYYYMDD');
+			{calendarData.map((week, weekIndex) => {
+				const positionKey = Number(week[0].format('YYYYMMDD'));
+				const startDay = week[0].dayOfYear();
 
-						return (
-							<ControlDay key={dayIndex} onClick={() => setOpenTargetDate(currentDay)}>
-								{taskByDate[currentDay].map((task, index) => {
-									return (
-										index < 3 && (
-											<div key={index}>
-												<TaskBar
-													className={`${day.format('M')}월 ${day.format('DD')}일` === task.endDate ? 'lastTask' : ''}
-													style={{ backgroundColor: `${task.taskColor}` }}
-												>
-													{(`${day.format('M')}월 ${day.format('DD')}일` === task.startDate || dayIndex === 0) &&
-														task.taskTitle}
-												</TaskBar>
-											</div>
-										)
-									);
-								})}
+				return (
+					<Week key={weekIndex}>
+						{taskByPosition[positionKey] &&
+							taskByPosition[positionKey].map((task, index) => {
+								const currentStartDay = dayjs(task.startDate).dayOfYear();
+								const currentEndDay = dayjs(task.endDate).dayOfYear();
+								const diffStartDay = currentStartDay - startDay;
+								const diffEndDay = currentEndDay - startDay + 1;
+								const left = diffStartDay > 0 ? (100 / 7) * diffStartDay : 0;
+								const width = diffStartDay > 0 ? (100 / 7) * (diffEndDay - diffStartDay) : (100 / 7) * diffEndDay;
 
-								<DayHover />
-								{taskByDate[currentDay].length > 3 && <More>+{taskByDate[currentDay].length - 3} 테스크</More>}
+								return (
+									index < 3 && (
+										<TaskBar
+											key={index}
+											className={`index${index}`}
+											style={{ backgroundColor: `${task.taskColor}`, left: `${left}%`, width: `${width}%` }}
+										>
+											{task.taskTitle}
+										</TaskBar>
+									)
+								);
+							})}
+						{week.map((day, dayIndex) => {
+							const currentDay = day.format('YYYYMMDD');
 
-								{openTargetDate === currentDay && (
-									<MoreTasks
-										index={dayIndex}
-										day={day}
-										tasks={taskByDate[currentDay]}
-										setOpenTargetDate={setOpenTargetDate}
-									/>
-								)}
-							</ControlDay>
-						);
-					})}
-				</Week>
-			))}
+							return (
+								<ControlDay key={dayIndex} onClick={() => setOpenTargetDate(currentDay)}>
+									<DayHover />
+									{taskByDate[currentDay].length > 3 && <More>+{taskByDate[currentDay].length - 3} 테스크</More>}
+
+									{openTargetDate === currentDay && (
+										<MoreTasks
+											index={dayIndex}
+											day={day}
+											tasks={taskByDate[currentDay]}
+											setOpenTargetDate={setOpenTargetDate}
+										/>
+									)}
+								</ControlDay>
+							);
+						})}
+					</Week>
+				);
+			})}
 		</ControlCalenderWrap>
 	);
 };

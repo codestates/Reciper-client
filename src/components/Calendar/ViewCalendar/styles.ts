@@ -16,7 +16,7 @@ export const ViewWeek = styled(Week)`
 `;
 
 export const ViewDay = styled.div`
-	padding: 10px;
+	padding: 7px;
 	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
 	&:last-child {
@@ -29,5 +29,13 @@ export const ViewDay = styled.div`
 `;
 
 export const DayDate = styled.p`
+	${({ theme }) => theme.align.flexCenter}
+	width: 25px;
+	height: 25px;
 	font-size: 14px;
+	border-radius: 100%;
+	&.today {
+		color: #fff;
+		background-color: #478bff;
+	}
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { ViewCalendarWrap, ViewWeek, DayDate, ViewDay } from './styles';
 
@@ -11,6 +11,7 @@ interface Props {
 
 const ViewCalendar = ({ calendarData, date, startWeek }: Props): JSX.Element => {
 	// 스타일을 보여주기 위한 캘린더
+	const today = dayjs().format('YYYYMMDD');
 	return (
 		<ViewCalendarWrap>
 			{calendarData.map((week, index) => (
@@ -21,10 +22,11 @@ const ViewCalendar = ({ calendarData, date, startWeek }: Props): JSX.Element => 
 							.week(startWeek + 2)
 							.format('M');
 						const notThisMonth = Number(day.format('M')) === Number(currentMonth);
+						const todayHighlight = today === day.format('YYYYMMDD');
 
 						return (
 							<ViewDay className={notThisMonth ? '' : 'notThisMonth'} key={index}>
-								<DayDate>{day.format('DD')}</DayDate>
+								<DayDate className={todayHighlight ? 'today' : ''}>{day.format('DD')}</DayDate>
 							</ViewDay>
 						);
 					})}

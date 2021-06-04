@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 export const Container = styled.div`
+	overflow: hidden;
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -53,5 +54,6 @@ export const CalendarWrap = styled.div`
 export const Week = styled.div`
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
+	position: relative;
 	width: 100%;
 `;
