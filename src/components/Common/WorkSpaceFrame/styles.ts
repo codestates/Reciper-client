@@ -162,11 +162,11 @@ export const ListItem = styled(Link)`
 
 	& > svg {
 		position: absolute;
-		top: 8px;
+		top: 7px;
 		right: 10px;
 		opacity: 0;
 		transition: 0.1s;
-		font-size: 15px;
+		font-size: 16px;
 		color: #fff;
 
 		&:hover {
@@ -227,18 +227,31 @@ export const AddListItemBtn = styled.div`
 `;
 
 export const SettingAlert = styled.div`
+	display: flex;
+	flex-direction: column;
 	${({ theme }) => theme.align.positionCenter}
-	padding: 30px;
+	width: 450px;
+	padding: 32px;
 	background-color: #fff;
 	border-radius: 3px;
 
 	& > p {
 		font-size: 18px;
-		margin-bottom: 20px;
+		margin-bottom: 16px;
+	}
+
+	& > div {
+		${({ theme }) => theme.align.flexCenter};
+		width: 100%;
 	}
 `;
 
 export const DeleteAlertBtnWrap = styled.div`
+	${({ theme }) => theme.align.flexHorizontal}
+`;
+
+export const EditAlertBtnWrap = styled.div`
+	margin-top: 20px;
 	${({ theme }) => theme.align.flexHorizontal}
 `;
 
