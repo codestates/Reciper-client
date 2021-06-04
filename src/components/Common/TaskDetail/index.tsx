@@ -72,7 +72,7 @@ const TaskDetail = ({ targetTask, socket, setTargetTask, setShowModal, setData }
 
 	useEffect(() => {
 		setData({
-			taskTitle,
+			taskTitle: taskTitle.trim() || taskData.taskTitle,
 			desc,
 			checkList,
 			comment,
