@@ -5,21 +5,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import dayjs, { Dayjs } from 'dayjs';
-dayjs.extend(weekOfYear);
-dayjs.extend(isoWeeksInYear);
-dayjs.extend(isLeapYear);
 
 import ViewCalendar from '../ViewCalendar';
 import ControlCalender from '../ControlCalendar';
 
-import {
-	deleteTaskItem,
-	editTaskDetail,
-	getSocketData,
-	itemEditBlock,
-	kanbanDataSelector,
-	socketAddTaskItem,
-} from '../../../reducer/kanban';
+import { deleteTaskItem, editTaskDetail, getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
 import useSocket from '../../../hooks/useSocket';
 
 import { taskDataType } from '../../../types/types';
@@ -34,6 +24,10 @@ import {
 	DirectionRightBtn,
 	DirectionWrap,
 } from './styles';
+
+dayjs.extend(weekOfYear);
+dayjs.extend(isoWeeksInYear);
+dayjs.extend(isLeapYear);
 
 const CalendarContainer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -112,7 +106,7 @@ const CalendarContainer = (): JSX.Element => {
 		return () => {
 			disconnectSocket();
 		};
-	}, [socket]);
+	}, []);
 
 	useEffect(() => {
 		const calendarDataFrame: Dayjs[][] = [];

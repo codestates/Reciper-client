@@ -122,7 +122,6 @@ const KanbanConianer = (): JSX.Element => {
 
 		return () => {
 			disconnectSocket();
-			dispatch(getSocketData({ taskBox: [], taskItems: {} }));
 			setConnect(false);
 		};
 	}, []);
