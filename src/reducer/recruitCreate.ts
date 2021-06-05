@@ -6,7 +6,7 @@ import { axiosRequest } from '../utils/axios';
 
 export const postCreateData = createAsyncThunk('postCreateData', async (data: recruitCreateDataType): Promise<void> => {
 	try {
-		await axiosRequest('post', `/recruitBoard`, data).then(data => console.log(data));
+		await axiosRequest('post', `/recruitBoard`, data);
 	} catch (error) {
 		console.log(error);
 	}
@@ -34,19 +34,20 @@ export const recruitCreateSlice = createSlice({
 		writingAction: (state, { payload }) => {
 			state.data = { ...state.data, ...payload };
 		},
+		successLoading: state => {
+			state.loading = false;
+		},
 	},
 	extraReducers: {
 		[postCreateData.pending.type]: state => {
-			state.loading = true;
+			state.loading = false;
 		},
 		[postCreateData.fulfilled.type]: state => {
-			state.loading = false;
-			location.href = '/recruit';
+			state.loading = true;
 		},
 	},
 });
 
-export const { writingAction } = recruitCreateSlice.actions;
-export const getRecruitCreateSelector = (
-	state: RootStateOrAny,
-): { data: recruitCreateDataType; loading: boolean; move: boolean } => state.recruitCreateSlice;
+export const { writingAction, successLoading } = recruitCreateSlice.actions;
+export const getRecruitCreateSelector = (state: RootStateOrAny): { data: recruitCreateDataType; loading: boolean } =>
+	state.recruitCreateSlice;

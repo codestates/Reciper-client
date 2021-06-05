@@ -43,11 +43,12 @@ export const RecruitStackClear = styled.span`
 `;
 
 const RecruitListBtn = styled.button`
-	margin-left: 15px;
+	margin-left: 10px;
 	font-size: 14px;
 `;
 
 export const AddRecruitListBtn = styled(RecruitListBtn)`
+	margin-left: 0px;
 	color: ${({ theme }) => theme.color.pointColor};
 `;
 export const DeleteRecruitListBtn = styled(RecruitListBtn)`
