@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { getProfileInfo, getProfileInfoSelector } from '../../../reducer/profile';
-import ProfileBottom from '../ProfileBottom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
+
+import ProfileBottom from '../ProfileBottom';
 
 import {
 	ProfileContainer,
@@ -14,22 +15,23 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
+	InputWrapper,
 } from './styles';
 import ProfileImage from '../../Common/ProfileImage';
 
 const UserProfile = (): JSX.Element => {
+	const profileInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const profileInfo = useSelector(getProfileInfoSelector);
-
-	useEffect(() => {
-		dispatch(getProfileInfo());
-	}, []);
 
 	const onGoToEditPage = (): void => {
 		// TODO: 유저 아이디로 구별해서 페이지 전환해야 함
 		history.push(`/profile/${profileInfo.id}/edit`);
 	};
+
+	useEffect(() => {
+		dispatch(getProfileInfo());
+	}, []);
 
 	return (
 		<ProfileContainer>
@@ -51,34 +53,44 @@ const UserProfile = (): JSX.Element => {
 								height="100%"
 								profileImage={profileInfo.uploadImage}
 								profileColor={profileInfo.profileColor}
+								userName={profileInfo.name}
+								userNameSize="140px"
 							/>
 						) : (
-							<div>{profileInfo.name.slice(0, 1)}</div>
+							<p>{profileInfo.name.slice(0, 1)}</p>
 						)}
 					</div>
 				</ProfileImg>
 				<ProfileUserInfoCard>
 					<div>
-						<ProfileSubTitle>이름</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.name ? profileInfo.name : <>{profileInfo.email.split('@')[0]}</>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>이름</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.name ? profileInfo.name : <>{profileInfo.email.split('@')[0]}</>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>전화번호</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>전화번호</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>이메일</ProfileSubTitle>
-						<ProfileUserInfo>{profileInfo.email}</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>이메일</ProfileSubTitle>
+							<ProfileUserInfo>{profileInfo.email}</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>한줄 소개</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>한줄 소개</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 				</ProfileUserInfoCard>
 			</ProfileUserCard>

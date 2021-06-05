@@ -28,6 +28,7 @@ const initialState: profileInfoDataType = {
 	name: '',
 	profileColor: '',
 	uploadImage: '',
+	projectList: [],
 };
 
 // TODO: slice 실행

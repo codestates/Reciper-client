@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Toggle_Switch = styled.label`
+export const ToggleSwitch = styled.label`
 	display: inline-block;
 	position: relative;
 	width: 40px;
@@ -15,7 +15,7 @@ export const Toggle_Switch = styled.label`
 	}
 `;
 
-export const Toggle_SliderRound = styled.span`
+export const ToggleSliderRound = styled.span`
 	cursor: pointer;
 	position: absolute;
 	top: 0;

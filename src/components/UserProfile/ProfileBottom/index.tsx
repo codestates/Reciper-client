@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
-import Modal from '../../Common/Modal';
-import StackTag from '../../Common/StackTag';
-import Test from '../../../images/card_test.png';
+import React from 'react';
 
+import InprogressRecipe from '../InProgressRecipe';
+
+import StackTag from '../../Common/StackTag';
+import DoneRecipe from '../DoneRecipe';
+
+import { ProfileUserInfo, ProfileSubTitle } from '../ProfileTop/styles';
 import {
-	ProfileUserInfo,
-	ProfileSubTitle,
 	UserDetailIntroCard,
-	ProfileInProgressRecipe,
-	ProfileSuccessRecipe,
 	ProfileUserDetailInfo,
-	ProfileUserRecipeInfo,
-	ProfileRecipeCard,
-	RecipeCardImg,
-	RecipeCardContent,
-	RecipeCardtitle,
-	RecipeCardDescription,
 	ProfileCareer,
 	ProfileStacks,
 	StacksContainer,
-} from '../ProfileTop/styles';
+	ProfileInProgressRecipe,
+	ProfileSuccessRecipe,
+	ProfileUserRecipeInfo,
+} from './styles';
 
 import { profileInfoDataType } from '../../../types/types';
 
@@ -28,8 +24,6 @@ interface Props {
 }
 
 const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
-	const [showRecipeCard, setShowRecipeCard] = useState<boolean>(false);
-
 	return (
 		<>
 			<UserDetailIntroCard>
@@ -77,34 +71,17 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 					</div>
 				</ProfileUserDetailInfo>
 
-				{/* TODO: 유저 Recipe Card */}
+				{/* TODO: 유저 진행중인 Recipe Card */}
 				<ProfileUserRecipeInfo>
 					<ProfileInProgressRecipe>
 						<ProfileSubTitle>개발중인 레시피</ProfileSubTitle>
-						<div>현재 개발중인 레시피가 없습니다.</div>
+						<InprogressRecipe projectList={profileInfo.projectList} isOpen={profileInfo.isOpen} />
 					</ProfileInProgressRecipe>
 
 					<ProfileSuccessRecipe>
 						<ProfileSubTitle>완성된 레시피</ProfileSubTitle>
-
-						{/* TODO: Recipe Card */}
-						<ProfileRecipeCard onClick={() => setShowRecipeCard(true)}>
-							<RecipeCardImg style={{ backgroundImage: `url(${Test})` }} />
-							<RecipeCardContent>
-								<RecipeCardtitle>
-									Reciper
-									<div>4명</div>
-									<div>0423 ~ 0607</div>
-								</RecipeCardtitle>
-								<RecipeCardDescription>
-									하나의 웹 서비스 안에서 개발 동료도 찾고, 작업 공간도 같이 있는 웹 서비스를 개발했습니다. 만남과
-									워크스페이스가 한 공간에 이루어지는 레시피에서 서비스를 즐겨보세요!
-								</RecipeCardDescription>
-							</RecipeCardContent>
-							{showRecipeCard && <Modal setShowModal={setShowRecipeCard}>테스트</Modal>}
-						</ProfileRecipeCard>
-
-						{/* TODO: 끝 */}
+						{/* TODO: 완료 Recipe Card */}
+						<DoneRecipe isOpen={profileInfo.isOpen} />
 					</ProfileSuccessRecipe>
 				</ProfileUserRecipeInfo>
 			</UserDetailIntroCard>

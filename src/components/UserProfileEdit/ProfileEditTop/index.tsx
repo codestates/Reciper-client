@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import useInput from '../../../hooks/useInput';
-import ProfileEditBottom from '../ProfileEditBottom';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
+import { profileAboutMeValid, profileNameValid, profileMobileValid } from '../../../utils/validations';
 
 import { useSelector } from 'react-redux';
 
 import Input from '../../Common/Input';
+import ProfileImage from '../../Common/ProfileImage';
+import ProfileEditBottom from '../ProfileEditBottom';
 
 import {
 	ProfileContainer,
@@ -15,12 +17,11 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
-	ProfileUserEmail,
-	ProfileImageUploadButton,
-	ProfileImageUploadWrapper,
 	ProfileImg,
+	InvalidMessage,
+	InputWrapper,
 } from '../../UserProfile/ProfileTop/styles';
-import ProfileImage from '../../Common/ProfileImage';
+import { EmailInfoWrapper, ProfileImageUploadButton, ProfileImageUploadWrapper, ProfileUserEmail } from './styles';
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -28,18 +29,32 @@ const UserProfileEdit = (): JSX.Element => {
 	const [image, setImage] = useState<string>(profileInfo.uploadImage);
 	const [name, onChangeName] = useInput<string>(profileInfo.name);
 	const [mobile, onChangeMobile] = useInput<string>(profileInfo.mobile);
-	const [aboutMe, onChangeAbout_me] = useInput<string>(profileInfo.aboutMe);
+	const [aboutMe, onChangeAboutMe] = useInput<string>(profileInfo.aboutMe);
 	const [stackBucket, setStackBucket] = useState<string[]>(profileInfo.stacks);
+	const [nameValidation, setNameValidation] = useState<boolean>(true);
+	const [mobileValidation, setMobileValidation] = useState<boolean>(true);
+	const [aboutMeValidation, setAboutMeValidation] = useState<boolean>(true);
+
+	// TODO: 이미지 리셋 하기
+	const onResetImage = (): void => {
+		setImage('');
+	};
 
 	useEffect(() => {
 		setImage(profileInfo.uploadImage);
 		setStackBucket(profileInfo.stacks);
 	}, [profileInfo.uploadImage]);
 
-	const onResetImage = (): void => {
-		// TODO: 이미지 리셋 하기
-		setImage('');
-	};
+	useEffect(() => {
+		// TODO: 유저 정보 입력 유효성 검사
+		const nameCheck = profileNameValid(name);
+		const mobileCheck = profileMobileValid(mobile);
+		const aboutMeCheck = profileAboutMeValid(aboutMe);
+
+		setNameValidation(nameCheck);
+		setMobileValidation(mobileCheck);
+		setAboutMeValidation(aboutMeCheck);
+	}, [name, mobile, aboutMe]);
 
 	return (
 		<ProfileContainer>
@@ -62,7 +77,6 @@ const UserProfileEdit = (): JSX.Element => {
 						/>
 					</form>
 					<div
-						style={{ backgroundColor: `${profileInfo.profileColor}` }}
 						onClick={() => {
 							clickUploadImage(imageInput);
 						}}
@@ -71,45 +85,72 @@ const UserProfileEdit = (): JSX.Element => {
 							<ProfileImageUploadButton>
 								<span>이미지 업로드</span>
 							</ProfileImageUploadButton>
-							{image ? (
-								<ProfileImage width="100%" height="100%" profileImage={image} profileColor={profileInfo.profileColor} />
-							) : (
-								<span>{profileInfo.name.slice(0, 1)}</span>
-							)}
+							<ProfileImage
+								width="100%"
+								height="100%"
+								profileImage={image}
+								profileColor={profileInfo.profileColor}
+								userName={profileInfo.name}
+								userNameSize="120px"
+							/>
 						</ProfileImageUploadWrapper>
 					</div>
-					<span onClick={onResetImage}>기본 이미지로 변경</span>
+					{image && <span onClick={onResetImage}>기본 이미지로 변경</span>}
 				</ProfileImg>
 
 				<ProfileUserInfoCard>
 					<div>
-						<ProfileSubTitle>이름</ProfileSubTitle>
-						<ProfileUserInfo>
-							<Input placeholderText="이름을 입력하세요" initValue={name} changeEvent={onChangeName} />
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>이름</ProfileSubTitle>
+							<ProfileUserInfo>
+								<Input
+									width="long"
+									height="long"
+									placeholderText="이름을 입력하세요"
+									initValue={name}
+									changeEvent={onChangeName}
+								/>
+							</ProfileUserInfo>
+						</InputWrapper>
+						{!nameValidation && <InvalidMessage>이름은 3글자 이상 8글자 이하여야 합니다</InvalidMessage>}
 					</div>
 					<div>
-						<ProfileSubTitle>전화번호</ProfileSubTitle>
-						<ProfileUserInfo>
-							<Input placeholderText="숫자만 입력하세요" initValue={mobile} changeEvent={onChangeMobile} />
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>전화번호</ProfileSubTitle>
+							<ProfileUserInfo>
+								<Input
+									width="long"
+									height="long"
+									placeholderText="휴대폰 번호 11자리를 입력해주세요."
+									initValue={mobile}
+									changeEvent={onChangeMobile}
+								/>
+							</ProfileUserInfo>
+						</InputWrapper>
+						{!mobileValidation && <InvalidMessage>010-xxxx-xxxx 또는 010xxxxxxxx</InvalidMessage>}
 					</div>
+					<EmailInfoWrapper>
+						<InputWrapper>
+							<ProfileSubTitle>이메일</ProfileSubTitle>
+							<ProfileUserInfo>
+								<ProfileUserEmail>{profileInfo.email}</ProfileUserEmail>
+							</ProfileUserInfo>
+						</InputWrapper>
+					</EmailInfoWrapper>
 					<div>
-						<ProfileSubTitle>이메일</ProfileSubTitle>
-						<ProfileUserInfo>
-							<ProfileUserEmail>{profileInfo.email}</ProfileUserEmail>
-						</ProfileUserInfo>
-					</div>
-					<div>
-						<ProfileSubTitle>한줄 소개</ProfileSubTitle>
-						<ProfileUserInfo>
-							<Input
-								width="long"
-								placeholderText="최대 20자 내로 적어주세요"
-								initValue={aboutMe}
-								changeEvent={onChangeAbout_me}
-							/>
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>한줄 소개</ProfileSubTitle>
+							<ProfileUserInfo>
+								<Input
+									width="long"
+									height="long"
+									placeholderText="최대 15자 내로 적어주세요"
+									initValue={aboutMe}
+									changeEvent={onChangeAboutMe}
+								/>
+							</ProfileUserInfo>
+						</InputWrapper>
+						{!aboutMeValidation && <InvalidMessage>최대 15자 내로 적어주세요</InvalidMessage>}
 					</div>
 				</ProfileUserInfoCard>
 			</ProfileUserCard>
@@ -121,6 +162,9 @@ const UserProfileEdit = (): JSX.Element => {
 				image={image}
 				stackBucket={stackBucket}
 				setStackBucket={setStackBucket}
+				nameValidation={nameValidation}
+				mobileValidation={mobileValidation}
+				aboutMeValidation={aboutMeValidation}
 			/>
 		</ProfileContainer>
 	);

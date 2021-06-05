@@ -1,64 +1,52 @@
 import styled from 'styled-components';
-import { RiCodeBoxFill } from 'react-icons/ri';
 
-export const EditButton = styled.div`
-	${({ theme }) => theme.align.flexCenter}
-`;
-
-export const ProfileCareerContainer = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	flex-direction: row;
-`;
-
-export const CareerInput = styled.div`
-	width: 160px;
-	margin-right: 8px;
-`;
-
-// --------------------TODO: Add Stack Input------------------
-
-export const SearchCodeIcon = styled(RiCodeBoxFill)`
-	position: absolute;
-	top: 4px;
-	left: 10px;
-	font-size: 25px;
-	color: ${({ theme }) => theme.color.lineColor};
-`;
-
-export const AddStackContainer = styled.div`
-	position: absolute;
-	top: 36px;
-	width: 600px;
-`;
-
-export const StackClear = styled.span`
+export const ProfileImageUploadWrapper = styled.div`
 	cursor: pointer;
-	width: fit-content;
-	margin-right: 10px;
-	font-size: 14px;
-	color: #666;
+	position: relative;
 
-	&:hover {
-		font-family: 'NanumSquareR';
-		color: ${({ theme }) => theme.color.warningColor};
+	&:hover > div {
+		background-color: rgba(0, 0, 0, 0.3);
+
+		& > span {
+			opacity: 1;
+		}
 	}
 `;
 
-export const StackMaximum = styled.span`
-	margin-left: 8px;
-	font-family: 'NanumSquareR';
-	font-size: 14px;
-	color: ${({ theme }) => theme.color.warningColor};
+export const ProfileImageUploadButton = styled.div`
+	${({ theme }) => theme.align.flexCenter}
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: 0.3s;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+
+	& > span {
+		opacity: 0;
+		transition: 0.3s;
+		font-family: 'NanumSquareR';
+		font-size: 18px;
+		color: #fff;
+	}
 `;
 
-export const ToggleMessage = styled.p`
-	margin-left: 8px;
-	font-family: 'NanumSquareR';
-	color: ${({ theme }) => theme.color.pointColor};
+// --------------------TODO: image personal info-------------------------
+
+export const EmailInfoWrapper = styled.div`
+	margin-bottom: 32px;
 `;
 
-// --------------------TODO: project ------------------
-
-export const ShowProject = styled.div`
-	margin-top: 88px;
+export const ProfileUserEmail = styled.div`
+	${({ theme }) => theme.align.flexVertical}
+	width: 306px;
+	height: 40px;
+	padding: 12px;
+	font-family: 'NanumSquareR';
+	font-size: 18px;
+	color: #545454;
+	background-color: #dcdcdc;
+	border: 1px solid ${({ theme }) => theme.color.lineColor};
+	border-radius: 3px;
 `;

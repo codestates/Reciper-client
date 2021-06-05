@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export const ProfileContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
-	width: 1000px;
+	width: 60%;
 	margin: 0 auto;
-	padding: 114px 42px 42px 42px;
+	padding: 130px 42px 42px 42px;
 `;
 
 export const ProfileTitle = styled.div`
@@ -14,7 +14,7 @@ export const ProfileTitle = styled.div`
 	padding: 10px 32px 10px 32px;
 	width: 800px;
 	height: 60px;
-	font-family: 'NanumSquareB';
+	font-family: NanumSquareB;
 	font-size: 26px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 
@@ -38,25 +38,25 @@ export const ProfileUserCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
 	width: 800px;
-	padding: 40px 28px 40px 28px;
+	padding: 40px 8px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
 export const ProfileImg = styled.div`
-	${({ theme }) => theme.align.flexVertical}
+	display: flex;
 	flex-direction: column;
-	width: 240px;
-	height: 240px;
+	width: 272px;
+	height: 308px;
 
 	& > div {
 		overflow: hidden;
-		${({ theme }) => theme.align.flexVertical}
-		width: 200px;
-		height: 200px;
+		${({ theme }) => theme.align.flexVertical};
+		width: 272px;
+		height: 272px;
 		border-radius: 100%;
 
 		& > div {
-			${({ theme }) => theme.align.flexCenter}
+			${({ theme }) => theme.align.flexCenter};
 			width: 100%;
 			height: 100%;
 			font-family: 'NanumSquareR';
@@ -65,54 +65,33 @@ export const ProfileImg = styled.div`
 		}
 
 		& > form {
-			${({ theme }) => theme.align.positionCenter}
+			${({ theme }) => theme.align.positionCenter};
 			right: 28px;
 			width: content-fit;
+		}
+
+		& > p {
+			${({ theme }) => theme.align.flexCenter}
+			width: 100%;
+			font-family: 'NanumSquareR';
+			font-size: 140px;
+			color: #fff;
 		}
 	}
 
 	& > span {
 		cursor: pointer;
-		width: 200px;
-		margin-top: 10px;
+		width: content-fit;
+		padding: 10px 4px;
 		font-family: 'NanumSquareR';
 		font-size: 14px;
-		color: #f15525;
+		color: #333;
 		text-align: center;
-	}
-`;
+		border-radius: 3px;
 
-// --------------------TODO: image upload-------------------------
-
-export const ProfileImageUploadWrapper = styled.div`
-	cursor: pointer;
-	position: relative;
-
-	&:hover > div {
-		background-color: rgba(0, 0, 0, 0.3);
-
-		& > span {
-			opacity: 1;
+		&:hover {
+			color: ${({ theme }) => theme.color.warningColor};
 		}
-	}
-`;
-
-export const ProfileImageUploadButton = styled.div`
-	${({ theme }) => theme.align.flexCenter}
-	position: absolute;
-	top: 0;
-	left: 0;
-	transition: 0.3s;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0);
-
-	& > span {
-		opacity: 0;
-		transition: 0.3s;
-		font-family: 'NanumSquareR';
-		font-size: 18px;
-		color: #fff;
 	}
 `;
 
@@ -121,39 +100,39 @@ export const ProfileImageUploadButton = styled.div`
 export const ProfileUserInfoCard = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 12px 68px;
+	margin-left: 72px;
+	padding: 12px 0px;
 	width: 100%;
 
 	& > div {
-		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 28px;
-	}
-`;
+		display: flex;
+		flex-direction: column;
 
-export const ProfileUserEmail = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	width: 250px;
-	height: 32px;
-	padding: 12px;
-	font-family: 'NanumSquareR';
-	color: #545454;
-	background-color: #dcdcdc;
-	border: 1px solid ${({ theme }) => theme.color.lineColor};
-	border-radius: 3px;
+		height: 72px;
+		margin-bottom: 8px;
+	}
 `;
 
 export const ProfileSubTitle = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	width: 120px;
-	height: 30px;
+	width: 132px;
+	height: 40px;
 	font-family: 'NanumSquareB';
+	font-size: 18px;
+`;
+
+export const InputWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
 `;
 
 export const ProfileUserInfo = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
-	height: 30px;
+	height: 40px;
 	font-family: 'NanumSquareR';
+	font-size: 18px;
 	text-align: left;
 
 	& > div {
@@ -161,106 +140,12 @@ export const ProfileUserInfo = styled.div`
 	}
 `;
 
-// --------------------TODO: user Develop intro Card------------------
-
-export const UserDetailIntroCard = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	flex-direction: column;
-	width: 700px;
-`;
-
-export const ProfileUserDetailInfo = styled.div`
-	padding: 50px 52px 30px 52px;
-	width: 800px;
-
-	& > div {
-		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 28px;
-	}
-`;
-export const ProfileCareer = styled.div`
-	margin-right: 20px;
-`;
-
-export const StacksContainer = styled.div`
-	width: 600px;
-	padding: 20px 28px;
-`;
-
-export const ProfileStacks = styled.span`
-	margin: 0 8px -5px -5px;
-`;
-
-export const ProfileUserRecipeInfo = styled.div`
-	width: 700px;
-	padding-bottom: 30px;
-`;
-
-export const RecipeCardInitSetting = styled.div`
-	& > div {
-		margin-top: 20px;
-	}
-`;
-
-export const ProfileInProgressRecipe = styled(RecipeCardInitSetting)`
-	margin-bottom: 40px;
-`;
-
-export const ProfileSuccessRecipe = styled(RecipeCardInitSetting)``;
-
-// --------------------TODO: Card Design------------------
-
-export const ProfileRecipeCard = styled.div`
-	cursor: pointer;
-	transition: 0.1s;
-	overflow: hidden;
-	width: 200px;
-	height: 270px;
-	border-radius: 3px;
-	box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.15);
-
-	&:hover {
-		transform: scale(1.03);
-	}
-`;
-
-export const RecipeCardImg = styled.div`
-	width: 100%;
-	height: 80px;
-	background-color: ${({ theme }) => theme.color.pointColor};
-	background-size: 100% 100%;
-	background-position: center;
-`;
-
-export const RecipeCardContent = styled.div`
-	padding: 16px 24px;
-`;
-
-export const RecipeCardtitle = styled.div`
-	padding-bottom: 10px;
-	font-family: 'NanumSquareB';
-	font-size: 24px;
-	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
-
-	& > div {
-		padding: 4px 0;
-		font-family: 'NanumSquareR';
-		font-size: 14px;
-		color: #444242;
-	}
-`;
-
-export const RecipeCardDescription = styled.div`
-	overflow: hidden;
-	word-wrap: break-word;
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
-	text-overflow: ellipsis;
-	line-height: 1.6em;
-	height: 5.6em;
-	padding: 10px 0;
+export const InvalidMessage = styled.div`
+	width: 306px;
+	margin-left: 131.41px;
+	padding: 8px 0;
 	font-family: 'NanumSquareR';
 	font-size: 14px;
-	color: #444242;
+	color: ${({ theme }) => theme.color.warningColor};
+	text-align: center;
 `;
