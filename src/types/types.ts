@@ -167,12 +167,24 @@ export interface profileInfoDataType {
 	uploadImage: string;
 	createdAt: string;
 	updatedAt: string;
+	projectList: ProjectList[];
 }
 
 export interface careerType {
 	office: string;
 	job: string;
 	period: string;
+}
+
+export interface ProjectList {
+	createdAt: string;
+	id: number;
+	inviteList: string;
+	members: number[];
+	name: string;
+	projectColor: string;
+	projectURL: string;
+	updatedAt: string;
 }
 
 ////////////////////////////////////////////////////////
