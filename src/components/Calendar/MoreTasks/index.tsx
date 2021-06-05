@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { taskDataType } from '../../../types/types';
-import { CloseBtn, DateTitle, MoreTasksContainer, MoreTop, TaskItem } from './styles';
+import { CloseBtn, DateTitle, MoreTasksContainer, MoreTop, TaskItem, NotTask } from './styles';
 
 interface Props {
 	index: number;
@@ -30,6 +30,7 @@ const MoreTasks = ({ index, day, tasks, setOpenTargetDate }: Props): JSX.Element
 					{task.taskTitle}
 				</TaskItem>
 			))}
+			{tasks.length === 0 && <NotTask>테스크가 존재하지 않습니다.</NotTask>}
 		</MoreTasksContainer>
 	);
 };

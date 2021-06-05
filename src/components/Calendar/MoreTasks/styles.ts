@@ -52,3 +52,11 @@ export const TaskItem = styled.div`
 		margin-left: 10px;
 	}
 `;
+
+export const NotTask = styled.div`
+	${({ theme }) => theme.align.flexCenter}
+	width: 100%;
+	margin-top: 30px;
+	font-size: 14px;
+	color: #888;
+`;
