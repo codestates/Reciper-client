@@ -34,6 +34,10 @@ export const ProfileImageUploadButton = styled.div`
 
 // --------------------TODO: image personal info-------------------------
 
+export const EmailInfoWrapper = styled.div`
+	margin-bottom: 32px;
+`;
+
 export const ProfileUserEmail = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	width: 306px;
