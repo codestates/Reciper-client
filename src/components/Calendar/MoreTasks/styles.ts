@@ -57,6 +57,6 @@ export const NotTask = styled.div`
 	${({ theme }) => theme.align.flexCenter}
 	width: 100%;
 	margin-top: 30px;
-	font-size: 14px;
+	font-size: 13px;
 	color: #888;
 `;

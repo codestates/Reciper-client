@@ -142,7 +142,7 @@ const KanbanConianer = (): JSX.Element => {
 			socket?.emit('boxMoving', { currentIndex, targetIndex, part });
 			socket?.emit('boxDragBlock', { targetListIndex: targetIndex, part, isDragging: false });
 
-			dispatch(reorderTaskBox({ data, targetTask }));
+			dispatch(reorderTaskBox({ data }));
 		}
 
 		if (type === 'TaskItem') {
@@ -183,7 +183,6 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('deleteTaskBox', index => {
-			console.log(index);
 			dispatch(deleteTaskBox(index));
 		});
 
@@ -196,7 +195,7 @@ const KanbanConianer = (): JSX.Element => {
 		});
 
 		socket?.on('boxMoving', data => {
-			dispatch(reorderTaskBox({ data, targetTask }));
+			dispatch(reorderTaskBox({ data }));
 		});
 
 		socket?.on('taskMoving', data => {

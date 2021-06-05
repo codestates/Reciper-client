@@ -9,10 +9,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import ControlCalender from '../ControlCalendar';
 
 import {
+	deleteTaskBox,
 	deleteTaskItem,
+	editTaskBox,
 	editTaskDetail,
 	getSocketData,
 	kanbanDataSelector,
+	reorderTaskBox,
+	reorderTaskItem,
 	socketAddTaskBox,
 	socketAddTaskItem,
 } from '../../../reducer/kanban';
@@ -101,20 +105,36 @@ const CalendarContainer = (): JSX.Element => {
 			dispatch(getSocketData(data));
 		});
 
-		socket?.on('addTaskItem', data => {
+		socket?.on('addTaskBox', data => {
 			dispatch(socketAddTaskBox(data));
+		});
+
+		socket?.on('deleteTaskBox', index => {
+			dispatch(deleteTaskBox(index));
 		});
 
 		socket?.on('addTaskItem', data => {
 			dispatch(socketAddTaskItem(data));
 		});
 
-		socket?.on('editTaskItem', data => {
-			dispatch(editTaskDetail(data));
-		});
-
 		socket?.on('deleteTaskItem', data => {
 			dispatch(deleteTaskItem(data));
+		});
+
+		socket?.on('boxMoving', data => {
+			dispatch(reorderTaskBox({ data }));
+		});
+
+		socket?.on('taskMoving', data => {
+			dispatch(reorderTaskItem(data));
+		});
+
+		socket?.on('editTaskBox', data => {
+			dispatch(editTaskBox(data));
+		});
+
+		socket?.on('editTaskItem', data => {
+			dispatch(editTaskDetail(data));
 		});
 
 		return () => {

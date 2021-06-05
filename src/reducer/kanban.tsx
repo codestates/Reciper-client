@@ -63,10 +63,7 @@ export const kanbanDataSlice = createSlice({
 			const targetItem = state.taskBox[targetListIndex].tasks.splice(targetIndex, 1);
 			delete state.taskItems[targetItem[0]];
 		},
-		reorderTaskBox: (
-			state,
-			{ payload }: PayloadAction<{ data: { [key: string]: number }; targetTask: string }>,
-		): void => {
+		reorderTaskBox: (state, { payload }: PayloadAction<{ data: { [key: string]: number } }>): void => {
 			const { currentIndex, targetIndex } = payload.data;
 			const targetBox = state.taskBox.splice(currentIndex, 1);
 
