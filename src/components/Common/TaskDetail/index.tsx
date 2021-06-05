@@ -90,9 +90,9 @@ const TaskDetail = ({ targetTask, socket, setTargetTask, setShowModal, setData }
 			<TaskDeleteBtn onClick={() => onDeleteTaskItem()}>테스크 삭제</TaskDeleteBtn>
 			<Title taskTitle={taskTitle} onChangeTaskTitle={onChangeTaskTitle} />
 			<Desc desc={desc} onChangeDesc={onChangeDesc} />
+			<Period startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
 			<Assignees members={members} selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
 			<ColorLabel taskColor={taskColor} setTaskColor={setTaskColor} />
-			<Period startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
 			<CheckList checkList={checkList} setCheckList={setCheckList} />
 			<Comment comment={comment} setComment={setComment} />
 		</TaskDetailContainer>

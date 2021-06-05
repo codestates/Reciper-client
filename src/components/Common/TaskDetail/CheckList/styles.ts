@@ -51,8 +51,8 @@ export const ContentWrap = styled.div`
 `;
 
 export const CheckBtn = styled.div`
-	width: 12px;
-	height: 12px;
+	width: 10px;
+	height: 10px;
 	margin-right: 10px;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 100%;
