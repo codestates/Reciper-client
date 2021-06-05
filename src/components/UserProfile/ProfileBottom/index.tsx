@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import Modal from '../../Common/Modal';
 import StackTag from '../../Common/StackTag';
 import Test from '../../../images/card_test.png';
+import InprogressRecipe from '../InProgressRecipe';
 
 import {
 	ProfileUserInfo,
 	ProfileSubTitle,
 	UserDetailIntroCard,
-	ProfileInProgressRecipe,
-	ProfileSuccessRecipe,
 	ProfileUserDetailInfo,
-	ProfileUserRecipeInfo,
-	ProfileRecipeCard,
-	RecipeCardImg,
-	RecipeCardContent,
-	RecipeCardtitle,
-	RecipeCardDescription,
 	ProfileCareer,
 	ProfileStacks,
 	StacksContainer,
 } from '../ProfileTop/styles';
+
+import {
+	ProfileInProgressRecipe,
+	ProfileSuccessRecipe,
+	ProfileRecipeCard,
+	ProfileUserRecipeInfo,
+	RecipeCardImg,
+	RecipeCardContent,
+	RecipeCardtitle,
+	RecipeCardDescription,
+} from './styles';
 
 import { profileInfoDataType } from '../../../types/types';
 
@@ -77,17 +81,16 @@ const ProfileBottom = ({ profileInfo }: Props): JSX.Element => {
 					</div>
 				</ProfileUserDetailInfo>
 
-				{/* TODO: 유저 Recipe Card */}
+				{/* TODO: 유저 진행중인 Recipe Card */}
 				<ProfileUserRecipeInfo>
 					<ProfileInProgressRecipe>
 						<ProfileSubTitle>개발중인 레시피</ProfileSubTitle>
-						<div>현재 개발중인 레시피가 없습니다.</div>
+						<InprogressRecipe projectList={profileInfo.projectList} isOpen={profileInfo.isOpen} />
 					</ProfileInProgressRecipe>
 
 					<ProfileSuccessRecipe>
 						<ProfileSubTitle>완성된 레시피</ProfileSubTitle>
-
-						{/* TODO: Recipe Card */}
+						{/* TODO: 완료 Recipe Card */}
 						<ProfileRecipeCard onClick={() => setShowRecipeCard(true)}>
 							<RecipeCardImg style={{ backgroundImage: `url(${Test})` }} />
 							<RecipeCardContent>
