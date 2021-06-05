@@ -56,6 +56,7 @@ import useInput from '../../../hooks/useInput';
 import { getProjectInfo } from '../../../reducer/projectInfo';
 import Input from '../Input';
 import { getSocketData } from '../../../reducer/kanban';
+import InviteMemner from './InviteMember';
 
 interface frameInitType {
 	workSpaceType: string;
@@ -88,6 +89,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 	const [openAddInput, setOpenAddInput] = useState<boolean>(false);
 	const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 	const [showEditAlert, setShowEditAlert] = useState<boolean>(false);
+	const [showInviteMember, setShowInviteMember] = useState<boolean>(false);
 	const [SettingTarget, setSettingTarget] = useState<number>(0);
 	const [listName, onChangeListName, setListName] = useInput<string>('');
 
@@ -264,7 +266,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 					</CalendarIcon>
 				</SideBarMid>
 				<SideBarBottom>
-					<InviteIcon>
+					<InviteIcon onClick={() => setShowInviteMember(true)}>
 						<AiOutlineUsergroupAdd />
 					</InviteIcon>
 					<ProfileLink to={`/profile/${userInfo.id}`}>
@@ -351,6 +353,11 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 							</Button>
 						</EditAlertBtnWrap>
 					</SettingAlert>
+				</Modal>
+			)}
+			{showInviteMember && (
+				<Modal setShowModal={setShowInviteMember}>
+					<InviteMemner />
 				</Modal>
 			)}
 		</Frame>
