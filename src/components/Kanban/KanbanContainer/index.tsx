@@ -70,11 +70,15 @@ const KanbanConianer = (): JSX.Element => {
 	connectSocket();
 
 	const onAddTaskBox = useCallback(() => {
+		if (title.trim() === '') {
+			return;
+		}
+
 		const isDuplicate = taskBox.filter(box => {
 			return box.taskBoxTitle === title;
 		})[0];
 
-		if (title.trim() === '' || isDuplicate) {
+		if (isDuplicate) {
 			setBoxDuplicate(true);
 			return;
 		}
@@ -271,6 +275,7 @@ const KanbanConianer = (): JSX.Element => {
 									<AddTaskBoxInput
 										placeholder="+ 테스크 박스를 추가하세요"
 										value={title}
+										autoFocus
 										onChange={onChangeTitle}
 										onKeyPress={e => e.key === 'Enter' && onAddTaskBox()}
 										onBlur={onAddTaskBox}
