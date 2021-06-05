@@ -36,6 +36,9 @@ interface Props {
 	image: string;
 	stackBucket: string[];
 	setStackBucket: React.Dispatch<React.SetStateAction<string[]>>;
+	nameValidation: boolean;
+	mobileValidation: boolean;
+	aboutMeValidation: boolean;
 }
 
 const ProfileEditBottom = ({
@@ -46,6 +49,9 @@ const ProfileEditBottom = ({
 	image,
 	stackBucket,
 	setStackBucket,
+	nameValidation,
+	mobileValidation,
+	aboutMeValidation,
 }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const jobEx = ['프론트엔드', '백엔드', '풀스택', '웹 디자이너', 'IOS 개발자', 'Android 개발자', '기타'];
@@ -57,13 +63,8 @@ const ProfileEditBottom = ({
 	const [job, setJob] = useState<string>(profileInfo.career.job);
 	const [period, setPeriod] = useState<string>(profileInfo.career.period);
 
-	const [gitId, onChangeGit_id] = useInput<string>(profileInfo.gitId);
+	const [gitId, onChangeGitId] = useInput<string>(profileInfo.gitId);
 	const [office, onChangeoffice] = useInput<string>(profileInfo.career.office);
-
-	// TODO: 프로젝트 공개 여부
-	const onOpenProject = useCallback(() => {
-		setIsOpen(!isOpen);
-	}, [isOpen]);
 
 	const data: profileEditType = {
 		name: name,
@@ -80,6 +81,11 @@ const ProfileEditBottom = ({
 		stacks: [...stackBucket],
 	};
 
+	// TODO: 프로젝트 공개 여부
+	const onOpenProject = useCallback(() => {
+		setIsOpen(!isOpen);
+	}, [isOpen]);
+
 	const onDeleteStack = useCallback(
 		(index: number): void => {
 			const currentStackBucket = stackBucket.slice();
@@ -95,7 +101,12 @@ const ProfileEditBottom = ({
 			data.uploadImage = 'deleteImage';
 		}
 
-		dispatch(getProfileEdit(data));
+		if (nameValidation && mobileValidation && aboutMeValidation) {
+			dispatch(getProfileEdit(data));
+		} else {
+			return;
+		}
+
 		history.push(`/profile/${profileInfo.id}`);
 	}, [data]);
 
@@ -104,7 +115,9 @@ const ProfileEditBottom = ({
 			return;
 		}
 
-		if (stack) {
+		const duplicate = stackBucket.indexOf(stack) + 1;
+
+		if (stack && !duplicate) {
 			setStackBucket([...stackBucket, stack]);
 		}
 	}, [stack]);
@@ -121,7 +134,7 @@ const ProfileEditBottom = ({
 								height="long"
 								placeholderText="아이디를 입력하세요"
 								initValue={gitId}
-								changeEvent={onChangeGit_id}
+								changeEvent={onChangeGitId}
 							/>
 						</ProfileUserInfo>
 					</div>
@@ -145,7 +158,7 @@ const ProfileEditBottom = ({
 								</CareerInput>
 								<CareerInput>
 									<Select height="long" optionData={periodEx} setState={setPeriod}>
-										경력
+										기간
 									</Select>
 								</CareerInput>
 							</ProfileCareerContainer>
