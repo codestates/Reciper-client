@@ -86,6 +86,10 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 	}, [taskTitle]);
 
 	const onChangeTaskBoxTitle = useCallback(() => {
+		if (BoxTitle.trim() === '') {
+			setBoxTitle(taskBoxTitle);
+		}
+
 		setTaskBoxForm(false);
 		socket?.emit('editTaskBox', { targetListIndex: index, title: BoxTitle, part });
 	}, [BoxTitle]);
@@ -108,6 +112,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 								<input
 									autoFocus
 									value={BoxTitle}
+									placeholder="변경할 이름을 작성하세요"
 									onChange={onChangeBoxTitle}
 									onBlur={onChangeTaskBoxTitle}
 									onKeyPress={(e: KeyboardEvent) => e.key === 'Enter' && onChangeTaskBoxTitle()}

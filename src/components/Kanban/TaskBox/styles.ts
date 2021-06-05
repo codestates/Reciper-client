@@ -59,6 +59,12 @@ export const TaskBoxName = styled.div`
 		width: 100%;
 		font-family: 'NanumSquareB';
 		font-size: 20px;
+
+		&::placeholder {
+			font-family: 'NanumSquareR';
+			font-size: 18px;
+			color: #a6a6a8;
+		}
 	}
 `;
 
