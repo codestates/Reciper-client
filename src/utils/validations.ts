@@ -25,3 +25,24 @@ export const projectUrlValid = (url: string): boolean => {
 
 	return pass;
 };
+
+// TODO: 프로필 유저 인풋 검사
+export const profileNameValid = (name: string): boolean => {
+	const pass = !!name && name.length <= 8;
+
+	return pass;
+};
+
+export const profileMobileValid = (mobile: string): boolean => {
+	mobile = mobile.split('-').join('');
+	const phonePattern = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
+	const pass = phonePattern.test(mobile);
+
+	return pass;
+};
+
+export const profileAboutMeValid = (name: string): boolean => {
+	const pass = !!name && name.length <= 15;
+
+	return pass;
+};
