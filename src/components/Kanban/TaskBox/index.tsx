@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, KeyboardEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io-client';
@@ -11,7 +11,7 @@ import useInput from '../../../hooks/useInput';
 
 import { taskBoxDataType } from '../../../types/types';
 
-import { deleteTaskBox, addTaskItem } from '../../../reducer/kanban';
+import { addTaskItem } from '../../../reducer/kanban';
 
 import {
 	AddTaskInput,
@@ -28,6 +28,8 @@ interface Props {
 	index: number;
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	openDetail: (task: string, targetIndex: number, targetListIndex: number) => void;
+	setDeleteModal: Dispatch<SetStateAction<boolean>>;
+	setBoxIndex: Dispatch<SetStateAction<number>>;
 }
 
 const randomColor = (): string => {
@@ -58,7 +60,7 @@ const randomColor = (): string => {
 	return colors[random];
 };
 
-const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element => {
+const TaskBox = ({ socket, taskBoxData, index, openDetail, setDeleteModal, setBoxIndex }: Props): JSX.Element => {
 	const dispatch = useDispatch();
 	const { part } = useParams<{ part: string }>();
 	const { taskBoxTitle, tasks, dragging } = taskBoxData;
@@ -67,9 +69,9 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 	const [BoxTitle, onChangeBoxTitle, setBoxTitle] = useInput<string>(taskBoxTitle);
 	const [taskBoxForm, setTaskBoxForm] = useState<boolean>(false);
 
-	const onDeleteTaskBox = useCallback(() => {
-		socket?.emit('deleteTaskBox', { targetListIndex: index, part });
-		dispatch(deleteTaskBox(index));
+	const onOpenDeleteBox = useCallback(() => {
+		setDeleteModal(true);
+		setBoxIndex(index);
 	}, []);
 
 	const onAddTaskItem = useCallback(() => {
@@ -122,7 +124,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail }: Props): JSX.Element
 							)}
 							<BtnWrap>
 								<EditTaskBoxBtn className="editBtn" onClick={() => setTaskBoxForm(true)} />
-								<DeleteTaskBoxBtn className="deleteBtn" onClick={onDeleteTaskBox} />
+								<DeleteTaskBoxBtn className="deleteBtn" onClick={onOpenDeleteBox} />
 							</BtnWrap>
 						</TaskBoxName>
 						<AddTaskInput
