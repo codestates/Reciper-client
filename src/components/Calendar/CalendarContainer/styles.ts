@@ -51,9 +51,3 @@ export const CalendarWrap = styled.div`
 	width: 100%;
 	height: calc(100% - 96px);
 `;
-export const Week = styled.div`
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	position: relative;
-	width: 100%;
-`;

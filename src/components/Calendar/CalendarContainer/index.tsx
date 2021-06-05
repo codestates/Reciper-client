@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import dayjs, { Dayjs } from 'dayjs';
 
-import ViewCalendar from '../ViewCalendar';
 import ControlCalender from '../ControlCalendar';
 
 import {
@@ -208,8 +207,13 @@ const CalendarContainer = (): JSX.Element => {
 				<DayName>토</DayName>
 			</DaysWrap>
 			<CalendarWrap>
-				<ViewCalendar calendarData={calendarData} date={date} startWeek={startWeek} />
-				<ControlCalender calendarData={calendarData} taskByDate={taskByDate} taskByPosition={taskByPosition} />
+				<ControlCalender
+					date={date}
+					startWeek={startWeek}
+					calendarData={calendarData}
+					taskByDate={taskByDate}
+					taskByPosition={taskByPosition}
+				/>
 			</CalendarWrap>
 		</Container>
 	);

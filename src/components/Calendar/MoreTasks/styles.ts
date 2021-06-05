@@ -5,9 +5,9 @@ export const MoreTasksContainer = styled.div`
 	cursor: initial;
 	overflow: hidden;
 	position: absolute;
-	top: 10px;
+	bottom: -10px;
 	left: calc(100% + 10px);
-	z-index: 10;
+	z-index: 100;
 	width: 110%;
 	min-height: 100%;
 	padding: 10px 10px 5px 10px;
@@ -51,4 +51,12 @@ export const TaskItem = styled.div`
 		width: calc(100% - 10px);
 		margin-left: 10px;
 	}
+`;
+
+export const NotTask = styled.div`
+	${({ theme }) => theme.align.flexCenter}
+	width: 100%;
+	margin-top: 30px;
+	font-size: 14px;
+	color: #888;
 `;

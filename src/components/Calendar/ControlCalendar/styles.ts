@@ -10,20 +10,36 @@ export const ControlCalenderWrap = styled.div`
 	height: 100%;
 `;
 
-export const ControlDay = styled.div`
+export const Week = styled.div`
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	position: relative;
+	width: 100%;
+	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
+`;
+
+export const Day = styled.div`
 	cursor: pointer;
 	position: relative;
 	width: 100%;
 	height: 100%;
-	padding-top: 36px;
+	padding: 7px;
+	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
-	&:hover {
+	&:last-child {
+		border-right: none;
+	}
+
+	&.notThisMonth {
+		color: #888;
 	}
 `;
 
 export const DayHover = styled.div`
 	position: absolute;
 	top: 0;
+	left: 0;
+	z-index: 10;
 	transition: 0.2s;
 	width: 100%;
 	height: 100%;
@@ -33,9 +49,23 @@ export const DayHover = styled.div`
 	}
 `;
 
+export const DayDate = styled.p`
+	${({ theme }) => theme.align.flexCenter}
+	width: 25px;
+	height: 25px;
+	font-size: 14px;
+	border-radius: 100%;
+
+	&.today {
+		color: #fff;
+		background-color: #478bff;
+	}
+`;
+
 export const TaskBar = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: absolute;
+	z-index: 5;
 	height: 20px;
 	padding-left: 10px;
 	margin-bottom: 1px;
@@ -44,13 +74,13 @@ export const TaskBar = styled.div`
 	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
 	&.index0 {
-		top: 36px;
+		top: 39px;
 	}
 	&.index1 {
-		top: 57px;
+		top: 60px;
 	}
 	&.index2 {
-		top: 78px;
+		top: 81px;
 	}
 
 	&:after {
@@ -68,7 +98,8 @@ export const TaskBar = styled.div`
 
 export const More = styled.div`
 	position: absolute;
-	bottom: 4px;
+	bottom: 3px;
+	left: 0;
 	margin-top: 5px;
 	padding-left: 10px;
 	font-size: 13px;
