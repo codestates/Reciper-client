@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
+import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 export const TaskBoxContainer = styled.div`
 	width: 340px;
@@ -18,7 +19,8 @@ export const TaskBoxContainer = styled.div`
 		border: 1px solid #e6e6e8;
 	}
 
-	&:hover .deleteBtn {
+	&:hover .deleteBtn,
+	&:hover .editBtn {
 		display: block;
 		color: #aaa;
 	}
@@ -27,7 +29,8 @@ export const TaskBoxContainer = styled.div`
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		border: 1px solid #e6e6e8;
 
-		.deleteBtn {
+		.deleteBtn,
+		.editBtn {
 			display: block;
 			color: #aaa;
 		}
@@ -51,6 +54,18 @@ export const TaskBoxName = styled.div`
 		font-family: 'NanumSquareB';
 		font-size: 20px;
 	}
+
+	& > input {
+		width: 100%;
+		font-family: 'NanumSquareB';
+		font-size: 20px;
+
+		&::placeholder {
+			font-family: 'NanumSquareR';
+			font-size: 18px;
+			color: #a6a6a8;
+		}
+	}
 `;
 
 export const AddTaskInput = styled.input`
@@ -67,8 +82,17 @@ export const AddTaskInput = styled.input`
 	}
 `;
 
+export const BtnWrap = styled.div`
+	${({ theme }) => theme.align.flexVertical}
+`;
+
+export const EditTaskBoxBtn = styled(HiOutlinePencilAlt)`
+	margin-right: 5px;
+	font-size: 17px;
+	color: #f6f6f8;
+`;
+
 export const DeleteTaskBoxBtn = styled(AiOutlineClose)`
-	transition: 0.1s;
 	font-size: 17px;
 	color: #f6f6f8;
 `;

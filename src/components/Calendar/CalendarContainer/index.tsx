@@ -5,14 +5,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import dayjs, { Dayjs } from 'dayjs';
-dayjs.extend(weekOfYear);
-dayjs.extend(isoWeeksInYear);
-dayjs.extend(isLeapYear);
 
 import ViewCalendar from '../ViewCalendar';
 import ControlCalender from '../ControlCalendar';
 
-import { editTaskDetail, getSocketData, itemEditBlock, kanbanDataSelector } from '../../../reducer/kanban';
+import {
+	deleteTaskItem,
+	editTaskDetail,
+	getSocketData,
+	kanbanDataSelector,
+	socketAddTaskBox,
+	socketAddTaskItem,
+} from '../../../reducer/kanban';
 import useSocket from '../../../hooks/useSocket';
 
 import { taskDataType } from '../../../types/types';
@@ -27,6 +31,10 @@ import {
 	DirectionRightBtn,
 	DirectionWrap,
 } from './styles';
+
+dayjs.extend(weekOfYear);
+dayjs.extend(isoWeeksInYear);
+dayjs.extend(isLeapYear);
 
 const CalendarContainer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -51,9 +59,9 @@ const CalendarContainer = (): JSX.Element => {
 	connectSocket();
 
 	const currentFormatYYYYMMDD = useCallback((start: string, end: string): [number, number, number] => {
-		const startDate = Number(start.split('-').join(''));
-		const endDate = Number(end.split('-').join(''));
-		const yearDate = Number(start.split('-')[0]);
+		const startDate = Number(start.split('-').join('')) || Number(end.split('-').join(''));
+		const endDate = Number(end.split('-').join('')) || Number(start.split('-').join(''));
+		const yearDate = start ? Number(start.split('-')[0]) : Number(end.split('-')[0]);
 
 		return [startDate, endDate, yearDate];
 	}, []);
@@ -94,35 +102,36 @@ const CalendarContainer = (): JSX.Element => {
 			dispatch(getSocketData(data));
 		});
 
-		socket?.on('itemEditBlock', data => {
-			dispatch(itemEditBlock(data));
+		socket?.on('addTaskItem', data => {
+			dispatch(socketAddTaskBox(data));
+		});
+
+		socket?.on('addTaskItem', data => {
+			dispatch(socketAddTaskItem(data));
 		});
 
 		socket?.on('editTaskItem', data => {
 			dispatch(editTaskDetail(data));
 		});
 
+		socket?.on('deleteTaskItem', data => {
+			dispatch(deleteTaskItem(data));
+		});
+
 		return () => {
 			disconnectSocket();
 		};
-	}, [socket]);
+	}, []);
 
 	useEffect(() => {
 		const calendarDataFrame: Dayjs[][] = [];
 		const taskByPositionFrame: { [key: number]: taskDataType[] } = {};
 		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
 		const taskItemSorted = taskItemSort();
-		const startMonthDay = Number(date.startOf('week').week(startWeek).format('YYYYMMDD'));
-		const endMonthDay = Number(
-			date
-				.endOf('week')
-				.week(endWeek + 1)
-				.format('YYYYMMDD'),
-		);
 
 		// 달력을 그릴 데이터와 Task를 넣어 줄 틀을 만듬
 		for (let week = 0; week <= blankWeek - startWeek; week++) {
-			if (week === 0 || week === 5) {
+			if (week === 0) {
 				taskByPositionFrame[Number(date.format('YYYYMMDD'))] = [];
 			} else {
 				taskByPositionFrame[Number(date.format('YYYYMMDD')) + 1] = [];
@@ -149,7 +158,7 @@ const CalendarContainer = (): JSX.Element => {
 		Object.values(taskItems).map(task => {
 			if (task.startDate || task.endDate) {
 				const [startDate, endDate] = currentFormatYYYYMMDD(task.startDate, task.endDate);
-				const targetDays = endDate - startDate;
+				const targetDays = endDate - startDate < 0 ? 0 : endDate - startDate;
 
 				for (let i = 0; i <= targetDays; i++) {
 					if (taskByDateFrame[String(startDate + i)]) {
@@ -168,19 +177,14 @@ const CalendarContainer = (): JSX.Element => {
 					taskItemSorted[i].startDate,
 					taskItemSorted[i].endDate,
 				);
-				if (yearDate === dayjs().get('year')) {
-					console.log(taskItemSorted[i], endWeekDay, startMonthDay);
+
+				if (yearDate === today.get('year')) {
 					if (endWeekDay >= startDate && Number(weekDate) <= endDate) {
 						taskByPositionFrame[Number(weekDate)].push(taskItemSorted[i]);
 					}
 				}
 			}
 		});
-
-		// console.log(taskItems);
-		console.log('sorted', taskItemSorted);
-		console.log('taskByPositionFrame', taskByPositionFrame);
-		// console.log('taskByDate', taskByDateFrame);
 
 		setCalendarData([...calendarDataFrame]);
 		setTaskByDate({ ...taskByDateFrame });

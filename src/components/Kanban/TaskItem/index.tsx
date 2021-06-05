@@ -51,7 +51,9 @@ const TaskItem = ({ taskData, boxIndex, openDetail }: Props): JSX.Element => {
 												{/* period가 있다면 */}
 												{(startDate || endDate) && (
 													<TaskPeriod>
-														{`${dateFormat(new Date(startDate), 'md')} ~ ${dateFormat(new Date(endDate), 'md')}`}
+														{`${startDate && dateFormat(new Date(startDate), 'md')} ~ ${
+															endDate && dateFormat(new Date(endDate), 'md')
+														}`}
 													</TaskPeriod>
 												)}
 
