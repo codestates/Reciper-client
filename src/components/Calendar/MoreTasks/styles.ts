@@ -7,7 +7,7 @@ export const MoreTasksContainer = styled.div`
 	position: absolute;
 	bottom: -10px;
 	left: calc(100% + 10px);
-	z-index: 10;
+	z-index: 100;
 	width: 110%;
 	min-height: 100%;
 	padding: 10px 10px 5px 10px;

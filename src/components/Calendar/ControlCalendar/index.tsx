@@ -3,20 +3,23 @@ import dayjs, { Dayjs } from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 dayjs.extend(dayOfYear);
 
-import { taskDataType } from '../../../types/types';
-
-import { Week } from '../CalendarContainer/styles';
-import { ControlCalenderWrap, ControlDay, DayHover, More, TaskBar } from './styles';
 import MoreTasks from '../MoreTasks';
 
+import { taskDataType } from '../../../types/types';
+
+import { ControlCalenderWrap, Week, Day, DayDate, DayHover, More, TaskBar } from './styles';
+
 interface Props {
+	date: Dayjs;
+	startWeek: number;
 	calendarData: Dayjs[][];
 	taskByDate: { [key: string]: taskDataType[] };
 	taskByPosition: { [key: number]: taskDataType[] };
 }
 
 // Task가 포함되어 있고 여러 기능이 있는 캘린더
-const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): JSX.Element => {
+const ControlCalender = ({ date, startWeek, calendarData, taskByDate, taskByPosition }: Props): JSX.Element => {
+	const today = dayjs().format('YYYYMMDD');
 	const [openTargetDate, setOpenTargetDate] = useState<string>('');
 
 	return (
@@ -50,9 +53,20 @@ const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): J
 							})}
 						{week.map((day, dayIndex) => {
 							const currentDay = day.format('YYYYMMDD');
+							const currentMonth = date
+								.startOf('month')
+								.week(startWeek + 2)
+								.format('M');
+							const notThisMonth = Number(day.format('M')) === Number(currentMonth);
+							const todayHighlight = today === day.format('YYYYMMDD');
 
 							return (
-								<ControlDay key={dayIndex} onClick={() => setOpenTargetDate(currentDay)}>
+								<Day
+									key={dayIndex}
+									className={notThisMonth ? '' : 'notThisMonth'}
+									onClick={() => setOpenTargetDate(currentDay)}
+								>
+									<DayDate className={todayHighlight ? 'today' : ''}>{day.format('DD')}</DayDate>
 									<DayHover />
 									{taskByDate[currentDay].length > 3 && <More>+{taskByDate[currentDay].length - 3} 테스크</More>}
 
@@ -65,7 +79,7 @@ const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): J
 											setOpenTargetDate={setOpenTargetDate}
 										/>
 									)}
-								</ControlDay>
+								</Day>
 							);
 						})}
 					</Week>
