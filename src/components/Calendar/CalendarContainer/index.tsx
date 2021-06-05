@@ -9,7 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import ViewCalendar from '../ViewCalendar';
 import ControlCalender from '../ControlCalendar';
 
-import { deleteTaskItem, editTaskDetail, getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
+import { addTaskBox, deleteTaskItem, editTaskDetail, getSocketData, kanbanDataSelector } from '../../../reducer/kanban';
 import useSocket from '../../../hooks/useSocket';
 
 import { taskDataType } from '../../../types/types';
@@ -93,6 +93,10 @@ const CalendarContainer = (): JSX.Element => {
 
 		socket?.on('getKanbanData', data => {
 			dispatch(getSocketData(data));
+		});
+
+		socket?.on('addTaskBox', data => {
+			dispatch(addTaskBox(data));
 		});
 
 		socket?.on('editTaskItem', data => {
