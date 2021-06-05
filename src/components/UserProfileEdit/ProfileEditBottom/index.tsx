@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getProfileEdit } from '../../../reducer/profileEdit';
 import useInput from '../../../hooks/useInput';
 
@@ -53,13 +53,18 @@ const ProfileEditBottom = ({
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const [isToggled, setIsToggled] = useState<boolean>(false);
 	const [stack, setStack] = useState<string>('');
+	const [isOpen, setIsOpen] = useState<boolean>(profileInfo.isOpen);
 
 	const [gitId, onChangeGit_id] = useInput<string>(profileInfo.gitId);
 	const [office, onChangeoffice] = useInput<string>(profileInfo.career.office);
 	const [job, onChangeJob] = useInput<string>(profileInfo.career.job);
 	const [period, onChangePeriod] = useInput<string>(profileInfo.career.period);
+
+	// TODO: 프로젝트 공개 여부
+	const onOpenProject = useCallback(() => {
+		setIsOpen(!isOpen);
+	}, [isOpen]);
 
 	const data: profileEditType = {
 		name: name,
@@ -70,7 +75,7 @@ const ProfileEditBottom = ({
 			job: job,
 			period: period,
 		},
-		isOpen: false,
+		isOpen: isOpen,
 		aboutMe: aboutMe,
 		uploadImage: image,
 		stacks: [...stackBucket],
@@ -86,20 +91,24 @@ const ProfileEditBottom = ({
 		}
 	}, [stack]);
 
-	const onDeleteStack = (index: number): void => {
-		const currentStackBucket = stackBucket.slice();
-		currentStackBucket.splice(index, 1);
-		setStackBucket(currentStackBucket);
-	};
+	const onDeleteStack = useCallback(
+		(index: number): void => {
+			const currentStackBucket = stackBucket.slice();
+			currentStackBucket.splice(index, 1);
+			setStackBucket(currentStackBucket);
+		},
+		[stackBucket],
+	);
 
-	const onChangeProfileInfo = (): void => {
+	const onChangeProfileInfo = useCallback((): void => {
 		// TODO: 프로필 갱신 요청하기
 		if (image === '') {
 			data.uploadImage = 'deleteImage';
 		}
+
 		dispatch(getProfileEdit(data));
 		history.push(`/profile/${profileInfo.id}`);
-	};
+	}, [data]);
 
 	return (
 		<>
@@ -167,8 +176,8 @@ const ProfileEditBottom = ({
 					<ShowProject>
 						<ProfileSubTitle>프로젝트 공개</ProfileSubTitle>
 						<ProfileUserInfo>
-							<ToggleButton isToggled={isToggled} changeEvent={() => setIsToggled(!isToggled)}>
-								{isToggled && <ToggleMessage>프로젝트를 공개합니다</ToggleMessage>}
+							<ToggleButton isOpenProject={isOpen} changeEvent={onOpenProject}>
+								{isOpen && <ToggleMessage>프로젝트를 공개합니다</ToggleMessage>}
 							</ToggleButton>
 						</ProfileUserInfo>
 					</ShowProject>
