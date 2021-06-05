@@ -3,6 +3,7 @@ import React from 'react';
 import InprogressRecipe from '../InProgressRecipe';
 
 import StackTag from '../../Common/StackTag';
+import DoneRecipe from '../DoneRecipe';
 
 import { ProfileUserInfo, ProfileSubTitle } from '../ProfileTop/styles';
 import {
@@ -17,7 +18,6 @@ import {
 } from './styles';
 
 import { profileInfoDataType } from '../../../types/types';
-import DoneRecipe from '../DoneRecipe';
 
 interface Props {
 	profileInfo: profileInfoDataType;
