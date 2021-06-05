@@ -58,7 +58,8 @@ const ControlCalender = ({ calendarData, taskByDate, taskByPosition }: Props): J
 
 									{openTargetDate === currentDay && (
 										<MoreTasks
-											index={dayIndex}
+											dayIndex={dayIndex}
+											weekIndex={weekIndex}
 											day={day}
 											tasks={taskByDate[currentDay]}
 											setOpenTargetDate={setOpenTargetDate}

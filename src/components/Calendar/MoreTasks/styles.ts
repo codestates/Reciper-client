@@ -5,7 +5,7 @@ export const MoreTasksContainer = styled.div`
 	cursor: initial;
 	overflow: hidden;
 	position: absolute;
-	top: 10px;
+	bottom: -10px;
 	left: calc(100% + 10px);
 	z-index: 10;
 	width: 110%;

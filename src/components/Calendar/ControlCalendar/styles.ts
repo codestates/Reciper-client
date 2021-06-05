@@ -44,13 +44,13 @@ export const TaskBar = styled.div`
 	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
 	&.index0 {
-		top: 36px;
+		top: 39px;
 	}
 	&.index1 {
-		top: 57px;
+		top: 60px;
 	}
 	&.index2 {
-		top: 78px;
+		top: 81px;
 	}
 
 	&:after {
@@ -68,7 +68,7 @@ export const TaskBar = styled.div`
 
 export const More = styled.div`
 	position: absolute;
-	bottom: 4px;
+	bottom: 3px;
 	margin-top: 5px;
 	padding-left: 10px;
 	font-size: 13px;

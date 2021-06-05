@@ -4,20 +4,26 @@ import { taskDataType } from '../../../types/types';
 import { CloseBtn, DateTitle, MoreTasksContainer, MoreTop, TaskItem, NotTask } from './styles';
 
 interface Props {
-	index: number;
+	dayIndex: number;
+	weekIndex: number;
 	day: Dayjs;
 	tasks: taskDataType[];
 	setOpenTargetDate: Dispatch<SetStateAction<string>>;
 }
 
-const MoreTasks = ({ index, day, tasks, setOpenTargetDate }: Props): JSX.Element => {
+const MoreTasks = ({ dayIndex, weekIndex, day, tasks, setOpenTargetDate }: Props): JSX.Element => {
 	const onCloseMore = (e: MouseEvent): void => {
 		e.stopPropagation();
 		setOpenTargetDate('');
 	};
-
+	console.log(weekIndex);
 	return (
-		<MoreTasksContainer style={{ left: `${index >= 5 && 'calc(-110% - 10px)'}` }}>
+		<MoreTasksContainer
+			style={{
+				left: `${dayIndex >= 5 && 'calc(-110% - 10px)'}`,
+				bottom: `${weekIndex === 5 && '10px'}`,
+			}}
+		>
 			<MoreTop>
 				<DateTitle>{day.format('YYYY년 M월 DD일')}</DateTitle>
 				<CloseBtn onClick={onCloseMore} />
