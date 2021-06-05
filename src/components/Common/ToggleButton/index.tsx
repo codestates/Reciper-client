@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent } from 'react';
 import { ToggleSwitch, ToggleSliderRound } from './styles';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 	children: 토글로 인하여 경고 메세지를 남기고 싶을 때 사용합니다.
 
-	isToggled: 토글의 상태를 확인하고 요청에 필요할 때 사용합니다.
+	isOpenProject: 토글의 상태를 확인하고 요청에 필요할 때 사용합니다.
 
 	changeEvent: 토글의 상태에 변화를 줄 때 사용합니다.
 	 onClick={() => setIsOpen(!isOpenProject)}
