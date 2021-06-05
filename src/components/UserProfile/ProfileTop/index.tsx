@@ -46,15 +46,19 @@ const UserProfile = (): JSX.Element => {
 			{/* TODO: 유저 개인 정보 */}
 			<ProfileUserCard>
 				<ProfileImg>
-					<div>
-						<ProfileImage
-							width="100%"
-							height="100%"
-							profileImage={profileInfo.uploadImage}
-							profileColor={profileInfo.profileColor}
-							userName={profileInfo.name}
-							userNameSize="120px"
-						/>
+					<div style={{ backgroundColor: `${profileInfo.profileColor}` }}>
+						{profileInfo.uploadImage ? (
+							<ProfileImage
+								width="100%"
+								height="100%"
+								profileImage={profileInfo.uploadImage}
+								profileColor={profileInfo.profileColor}
+								userName={profileInfo.name}
+								userNameSize="140px"
+							/>
+						) : (
+							<p>{profileInfo.name.slice(0, 1)}</p>
+						)}
 					</div>
 				</ProfileImg>
 				<ProfileUserInfoCard>

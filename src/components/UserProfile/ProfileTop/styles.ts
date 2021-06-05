@@ -50,13 +50,13 @@ export const ProfileImg = styled.div`
 
 	& > div {
 		overflow: hidden;
-		${({ theme }) => theme.align.flexVertical}
+		${({ theme }) => theme.align.flexVertical};
 		width: 272px;
 		height: 272px;
 		border-radius: 100%;
 
 		& > div {
-			${({ theme }) => theme.align.flexCenter}
+			${({ theme }) => theme.align.flexCenter};
 			width: 100%;
 			height: 100%;
 			font-family: 'NanumSquareR';
@@ -65,9 +65,17 @@ export const ProfileImg = styled.div`
 		}
 
 		& > form {
-			${({ theme }) => theme.align.positionCenter}
+			${({ theme }) => theme.align.positionCenter};
 			right: 28px;
 			width: content-fit;
+		}
+
+		& > p {
+			${({ theme }) => theme.align.flexCenter}
+			width: 100%;
+			font-family: 'NanumSquareR';
+			font-size: 140px;
+			color: #fff;
 		}
 	}
 
