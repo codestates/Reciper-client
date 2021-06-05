@@ -4,6 +4,9 @@ import { DragDropContext, DragStart, Droppable, DropResult } from 'react-beautif
 import { useHistory, useParams } from 'react-router';
 
 import TaskBox from '../TaskBox';
+import Modal from '../../Common/Modal';
+import TaskDetail from '../../Common/TaskDetail';
+import Button from '../../Common/Button';
 
 import useInput from '../../../hooks/useInput';
 import useSocket from '../../../hooks/useSocket';
@@ -25,11 +28,11 @@ import {
 	itemDragStart,
 	itemDragEnd,
 	itemEditBlock,
+	editTaskBox,
 } from '../../../reducer/kanban';
 
+import { DeleteAlertBtnWrap, SettingAlert } from '../../Common/WorkSpaceFrame/styles';
 import { AddInputMessage, AddTaskBoxBtn, AddTaskBoxInput, Container, TaskBoxWrap } from './styles';
-import Modal from '../../Common/Modal';
-import TaskDetail from '../../Common/TaskDetail';
 
 const KanbanConianer = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -42,6 +45,8 @@ const KanbanConianer = (): JSX.Element => {
 	const [connect, setConnect] = useState<boolean>(false);
 
 	const [showAddTaskForm, setShowAddTask] = useState<boolean>(false);
+	const [deleteModal, setDeleteModal] = useState<boolean>(false);
+	const [boxIndex, setBoxIndex] = useState<number>(0);
 	const [title, onChangeTitle, setTitle] = useInput<string>('');
 
 	const [boxDuplicate, setBoxDuplicate] = useState<boolean>(false);
@@ -64,76 +69,6 @@ const KanbanConianer = (): JSX.Element => {
 	// 소켓 연결
 	connectSocket();
 
-	useEffect(() => {
-		// 소켓 이벤트 모음
-		socket?.on('getKanbanData', data => {
-			dispatch(getSocketData(data));
-		});
-
-		socket?.on('addTaskBox', data => {
-			dispatch(socketAddTaskBox(data));
-		});
-
-		socket?.on('deleteTaskBox', index => {
-			dispatch(deleteTaskBox(index));
-		});
-
-		socket?.on('addTaskItem', data => {
-			dispatch(socketAddTaskItem(data));
-		});
-
-		socket?.on('deleteTaskItem', data => {
-			dispatch(deleteTaskItem(data));
-		});
-
-		socket?.on('boxMoving', data => {
-			dispatch(reorderTaskBox({ data, targetTask }));
-		});
-
-		socket?.on('taskMoving', data => {
-			dispatch(reorderTaskItem(data));
-		});
-
-		socket?.on('editTaskItem', data => {
-			dispatch(editTaskDetail(data));
-		});
-
-		socket?.on('boxDragBlock', data => {
-			dispatch(boxDragBlock(data));
-		});
-
-		socket?.on('itemDragStart', data => {
-			dispatch(itemDragStart(data));
-		});
-
-		socket?.on('itemDragEnd', data => {
-			dispatch(itemDragEnd(data));
-		});
-
-		socket?.on('itemEditBlock', data => {
-			dispatch(itemEditBlock(data));
-		});
-
-		socket?.on('connection', () => {
-			setTimeout(() => {
-				setConnect(true);
-			}, 100);
-		});
-
-		return () => {
-			disconnectSocket();
-			setConnect(false);
-		};
-	}, []);
-
-	useEffect(() => {
-		socket?.emit('joinPart', part);
-
-		return () => {
-			socket?.emit('leavePart', part);
-		};
-	}, [connect, part]);
-
 	const onAddTaskBox = useCallback(() => {
 		const isDuplicate = taskBox.filter(box => {
 			return box.taskBoxTitle === title;
@@ -151,6 +86,24 @@ const KanbanConianer = (): JSX.Element => {
 		setShowAddTask(false);
 		setBoxDuplicate(false);
 	}, [title]);
+
+	const onDeleteTaskBox = useCallback(() => {
+		socket?.emit('deleteTaskBox', { targetListIndex: boxIndex, part });
+		dispatch(deleteTaskBox(boxIndex));
+		setDeleteModal(false);
+	}, [socket]);
+
+	const openDetail = useCallback(
+		(task: string, targetIndex: number, targetListIndex: number): void => {
+			setShowModal(true);
+			setTargetTask(task);
+			setTargetIndex(targetIndex);
+			setTargeListIndex(targetListIndex);
+
+			socket?.emit('itemEditBlock', { part, targetListIndex, targetIndex, isDragging: true });
+		},
+		[socket],
+	);
 
 	const onDragStart = (initial: DragStart): void => {
 		const { source, draggableId, type } = initial;
@@ -207,19 +160,83 @@ const KanbanConianer = (): JSX.Element => {
 		}
 	};
 
-	const openDetail = useCallback(
-		(task: string, targetIndex: number, targetListIndex: number): void => {
-			setShowModal(true);
-			setTargetTask(task);
-			setTargetIndex(targetIndex);
-			setTargeListIndex(targetListIndex);
+	useEffect(() => {
+		socket?.emit('joinPart', part);
 
-			socket?.emit('itemEditBlock', { part, targetListIndex, targetIndex, isDragging: true });
-		},
-		[socket],
-	);
+		return () => {
+			socket?.emit('leavePart', part);
+		};
+	}, [connect, part]);
 
 	useEffect(() => {
+		// 소켓 이벤트 모음
+		socket?.on('getKanbanData', data => {
+			dispatch(getSocketData(data));
+		});
+
+		socket?.on('addTaskBox', data => {
+			dispatch(socketAddTaskBox(data));
+		});
+
+		socket?.on('deleteTaskBox', index => {
+			console.log(index);
+			dispatch(deleteTaskBox(index));
+		});
+
+		socket?.on('addTaskItem', data => {
+			dispatch(socketAddTaskItem(data));
+		});
+
+		socket?.on('deleteTaskItem', data => {
+			dispatch(deleteTaskItem(data));
+		});
+
+		socket?.on('boxMoving', data => {
+			dispatch(reorderTaskBox({ data, targetTask }));
+		});
+
+		socket?.on('taskMoving', data => {
+			dispatch(reorderTaskItem(data));
+		});
+
+		socket?.on('editTaskBox', data => {
+			dispatch(editTaskBox(data));
+		});
+
+		socket?.on('editTaskItem', data => {
+			dispatch(editTaskDetail(data));
+		});
+
+		socket?.on('boxDragBlock', data => {
+			dispatch(boxDragBlock(data));
+		});
+
+		socket?.on('itemDragStart', data => {
+			dispatch(itemDragStart(data));
+		});
+
+		socket?.on('itemDragEnd', data => {
+			dispatch(itemDragEnd(data));
+		});
+
+		socket?.on('itemEditBlock', data => {
+			dispatch(itemEditBlock(data));
+		});
+
+		socket?.on('connection', () => {
+			setTimeout(() => {
+				setConnect(true);
+			}, 100);
+		});
+
+		return () => {
+			disconnectSocket();
+			setConnect(false);
+		};
+	}, []);
+
+	useEffect(() => {
+		// TaskItem 수정
 		if (!showModal && String(targetTask)) {
 			socket?.emit('editTaskItem', { targetListIndex, targetIndex, task: detailData, part });
 			socket?.emit('itemEditBlock', { part, targetListIndex, targetIndex, isDragging: false });
@@ -244,6 +261,8 @@ const KanbanConianer = (): JSX.Element => {
 									taskBoxData={taskBox}
 									index={index}
 									openDetail={openDetail}
+									setDeleteModal={setDeleteModal}
+									setBoxIndex={setBoxIndex}
 								/>
 							))}
 							{provided.placeholder}
@@ -275,6 +294,22 @@ const KanbanConianer = (): JSX.Element => {
 						setShowModal={setShowModal}
 						setData={setDetailData}
 					/>
+				</Modal>
+			)}
+
+			{deleteModal && (
+				<Modal setShowModal={setDeleteModal}>
+					<SettingAlert>
+						<p>삭제 시 내용이 전부 사라집니다. 삭제 하시겠습니까?</p>
+						<DeleteAlertBtnWrap>
+							<Button size="medium" margin="0 10px 0 0" buttonType="cancel" clickEvent={() => setDeleteModal(false)}>
+								취소
+							</Button>
+							<Button size="medium" backgroundColor="delete" clickEvent={onDeleteTaskBox}>
+								삭제
+							</Button>
+						</DeleteAlertBtnWrap>
+					</SettingAlert>
 				</Modal>
 			)}
 		</Container>

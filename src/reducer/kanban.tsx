@@ -56,6 +56,10 @@ export const kanbanDataSlice = createSlice({
 		deleteTaskItem: (state, { payload }: PayloadAction<{ [key: string]: number }>): void => {
 			const { targetListIndex, targetIndex } = payload;
 
+			state.taskBox[targetListIndex].dragging = false;
+			state.taskBox[targetListIndex].tasks.forEach(taskKey => {
+				state.taskItems[taskKey].dragging = false;
+			});
 			const targetItem = state.taskBox[targetListIndex].tasks.splice(targetIndex, 1);
 			delete state.taskItems[targetItem[0]];
 		},
@@ -89,6 +93,11 @@ export const kanbanDataSlice = createSlice({
 
 			state.taskBox[targetListIndex].tasks.push(taskKey);
 			state.taskItems = { ...state.taskItems, [taskKey]: task };
+		},
+		editTaskBox: (state, { payload }) => {
+			const { targetListIndex, title } = payload;
+
+			state.taskBox[targetListIndex].taskBoxTitle = title;
 		},
 		editTaskDetail: (
 			state,
@@ -151,6 +160,7 @@ export const {
 	socketAddTaskBox,
 	socketAddTaskItem,
 	deleteTaskItem,
+	editTaskBox,
 	editTaskDetail,
 	boxDragBlock,
 	itemDragStart,

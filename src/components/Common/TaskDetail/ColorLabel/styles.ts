@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
 export const ColorLabelWrap = styled.div`
-	${({ theme }) => theme.align.flexVertical}
+	display: flex;
 	position: relative;
-	margin-bottom: 20px;
 	width: 100%;
 	font-family: 'NanumSquareR';
 `;
@@ -31,10 +30,24 @@ export const ChangeColorBtn = styled.button`
 	}
 `;
 
+export const LabelWrap = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	max-width: calc(100% - 143px);
+	height: 53px;
+	margin-bottom: 10px;
+`;
+
 export const Label = styled.div`
 	cursor: pointer;
-	width: 25px;
+	transition: 0.1s;
+	min-width: 25px;
 	height: 25px;
-	margin-right: 3px;
+	margin: 0 3px 3px 0;
 	border-radius: 100%;
+
+	&:hover {
+		transform: scale(1.1);
+		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+	}
 `;
