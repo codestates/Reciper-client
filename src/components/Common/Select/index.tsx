@@ -6,6 +6,7 @@ interface Props {
 	height: string;
 	margin: string;
 	optionData: string[];
+	initValue?: string;
 	resetValue: boolean;
 	setState: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -39,11 +40,18 @@ const Select = (props: Props): JSX.Element => {
 
 	useEffect(() => {
 		props.setState(selectedValue);
+		setShowOptions(false);
 	}, [selectedValue]);
 
 	useEffect(() => {
 		setSelectedValue('');
 	}, [props.resetValue]);
+
+	useEffect(() => {
+		if (props.initValue) {
+			setSelectedValue(props.initValue);
+		}
+	}, [props.initValue]);
 
 	return (
 		<>

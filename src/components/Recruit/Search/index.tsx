@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Element => {
-	const sortData: string[] = ['최신순', '오래된순'];
+	const sortData: string[] = ['최신순', '오래된 순'];
 	const [stack, setStack] = useState<string>('');
 
 	useEffect(() => {
@@ -61,8 +61,8 @@ const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Eleme
 						<SearchCodeIcon />
 						<StackSearchCustom width="long" height="long" margin="0 10px 0 0" setState={setStack} />
 					</SearchInputContiner>
-					<Select height="long" optionData={sortData} setState={setSortValue}>
-						최신 순
+					<Select height="long" optionData={sortData} initValue="최신순" setState={setSortValue}>
+						최신순
 					</Select>
 				</div>
 			</SearchFormContiner>
