@@ -1,7 +1,10 @@
-import dayjs from 'dayjs';
 import React from 'react';
-import { ProjectList } from '../../../types/types';
+
+import dayjs from 'dayjs';
+
 import { RecipeContainer, RecipeImage, RecipeInfoWrapper, RecipeMembersIcon, RecipeWrapper } from './styles';
+
+import { ProjectList } from '../../../types/types';
 
 interface Props {
 	projectList: ProjectList[];
@@ -9,7 +12,6 @@ interface Props {
 }
 
 const InprogressRecipe = ({ projectList, isOpen }: Props): JSX.Element => {
-	console.log(projectList);
 	return (
 		<>
 			{isOpen ? (
@@ -31,7 +33,7 @@ const InprogressRecipe = ({ projectList, isOpen }: Props): JSX.Element => {
 							))}
 						</RecipeContainer>
 					) : (
-						<div>현재 개발중인 레시피가 없습니다.</div>
+						<div>현재 개발중인 레시피가 없습니다</div>
 					)}
 				</>
 			) : (
