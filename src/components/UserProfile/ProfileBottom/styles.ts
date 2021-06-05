@@ -12,7 +12,7 @@ export const ProfileUserDetailInfo = styled.div`
 
 	& > div {
 		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 28px;
+		margin-bottom: 40px;
 	}
 `;
 

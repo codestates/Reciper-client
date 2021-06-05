@@ -15,6 +15,7 @@ import {
 	ProfileSubTitle,
 	ProfileUserCard,
 	ProfileUserInfoCard,
+	InputWrapper,
 } from './styles';
 import ProfileImage from '../../Common/ProfileImage';
 
@@ -58,26 +59,34 @@ const UserProfile = (): JSX.Element => {
 				</ProfileImg>
 				<ProfileUserInfoCard>
 					<div>
-						<ProfileSubTitle>이름</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.name ? profileInfo.name : <>{profileInfo.email.split('@')[0]}</>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>이름</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.name ? profileInfo.name : <>{profileInfo.email.split('@')[0]}</>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>전화번호</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>전화번호</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.mobile ? profileInfo.mobile : <div>프로필을 설정해 주세요</div>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>이메일</ProfileSubTitle>
-						<ProfileUserInfo>{profileInfo.email}</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>이메일</ProfileSubTitle>
+							<ProfileUserInfo>{profileInfo.email}</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 					<div>
-						<ProfileSubTitle>한줄 소개</ProfileSubTitle>
-						<ProfileUserInfo>
-							{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
-						</ProfileUserInfo>
+						<InputWrapper>
+							<ProfileSubTitle>한줄 소개</ProfileSubTitle>
+							<ProfileUserInfo>
+								{profileInfo.aboutMe ? profileInfo.aboutMe : <div>프로필을 설정해 주세요</div>}
+							</ProfileUserInfo>
+						</InputWrapper>
 					</div>
 				</ProfileUserInfoCard>
 			</ProfileUserCard>

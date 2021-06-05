@@ -38,21 +38,21 @@ export const ProfileUserCard = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	flex-direction: row;
 	width: 800px;
-	padding: 40px 28px 40px 28px;
+	padding: 40px 8px;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 `;
 
 export const ProfileImg = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 260px;
-	height: 266px;
+	width: 272px;
+	height: 308px;
 
 	& > div {
 		overflow: hidden;
 		${({ theme }) => theme.align.flexVertical}
-		width: 230px;
-		height: 230px;
+		width: 272px;
+		height: 272px;
 		border-radius: 100%;
 
 		& > div {
@@ -92,12 +92,16 @@ export const ProfileImg = styled.div`
 export const ProfileUserInfoCard = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 12px 68px;
+	margin-left: 72px;
+	padding: 12px 0px;
 	width: 100%;
 
 	& > div {
-		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 28px;
+		display: flex;
+		flex-direction: column;
+
+		height: 72px;
+		margin-bottom: 8px;
 	}
 `;
 
@@ -107,6 +111,12 @@ export const ProfileSubTitle = styled.div`
 	height: 40px;
 	font-family: 'NanumSquareB';
 	font-size: 18px;
+`;
+
+export const InputWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
 `;
 
 export const ProfileUserInfo = styled.div`
@@ -120,4 +130,14 @@ export const ProfileUserInfo = styled.div`
 	& > div {
 		color: #545454;
 	}
+`;
+
+export const InvalidMessage = styled.div`
+	width: 306px;
+	margin-left: 131.41px;
+	padding: 8px 0;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.warningColor};
+	text-align: center;
 `;
