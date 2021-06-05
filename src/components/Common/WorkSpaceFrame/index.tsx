@@ -136,7 +136,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 			if (e.key === 'Enter') {
 				const roomValue = {
 					currentURL: currentURL,
-					currentAddress: currentAddress,
+					currentAddress: currentAddress === 'calendar' ? 'kanban' : currentAddress,
 					roomName: { name: value },
 				};
 
@@ -167,7 +167,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 	const deleteListItem = useCallback((): void => {
 		const roomValue = {
 			currentURL: currentURL,
-			currentAddress: currentAddress,
+			currentAddress: currentAddress === 'calendar' ? 'kanban' : currentAddress,
 			roomName: { name: roomsList[SettingTarget] },
 		};
 
@@ -187,7 +187,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 
 		const roomValue = {
 			currentURL: currentURL,
-			currentAddress: currentAddress,
+			currentAddress: currentAddress === 'calendar' ? 'kanban' : currentAddress,
 			roomName: { name: roomsList[SettingTarget] },
 			changeName: { name: listName },
 		};
