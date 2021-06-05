@@ -48,32 +48,6 @@ const CreateTop = (): JSX.Element => {
 	const [period, setPeriod] = useState<Date | [Date, Date] | null>();
 	const [deadline, setDeadline] = useState<Date | [Date, Date] | null>();
 
-	useEffect(() => {
-		dispatch(writingAction({ simpleDesc }));
-	}, [simpleDesc]);
-
-	useEffect(() => {
-		dispatch(writingAction({ recruitMembers }));
-	}, [recruitMembers]);
-
-	useEffect(() => {
-		dispatch(writingAction({ requireStack }));
-	}, [requireStack]);
-
-	useEffect(() => {
-		dispatch(writingAction({ serviceStep }));
-	}, [serviceStep]);
-
-	useEffect(() => {
-		dispatch(writingAction({ period: dateFormat(period as Date) }));
-	}, [period]);
-
-	useEffect(() => {
-		if (stackValue) {
-			setRequireStack([...requireStack, stackValue]);
-		}
-	}, [stackValue]);
-
 	const onAddRecruitMembers = () => {
 		// ReacruitMember를 추가하는 이벤트입니다.
 		if (!(position && career && personnel && deadline)) {
@@ -113,7 +87,10 @@ const CreateTop = (): JSX.Element => {
 	);
 
 	const DatePickerCustomBtn = forwardRef(
-		({ value, onClick, initialValue }: any, ref: ForwardedRef<HTMLButtonElement>) => (
+		(
+			{ value, onClick, initialValue }: { value?: string; onClick?: () => void; initialValue: string },
+			ref: ForwardedRef<HTMLButtonElement>,
+		) => (
 			<DatePickerCustomInput
 				style={{ color: `${value ? '#000' : '#d6d6d8'}` }}
 				className="example-custom-input"
@@ -125,6 +102,37 @@ const CreateTop = (): JSX.Element => {
 		),
 	);
 	DatePickerCustomBtn.displayName = 'custom btn';
+
+	useEffect(() => {
+		dispatch(writingAction({ simpleDesc }));
+	}, [simpleDesc]);
+
+	useEffect(() => {
+		dispatch(writingAction({ recruitMembers }));
+	}, [recruitMembers]);
+
+	useEffect(() => {
+		dispatch(writingAction({ requireStack }));
+	}, [requireStack]);
+
+	useEffect(() => {
+		dispatch(writingAction({ serviceStep }));
+	}, [serviceStep]);
+
+	useEffect(() => {
+		dispatch(writingAction({ period: dateFormat(period as Date) }));
+	}, [period]);
+
+	useEffect(() => {
+		// 스택 추가
+		if (stackValue) {
+			const duplcateCheck = requireStack.indexOf(stackValue) + 1;
+
+			if (!duplcateCheck) {
+				setRequireStack([...requireStack, stackValue]);
+			}
+		}
+	}, [stackValue]);
 
 	return (
 		<>
