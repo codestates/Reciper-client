@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { RawDraftContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { useDispatch } from 'react-redux';
@@ -29,6 +29,12 @@ const CreateBottom = (): JSX.Element => {
 	const [detailDesc, setDetailDesc] = useState<string>('');
 	const [uploadImage, setUploadImage] = useState<string>(randomBasicImage());
 
+	const onEditorValue = useCallback((contentState: RawDraftContentState) => {
+		const stateToHtml: string = draftToHtml(contentState);
+
+		setDetailDesc(stateToHtml);
+	}, []);
+
 	useEffect(() => {
 		dispatch(writingAction({ detailTitle }));
 	}, [detailTitle]);
@@ -40,12 +46,6 @@ const CreateBottom = (): JSX.Element => {
 	useEffect(() => {
 		dispatch(writingAction({ uploadImage }));
 	}, [uploadImage]);
-
-	const onEditorValue = (contentState: RawDraftContentState) => {
-		const stateToHtml: string = draftToHtml(contentState);
-
-		setDetailDesc(stateToHtml);
-	};
 
 	return (
 		<CreatBottomContainer>

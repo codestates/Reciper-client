@@ -38,3 +38,11 @@ export const CreateSubGuideTitle = styled.p`
 export const CreateBtnWrap = styled.div`
 	${({ theme }) => theme.align.flexHorizontal}
 `;
+
+export const ValidFalseMessage = styled.p`
+	height: 16px;
+	margin: 10px 0;
+	text-align: center;
+	font-size: 16px;
+	color: ${({ theme }) => theme.color.warningColor};
+`;

@@ -48,7 +48,7 @@ const CreateTop = (): JSX.Element => {
 	const [period, setPeriod] = useState<Date | [Date, Date] | null>();
 	const [deadline, setDeadline] = useState<Date | [Date, Date] | null>();
 
-	const onAddRecruitMembers = () => {
+	const onAddRecruitMembers = useCallback(() => {
 		// ReacruitMember를 추가하는 이벤트입니다.
 		if (!(position && career && personnel && deadline)) {
 			return;
@@ -62,9 +62,9 @@ const CreateTop = (): JSX.Element => {
 		};
 
 		setDeadline(null);
-		setSelectReset(!selectReset);
+		setSelectReset(selectReset => !selectReset);
 		setRecruitMembers([...recruitMembers, recruitMembersFrame]);
-	};
+	}, [position, career, personnel, deadline, recruitMembers]);
 
 	const onDeleteRecruitMembers = useCallback(
 		// ReacruitMember를 제거하는 이벤트입니다.
