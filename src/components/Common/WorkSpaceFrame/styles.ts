@@ -38,7 +38,7 @@ export const SideBarMid = styled.div`
 `;
 
 export const SideBarBottom = styled.div`
-	${({ theme }) => theme.align.flexHorizontal}
+	${({ theme }) => theme.align.flexVertical}
 	flex-direction: column;
 	position: absolute;
 	bottom: 0;
@@ -94,6 +94,8 @@ export const InviteIcon = styled.button`
 
 export const ProfileLink = styled(Link)`
 	${({ theme }) => theme.align.flexCenter}
+	width: 35px;
+	height: 35px;
 `;
 
 ////////////////////////////////////////
