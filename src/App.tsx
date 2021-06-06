@@ -25,6 +25,7 @@ import getLoginInfo from './utils/getLoginInfo';
 
 import { loginDataType } from './types/types';
 import Auth from './hoc/Auth';
+import WebRTC from './pages/WebRTC';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -82,6 +83,7 @@ const App = (): JSX.Element => {
 				<Route path="/workspace/:projectUrl/chat/:part" component={Auth(Chat)} />
 				<Route path="/workspace/:projectUrl/calendar/:part" component={Auth(Calendar)} />
 				<Route path="/workspace/:projectUrl/kanban/:part" component={Auth(Kanban)} />
+				<Route path="/workspace/:projectUrl/webRTC" component={WebRTC} />
 			</Switch>
 		</div>
 	);
