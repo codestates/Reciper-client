@@ -5,20 +5,19 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 
 export const CarouselWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	max-width: 1800px;
-	height: 600px;
+	max-width: 100vw;
+	height: 30vw;
+	padding-bottom: 2vw;
 `;
 
 export const CarouselContents = styled(Slider)`
 	${({ theme }) => theme.align.flexCenter};
-
-	width: 90%;
-	height: 600px;
+	width: 90vw;
+	height: 30vw;
 `;
 
 export const CarouselItemWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	height: 300px;
 
 	&: focus {
 		outline: none;
@@ -27,7 +26,7 @@ export const CarouselItemWrapper = styled.div`
 
 export const CarouselItem = styled.div`
 	overflow: hidden;
-	padding: 52px;
+	padding: 2.4vw;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 5px;
 `;
@@ -35,7 +34,7 @@ export const CarouselItem = styled.div`
 export const ItemName = styled.div`
 	margin-bottom: 30px;
 	font-family: NanumSquareB;
-	font-size: 24px;
+	font-size: 1.3vw;
 	color: #c6c6c8;
 
 	& > span {
@@ -51,19 +50,19 @@ export const ItemContent = styled.div`
 	-webkit-line-clamp: 7;
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
-	line-height: 1.6em;
-
+	line-height: 1.8vw;
 	font-family: NanumSquareR;
-	font-size: 22px;
+	font-size: 1.1vw;
 	color: #444242;
 `;
 
 export const ArrowBack = styled(IoIosArrowBack)`
 	position: relative;
-	right: 58px;
-	bottom: 132px;
+
+	bottom: 5vw;
 	transition: 0.3s;
-	font-size: 80px;
+	width: 3vw;
+	font-size: 4vw;
 	color: ${({ theme }) => theme.color.pointColor};
 
 	&:hover {
@@ -73,9 +72,10 @@ export const ArrowBack = styled(IoIosArrowBack)`
 
 export const ArrowForward = styled(IoIosArrowForward)`
 	position: relative;
-	bottom: 132px;
+	bottom: 5vw;
 	transition: 0.3s;
-	font-size: 80px;
+	width: 3vw;
+	font-size: 4vw;
 	color: ${({ theme }) => theme.color.pointColor};
 
 	&:hover {
@@ -91,28 +91,26 @@ export const ViewMoreButton = styled.div`
 	font-family: NanumSquareB;
 	color: ${({ theme }) => theme.hover.pointColorHover};
 	text-align: right;.
-	font-size: 16px;
+	font-size: 1.2vw;
 `;
 
-export const ViewMoreButtonIcon = styled(MdKeyboardArrowRight)`
-	font-size: 20px;
-`;
+export const ViewMoreButtonIcon = styled(MdKeyboardArrowRight)``;
 
 // -------------------TODO: 더 보기 모달창-------------------
 
 export const ViewMoreContainer = styled.div`
 	${({ theme }) => theme.align.positionCenter}
-	width: 600px;
-	padding: 60px;
+	width: 32vw;
+	padding: 4vw;
 	background-color: #fff;
 	border-radius: 5px;
 	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 `;
 
 export const ViewMoreName = styled.div`
-	margin-bottom: 30px;
+	margin-bottom: 1.8vw;
 	font-family: NanumSquareB;
-	font-size: 24px;
+	font-size: 1.5vw;
 	color: #c6c6c8;
 
 	& > span {
@@ -124,7 +122,7 @@ export const ViewMoreName = styled.div`
 export const ViewMoreContent = styled.div`
 	line-height: 1.6em;
 	font-family: NanumSquareR;
-	font-size: 22px;
+	font-size: 1.1vw;
 	color: #444242;
 `;
 
@@ -133,7 +131,7 @@ export const ModalCloseButton = styled(IoMdClose)`
 	position: absolute;
 	right: 60px;
 	top: 40px;
-	font-size: 28px;
+	font-size: 1.2vw;
 	color: #b6b6b8;
 
 	&:hover {
