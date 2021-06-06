@@ -4,7 +4,7 @@ export const LandingSeventhContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	flex-direction: column;
 	width: 100%;
-	padding-bottom: 60px;
+	padding-top: 10vw;
 `;
 
 export const UserCountWrapper = styled.div`
@@ -12,7 +12,7 @@ export const UserCountWrapper = styled.div`
 	flex-direction: column;
 	width: 70%;
 	font-family: NanumSquareEB;
-	font-size: 52px;
+	font-size: 2.5vw;
 	color: #888888;
 
 	& > div {
