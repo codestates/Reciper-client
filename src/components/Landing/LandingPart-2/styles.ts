@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
-export const TopWrapper = styled.div`
+export const LandingSecondContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	align-items: start;
+	flex-direction: column;
 	width: 100%;
-	height: 500px;
-	padding: 0 366px;
+`;
+
+export const TopWrapper = styled.div`
+	display: flex;
+	width: 60%;
+	height: 520px;
 	background-color: #fff;
 `;
 
@@ -14,32 +18,35 @@ export const TopLeftMessage = styled.div`
 	justify-content: flex-start;
 	align-items: flex-end;
 	width: 100%;
-	height: 100%;
 	font-family: 'NanumSquareB';
-	font-size: 24px;
+	font-size: 1vw;
 	color: #555555;
 
 	& > div {
-		line-height: 52px;
+		display: flex;
+		flex-direction: column;
+		& > div {
+			padding: 12px 0;
+		}
 	}
 `;
 
 export const SolutionMessage = styled.div`
-	margin-top: 32px;
+	margin-top: 52px;
 	font-family: 'NanumSquareEB';
-	font-size: 36px;
-	color: #333333;
+	font-size: 1.5vw;
+	color: #555555;
 
 	& > div {
 		margin-top: 8px;
-		font-size: 20px;
+		font-size: 1.5vw;
 	}
 `;
 
 export const ImageWrapper = styled.div`
+	object-fit: cover;
 	& > img {
-		object-fit: cover;
-		width: 500px;
+		width: 100%;
 		height: 500px;
 	}
 `;
@@ -47,12 +54,15 @@ export const ImageWrapper = styled.div`
 // -----------------------TODO: 밑 쪽 -----------------------
 
 export const BottomWrapper = styled.div`
- 	${({ theme }) => theme.align.flexHorizontal};
-	align-items: flex-start;
+	${({ theme }) => theme.align.flexCenter};
 	width: 100%;
 	height: 70vh;
-	padding: 100px 0;
 	background-color: #f8f8f8;
+
+	& > div {
+		display: flex;
+		width: 60%;
+		height: 100%;
 	}
 `;
 
@@ -61,25 +71,13 @@ export const MessageWrapper = styled.div`
 	justify-content: center;
 	align-items: flex-start;
 	flex-direction: column;
-	width: 600px;
-`;
-
-export const SubMessage = styled.div`
-	line-height: 1.2rem;
-	font-family: NanumSquareB;
-	font-size: 20px;
-	color: #555555;
-
-	& div {
-		line-height: 32px;
-		padding: 4px 0;
-	}
+	width: 60%;
 `;
 
 export const MessageTitle = styled.div`
 	margin-bottom: 40px;
 	font-family: 'NanumSquareEB';
-	font-size: 28px;
+	font-size: 1vw;
 	color: #555555;
 
 	& span {
@@ -88,29 +86,41 @@ export const MessageTitle = styled.div`
 	}
 `;
 
+export const SubMessage = styled.div`
+	line-height: 1.2rem;
+	font-family: NanumSquareB;
+	font-size: 1vw;
+	color: #555555;
+
+	& div {
+		line-height: 32px;
+		padding: 4px 0;
+	}
+`;
+
 export const BottomImageWrapper = styled.div`
-	width: 600px;
+	${({ theme }) => theme.align.flexCenter};
+	flex-direction: column;
 `;
 
 export const SpeechBubbleWrapper = styled.div`
+	object-fit: cover;
 	display: flex;
 	flex-direction: row;
-	margin-top: -240px;
-	margin-left: -80px;
+	width: 100%;
+	margin-top: -50px;
 
 	& > img {
-		object-fit: cover;
-		width: 252px;
+		width: 10vw;
 		height: 270px;
 	}
 `;
 
-export const CopyImageWrapper = styled.div`
-	margin-top: -32px;
+export const NaviImageWrapper = styled.div`
+	object-fit: cover;
 	text-align: center;
+	width: 100%;
 	& > img {
-		object-fit: cover;
-		width: 500px;
-		height: 500px;
+		width: 24vw;
 	}
 `;
