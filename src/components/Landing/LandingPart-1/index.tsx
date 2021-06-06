@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import BackToTop from '../../../images/BackToTop.gif';
 
 import {
@@ -15,9 +15,9 @@ const LandingFirst = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 	const BackToTopRef = useRef<HTMLDivElement>(null);
 
-	const onScroll = (): void => {
+	const onScroll = useCallback((): void => {
 		setScrollPosition(window.pageYOffset);
-	};
+	}, []);
 
 	useEffect(() => {
 		window.addEventListener('scroll', onScroll);
@@ -27,7 +27,6 @@ const LandingFirst = (): JSX.Element => {
 
 	const onLogin = () => {
 		// TODO: 무료체험 버튼 클릭시 모달창?
-		console.log('');
 	};
 
 	return (

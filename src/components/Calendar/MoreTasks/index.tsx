@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
+import React, { Dispatch, MouseEvent, SetStateAction, useCallback } from 'react';
 import { taskDataType } from '../../../types/types';
 import { CloseBtn, DateTitle, MoreTasksContainer, MoreTop, TaskItem, NotTask } from './styles';
 
@@ -12,11 +12,11 @@ interface Props {
 }
 
 const MoreTasks = ({ dayIndex, weekIndex, day, tasks, setOpenTargetDate }: Props): JSX.Element => {
-	const onCloseMore = (e: MouseEvent): void => {
+	const onCloseMore = useCallback((e: MouseEvent): void => {
 		e.stopPropagation();
 		setOpenTargetDate('');
-	};
-	console.log(weekIndex);
+	}, []);
+
 	return (
 		<MoreTasksContainer
 			style={{
