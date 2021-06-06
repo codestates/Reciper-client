@@ -23,17 +23,17 @@ export const ContentsWrapper = styled.div`
 
 export const MainMessage = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	margin-bottom: 20px;
+	margin-bottom: 1.1vw;
 	font-family: NanumSquareEB;
-	font-size: 90px;
+	font-size: 4.5vw;
 	color: #343434;
 `;
 
 export const SubMessage = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	margin-bottom: 132px;
+	margin-bottom: 7.5vw;
 	font-family: NanumSquareB;
-	font-size: 40px;
+	font-size: 2.1vw;
 	color: #343434;
 `;
 
@@ -46,16 +46,16 @@ export const FreeExpButton = styled.div`
 		position: relative;
 		z-index: 8;
 		transition: 0.3s;
-		width: 200px;
-		height: 60px;
+		width: 11vw;
+		height: 3.2vw;
 		font-family: NanumSquareEB;
-		font-size: 20px;
+		font-size: 1.1vw;
 		color: #fff;
 		background-color: #545454;
 		border-radius: 5px;
 
 		& > p {
-			margin-top: 4px;
+			margin-top: 0.2vw;
 		}
 
 		&:hover {

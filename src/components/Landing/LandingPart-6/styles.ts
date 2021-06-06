@@ -6,13 +6,13 @@ export const LandingSixthContainer = styled.div`
 	flex-direction: column;
 	position: relative;
 	width: 100%;
-	padding: 350px 0;
 `;
 
 export const LandingSixthTop = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
-	height: 2700px;
+	width: 100%;
+	padding-top: 150px;
 `;
 
 // ---------------- TODO: Card ----------------
@@ -21,12 +21,12 @@ export const TopContentsWrapper = styled.div`
 	${({ theme }) => theme.align.flexHorizontal};
 	align-items: flex-start;
 	flex-direction: column;
-	margin-right: 580px;
+	width: 80vw;
 `;
 
 export const TopMessage = styled.div`
 	font-family: NanumSquareEB;
-	font-size: 160px;
+	font-size: 10vw;
 	color: ${({ theme }) => theme.color.lineColor};
 `;
 
@@ -37,8 +37,8 @@ export const TopPersonalCardWrapper = styled.div`
 export const PersonalCard = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 160px;
-	height: 220px;
+	width: 9vw;
+	height: 11vw;
 	margin: 0 10px;
 	border: 0.3px solid ${({ theme }) => theme.color.lineColor};
 
@@ -48,19 +48,19 @@ export const PersonalCard = styled.div`
 `;
 
 export const PersonalAvatar = styled.div`
-	height: 70%;
+	height: 80%;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
 
 	& > img {
 		object-fit: cover;
-		width: 136px;
-		height: 112px;
+		width: 90%;
+		height: 90%;
 	}
 `;
 
 export const PersonalCode = styled(HiCode)`
-	height: 80px;
-	font-size: 72px;
+	height: 100%;
+	font-size: 3.5vw;
 	color: #333333;
 `;
 
@@ -69,8 +69,8 @@ export const PersonalCode = styled(HiCode)`
 export const SvgWrapper = styled.svg`
 	position: relative;
 	z-index: 5;
-	width: 1800px;
-	height: 1800px;
+	width: 80vw;
+	height: 75%;
 `;
 
 // ---------------- TODO: Bottom ----------------
@@ -78,22 +78,21 @@ export const SvgWrapper = styled.svg`
 export const LandingSixthBottom = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
-	position: absolute;
-	bottom: 240px;
 	width: 100%;
-	min-height: 100vh;
+	height: 50vw;
+	margin-top: -28vw;
 	background-color: #eeeff2;
 
 	& > div {
 		padding: 12px;
 		font-family: NanumSquareEB;
-		font-size: 160px;
-		color: #444444;
+		font-size: 10vw;
+		color: #555555;
 	}
 
 	& > p {
 		font-size: NanumSquareB;
-		font-size: 24px;
+		font-size: 1.5vw;
 		color: #777777;
 	}
 `;

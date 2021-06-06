@@ -11,14 +11,12 @@ import numberCircleTwoBold from '@iconify/icons-ph/number-circle-two-bold';
 import numberCircleThreeBold from '@iconify/icons-ph/number-circle-three-bold';
 
 import {
-	ContentItemFirst,
+	ContentItem,
 	ContentMessage,
 	ContentItemTitle,
 	LandingThirdContainer,
 	ContentsWrapper,
 	ContentSubMessage,
-	ContentItemSecond,
-	ContentItemThird,
 	ArrowWrapper,
 	NumberIcon,
 	ContentItemEmoji,
@@ -31,9 +29,9 @@ const LandingThird = (): JSX.Element => {
 		numberOne: useScrollFadeIn({ direction: 'late-up', duration: 1, delay: 0.8 }),
 		numberTwo: useScrollFadeIn({ direction: 'late-up', duration: 1, delay: 1.3 }),
 		numberThree: useScrollFadeIn({ direction: 'late-up', duration: 1, delay: 1.8 }),
-		listOne: useScrollFadeIn({ direction: 'right', duration: 1, delay: 0.5 }),
-		listTwo: useScrollFadeIn({ direction: 'right', duration: 1, delay: 1.5 }),
-		listThree: useScrollFadeIn({ direction: 'right', duration: 1, delay: 2 }),
+		listOne: useScrollFadeIn({ direction: 'right', duration: 0.2, delay: 0 }),
+		listTwo: useScrollFadeIn({ direction: 'right', duration: 0.5, delay: 0.2 }),
+		listThree: useScrollFadeIn({ direction: 'right', duration: 0.5, delay: 0.4 }),
 	};
 
 	const onScroll = () => {
@@ -70,7 +68,7 @@ const LandingThird = (): JSX.Element => {
 					</ArrowWrapper>
 					<div>
 						<ContentsWrapper>
-							<ContentItemFirst {...animatedItem.listOne}>
+							<ContentItem {...animatedItem.listOne}>
 								<ContentItemEmoji>👫</ContentItemEmoji>
 								<ContentItemTitle>팀원을 모집하세요!</ContentItemTitle>
 								<p>
@@ -78,8 +76,8 @@ const LandingThird = (): JSX.Element => {
 									찾아보세요.
 								</p>
 								<img src={introCard1} />
-							</ContentItemFirst>
-							<ContentItemSecond {...animatedItem.listTwo}>
+							</ContentItem>
+							<ContentItem {...animatedItem.listTwo}>
 								<ContentItemEmoji>📂</ContentItemEmoji>
 								<ContentItemTitle>프로젝트를 생성해 보세요!</ContentItemTitle>
 								<p>
@@ -87,13 +85,13 @@ const LandingThird = (): JSX.Element => {
 									싶으신가요?
 								</p>
 								<img src={introCard2} />
-							</ContentItemSecond>
-							<ContentItemThird {...animatedItem.listThree}>
+							</ContentItem>
+							<ContentItem {...animatedItem.listThree}>
 								<ContentItemEmoji>🎉</ContentItemEmoji>
 								<ContentItemTitle>이제는 여러분들만의 레시피를 만들 차례입니다!</ContentItemTitle>
 								<p>{'프로젝트를 생성하셨군요! 이제 팀원들과 즐겁게 프로젝트를 진행하는 일만 남았습니다! :)'} </p>
 								<img src={introCard3} />
-							</ContentItemThird>
+							</ContentItem>
 						</ContentsWrapper>
 					</div>
 				</div>

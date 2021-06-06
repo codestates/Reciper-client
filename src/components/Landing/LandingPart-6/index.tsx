@@ -64,13 +64,13 @@ const LandingSixth = (): JSX.Element => {
 				<TopContentsWrapper>
 					<TopMessage>우리는</TopMessage>
 					<TopPersonalCardWrapper>
-						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
+						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
 								<img src={part6_1} alt={'개발하는 이미지1'} />
 							</PersonalAvatar>
 							<div
 								style={{
-									opacity: `${(scrollPosition - 7200) / 50}`,
+									opacity: `${(scrollPosition - 7350) / 50}`,
 									transition: '0.3s',
 									backgroundColor: '#3d88b0',
 								}}
@@ -78,13 +78,13 @@ const LandingSixth = (): JSX.Element => {
 								<PersonalCode />
 							</div>
 						</PersonalCard>
-						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
+						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
 								<img src={part6_2} alt={'개발하는 이미지2'} />
 							</PersonalAvatar>
 							<div
 								style={{
-									opacity: `${(scrollPosition - 7200) / 50}`,
+									opacity: `${(scrollPosition - 7350) / 50}`,
 									transition: '0.3s',
 									backgroundColor: '#a17398',
 								}}
@@ -92,13 +92,13 @@ const LandingSixth = (): JSX.Element => {
 								<PersonalCode />
 							</div>
 						</PersonalCard>
-						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
+						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
 								<img src={part6_3} alt={'개발하는 이미지3'} />
 							</PersonalAvatar>
 							<div
 								style={{
-									opacity: `${(scrollPosition - 7200) / 50}`,
+									opacity: `${(scrollPosition - 7350) / 50}`,
 									transition: '0.3s',
 									backgroundColor: '#f36652',
 								}}
@@ -106,13 +106,13 @@ const LandingSixth = (): JSX.Element => {
 								<PersonalCode />
 							</div>
 						</PersonalCard>
-						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
+						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
 								<img src={part6_4} alt={'개발하는 이미지4'} />
 							</PersonalAvatar>
 							<div
 								style={{
-									opacity: `${(scrollPosition - 7200) / 50}`,
+									opacity: `${(scrollPosition - 7350) / 50}`,
 									transition: '0.3s',
 									backgroundColor: '#f79649',
 								}}
@@ -120,13 +120,13 @@ const LandingSixth = (): JSX.Element => {
 								<PersonalCode />
 							</div>
 						</PersonalCard>
-						<PersonalCard style={{ borderBottom: `${scrollPosition > 7200 ? 'none' : '1px solid #d6d6d8'}` }}>
+						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
 								<img src={part6_5} alt={'개발하는 이미지5'} />
 							</PersonalAvatar>
 							<div
 								style={{
-									opacity: `${(scrollPosition - 7200) / 50}`,
+									opacity: `${(scrollPosition - 7350) / 50}`,
 									transition: '0.5s',
 									backgroundColor: '#ffc233',
 								}}
@@ -136,53 +136,52 @@ const LandingSixth = (): JSX.Element => {
 						</PersonalCard>
 					</TopPersonalCardWrapper>
 				</TopContentsWrapper>
-				<div>
-					<SvgWrapper
-						viewBox="0 550 1300 1300"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="evenodd"
-						clipRule="evenodd"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeMiterlimit="1.5"
-					>
-						<path
-							className="rainbowLine"
-							d="M700 550v50c0 0-0 0-0 100H1055c0 0-0 0-0 50v50c0 0-0 0-0 100H400c0 0-0 0-0 100v100 0-0 0-0 80H700c0 0-0 0-0 100v380"
-							fill="none"
-							stroke="#ffc233"
-							strokeWidth="40"
-						/>
-						<path
-							className="rainbowLine"
-							d="M570 550v150 c0 0-0 00-00 100H275c-0 0-0 0-0 20v150c0 0-0 0-0 100H750c-0 0-0 0-0 50v160 0-0 0-0 100v280"
-							fill="none"
-							stroke="#f79649"
-							strokeWidth="40"
-						/>
-						<path
-							className="rainbowLine"
-							d="M440 550v210 c0 0-0 00-00 100H975c-00 0-0 0-0 10v200c0 0-0 0-0 100H650c-0 0-0 0-0 100v390"
-							fill="none"
-							stroke="#f36652"
-							strokeWidth="40"
-						/>
-						<path
-							className="rainbowLine"
-							d="M310 550v280 c0 0-0 00-00 100H1175c-0 0-0 0-0 10v200c0 0-0 0-0 100H600c-0 0-0 0-0 100v320"
-							fill="none"
-							stroke="#a17398"
-							strokeWidth="40"
-						/>
-						<path
-							className="rainbowLine"
-							d="M180 550v350 c0 0-0 00-00 100H875c-00 0-0 0-0 10v200c0 0-0 0-0 100H550c-0 0-0 0-0 100v250"
-							fill="none"
-							stroke="#3d88b0"
-							strokeWidth="40"
-						/>
-					</SvgWrapper>
-				</div>
+
+				<SvgWrapper
+					viewBox="0 550 1300 1300"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="evenodd"
+					clipRule="evenodd"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeMiterlimit="1.5"
+				>
+					<path
+						className="rainbowLine"
+						d="M735 550v50c0 0-0 0-0 100H1055c0 0-0 0-0 50v50c0 0-0 0-0 100H400c0 0-0 0-0 100v100 0-0 0-0 80H700c0 0-0 0-0 100v380"
+						fill="none"
+						stroke="#ffc233"
+						strokeWidth="40"
+					/>
+					<path
+						className="rainbowLine"
+						d="M570 550v150 c0 0-0 00-00 100H275c-0 0-0 0-0 20v150c0 0-0 0-0 100H750c-0 0-0 0-0 50v160 0-0 0-0 100v280"
+						fill="none"
+						stroke="#f79649"
+						strokeWidth="40"
+					/>
+					<path
+						className="rainbowLine"
+						d="M406 550v210 c0 0-0 00-00 100H975c-00 0-0 0-0 10v200c0 0-0 0-0 100H650c-0 0-0 0-0 100v390"
+						fill="none"
+						stroke="#f36652"
+						strokeWidth="40"
+					/>
+					<path
+						className="rainbowLine"
+						d="M243 550v280 c0 0-0 00-00 100H1175c-0 0-0 0-0 10v200c0 0-0 0-0 100H600c-0 0-0 0-0 100v320"
+						fill="none"
+						stroke="#a17398"
+						strokeWidth="40"
+					/>
+					<path
+						className="rainbowLine"
+						d="M80 550v350 c0 0-0 00-00 100H875c-00 0-0 0-0 10v200c0 0-0 0-0 100H550c-0 0-0 0-0 100v250"
+						fill="none"
+						stroke="#3d88b0"
+						strokeWidth="40"
+					/>
+				</SvgWrapper>
 			</LandingSixthTop>
 			<LandingSixthBottom>
 				<div style={{ opacity: `${scrollPosition > 8950 ? `1` : `0.3`}`, transition: '0.3s' }}>함께 성장합니다</div>
