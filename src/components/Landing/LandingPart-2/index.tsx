@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
 import questions from '../../../images/questions.svg';
 import navigation from '../../../images/navigation.svg';
@@ -31,10 +31,9 @@ const LandingSecond = (): JSX.Element => {
 		navigation: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0 }),
 	};
 
-	const onScroll = () => {
+	const onScroll = useCallback(() => {
 		setScrollPosition(window.pageYOffset);
-		console.log('마우스 위치', window.pageYOffset);
-	};
+	}, []);
 
 	useEffect(() => {
 		window.addEventListener('scroll', onScroll);

@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useCallback, useState } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
@@ -29,6 +29,12 @@ const LoginModal = (): JSX.Element => {
 	const [changeGuide, setChangeGuide] = useState<boolean>(false);
 	const [loginMessage, setLoginMessage] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<boolean>(false);
+
+	useEffect(() => {
+		return () => {
+			history.push({ state: { isLogged: false } });
+		};
+	}, []);
 
 	const onChangeGuideText = useCallback((): string => {
 		return changeGuide ? '회원가입' : '로그인';

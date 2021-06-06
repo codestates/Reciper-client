@@ -25,7 +25,7 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 	const userInfo = useSelector(getProfileInfoSelector);
 
 	const [commentValue, onChangeCommentValue, setCommentValue] = useInput<string>('');
-	console.log(comment);
+
 	const addComment = useCallback((): void => {
 		setComment([
 			...comment,

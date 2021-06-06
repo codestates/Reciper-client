@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import ProfileImage from '../ProfileImage';
 import LoginModal from '../LoginModal';
@@ -21,7 +21,8 @@ interface Props {
 }
 
 const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLineColor }: Props): JSX.Element => {
-	const [showModal, setShowModal] = useState<boolean>(false);
+	const { state } = useLocation<{ isLogged: boolean }>();
+	const [showModal, setShowModal] = useState<boolean>(state ? state.isLogged : false);
 	const loginSuccess = window.localStorage.getItem('loginSuccess');
 	const { uploadImage, name, profileColor } = useSelector(getProfileInfoSelector);
 

@@ -24,6 +24,7 @@ import { loginSelector } from './reducer/login';
 import getLoginInfo from './utils/getLoginInfo';
 
 import { loginDataType } from './types/types';
+import Auth from './hoc/Auth';
 import WebRTC from './pages/WebRTC';
 
 const App = (): JSX.Element => {
@@ -53,7 +54,11 @@ const App = (): JSX.Element => {
 	}, [loginSuccess]);
 
 	useEffect(() => {
-		dispatch(getProfileInfo());
+		const successState = window.localStorage.getItem('loginSuccess');
+
+		if (successState) {
+			dispatch(getProfileInfo());
+		}
 
 		setInterval(() => {
 			refreshRequest();
@@ -68,16 +73,16 @@ const App = (): JSX.Element => {
 				<Route path="/landing" component={Landing} />
 				<Route exact path="/recruit" component={Recruit} />
 				<Route path="/recruit/:id" component={RecruitDetail} />
-				<Route path="/recruitcreate" component={RecruitCreate} />
-				<Route exact path="/profile/:id" component={Profile} />
-				<Route path="/profile/:id/edit" component={ProfileEdit} />
-				<Route exact path="/project" component={Project} />
-				<Route path="/projectcreate" component={ProjectCreate} />
-				<Route path="/project/:projectUrl/edit" component={ProjectEdit} />
+				<Route path="/recruitcreate" component={Auth(RecruitCreate)} />
+				<Route exact path="/profile/:id" component={Auth(Profile)} />
+				<Route path="/profile/:id/edit" component={Auth(ProfileEdit)} />
+				<Route exact path="/project" component={Auth(Project)} />
+				<Route path="/projectcreate" component={Auth(ProjectCreate)} />
+				<Route path="/project/:projectUrl/edit" component={Auth(ProjectEdit)} />
 				<Route path="/joinproject" component={JoinProject} />
-				<Route path="/workspace/:projectUrl/chat/:part" component={Chat} />
-				<Route path="/workspace/:projectUrl/calendar/:part" component={Calendar} />
-				<Route path="/workspace/:projectUrl/kanban/:part" component={Kanban} />
+				<Route path="/workspace/:projectUrl/chat/:part" component={Auth(Chat)} />
+				<Route path="/workspace/:projectUrl/calendar/:part" component={Auth(Calendar)} />
+				<Route path="/workspace/:projectUrl/kanban/:part" component={Auth(Kanban)} />
 				<Route path="/workspace/:projectUrl/webRTC" component={WebRTC} />
 			</Switch>
 		</div>

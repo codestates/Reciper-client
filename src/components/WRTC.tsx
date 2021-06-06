@@ -50,7 +50,6 @@ const WRTC = (): JSX.Element => {
 						peer,
 					});
 					peers.push(peer);
-					console.log(peers);
 				});
 				setPeers(peers);
 			});

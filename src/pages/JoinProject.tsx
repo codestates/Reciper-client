@@ -20,9 +20,6 @@ const JoinProject = (): JSX.Element => {
 		const email = url.searchParams.get('email');
 		const projectURL = url.searchParams.get('projectURL');
 
-		console.log(loginEmail);
-		console.log(email);
-
 		if (email === loginEmail) {
 			axiosRequest('post', '/projectParticipate', { email, authorizationCode, projectURL });
 			history.push(`/workspace/${projectURL}/chat/General`);

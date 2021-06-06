@@ -28,7 +28,7 @@ const useSocket = (projectUrl: string, address: string): [Socket | undefined, ()
 					projectURL: projectUrl,
 				},
 			});
-			console.log('커넥트 됨', address, socket);
+
 			setSocket(socket);
 		}
 	};
