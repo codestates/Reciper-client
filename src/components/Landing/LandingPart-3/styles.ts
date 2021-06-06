@@ -4,13 +4,13 @@ const arrow = keyframes`
 from {
 	opacity: 0;
 	width: 0;
-	margin-right: 100%;
+	margin-right: 90vw;
 }
 
 to {
 	opacity: 1;
-	width: 1700px;
-	margin-right: 0%;
+	width: 90vw;
+	margin-right: 0;
 }
 `;
 
@@ -35,8 +35,8 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 	& > img {
 		transition: 0.5s;
 		text-align: right;
-		width: 1700px;
-		height: 150px;
+		width: 90vw;
+		height: 8vw;
 		margin-left: 12px;
 		${props =>
 			props.scrollPosition > 1350
@@ -60,20 +60,24 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 
 	& > div {
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		flex-direction: row;
 		width: 100%;
-		margin-top: -138px;
+		margin-top: -6vw;
 	}
 `;
 
 export const NumberIcon = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	width: 26.1vw;
+	margin: 0 1.8vw;
 	color: ${({ theme }) => theme.color.pointColor};
-	font-size: 80px;
+	font-size: 4vw;
+
 	& > svg {
 		background-color: #fff;
-		width: 65px;
-		height: 65px;
+		width: 3.5vw;
+		height: 3.5vw;
 		border-radius: 100%;
 	}
 `;
@@ -82,7 +86,7 @@ export const ContentMessage = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	margin-bottom: 32px;
 	font-family: 'NanumSquareEB';
-	font-size: 52px;
+	font-size: 3vw;
 	color: #595454;
 `;
 
@@ -91,8 +95,9 @@ export const ContentSubMessage = styled.div`
 	flex-direction: row;
 	margin-bottom: 16px;
 	font-family: 'NanumSquareEB';
-	font-size: 24px;
+	font-size: 1.5vw;
 	color: #595454;
+
 	& > p {
 		margin-top: -5px;
 		margin-left: 4px;
@@ -102,47 +107,42 @@ export const ContentSubMessage = styled.div`
 export const ContentsWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
+	margin-top: 40px;
 `;
 
-export const ContentItemInitSetUp = styled.div`
+export const ContentItem = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	justify-content: flex-start;
 	flex-direction: column;
-	width: 500px;
-	height: 520px;
-	margin: 0 34px;
+	width: 26.1vw;
+	height: 60vh;
+	margin: 0 1.8vw;
 	padding: 20px 0;
 	font-family: NanumSquareB;
-	font-size: 16px;
+	font-size: 1vw;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
 	& > p {
 		padding: 8px 32px 24px 32px;
-		font-size: 16px;
+		font-size: 0.8vw;
 		color: #545454;
 		text-align: left;
 	}
 	${({ theme }) => theme.align.flexCenter};
 	object-fit: cover;
 	& > img {
-		width: 480px;
-		height: 340px;
+		width: 90%;
+		height: 100%;
 	}
 `;
 
 export const ContentItemEmoji = styled.div`
 	padding: 4px 0;
-	font-size: 40px;
+	font-size: 2vw;
 `;
 
 export const ContentItemTitle = styled.div`
 	padding: 4px 0;
-	font-size: 20px;
+	font-size: 1.2vw;
 	text-align: center;
 `;
-
-export const ContentItemFirst = styled(ContentItemInitSetUp)``;
-
-export const ContentItemSecond = styled(ContentItemInitSetUp)``;
-
-export const ContentItemThird = styled(ContentItemInitSetUp)``;

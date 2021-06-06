@@ -34,6 +34,7 @@ const NextArrow = (props: {
 			style={{
 				...style,
 				zIndex: 1,
+				width: '3vw',
 			}}
 			onClick={onClick}
 		>
@@ -54,6 +55,7 @@ const PrevArrow = (props: {
 			style={{
 				...style,
 				zIndex: 1,
+				width: '2vw',
 			}}
 			onClick={onClick}
 		>
@@ -78,7 +80,6 @@ const Carousel = (): JSX.Element => {
 		slidesToShow: 3,
 		slidesToScroll: 1,
 		speed: 500,
-		// autoplaySpeed: 4000,
 		nextArrow: <NextArrow />,
 		prevArrow: <PrevArrow />,
 		beforeChange: (current: number, next: number) => setCenterCard(next),
@@ -100,7 +101,7 @@ const Carousel = (): JSX.Element => {
 								transform: `${index === centerCard ? 'scale(1)' : 'scale(0.8)'}`,
 								opacity: `${index === centerCard ? '1' : '0.5'}`,
 								transition: '0.3s',
-								boxShadow: 'rgb(24 71 23 / 15%) 0px 5px 25px',
+								boxShadow: 'rgb(24 70 23 / 15%) 0px 5px 1vw',
 							}}
 						>
 							<ItemName>

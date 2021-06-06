@@ -8,28 +8,30 @@ export const LandingFifthContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	flex-direction: column;
 	width: 100%;
-	min-height: 180vh;
-	padding: 20px 60px 140px 60px;
+	min-height: 240vh;
 	background-color: #24272c;
 `;
 
 export const ServiceMessage = styled.div`
+	width: 40vw;
 	margin-bottom: 80px;
-	font-family: NanumSquareB;
-	font-size: 40px;
+	font-family: NanumSquareEB;
+	font-size: 2.2vw;
 	color: #fff;
 	text-align: center;
 
 	& > div {
-		margin-top: 20px;
-		font-size: 28px;
+		line-height: 2vw;
+		margin-top: 1.2vw;
+		font-family: 'NanumSquarB';
+		font-size: 1.2vw;
 	}
 `;
 
 export const ServiceBackground = styled.div`
-	${({ theme }) => theme.align.flexCenter};
-	width: 1400px;
-	height: 1040px;
+	${({ theme }) => theme.align.flexHorizontal};
+	width: 75vw;
+	height: 100%;
 	background-color: #1c1f3b;
 	border-radius: 3px;
 `;
@@ -37,73 +39,72 @@ export const ServiceBackground = styled.div`
 export const ServiceMenu = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	flex-direction: column;
-	width: 80px;
-	height: 1040px;
-	font-size: 28px;
+	width: 3vw;
+	font-size: 2.5vw;
 	color: #fff;
 `;
 
 export const ServiceMenuHome = styled(AiOutlineHome)`
 	margin-top: 32px;
-	font-size: 32px;
+	font-size: 1.6vw;
 `;
 
 export const ServiceMenuLine = styled(AiOutlineLine)`
-	font-size: 32px;
+	font-size: 2.2vw;
 `;
 
 export const ServiceMenuChat = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	padding: 12px 0;
-	font-size: 37px;
+	position: relative;
+	padding: 1vw 0;
+	font-size: 1.8vw;
 `;
 
 export const ServiceMenuKanban = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	padding: 12px 0;
-	font-size: 33px;
+	padding: 1.5vw 0;
+	font-size: 1.5vw;
 `;
 
 export const ServiceMenuCalendar = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	padding: 14px 0;
-	font-size: 28px;
-`;
-export const ServiceArrowWrapper = styled.span`
-	margin-top: -47px;
+	padding: 1.5vw 0;
+	font-size: 1.2vw;
 `;
 
 export const ServiceChatArrow = styled(RiArrowLeftSFill)`
-	margin-left: 74px;
-	font-size: 40px;
+	position: absolute;
+	left: 1.2vw;
+	font-size: 2vw;
 	color: #fff;
 `;
 
 export const ServiceContent = styled.div`
-	width: 1320px;
-	height: 1040px;
-
+	width: 75vw;
+	height: 100%;
 	background-color: #fff;
-	border-radius: 20px 3px 3px 3px;
+	border-radius: 20px 3px 3px 0px;
 `;
 
 export const CommnetInitSetting = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	flex-direction: row;
-	width: 600px;
-	min-height: 132px;
-	padding: 12px;
+	width: 28vw;
+	min-height: 5vw;
+	padding: 0.7vw;
 	border-radius: 10px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
 	& > img {
-		width: 108px;
-		height: 108px;
+		width: 7vw;
+		height: 7vw;
+		border: 2px solid #eee;
+		border-radius: 100%;
 	}
 
 	& > div {
-		height: 108px;
-		margin-left: 16px;
+		height: 5vw;
+		margin-left: 1vw;
 		font-family: NanumSquareR;
 
 		& > div {
@@ -113,40 +114,42 @@ export const CommnetInitSetting = styled.div`
 `;
 
 export const RightComment = styled(CommnetInitSetting)`
-	margin: 150px 0 0 680px;
+	margin: 12vw 0 0 40vw;
 `;
 
 export const LeftComment = styled(CommnetInitSetting)`
-	margin: 150px 0 0 40px;
+	margin: 12vw 0 0 4vw;
 `;
 
 export const ChatUserName = styled.span`
-	font-family: NanumSquareB;
-	font-size: 28px;
 	margin-right: 12px;
+	font-family: NanumSquareEB;
+	font-size: 1.6vw;
+	color: #555555;
 `;
 
 export const ChatCreateAt = styled.span`
 	font-family: NanumSquareR;
-	font-size: 16px;
+	font-size: 0.8vw;
 	color: #888888;
 `;
 
 export const ChatUserContent = styled.div`
-	font-family: NanumSquareR;
-	font-size: 20px;
+	font-family: NanumSquareB;
+	font-size: 1vw;
 	color: #222222;
 `;
 
 export const ChatInputWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
+	padding: 20px 0;
 
 	& > div {
 		${({ theme }) => theme.align.flexVertical};
 		justify-content: flex-end;
-		width: 1260px;
-		height: 50px;
-		margin-top: 100px;
+		width: 65vw;
+		height: 5vh;
+		margin-top: 4vw;
 		padding: 0 8px;
 		border: 1px solid ${({ theme }) => theme.color.lineColor};
 		border-radius: 5px;
@@ -155,20 +158,20 @@ export const ChatInputWrapper = styled.div`
 
 export const ChatSendWrapper = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	width: 40px;
-	height: 40px;
+	width: 2vw;
+	height: 2vw;
 	border-radius: 5px;
 	background-color: ${({ theme }) => theme.color.lineColor};
 `;
 
 export const ChatUploadImage = styled(BsImages)`
 	margin-right: 16px;
-	width: 34px;
-	height: 34px;
+	width: 2vw;
+	height: 2vw;
 	color: #898585;
 `;
 
 export const ChatSendButton = styled(RiSendPlane2Fill)`
-	font-size: 24px;
+	font-size: 1.5vw;
 	color: #fff;
 `;
