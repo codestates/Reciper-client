@@ -91,7 +91,7 @@ const UserProfileEdit = (): JSX.Element => {
 								profileImage={image}
 								profileColor={profileInfo.profileColor}
 								userName={profileInfo.name}
-								userNameSize="120px"
+								userNameSize="140px"
 							/>
 						</ProfileImageUploadWrapper>
 					</div>
