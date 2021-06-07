@@ -1,6 +1,8 @@
 # 🍽 서비스 소개
 
-// 로고 사진 넣기
+![로고](https://user-images.githubusercontent.com/77570843/120951605-31cc1180-c784-11eb-92aa-5f1d297a3df1.png)
+
+<br/>
 
 🎉 **Reciper에 오신 것을 환영합니다!** 🎉
 
@@ -16,7 +18,7 @@
 
 <br/>
 
-# 🚗 Flow Chart
+# 🏃‍♂️ Flow Chart
 
 ### Client Side Flow Chart
 
@@ -30,7 +32,7 @@
 
 # 🧑‍💻 Final Web View(일부)
 
-전체 시연영상은 [wiki](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
+전체 시연영상은 [Wiki-Final Web View](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
 
 // 사진 넣기
 
