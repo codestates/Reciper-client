@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const LandingEighthContainer = styled.div`
 	width: 100%;
-	height: 95vh;
+	height: 110vh;
 	font-family: NanumSquareEB;
 	background-color: #222222;
 `;
@@ -24,14 +24,18 @@ export const Message = styled.div`
 
 export const LoginButton = styled.button`
 	${({ theme }) => theme.align.flexCenter};
-	width: 15vw;
+	width: 12vw;
 	heigth: 30vw;
-	padding: 0.8vw;
+	padding: 0.6vw;
 	font-family: NanumSquareEB;
-	font-size: 2vw;
+	font-size: 1.4vw;
 	color: #111;
 	background-color: #fff;
 	border-radius: 4px;
+
+	& > p {
+		margin-top: 0.2vw;
+	}
 
 	&:hover {
 		color: #000;

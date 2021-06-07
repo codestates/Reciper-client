@@ -29,7 +29,9 @@ const LandingEighth = (): JSX.Element => {
 			<MessageWrapper>
 				<Message {...AnimatedItem.message}>새로운 가치를 창출할 때 성장은 이루어집니다</Message>
 				<div {...AnimatedItem.button}>
-					<LoginButton onClick={() => setShowLoginModal(true)}>바로 시작하기</LoginButton>
+					<LoginButton onClick={() => setShowLoginModal(true)}>
+						<p>바로 시작하기</p>
+					</LoginButton>
 				</div>
 			</MessageWrapper>
 			{showLoginModal && (
