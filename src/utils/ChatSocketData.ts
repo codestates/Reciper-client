@@ -9,16 +9,13 @@ export const newChatData = (
 	room: string,
 	profileInfo: profileInfoDataType,
 ): ChatDataType => {
-	let newChatDate = dayjs();
-	newChatDate = newChatDate.subtract(9, 'hour');
-
 	const result = {
 		id: id,
 		text: inputValue,
 		uploadImage: uploadImage,
 		room: room,
 		index: -1,
-		createdAt: newChatDate.toString(),
+		createdAt: dayjs().toString(),
 		writer: {
 			id: profileInfo.id,
 			name: profileInfo.name,
