@@ -13,7 +13,7 @@ export const RecipeWrapper = styled.div`
 	width: 420px;
 	heigth: 60px;
 	margin: 4px 0;
-	padding: 8px 6px;
+	padding: 8px 6px 8px 10px;
 	font-family: NanumSquareR;
 	border-radius: 3px;
 
@@ -52,6 +52,7 @@ export const RecipeInfoWrapper = styled.div`
 `;
 
 export const RecipeMembersIcon = styled(BsPeopleFill)`
+	margin-right: 4px;
 	font-size: 18px;
 	color: #595555;
 `;
