@@ -11,7 +11,7 @@ export const ChatWrapper = styled.div<{ isSameSender: boolean }>`
 	}
 
 	&:hover {
-		background: #eee;
+		background: #f6f6f8;
 	}
 
 	&:hover > span {
@@ -101,7 +101,7 @@ export const ChatEditTextArea = styled.textarea`
 	padding: 11px 14px;
 	font-family: NanumSquareR;
 	font-size: 16px;
-	background-color: ${({ theme }) => theme.color.lineColor};
+	background-color: #eee;
 	border-radius: 4px;
 `;
 

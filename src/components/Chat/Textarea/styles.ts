@@ -3,16 +3,6 @@ import { RiSendPlane2Fill } from 'react-icons/ri';
 import { GoMention } from 'react-icons/go';
 import { BsImages } from 'react-icons/bs';
 
-// & > ul {
-// 	overflow-y: auto;
-// 	width: 150px;
-// 	max-height: 200px;
-// 	padding: 9px 10px;
-// 	background: #fff;
-// 	border: 1px solid lightgray;
-// 	border-radius: 4px;
-// }
-
 export const ChatAreaContainer = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	width: 100%;
@@ -31,7 +21,7 @@ export const ChatArea = styled.div`
 export const ChatForm = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	width: 100%;
-	padding: 4px 12px;
+	padding: 4px 0;
 	font-family: NanumSquareR;
 	font-size: 14px;
 `;
@@ -48,7 +38,7 @@ export const ChatTextarea = styled.textarea`
 	font-size: 18px;
 `;
 
-// --------------------TODO: 멘션, 사진, 전송 컨테이너  --------------------
+// --------------------TODO: 사진, 전송 컨테이너  --------------------
 
 export const ChatContentsWrapper = styled.div`
 	${({ theme }) => theme.align.flexVertical};
