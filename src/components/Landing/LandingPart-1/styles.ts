@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import LandingMain2 from '../../../images/LandingMain2.jpg';
 
 export const LandingFirstContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
 	width: 100%;
 	min-height: 100vh;
-	background: no-repeat center/cover url(${LandingMain2});
 `;
 
 export const Dimed = styled.div`
@@ -49,7 +47,7 @@ export const FreeExpButton = styled.div`
 		width: 11vw;
 		height: 3.2vw;
 		font-family: NanumSquareEB;
-		font-size: 1.1vw;
+		font-size: 1.4vw;
 		color: #fff;
 		background-color: #545454;
 		border-radius: 5px;
