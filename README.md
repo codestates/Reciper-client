@@ -12,7 +12,7 @@
 
 <br/>
 
-# 🛠 사용 stack
+# 🛠 Tech stack
 
 ![stack_diagram](https://user-images.githubusercontent.com/77570843/120578890-7fcdd600-c461-11eb-9134-44ce31db21a3.png)
 
@@ -26,7 +26,8 @@
 
 ### Server Side Flow Chart
 
-// 사진 넣기
+![back1](https://user-images.githubusercontent.com/77570843/120968408-cc881880-c7a3-11eb-9bc5-c29f3db5da2b.png)
+![back2](https://user-images.githubusercontent.com/77570843/120967587-9eee9f80-c7a2-11eb-8577-263c371238c7.png)
 
 <br/>
 
