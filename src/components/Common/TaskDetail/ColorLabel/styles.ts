@@ -9,6 +9,7 @@ export const ColorLabelWrap = styled.div`
 
 export const Title = styled.p`
 	width: 80px;
+	margin-top: 4px;
 	font-family: 'NanumSquareB';
 	font-size: 16px;
 `;

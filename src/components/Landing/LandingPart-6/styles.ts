@@ -50,7 +50,6 @@ export const PersonalCard = styled.div`
 export const PersonalAvatar = styled.div`
 	height: 80%;
 	border-bottom: 1px solid ${({ theme }) => theme.color.lineColor};
-
 	& > img {
 		object-fit: cover;
 		width: 90%;
@@ -70,7 +69,6 @@ export const SvgWrapper = styled.svg`
 	position: relative;
 	z-index: 5;
 	width: 80vw;
-	height: 75%;
 `;
 
 // ---------------- TODO: Bottom ----------------
