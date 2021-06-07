@@ -22,7 +22,7 @@
 
 ### Client Side Flow Chart
 
-// 사진 넣기
+![front](https://user-images.githubusercontent.com/77570843/121053267-23b6d900-c7f6-11eb-9147-9b51b5a9ea4d.png)
 
 ### Server Side Flow Chart
 
@@ -35,7 +35,7 @@
 
 전체 시연영상은 [Wiki-Final Web View](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
 
-// 사진 넣기
+// 사진 넣기 + 토글 사용
 
 <br/>
 
