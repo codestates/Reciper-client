@@ -44,9 +44,21 @@ export const ProfileUserEmail = styled.div`
 	height: 40px;
 	padding: 12px;
 	font-family: 'NanumSquareR';
-	font-size: 18px;
+	font-size: 16px;
 	color: #545454;
 	background-color: #dcdcdc;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
+`;
+
+// --------------------TODO: validation message-------------------------
+
+export const InvalidMessage = styled.div`
+	width: 306px;
+	margin-left: 140px;
+	padding: 8px 0;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.warningColor};
+	text-align: left;
 `;
