@@ -42,7 +42,7 @@ export const profileMobileValid = (mobile: string): boolean => {
 };
 
 export const profileAboutMeValid = (name: string): boolean => {
-	const pass = !!name && name.length <= 15;
+	const pass = !!name && name.length <= 50;
 
 	return pass;
 };
