@@ -14,7 +14,8 @@ export const ContentsWrapper = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 	width: 40%;
-	padding: 1.2vw 0 1.8vw 0;
+	margin-bottom: 1.5vw;
+	padding: 1.8vw 0 1.2vw 0;
 `;
 
 export const LogoWrapper = styled.div`
@@ -59,7 +60,8 @@ export const Contact = styled.div`
 
 export const Copyright = styled.div`
 	width: 40%;
-	padding-top: 1.8vw;
-	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
+	padding-top: 1vw;
+	font-size: 0.7vw;
 	text-align: center;
+	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
 `;

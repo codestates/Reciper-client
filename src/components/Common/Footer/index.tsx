@@ -15,14 +15,14 @@ const Footer = (): JSX.Element => {
 					<Adress>서울특별시 서초구 서초동 서초대로 396</Adress>
 				</div>
 				<AboutUs>
-					<p>회사 소개</p>
+					<p>서비스 소개</p>
 					<div>Wiki</div>
 					<div>Client</div>
 					<div>Server</div>
 				</AboutUs>
 				<Contact>
 					<p>컨택트</p>
-					<div>Jung Songi</div>
+					<div>Jung Songyi</div>
 					<div>Kwak Eunwook</div>
 					<div>Shin Seunggil</div>
 					<div>Lee Useong</div>
