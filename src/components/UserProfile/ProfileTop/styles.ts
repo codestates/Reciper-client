@@ -5,7 +5,7 @@ export const ProfileContainer = styled.div`
 	flex-direction: column;
 	width: 60%;
 	margin: 0 auto;
-	padding: 130px 42px 42px 42px;
+	padding: 8vw 2.5vw 8vw 2.5vw;
 `;
 
 export const ProfileTitle = styled.div`
@@ -35,7 +35,7 @@ export const ProfileTitle = styled.div`
 // --------------------TODO: user profile Card-------------------------
 
 export const ProfileUserCard = styled.div`
-	${({ theme }) => theme.align.flexVertical}
+	${({ theme }) => theme.align.flexVertical};
 	flex-direction: row;
 	width: 800px;
 	padding: 40px 8px;
@@ -71,7 +71,7 @@ export const ProfileImg = styled.div`
 		}
 
 		& > p {
-			${({ theme }) => theme.align.flexCenter}
+			${({ theme }) => theme.align.flexCenter};
 			width: 100%;
 			font-family: 'NanumSquareR';
 			font-size: 140px;
@@ -114,11 +114,11 @@ export const ProfileUserInfoCard = styled.div`
 `;
 
 export const ProfileSubTitle = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	width: 132px;
+	${({ theme }) => theme.align.flexVertical};
+	width: 7vw;
 	height: 40px;
 	font-family: 'NanumSquareB';
-	font-size: 18px;
+	font-size: 0.9vw;
 `;
 
 export const InputWrapper = styled.div`
@@ -128,24 +128,14 @@ export const InputWrapper = styled.div`
 `;
 
 export const ProfileUserInfo = styled.div`
-	${({ theme }) => theme.align.flexVertical}
-	position: relative;
+	${({ theme }) => theme.align.flexVertical};
+	width: 15vw;
 	height: 40px;
 	font-family: 'NanumSquareR';
-	font-size: 18px;
+	font-size: 0.9vw;
 	text-align: left;
 
 	& > div {
 		color: #545454;
 	}
-`;
-
-export const InvalidMessage = styled.div`
-	width: 306px;
-	margin-left: 131.41px;
-	padding: 8px 0;
-	font-family: 'NanumSquareR';
-	font-size: 14px;
-	color: ${({ theme }) => theme.color.warningColor};
-	text-align: center;
 `;
