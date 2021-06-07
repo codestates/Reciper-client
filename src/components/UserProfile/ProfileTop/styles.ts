@@ -5,7 +5,7 @@ export const ProfileContainer = styled.div`
 	flex-direction: column;
 	width: 60%;
 	margin: 0 auto;
-	padding: 130px 42px 42px 42px;
+	padding: 8vw 2.5vw 8vw 2.5vw;
 `;
 
 export const ProfileTitle = styled.div`
@@ -115,10 +115,10 @@ export const ProfileUserInfoCard = styled.div`
 
 export const ProfileSubTitle = styled.div`
 	${({ theme }) => theme.align.flexVertical};
-	width: 132px;
+	width: 7vw;
 	height: 40px;
 	font-family: 'NanumSquareB';
-	font-size: 16px;
+	font-size: 0.9vw;
 `;
 
 export const InputWrapper = styled.div`
@@ -129,10 +129,10 @@ export const InputWrapper = styled.div`
 
 export const ProfileUserInfo = styled.div`
 	${({ theme }) => theme.align.flexVertical};
-	width: 308px;
+	width: 15vw;
 	height: 40px;
 	font-family: 'NanumSquareR';
-	font-size: 16px;
+	font-size: 0.9vw;
 	text-align: left;
 
 	& > div {

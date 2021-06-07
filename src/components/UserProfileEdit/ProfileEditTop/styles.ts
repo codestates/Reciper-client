@@ -40,11 +40,11 @@ export const EmailInfoWrapper = styled.div`
 
 export const ProfileUserEmail = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	width: 306px;
+	width: 15vw;
 	height: 40px;
 	padding: 12px;
 	font-family: 'NanumSquareR';
-	font-size: 16px;
+	font-size: 0.8vw;
 	color: #545454;
 	background-color: #dcdcdc;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
@@ -54,8 +54,8 @@ export const ProfileUserEmail = styled.div`
 // --------------------TODO: validation message-------------------------
 
 export const InvalidMessage = styled.div`
-	width: 306px;
-	margin-left: 140px;
+	width: 24.5vw;
+	margin-left: 11.5vw;
 	padding: 8px 0;
 	font-family: 'NanumSquareR';
 	font-size: 14px;
