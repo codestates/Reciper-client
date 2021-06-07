@@ -9,14 +9,12 @@ export const LandingSecondContainer = styled.div`
 export const TopWrapper = styled.div`
 	display: flex;
 	width: 60%;
-	height: 520px;
+	height: 70vh;
 	background-color: #fff;
 `;
 
 export const TopLeftMessage = styled.div`
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-end;
+	${({ theme }) => theme.align.flexCenter};
 	width: 100%;
 	font-family: 'NanumSquareB';
 	font-size: 1vw;
@@ -45,9 +43,9 @@ export const SolutionMessage = styled.div`
 
 export const ImageWrapper = styled.div`
 	object-fit: cover;
+	${({ theme }) => theme.align.flexCenter};
 	& > img {
 		width: 100%;
-		height: 500px;
 	}
 `;
 
@@ -104,7 +102,6 @@ export const BottomImageWrapper = styled.div`
 `;
 
 export const SpeechBubbleWrapper = styled.div`
-	object-fit: cover;
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -112,7 +109,6 @@ export const SpeechBubbleWrapper = styled.div`
 
 	& > img {
 		width: 10vw;
-		height: 270px;
 	}
 `;
 
