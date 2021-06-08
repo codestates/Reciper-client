@@ -65,8 +65,7 @@ const ChatZone = ({
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const chatLastIndex = chatBucket[chatBucket.length - 1].id + 1;
-			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
+			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
 			setChatBucket([...chatBucket, newChat]);
