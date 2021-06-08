@@ -52,6 +52,10 @@ const CreaateContainer = (): JSX.Element => {
 	}, [data, valid]);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
 		dispatch(writingAction({ name }));
 	}, [name]);
 
@@ -60,7 +64,7 @@ const CreaateContainer = (): JSX.Element => {
 
 		if (loading) {
 			history.push('/recruit');
-			window.scrollTo(0, 0);
+
 			dispatch(successLoading());
 		}
 	}, [data, loading]);

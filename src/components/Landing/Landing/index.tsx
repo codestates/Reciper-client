@@ -23,6 +23,7 @@ const LandingHome = (): JSX.Element => {
 	}, []);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		window.addEventListener('mousewheel', onScrollEvent);
 		return () => {
 			// TODO: 메모리 누수 방지

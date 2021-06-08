@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import RecruitCard from '../RecruitCard';
 import Search from '../Search';
@@ -18,7 +18,7 @@ const RecruitCardList = (): JSX.Element => {
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const listDataRequest = async (isFilter: boolean) => {
+	const listDataRequest = useCallback(async (isFilter: boolean) => {
 		setIsLoading(false);
 
 		const response = await axios.post(
@@ -38,7 +38,11 @@ const RecruitCardList = (): JSX.Element => {
 				setRecruitList([...recruitList, ...response.data.boardList]);
 			}
 		}, 200);
-	};
+	}, []);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	useEffect(() => {
 		setIsLoading(true);
