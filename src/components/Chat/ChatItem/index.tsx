@@ -83,7 +83,7 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
 			const copyChatBucket = [...chatBucket];
-			copyChatBucket[index] = newChat;
+			copyChatBucket.splice(index, 1, newChat);
 			setChatBucket([...copyChatBucket]);
 
 			socket?.emit('editMessage', getChatEdit);

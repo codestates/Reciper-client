@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import BackToTop from '../../../images/BackToTop.gif';
+
 import LoginModal from '../../Common/LoginModal';
 import Modal from '../../Common/Modal';
 
@@ -28,10 +29,6 @@ const LandingFirst = (): JSX.Element => {
 		return () => window.removeEventListener('scroll', onScroll);
 	}, []);
 
-	const onLogin = () => {
-		// TODO: 무료체험 버튼 클릭시 모달창?
-	};
-
 	return (
 		<>
 			<LandingFirstContainer
@@ -45,7 +42,7 @@ const LandingFirst = (): JSX.Element => {
 						style={{
 							opacity: `${scrollPosition > 100 ? `1` : `0`}`,
 							color: `${
-								(scrollPosition > 100 && scrollPosition < 2350) ||
+								(scrollPosition > 100 && scrollPosition < 2530) ||
 								(scrollPosition > 6650 && scrollPosition < 10360) ||
 								scrollPosition > 11420
 									? `#000`
