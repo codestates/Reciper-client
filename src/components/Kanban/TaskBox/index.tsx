@@ -1,4 +1,4 @@
-import React, { Dispatch, KeyboardEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, KeyboardEvent, memo, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io-client';
@@ -85,7 +85,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail, setDeleteModal, setBo
 		dispatch(addTaskItem({ taskTitle, index, taskColor }));
 
 		setTaskTitle('');
-	}, [taskTitle]);
+	}, [taskTitle, part]);
 
 	const onChangeTaskBoxTitle = useCallback(() => {
 		if (BoxTitle.trim() === '') {
@@ -94,7 +94,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail, setDeleteModal, setBo
 
 		setTaskBoxForm(false);
 		socket?.emit('editTaskBox', { targetListIndex: index, title: BoxTitle, part });
-	}, [BoxTitle]);
+	}, [BoxTitle, part]);
 
 	useEffect(() => {
 		setBoxTitle(taskBoxTitle);
@@ -141,4 +141,4 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail, setDeleteModal, setBo
 	);
 };
 
-export default TaskBox;
+export default memo(TaskBox);

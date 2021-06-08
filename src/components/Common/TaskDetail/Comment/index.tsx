@@ -34,7 +34,7 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 				writer: {
 					profileColor: userInfo.profileColor,
 					profileImage: userInfo.uploadImage,
-					userName: userInfo.name,
+					name: userInfo.name,
 					id: userInfo.id,
 				},
 			},
@@ -71,12 +71,12 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 							height="30px"
 							profileColor={comment.writer.profileColor}
 							profileImage={comment.writer.profileImage}
-							userName={comment.writer.userName}
+							userName={comment.writer.name}
 						/>
 						<CommentInfo>
 							<CommentUser>
 								<p>
-									{comment.writer.userName}{' '}
+									{comment.writer.name}
 									<span>{timeStamp(comment.createdAt ? new Date(comment.createdAt) : new Date())}</span>
 								</p>
 								<button onClick={() => deleteComment(index)}>삭제</button>

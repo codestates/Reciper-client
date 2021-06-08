@@ -52,7 +52,7 @@ export const CommentUser = styled.div`
 
 	& span,
 	button {
-		margin-right: 5px;
+		margin: 0 5px;
 		font-size: 13px;
 		color: #c6c6c8;
 	}

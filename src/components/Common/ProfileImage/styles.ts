@@ -5,7 +5,7 @@ export const UserProfileImage = styled.img<{ width: string; margin: string; radi
 	object-fit: cover;
 	-webkit-user-drag: none;
 	${({ theme }) => theme.align.flexCenter}
-	width: ${({ width }) => width};
+	min-width: ${({ width }) => width};
 	height: ${({ height }) => height};
 	margin: ${({ margin }) => margin};
 	border-radius: ${({ radius }) => radius};
@@ -14,7 +14,7 @@ export const UserProfileImage = styled.img<{ width: string; margin: string; radi
 export const UserProfileDefault = styled.div<{ width: string; height: string; margin: string; radius: string }>`
 	cursor: pointer;
 	${({ theme }) => theme.align.flexCenter}
-	width: ${({ width }) => width};
+	min-width: ${({ width }) => width};
 	height: ${({ height }) => height};
 	margin: ${({ margin }) => margin};
 	border-radius: ${({ radius }) => radius};

@@ -89,13 +89,13 @@ const KanbanConianer = (): JSX.Element => {
 		setTitle('');
 		setShowAddTask(false);
 		setBoxDuplicate(false);
-	}, [title]);
+	}, [title, part]);
 
 	const onDeleteTaskBox = useCallback(() => {
 		socket?.emit('deleteTaskBox', { targetListIndex: boxIndex, part });
 		dispatch(deleteTaskBox(boxIndex));
 		setDeleteModal(false);
-	}, [socket, boxIndex]);
+	}, [socket, boxIndex, part]);
 
 	const openDetail = useCallback(
 		(task: string, targetIndex: number, targetListIndex: number): void => {
