@@ -114,11 +114,11 @@ export const CommnetInitSetting = styled.div`
 `;
 
 export const RightComment = styled(CommnetInitSetting)`
-	margin: 12vw 0 0 40vw;
+	margin: 8vw 0 0 40vw;
 `;
 
 export const LeftComment = styled(CommnetInitSetting)`
-	margin: 12vw 0 0 4vw;
+	margin: 8vw 0 0 4vw;
 `;
 
 export const ChatUserName = styled.span`

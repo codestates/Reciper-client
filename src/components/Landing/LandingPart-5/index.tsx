@@ -1,8 +1,5 @@
 import React from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
-import part6_1 from '../../../images/part6-1.svg';
-import part6_2 from '../../../images/part6-2.svg';
-import part6_3 from '../../../images/part6-3.svg';
 
 import Icon from '@iconify/react';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
@@ -38,6 +35,7 @@ const LandingFifth = (): JSX.Element => {
 		secondChat: useScrollFadeIn({ direction: 'late-up', duration: 0.5, delay: 0 }),
 		thirdChat: useScrollFadeIn({ direction: 'late-up', duration: 0.5, delay: 0 }),
 	};
+
 	return (
 		<LandingFifthContainer>
 			<ServiceMessage>
@@ -73,7 +71,7 @@ const LandingFifth = (): JSX.Element => {
 				</ServiceMenu>
 				<ServiceContent>
 					<RightComment {...ChatAnimatedItem.firstChat}>
-						<img src={part6_1} alt="첫번째 채팅 프로필사진" />
+						<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-1.svg`} alt="첫번째 채팅 프로필사진" />
 						<div>
 							<div>
 								<ChatUserName>Evan</ChatUserName>
@@ -85,7 +83,7 @@ const LandingFifth = (): JSX.Element => {
 						</div>
 					</RightComment>
 					<LeftComment {...ChatAnimatedItem.secondChat}>
-						<img src={part6_2} alt="두번째 채팅 프로필사진" />
+						<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-2.svg`} alt="두번째 채팅 프로필사진" />
 						<div>
 							<div>
 								<ChatUserName>James</ChatUserName>
@@ -98,7 +96,7 @@ const LandingFifth = (): JSX.Element => {
 						</div>
 					</LeftComment>
 					<RightComment {...ChatAnimatedItem.thirdChat}>
-						<img src={part6_3} alt="세번째 채팅 프로필사진" />
+						<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-3.svg`} alt="세번째 채팅 프로필사진" />
 						<div>
 							<div>
 								<ChatUserName>Olivia</ChatUserName>

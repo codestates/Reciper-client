@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
-import questions from '../../../images/questions.svg';
-import navigation from '../../../images/navigation.svg';
-import part2_1 from '../../../images/part2-1.png';
-import part2_2 from '../../../images/part2-2.png';
-import part2_3 from '../../../images/part2-3.png';
-
-import Parallax from 'react-rellax-wrapper';
 
 import {
 	TopWrapper,
@@ -27,7 +20,7 @@ const LandingSecond = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 
 	const animatedItem = {
-		questions: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0 }),
+		questions: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0.5 }),
 		navigation: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0 }),
 	};
 
@@ -50,7 +43,7 @@ const LandingSecond = (): JSX.Element => {
 						transition: `${scrollPosition > 1650 ? `0.5s` : `0`}`,
 					}}
 				>
-					<Parallax speed={2}>
+					<div>
 						<div style={{ opacity: `${(scrollPosition - 200) / 50}`, transition: '0.5s' }}>
 							토이 프로젝트를 하고 싶은데 같이 할 사람을 찾고 계신가요?
 						</div>
@@ -63,13 +56,14 @@ const LandingSecond = (): JSX.Element => {
 						<SolutionMessage style={{ opacity: `${(scrollPosition - 700) / 50}`, transition: '0.5s' }}>
 							이제는 레시퍼에서 한 번에 해결하세요!
 							<div style={{ opacity: `${(scrollPosition - 730) / 50}`, transition: '0.5s' }}>
-								팀원모집부터 협업 툴까지 모두 갖춘 서비스입니다.
+								팀원모집부터 협업 툴까지 모두 제공합니다!
 							</div>
 						</SolutionMessage>
-					</Parallax>
+					</div>
 				</TopLeftMessage>
+
 				<ImageWrapper {...animatedItem.questions}>
-					<img src={questions} />
+					<img src={`${process.env.REACT_APP_SERVER_URL}/images/questions.svg`} />
 				</ImageWrapper>
 			</TopWrapper>
 
@@ -99,12 +93,21 @@ const LandingSecond = (): JSX.Element => {
 					</MessageWrapper>
 					<BottomImageWrapper>
 						<SpeechBubbleWrapper>
-							<img src={part2_1} style={{ opacity: `${(scrollPosition - 1000) / 50}`, transition: '0.5s' }} />
-							<img src={part2_2} style={{ opacity: `${(scrollPosition - 1100) / 50}`, transition: '0.5s' }} />
-							<img src={part2_3} style={{ opacity: `${(scrollPosition - 1180) / 50}`, transition: '0.5s' }} />
+							<img
+								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-1.png`}
+								style={{ opacity: `${(scrollPosition - 1100) / 50}`, transition: '0.5s' }}
+							/>
+							<img
+								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-2.png`}
+								style={{ opacity: `${(scrollPosition - 1200) / 50}`, transition: '0.5s' }}
+							/>
+							<img
+								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-3.png`}
+								style={{ opacity: `${(scrollPosition - 1300) / 50}`, transition: '0.5s' }}
+							/>
 						</SpeechBubbleWrapper>
 						<NaviImageWrapper {...animatedItem.navigation}>
-							<img src={navigation} />
+							<img src={`${process.env.REACT_APP_SERVER_URL}/images/navigation.svg`} />
 						</NaviImageWrapper>
 					</BottomImageWrapper>
 				</div>
