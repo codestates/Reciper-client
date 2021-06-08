@@ -53,7 +53,7 @@ export const WingLeftWrapper = styled.div<{ scrollPosition: number }>`
 
 	& > svg {
 		${props =>
-			props.scrollPosition > 9600
+			props.scrollPosition > 9000
 				? css`
 						animation: ${wings} infinite;
 						animation-duration: 2s;
