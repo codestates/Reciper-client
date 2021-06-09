@@ -37,9 +37,10 @@ const DetailComment = ({ params }: Props): JSX.Element => {
 	const { data } = useSelector(getRecruitDetailSelector);
 	const userInfo = useSelector(getProfileInfoSelector);
 	const [commentBody, setCommentBody] = useState<string>('');
+	const loginSuccess = localStorage.getItem('loginSuccess');
 
 	const onAddComment = () => {
-		if (!commentBody.trim()) {
+		if (!commentBody.trim() && !loginSuccess) {
 			return;
 		}
 
@@ -96,7 +97,7 @@ const DetailComment = ({ params }: Props): JSX.Element => {
 					{userInfo.name}
 				</CommentWriter>
 				<CommentWritingInput
-					placeholder="댓글을 작성해주세요"
+					placeholder={loginSuccess ? '댓글을 작성해주세요' : '로그인 후 이용 가능합니다.'}
 					value={commentBody}
 					onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setCommentBody(e.target.value)}
 				/>
