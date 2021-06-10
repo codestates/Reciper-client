@@ -42,9 +42,40 @@
 
 # 🧑‍💻 Final Web View(일부)
 
-전체 시연영상은 [Wiki-Final Web View](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
+전체 시연영상은 [Wiki(Final Web View)](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
 
-// 사진 넣기 + 토글 사용
+<details>
+<summary>서비스 소개</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121545783-c87b2580-ca45-11eb-9411-722ef92829e3.gif" width="1893px">
+</details>
+<details>
+<summary>게시글 목록 (infinity scroll + 필터 기능)</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121545082-28bd9780-ca45-11eb-988e-0aefec403a31.gif" width="1893px">
+</details>
+<details>
+<summary>게시글 조회 + 댓글 달기 + 게시글 수정 / 삭제</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532907-be9ff500-ca3a-11eb-9d82-22b67ac6281b.gif">
+</details>
+<details>
+<summary>프로젝트 목록 + 프로젝트 생성</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532900-bd6ec800-ca3a-11eb-9c28-74ce60a91459.gif">
+</details>
+<details>
+<summary>채팅 메시지(이미지) 보내기 + 메시지 수정 / 삭제</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532880-b9db4100-ca3a-11eb-974f-393f4971cc54.gif">
+</details>
+<details>
+<summary>task card, task box 이동 + drag block</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532848-b2b43300-ca3a-11eb-81a4-864b5e530ba6.gif">
+</details>
+<details>
+<summary>task card에 상세 정보 작성 + 댓글 기능</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532837-b051d900-ca3a-11eb-917a-2733cd13ee2f.gif">
+</details>
+<details>
+<summary>task card를 달력으로 조회</summary>     
+  <img src="https://user-images.githubusercontent.com/77570843/121532868-b778e700-ca3a-11eb-8493-9c249403042c.gif">
+</details>
 
 <br/>
 
