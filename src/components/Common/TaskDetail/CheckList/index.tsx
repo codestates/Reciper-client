@@ -1,5 +1,4 @@
 import React, { Dispatch, KeyboardEvent, MouseEvent, SetStateAction, useCallback } from 'react';
-import Scrollbars from 'react-custom-scrollbars';
 import useInput from '../../../../hooks/useInput';
 import { taskChackListDataType } from '../../../../types/types';
 import { Section, SectionTitle } from '../styles';
@@ -14,6 +13,10 @@ const CheckList = ({ checkList, setCheckList }: Props): JSX.Element => {
 	const [checkListValue, onChangeCheckListValue, setCheckListValue] = useInput<string>('');
 
 	const addCheckList = useCallback((): void => {
+		if (checkListValue.trim() === '') {
+			return;
+		}
+
 		setCheckList([...checkList, { isChecked: false, desc: checkListValue }]);
 		setCheckListValue('');
 	}, [checkList, checkListValue]);

@@ -5,6 +5,7 @@ export const TaskWrap = styled.div`
 	width: 100%;
 	min-height: 130px;
 	max-height: 600px;
+	margin-top: 10px;
 
 	&:hover::-webkit-scrollbar {
 		display: block;
@@ -25,7 +26,7 @@ export const TaskCoantainer = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
 	width: 100%;
-	margin-top: 10px;
+	margin-bottom: 10px;
 	padding: 15px 30px;
 	font-family: 'NanumSquareR';
 	background-color: #fff;
@@ -59,8 +60,9 @@ export const TaskSimpleWrap = styled.div`
 `;
 
 export const TaskName = styled.p`
-	width: 100%;
+	width: 230px;
 	font-size: 18px;
+	word-wrap: break-word;
 `;
 
 export const TaskPeriod = styled.p`
