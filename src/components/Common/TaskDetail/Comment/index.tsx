@@ -27,6 +27,10 @@ const Comment = ({ comment, setComment }: Props): JSX.Element => {
 	const [commentValue, onChangeCommentValue, setCommentValue] = useInput<string>('');
 
 	const addComment = useCallback((): void => {
+		if (commentValue.trim() === '') {
+			return;
+		}
+
 		setComment([
 			...comment,
 			{

@@ -14,6 +14,10 @@ const CheckList = ({ checkList, setCheckList }: Props): JSX.Element => {
 	const [checkListValue, onChangeCheckListValue, setCheckListValue] = useInput<string>('');
 
 	const addCheckList = useCallback((): void => {
+		if (checkListValue.trim() === '') {
+			return;
+		}
+
 		setCheckList([...checkList, { isChecked: false, desc: checkListValue }]);
 		setCheckListValue('');
 	}, [checkList, checkListValue]);

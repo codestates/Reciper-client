@@ -59,5 +59,7 @@ export const CommentUser = styled.div`
 `;
 
 export const CommentContent = styled.p`
+	width: 400px;
+	word-wrap: break-word;
 	font-size: 14px;
 `;
