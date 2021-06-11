@@ -115,6 +115,7 @@ const TaskBox = ({ socket, taskBoxData, index, openDetail, setDeleteModal, setBo
 									autoFocus
 									value={BoxTitle}
 									placeholder="변경할 이름을 작성하세요"
+									maxLength={20}
 									onChange={onChangeBoxTitle}
 									onBlur={onChangeTaskBoxTitle}
 									onKeyPress={(e: KeyboardEvent) => e.key === 'Enter' && onChangeTaskBoxTitle()}
