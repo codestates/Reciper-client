@@ -1,7 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ReciperLogo from '../../../images/Logo.png';
 
-import { AboutUs, Adress, Contact, ContentsWrapper, Copyright, FooterContainer, LogoWrapper } from './styles';
+import {
+	AboutUs,
+	Adress,
+	Contact,
+	ContentsWrapper,
+	Copyright,
+	FooterContainer,
+	LinkArrow,
+	LogoWrapper,
+} from './styles';
 
 const Footer = (): JSX.Element => {
 	return (
@@ -16,16 +26,16 @@ const Footer = (): JSX.Element => {
 				</div>
 				<AboutUs>
 					<p>서비스 소개</p>
-					<div>Wiki</div>
-					<div>Client</div>
-					<div>Server</div>
+					<Link to="https://github.com/codestates/Reciper-client/wiki">Wiki</Link>
+					<Link to="https://github.com/codestates/Reciper-client">Client</Link>
+					<Link to="https://github.com/codestates/Reciper-server">Server</Link>
 				</AboutUs>
 				<Contact>
 					<p>컨택트</p>
-					<div>Jung Songyi</div>
-					<div>Kwak Eunwook</div>
-					<div>Shin Seunggil</div>
-					<div>Lee Useong</div>
+					<Link to="https://github.com/lovelysi0113">Jung Songyi</Link>
+					<Link to="https://github.com/Woogie-94">Kwak Eunwook</Link>
+					<Link to="https://github.com/gatsukichi">Shin Seunggil</Link>
+					<Link to="https://github.com/useonglee">Lee Useong</Link>
 				</Contact>
 			</ContentsWrapper>
 			<Copyright>© Copyright 2021 Reciper Inc. All rights reserved.</Copyright>

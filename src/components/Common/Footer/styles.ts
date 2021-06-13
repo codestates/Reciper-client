@@ -1,3 +1,4 @@
+import { IoIosArrowRoundForward } from 'react-icons/io';
 import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
@@ -41,9 +42,15 @@ export const AboutUs = styled.div`
 		padding-bottom: 0.6vw;
 	}
 
-	& > div {
+	& > a {
+		${({ theme }) => theme.align.flexVertical}
+		display: block;
 		padding: 0.2vw 0;
 		color: #545959;
+
+		&:hover {
+			color: ${({ theme }) => theme.color.pointColor};
+		}
 	}
 `;
 
@@ -52,15 +59,25 @@ export const Contact = styled.div`
 		padding-bottom: 0.6vw;
 	}
 
-	& > div {
+	& > a {
+		display: block;
 		padding: 0.2vw 0;
 		color: #545959;
+
+		&:hover {
+			color: ${({ theme }) => theme.color.pointColor};
+		}
 	}
+`;
+
+export const LinkArrow = styled(IoIosArrowRoundForward)`
+	font-size: 20px;
 `;
 
 export const Copyright = styled.div`
 	width: 40%;
-	padding-top: 1vw;
+	padding: 10px 0;
+	color: #888;
 	font-size: 0.7vw;
 	text-align: center;
 	border-top: 1px solid ${({ theme }) => theme.color.lineColor};
