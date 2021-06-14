@@ -6,7 +6,6 @@ import React, {
 	useEffect,
 	useState,
 	Dispatch,
-	SetStateAction,
 	ChangeEvent,
 } from 'react';
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
@@ -31,6 +30,7 @@ import {
 
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
+import { getChatDataSelector } from '../../../reducer/chat';
 
 interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
@@ -38,20 +38,12 @@ interface Props {
 	onChangeChat: React.ChangeEventHandler<HTMLTextAreaElement>;
 	chat?: string;
 	placeholder?: string;
-	chatBucket: ChatDataType[];
-	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 }
 
-const Textarea = ({
-	socket,
-	onSubmitForm,
-	onChangeChat,
-	chat,
-	placeholder,
-	chatBucket,
-	setChatBucket,
-}: Props): JSX.Element => {
+const Textarea = ({ socket, onSubmitForm, onChangeChat, chat, placeholder }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
+
 	const { part: room } = useParams<{ projectUrl: string; part: string }>();
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -85,11 +77,11 @@ const Textarea = ({
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const chatLastIndex = chatBucket[chatBucket.length - 1].id + 1;
+			const chatLastIndex = chatData[chatData.length - 1].id + 1;
 			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
-			setChatBucket([...chatBucket, newChat]);
+			// setChatBucket([...chatBucket, newChat]);
 			socket?.emit('sendImage', getImageData);
 		}
 	}, [chatUploadImage]);

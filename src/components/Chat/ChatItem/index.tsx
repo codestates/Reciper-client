@@ -31,18 +31,19 @@ import {
 
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
+import { getChatDataSelector } from '../../../reducer/chat';
 
 interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	data: ChatDataType;
-	chatBucket: ChatDataType[];
-	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 	isSameSender: boolean;
 	index: number;
 }
 
-const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index }: Props): JSX.Element => {
+const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
+
 	const { part: room } = useParams<{ projectUrl: string; part: string }>();
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const modalRef = useRef<HTMLDivElement>(null);
@@ -66,9 +67,9 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 		const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-		const copyChatBucket = [...chatBucket];
+		const copyChatBucket = [...chatData];
 		copyChatBucket.splice(index, 1, newChat);
-		setChatBucket([...copyChatBucket]);
+		// setChatBucket([...copyChatBucket]);
 
 		socket?.emit('editMessage', getChatEdit);
 		setShowChatEditForm(false);
@@ -82,9 +83,9 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-			const copyChatBucket = [...chatBucket];
+			const copyChatBucket = [...chatData];
 			copyChatBucket[index] = newChat;
-			setChatBucket([...copyChatBucket]);
+			// setChatBucket([...copyChatBucket]);
 
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
@@ -109,12 +110,12 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			setShowChatDeleteAlert(false);
 
 			const getChatDelete = getChatDeleteData(room, index, data.id);
-			const copyChatBucket = [...chatBucket];
+			const copyChatBucket = [...chatData];
 			copyChatBucket.splice(index, 1);
-			setChatBucket([...copyChatBucket]);
+			// setChatBucket([...copyChatBucket]);
 			socket?.emit('deleteMessage', getChatDelete);
 		},
-		[chatBucket],
+		[chatData],
 	);
 
 	// TODO: 채팅 프로필 모달 실행

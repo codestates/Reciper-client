@@ -4,6 +4,7 @@ import { onDragUploadImage } from '../../../utils/imageUpload';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 import DragUploadModal from '../DragUploadModal';
+import { chatSection } from '../../../utils/chatSection';
 
 import { Socket } from 'socket.io-client';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -14,37 +15,29 @@ import { ChatList, ChatZoneContainer, ChatDateHeader, DragOverZone } from './sty
 
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatSectionType, ChatUpdateDataType } from '../../../types/types';
+import { getChatDataSelector } from '../../../reducer/chat';
 
 export interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	scrollbarRef: RefObject<Scrollbars>;
-	chatSections: ChatSectionType;
-	chatBucket: ChatDataType[];
-	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 	order: number;
 	setOrder: Dispatch<SetStateAction<number>>;
 	isEnd: boolean;
-	isEmpty: boolean;
-	isReachingEnd: boolean;
 }
 
-const ChatZone = ({
-	socket,
-	scrollbarRef,
-	chatSections,
-	chatBucket,
-	setChatBucket,
-	order,
-	setOrder,
-	isEnd,
-	isEmpty,
-	isReachingEnd,
-}: Props): JSX.Element => {
+const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
+	console.log(chatData);
+
 	const { part: room } = useParams<{ part: string }>();
 
 	const [dragOver, setDragOver] = useState<boolean>(false);
 	const [chatUploadImage, setChatUploadImage] = useState<string>('');
+
+	const chatSections: ChatSectionType = chatSection(chatData ? [...chatData] : []);
+	const isEmpty = chatData.length === 0;
+	const isReachingEnd = isEmpty || (chatData && chatData.length < 30);
 
 	// TODO: 채팅 인피니티 스크롤
 	const onScrollFrame = useCallback(
@@ -65,11 +58,11 @@ const ChatZone = ({
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const chatLastIndex = chatBucket[chatBucket.length - 1].id + 1;
+			const chatLastIndex = chatData[chatData.length - 1].id + 1;
 			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
-			setChatBucket([...chatBucket, newChat]);
+			// setChatBucket([...chatBucket, newChat]);
 			socket?.emit('sendImage', getImageData);
 		}
 	}, [chatUploadImage]);
@@ -98,29 +91,19 @@ const ChatZone = ({
 	return (
 		<ChatZoneContainer onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
 			<Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScrollFrame}>
-				{Object.entries(chatSections).map(([date, chatsBucket]) => {
+				{Object.entries(chatSections).map(([date, chatData]) => {
 					return (
 						<ChatList key={date}>
 							<ChatDateHeader>
 								<button>{date}</button>
 							</ChatDateHeader>
-							{chatsBucket.length > 0 &&
-								chatsBucket.map((chat: ChatDataType, index: number) => {
+							{chatData.length > 0 &&
+								chatData.map((chat: ChatDataType, index: number) => {
 									let isSameSender = false;
 									if (index > 0) {
-										isSameSender = chat.writer.email === chatsBucket[index - 1].writer.email;
+										isSameSender = chat.writer.email === chatData[index - 1].writer.email;
 									}
-									return (
-										<ChatItem
-											socket={socket}
-											key={index}
-											data={chat}
-											chatBucket={chatBucket}
-											setChatBucket={setChatBucket}
-											index={index}
-											isSameSender={isSameSender}
-										/>
-									);
+									return <ChatItem socket={socket} key={index} data={chat} index={index} isSameSender={isSameSender} />;
 								})}
 						</ChatList>
 					);
