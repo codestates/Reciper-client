@@ -1,6 +1,6 @@
 import { profileEditInfoSlice } from './profileEdit';
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-// import logger from 'redux-logger';
+import logger from 'redux-logger';
 
 import { profileInfoSlice } from './profile';
 import { recruitCreateSlice } from './recruitCreate';
@@ -23,5 +23,5 @@ const reducer = combineReducers({
 
 export default configureStore({
 	reducer,
-	middleware: [...getDefaultMiddleware()],
+	middleware: [...getDefaultMiddleware(), logger],
 });

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ProfileImageUploadWrapper = styled.div`
 	cursor: pointer;
 	position: relative;
+	font-family: 'NanumSquareR';
 
 	&:hover > div {
 		background-color: rgba(0, 0, 0, 0.3);

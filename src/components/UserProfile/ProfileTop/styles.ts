@@ -6,6 +6,7 @@ export const ProfileContainer = styled.div`
 	width: 60%;
 	margin: 0 auto;
 	padding: 132px 32px 132px 32px;
+	font-family: 'NanumSquareR';
 `;
 
 export const ProfileTitle = styled.div`

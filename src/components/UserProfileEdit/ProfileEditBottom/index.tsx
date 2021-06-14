@@ -68,7 +68,7 @@ const ProfileEditBottom = ({
 
 	const data: profileEditType = {
 		name: name,
-		mobile: mobile,
+		mobile: mobile.split('-').join(''),
 		gitId: gitId,
 		career: {
 			office: office,
