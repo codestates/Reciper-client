@@ -5,17 +5,17 @@ import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 import DragUploadModal from '../DragUploadModal';
 import { chatSection } from '../../../utils/chatSection';
+import { getChatDataSelector, sendMessages } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import { ChatList, ChatZoneContainer, ChatDateHeader, DragOverZone } from './styles';
 
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatSectionType, ChatUpdateDataType } from '../../../types/types';
-import { getChatDataSelector } from '../../../reducer/chat';
 
 export interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
@@ -28,8 +28,8 @@ export interface Props {
 const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const chatData = useSelector(getChatDataSelector);
-	console.log(chatData);
 
+	const dispatch = useDispatch();
 	const { part: room } = useParams<{ part: string }>();
 
 	const [dragOver, setDragOver] = useState<boolean>(false);
@@ -62,7 +62,7 @@ const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.
 			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
-			// setChatBucket([...chatBucket, newChat]);
+			dispatch(sendMessages([newChat]));
 			socket?.emit('sendImage', getImageData);
 		}
 	}, [chatUploadImage]);

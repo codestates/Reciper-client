@@ -4,13 +4,13 @@ import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
 import { getChatData, newChatData } from '../../../utils/ChatSocketData';
+import { getAllMessages, getChatDataSelector, sendMessages } from '../../../reducer/chat';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { AllMessagesDataType, ChatDataType, ChatIdType, ChatUpdateDataType } from '../../../types/types';
-import { getAllMessages, getChatDataSelector, sendMessages } from '../../../reducer/chat';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -100,14 +100,14 @@ const WorkSpaceChat = (): JSX.Element => {
 		// TODO: 채팅 이미지 업로드
 		socket?.on('sendImage', ({ chat }: ChatDataType) => {
 			if (chat?.uploadImage) {
-				setChatBucket([...chatBucket, chat]);
+				dispatch(sendMessages([chat]));
 			}
 		});
 	}, [chatData]);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
-		if (chatBucket && order === 0) {
+		if (chatData && order === 0) {
 			scrollbarRef.current?.scrollToBottom();
 		}
 	}, [chatData]);
@@ -144,13 +144,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	return (
 		<>
 			<ChatZone socket={socket} scrollbarRef={scrollbarRef} order={order} setOrder={setOrder} isEnd={isEnd} />
-			<Textarea
-				socket={socket}
-				onSubmitForm={onSubmitForm}
-				onChangeChat={onChangeChatValue}
-				chat={chat}
-				placeholder={`${room}에게 메세지 보내기`}
-			/>
+			<Textarea socket={socket} onSubmitForm={onSubmitForm} onChangeChat={onChangeChatValue} chat={chat} />
 		</>
 	);
 };
