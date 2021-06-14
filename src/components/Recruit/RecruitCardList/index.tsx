@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import RecruitCard from '../RecruitCard';
 import Search from '../Search';
@@ -18,27 +18,34 @@ const RecruitCardList = (): JSX.Element => {
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const listDataRequest = async (isFilter: boolean) => {
-		setIsLoading(false);
+	const listDataRequest = useCallback(
+		async (isFilter: boolean) => {
+			setIsLoading(false);
 
-		const response = await axios.post(
-			`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || 'DESC'}`,
-			{
-				searchStacksList: stackBucket,
-			},
-		);
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || 'DESC'}`,
+				{
+					searchStacksList: stackBucket,
+				},
+			);
 
-		setIsEnd(response.data.isEnd);
+			setIsEnd(response.data.isEnd);
 
-		// 스켈레톤 로딩을 보여주기 위해 약간의 지연 시간을 걸어줌!!
-		setTimeout(() => {
-			if (isFilter) {
-				setRecruitList(response.data.boardList);
-			} else {
-				setRecruitList([...recruitList, ...response.data.boardList]);
-			}
-		}, 200);
-	};
+			// 스켈레톤 로딩을 보여주기 위해 약간의 지연 시간을 걸어줌!!
+			setTimeout(() => {
+				if (isFilter) {
+					setRecruitList(response.data.boardList);
+				} else {
+					setRecruitList([...recruitList, ...response.data.boardList]);
+				}
+			}, 200);
+		},
+		[recruitList],
+	);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	useEffect(() => {
 		setIsLoading(true);

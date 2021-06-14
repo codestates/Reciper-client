@@ -26,9 +26,8 @@ export const SearchCodeIcon = styled(RiCodeBoxFill)`
 `;
 
 export const AddStackContainer = styled.div`
-	position: absolute;
-	top: 48px;
-	width: 600px;
+	margin-top: -24px;
+	margin-left: 112px;
 `;
 
 export const StackClear = styled.span`
@@ -60,5 +59,5 @@ export const ToggleMessage = styled.p`
 // --------------------TODO: project ------------------
 
 export const ShowProject = styled.div`
-	margin-top: 88px;
+	margin-top: 30px;
 `;

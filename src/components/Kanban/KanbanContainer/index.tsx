@@ -89,13 +89,13 @@ const KanbanConianer = (): JSX.Element => {
 		setTitle('');
 		setShowAddTask(false);
 		setBoxDuplicate(false);
-	}, [title]);
+	}, [title, part]);
 
 	const onDeleteTaskBox = useCallback(() => {
 		socket?.emit('deleteTaskBox', { targetListIndex: boxIndex, part });
 		dispatch(deleteTaskBox(boxIndex));
 		setDeleteModal(false);
-	}, [socket]);
+	}, [socket, boxIndex, part]);
 
 	const openDetail = useCallback(
 		(task: string, targetIndex: number, targetListIndex: number): void => {
@@ -272,9 +272,10 @@ const KanbanConianer = (): JSX.Element => {
 							{showAddTaskForm ? (
 								<div>
 									<AddTaskBoxInput
+										autoFocus
 										placeholder="+ 테스크 박스를 추가하세요"
 										value={title}
-										autoFocus
+										maxLength={20}
 										onChange={onChangeTitle}
 										onKeyPress={e => e.key === 'Enter' && onAddTaskBox()}
 										onBlur={onAddTaskBox}

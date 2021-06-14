@@ -1,7 +1,5 @@
 import React from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
-import kanbanboard from '../../../images/kanbanboard.gif';
-import Calendar from '../../../images/Calendar.gif';
 
 import Icon from '@iconify/react';
 import chatTeardropDotsLight from '@iconify/icons-ph/chat-teardrop-dots-light';
@@ -26,27 +24,25 @@ import {
 	ServiceCalendarArrow,
 } from './styles';
 
-// TODO: 웹 서비스 소개
-
 const LandingFourth = (): JSX.Element => {
 	const KanbanAnimatedItem = {
 		background: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0 }),
 		menuHome: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.2 }),
-		menuLine: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.2 }),
-		menuChat: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.4 }),
-		menuKanban: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.5 }),
-		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.6 }),
-		content: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0.5 }),
+		menuLine: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.4 }),
+		menuChat: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.5 }),
+		menuKanban: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.6 }),
+		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.7 }),
+		content: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0.1 }),
 	};
 
 	const CalendarAnimatedItem = {
 		background: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0 }),
 		menuHome: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.2 }),
-		menuLine: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.2 }),
-		menuChat: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.4 }),
-		menuKanban: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.5 }),
-		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.6 }),
-		content: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0.6 }),
+		menuLine: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.4 }),
+		menuChat: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.5 }),
+		menuKanban: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.6 }),
+		menuCalendar: useScrollFadeIn({ direction: 'up', duration: 0.3, delay: 0.7 }),
+		content: useScrollFadeIn({ direction: 'up', duration: 0.5, delay: 0.1 }),
 	};
 
 	return (
@@ -74,7 +70,7 @@ const LandingFourth = (): JSX.Element => {
 							</ServiceMenuCalendar>
 						</ServiceMenu>
 						<ServiceContent {...KanbanAnimatedItem.content}>
-							<img src={kanbanboard} />
+							<img src={`${process.env.REACT_APP_SERVER_URL}/images/Kanbanboard.gif`} />
 						</ServiceContent>
 					</ServiceBackground>
 					<ServiceDescription>
@@ -132,7 +128,7 @@ const LandingFourth = (): JSX.Element => {
 							</ServiceMenuCalendar>
 						</ServiceMenu>
 						<ServiceContent {...CalendarAnimatedItem.content}>
-							<img src={Calendar} />
+							<img src={`${process.env.REACT_APP_SERVER_URL}/images/Calendar.gif`} />
 						</ServiceContent>
 					</ServiceBackground>
 				</CalendarWrapper>

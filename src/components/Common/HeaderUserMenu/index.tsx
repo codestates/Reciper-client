@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useCallback } from 'react';
-import { getProfileInfoSelector } from '../../../reducer/profile';
+import { getProfileInfoSelector, resetProfileState } from '../../../reducer/profile';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { MenuContainer, MenuItem, UserMenu } from './styles';
@@ -13,6 +13,7 @@ interface Props {
 }
 
 const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => {
+	const dispatch = useDispatch();
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const history = useHistory();
 
@@ -39,6 +40,7 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 
 	const onLogout = (): void => {
 		window.localStorage.clear();
+		dispatch(resetProfileState());
 		history.push(`/recruit`);
 	};
 

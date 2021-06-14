@@ -18,10 +18,15 @@ import {
 	ProfileUserCard,
 	ProfileUserInfoCard,
 	ProfileImg,
-	InvalidMessage,
 	InputWrapper,
 } from '../../UserProfile/ProfileTop/styles';
-import { EmailInfoWrapper, ProfileImageUploadButton, ProfileImageUploadWrapper, ProfileUserEmail } from './styles';
+import {
+	EmailInfoWrapper,
+	ProfileImageUploadButton,
+	ProfileImageUploadWrapper,
+	ProfileUserEmail,
+	InvalidMessage,
+} from './styles';
 
 const UserProfileEdit = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -144,13 +149,13 @@ const UserProfileEdit = (): JSX.Element => {
 								<Input
 									width="long"
 									height="long"
-									placeholderText="최대 15자 내로 적어주세요"
+									placeholderText="최대 50자 내로 적어주세요"
 									initValue={aboutMe}
 									changeEvent={onChangeAboutMe}
 								/>
 							</ProfileUserInfo>
 						</InputWrapper>
-						{!aboutMeValidation && <InvalidMessage>최대 15자 내로 적어주세요</InvalidMessage>}
+						{!aboutMeValidation && <InvalidMessage>최대 50자 내로 적어주세요</InvalidMessage>}
 					</div>
 				</ProfileUserInfoCard>
 			</ProfileUserCard>

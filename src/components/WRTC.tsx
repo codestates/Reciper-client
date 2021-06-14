@@ -3,7 +3,19 @@ import styled from 'styled-components';
 import Peer from 'simple-peer';
 import useSocket from '../hooks/useSocket';
 import { useHistory, useParams } from 'react-router';
+import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
+// declare global {
+// 	interface MediaDevices {
+// 		getDisplayMedia(constraints?: MediaStreamConstraints): Promise<MediaStream>;
+// 	}
 
+// 	// if constraints config still lose some prop, you can define it by yourself also
+// 	interface MediaTrackConstraintSet {
+// 		displaySurface?: ConstrainDOMString;
+// 		logicalSurface?: ConstrainBoolean;
+// 		// more....
+// 	}
+// }
 const StyledVideo = styled.video`
 	height: 40%;
 	width: 50%;
@@ -19,7 +31,7 @@ const Video = ({ peer }: { peer: Peer.Instance }): JSX.Element => {
 		});
 	}, []);
 
-	return <StyledVideo muted controls playsInline ref={ref} />;
+	return <StyledVideo autoPlay playsInline ref={ref} />;
 };
 const videoConstraints = {
 	height: window.innerHeight / 2,
@@ -35,13 +47,16 @@ const WRTC = (): JSX.Element => {
 	const userVideo = useRef<any>(null);
 	const peersRef = useRef<any>([]);
 	const roomID = 'General';
+
 	connectSocket();
 	useEffect(() => {
-		navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
+		const MD = navigator.mediaDevices as any;
+		MD.getUserMedia({ video: videoConstraints, audio: true }).then((stream: any) => {
 			userVideo.current.srcObject = stream;
 
 			socket?.emit('join room', roomID);
 			socket?.on('all users', (users: any[]) => {
+				console.log('유저목록:', users);
 				const peers: ((prevState: never[]) => never[]) | Peer.Instance[] = [];
 				users.forEach(userID => {
 					const peer = createPeer(userID, socket?.id, stream);
@@ -52,6 +67,7 @@ const WRTC = (): JSX.Element => {
 					peers.push(peer);
 				});
 				setPeers(peers);
+				console.log(peers);
 			});
 
 			socket?.on('user joined', (payload: { signal: any; callerID: any }) => {
@@ -66,10 +82,15 @@ const WRTC = (): JSX.Element => {
 
 			socket?.on('receiving returned signal', (payload: { id: any; signal: any }) => {
 				const item = peersRef.current.find((p: { peerID: any }) => p.peerID === payload.id);
+				console.log('receiving :', payload, item);
 				item.peer.signal(payload.signal);
 			});
 		});
+	}, []);
+
+	useEffect(() => {
 		return () => {
+			socket?.emit('leave room', 'General');
 			disconnectSocket();
 		};
 	}, []);
@@ -82,6 +103,7 @@ const WRTC = (): JSX.Element => {
 		});
 
 		peer.on('signal', signal => {
+			console.log('create : peer on signal :', signal);
 			socket?.emit('sending signal', { userToSignal, callerID, signal });
 		});
 
@@ -96,6 +118,7 @@ const WRTC = (): JSX.Element => {
 		});
 
 		peer.on('signal', signal => {
+			console.log('add : peer on signal :', signal);
 			socket?.emit('returning signal', { signal, callerID });
 		});
 

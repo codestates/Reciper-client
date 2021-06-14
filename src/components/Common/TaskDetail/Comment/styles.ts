@@ -52,12 +52,14 @@ export const CommentUser = styled.div`
 
 	& span,
 	button {
-		margin-right: 5px;
+		margin: 0 5px;
 		font-size: 13px;
 		color: #c6c6c8;
 	}
 `;
 
 export const CommentContent = styled.p`
+	width: 400px;
+	word-wrap: break-word;
 	font-size: 14px;
 `;

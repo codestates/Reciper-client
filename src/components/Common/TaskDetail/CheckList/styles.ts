@@ -26,7 +26,7 @@ export const CheckListWrap = styled.div`
 
 export const CheckListItem = styled.div`
 	cursor: pointer;
-	${({ theme }) => theme.align.flexVertical}
+	display: flex;
 	justify-content: space-between;
 	width: 100%;
 	margin-bottom: 5px;
@@ -47,7 +47,14 @@ export const CheckListItem = styled.div`
 `;
 
 export const ContentWrap = styled.div`
-	${({ theme }) => theme.align.flexVertical}
+	display: flex;
+	width: 95%;
+
+	& > span {
+		max-width: calc(100% - 30px);
+		margin-top: -4px;
+		word-wrap: break-word;
+	}
 `;
 
 export const CheckBtn = styled.div`
