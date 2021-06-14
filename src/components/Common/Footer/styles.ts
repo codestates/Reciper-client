@@ -44,7 +44,7 @@ export const AboutUs = styled.div`
 
 	& > a {
 		${({ theme }) => theme.align.flexVertical}
-		display: block;
+		transition: 0.1s;
 		padding: 0.2vw 0;
 		color: #545959;
 
@@ -60,7 +60,9 @@ export const Contact = styled.div`
 	}
 
 	& > a {
-		display: block;
+		${({ theme }) => theme.align.flexVertical}
+		position: relative;
+		transition: 0.1s;
 		padding: 0.2vw 0;
 		color: #545959;
 

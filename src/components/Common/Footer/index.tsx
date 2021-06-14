@@ -26,16 +26,37 @@ const Footer = (): JSX.Element => {
 				</div>
 				<AboutUs>
 					<p>서비스 소개</p>
-					<Link to="https://github.com/codestates/Reciper-client/wiki">Wiki</Link>
-					<Link to="https://github.com/codestates/Reciper-client">Client</Link>
-					<Link to="https://github.com/codestates/Reciper-server">Server</Link>
+					<Link to="https://github.com/codestates/Reciper-client/wiki">
+						Wiki
+						<LinkArrow />
+					</Link>
+					<Link to="https://github.com/codestates/Reciper-client">
+						Client
+						<LinkArrow />
+					</Link>
+					<Link to="https://github.com/codestates/Reciper-server">
+						Server
+						<LinkArrow />
+					</Link>
 				</AboutUs>
 				<Contact>
 					<p>컨택트</p>
-					<Link to="https://github.com/lovelysi0113">Jung Songyi</Link>
-					<Link to="https://github.com/Woogie-94">Kwak Eunwook</Link>
-					<Link to="https://github.com/gatsukichi">Shin Seunggil</Link>
-					<Link to="https://github.com/useonglee">Lee Useong</Link>
+					<Link to="https://github.com/lovelysi0113">
+						Jung Songyi
+						<LinkArrow />
+					</Link>
+					<Link to="https://github.com/Woogie-94">
+						Kwak Eunwook
+						<LinkArrow />
+					</Link>
+					<Link to="https://github.com/gatsukichi">
+						Shin Seunggil
+						<LinkArrow />
+					</Link>
+					<Link to="https://github.com/useonglee">
+						Lee Useong
+						<LinkArrow />
+					</Link>
 				</Contact>
 			</ContentsWrapper>
 			<Copyright>© Copyright 2021 Reciper Inc. All rights reserved.</Copyright>
