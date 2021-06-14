@@ -11,7 +11,7 @@ export const RecipeWrapper = styled.div`
 	${({ theme }) => theme.align.flexVertical};
 	flex-direction: row;
 	width: 420px;
-	heigth: 60px;
+	height: 60px;
 	margin: 4px 0;
 	padding: 8px 6px 8px 10px;
 	font-family: NanumSquareR;

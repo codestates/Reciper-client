@@ -12,7 +12,7 @@ export const ProfileUserDetailInfo = styled.div`
 
 	& > div {
 		display: flex;
-		height: 3.7vw;
+		margin-bottom: 35px;
 	}
 `;
 
