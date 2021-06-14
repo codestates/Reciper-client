@@ -4,10 +4,10 @@ import 'dayjs/locale/ko';
 import { ChatDataType, ChatSectionType } from '../types/types';
 
 dayjs.locale('ko');
-export const chatSection = (chatBucket: ChatDataType[]): ChatSectionType => {
+export const chatSection = (chatData: ChatDataType[]): ChatSectionType => {
 	const sections: ChatSectionType = {};
 
-	chatBucket.forEach(chat => {
+	chatData.forEach(chat => {
 		const monthDate = dayjs(chat.createdAt).format('M월 D일 ddd요일');
 
 		if (Array.isArray(sections[monthDate])) {
