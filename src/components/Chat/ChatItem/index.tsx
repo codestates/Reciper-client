@@ -1,10 +1,11 @@
-import React, { Dispatch, memo, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import ChatProfileModal from '../ChatProfileModal';
 import DeleteAlert from '../DeleteAlert';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
+import { getChatDataSelector } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import dayjs from 'dayjs';
@@ -35,14 +36,14 @@ import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
 interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 	data: ChatDataType;
-	chatBucket: ChatDataType[];
-	setChatBucket: Dispatch<SetStateAction<ChatDataType[]>>;
 	isSameSender: boolean;
 	index: number;
 }
 
-const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index }: Props): JSX.Element => {
+const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
+
 	const { part: room } = useParams<{ projectUrl: string; part: string }>();
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const modalRef = useRef<HTMLDivElement>(null);
@@ -55,20 +56,23 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 
 	const { uploadImage, profileColor, name, email } = data.writer;
 
-	useEffect(() => {
-		if (textareaRef.current) {
-			autosize(textareaRef.current);
+	const onClickChatItem = useCallback(() => {
+		if (modalRef.current) {
+			const location = modalRef.current.getBoundingClientRect();
+			if (location.y > 520) {
+				setChatLocation(`-${String(location.y - 520)}px`);
+			}
 		}
-	}, [textareaRef.current]);
+	}, []);
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
 		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 		const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-		const copyChatBucket = [...chatBucket];
+		const copyChatBucket = [...chatData];
 		copyChatBucket.splice(index, 1, newChat);
-		setChatBucket([...copyChatBucket]);
+		// setChatBucket([...copyChatBucket]);
 
 		socket?.emit('editMessage', getChatEdit);
 		setShowChatEditForm(false);
@@ -82,9 +86,9 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
 			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-			const copyChatBucket = [...chatBucket];
-			copyChatBucket.splice(index, 1, newChat);
-			setChatBucket([...copyChatBucket]);
+			const copyChatBucket = [...chatData];
+			copyChatBucket[index] = newChat;
+			// setChatBucket([...copyChatBucket]);
 
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
@@ -109,12 +113,12 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 			setShowChatDeleteAlert(false);
 
 			const getChatDelete = getChatDeleteData(room, index, data.id);
-			const copyChatBucket = [...chatBucket];
+			const copyChatBucket = [...chatData];
 			copyChatBucket.splice(index, 1);
-			setChatBucket([...copyChatBucket]);
+			// setChatBucket([...copyChatBucket]);
 			socket?.emit('deleteMessage', getChatDelete);
 		},
-		[chatBucket],
+		[chatData],
 	);
 
 	// TODO: 채팅 프로필 모달 실행
@@ -136,14 +140,11 @@ const ChatItem = ({ socket, data, chatBucket, setChatBucket, isSameSender, index
 		};
 	}, []);
 
-	const onClickChatItem = useCallback(() => {
-		if (modalRef.current) {
-			const location = modalRef.current.getBoundingClientRect();
-			if (location.y > 520) {
-				setChatLocation(`-${String(location.y - 520)}px`);
-			}
+	useEffect(() => {
+		if (textareaRef.current) {
+			autosize(textareaRef.current);
 		}
-	}, []);
+	}, [textareaRef.current]);
 
 	return (
 		<ChatWrapper isSameSender={isSameSender} ref={modalRef} onClick={onClickChatItem}>

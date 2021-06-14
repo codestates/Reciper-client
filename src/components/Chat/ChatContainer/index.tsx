@@ -3,10 +3,10 @@ import { getProfileInfoSelector } from '../../../reducer/profile';
 import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
-import { chatSection } from '../../../utils/chatSection';
 import { getChatData, newChatData } from '../../../utils/ChatSocketData';
+import { getAllMessages, getChatDataSelector, sendMessages } from '../../../reducer/chat';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -14,8 +14,11 @@ import { AllMessagesDataType, ChatDataType, ChatIdType, ChatUpdateDataType } fro
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
+
 	const { projectUrl, part: room } = useParams<{ projectUrl: string; part: string }>();
 	const history = useHistory();
+	const dispatch = useDispatch();
 	const currentAddress = history.location.pathname.split('/')[3];
 	const [socket, connectionSocket, disconnectSocket] = useSocket(projectUrl, currentAddress);
 	const scrollbarRef = useRef<Scrollbars>(null);
@@ -46,9 +49,9 @@ const WorkSpaceChat = (): JSX.Element => {
 			}
 
 			setIsEnd(isEnd);
-			setChatBucket([...chats, ...chatBucket]);
+			dispatch(getAllMessages(chats));
 		});
-	}, [chatBucket]);
+	}, [chatData]);
 
 	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
@@ -67,7 +70,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		// TODO: 메세지를 받으면 재렌더링 한다.
 		socket?.on('sendMessage', (chat: ChatDataType) => {
 			if (chat) {
-				setChatBucket([...chatBucket, chat]);
+				dispatch(sendMessages([chat]));
 			}
 		});
 
@@ -97,17 +100,17 @@ const WorkSpaceChat = (): JSX.Element => {
 		// TODO: 채팅 이미지 업로드
 		socket?.on('sendImage', ({ chat }: ChatDataType) => {
 			if (chat?.uploadImage) {
-				setChatBucket([...chatBucket, chat]);
+				dispatch(sendMessages([chat]));
 			}
 		});
-	}, [chatBucket]);
+	}, [chatData]);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
-		if (chatBucket && order === 0) {
+		if (chatData && order === 0) {
 			scrollbarRef.current?.scrollToBottom();
 		}
-	}, [chatBucket]);
+	}, [chatData]);
 
 	// TODO: 채팅 입력
 	const onSubmitForm = useCallback(
@@ -117,13 +120,13 @@ const WorkSpaceChat = (): JSX.Element => {
 				return;
 			}
 
-			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat, chatBucket.length);
+			const data: ChatUpdateDataType = getChatData(room, profileInfo, chat, chatData.length);
 			const newChat: ChatDataType = newChatData(-1, chat, '', room, profileInfo);
 
 			socket?.emit('sendMessage', data);
 
 			if (chat) {
-				setChatBucket([...chatBucket, newChat]);
+				dispatch(sendMessages([newChat]));
 				setChat('');
 			}
 
@@ -131,40 +134,17 @@ const WorkSpaceChat = (): JSX.Element => {
 				scrollbarRef.current.scrollToBottom();
 			}
 		},
-		[chat, chatBucket],
+		[chat, chatData],
 	);
 
 	const onChangeChatValue: React.ChangeEventHandler<HTMLTextAreaElement> = useCallback((e): void => {
 		setChat(e.target.value);
 	}, []);
 
-	const chatSections = chatSection(chatBucket ? [...chatBucket] : []);
-	const isEmpty = chatBucket.length === 0;
-	const isReachingEnd = isEmpty || (chatBucket && chatBucket.length < 30);
-
 	return (
 		<>
-			<ChatZone
-				socket={socket}
-				scrollbarRef={scrollbarRef}
-				chatSections={chatSections}
-				chatBucket={chatBucket}
-				setChatBucket={setChatBucket}
-				order={order}
-				setOrder={setOrder}
-				isEnd={isEnd}
-				isEmpty={isEmpty}
-				isReachingEnd={isReachingEnd}
-			/>
-			<Textarea
-				socket={socket}
-				onSubmitForm={onSubmitForm}
-				onChangeChat={onChangeChatValue}
-				chat={chat}
-				chatBucket={chatBucket}
-				setChatBucket={setChatBucket}
-				placeholder={`${room}에게 메세지 보내기`}
-			/>
+			<ChatZone socket={socket} scrollbarRef={scrollbarRef} order={order} setOrder={setOrder} isEnd={isEnd} />
+			<Textarea socket={socket} onSubmitForm={onSubmitForm} onChangeChat={onChangeChatValue} chat={chat} />
 		</>
 	);
 };
