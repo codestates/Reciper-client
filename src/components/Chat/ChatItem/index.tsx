@@ -1,10 +1,11 @@
-import React, { Dispatch, memo, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import ProfileImage from '../../Common/ProfileImage';
 import ChatProfileModal from '../ChatProfileModal';
 import DeleteAlert from '../DeleteAlert';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
+import { getChatDataSelector } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import dayjs from 'dayjs';
@@ -31,7 +32,6 @@ import {
 
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatUpdateDataType } from '../../../types/types';
-import { getChatDataSelector } from '../../../reducer/chat';
 
 interface Props {
 	socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
@@ -56,11 +56,14 @@ const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => 
 
 	const { uploadImage, profileColor, name, email } = data.writer;
 
-	useEffect(() => {
-		if (textareaRef.current) {
-			autosize(textareaRef.current);
+	const onClickChatItem = useCallback(() => {
+		if (modalRef.current) {
+			const location = modalRef.current.getBoundingClientRect();
+			if (location.y > 520) {
+				setChatLocation(`-${String(location.y - 520)}px`);
+			}
 		}
-	}, [textareaRef.current]);
+	}, []);
 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
@@ -137,14 +140,11 @@ const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => 
 		};
 	}, []);
 
-	const onClickChatItem = useCallback(() => {
-		if (modalRef.current) {
-			const location = modalRef.current.getBoundingClientRect();
-			if (location.y > 520) {
-				setChatLocation(`-${String(location.y - 520)}px`);
-			}
+	useEffect(() => {
+		if (textareaRef.current) {
+			autosize(textareaRef.current);
 		}
-	}, []);
+	}, [textareaRef.current]);
 
 	return (
 		<ChatWrapper isSameSender={isSameSender} ref={modalRef} onClick={onClickChatItem}>
