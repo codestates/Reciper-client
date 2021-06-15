@@ -5,13 +5,13 @@ import DeleteAlert from '../DeleteAlert';
 import useInput from '../../../hooks/useInput';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatDeleteData, getChatEditData, newChatData } from '../../../utils/ChatSocketData';
-import { getChatDataSelector } from '../../../reducer/chat';
+import { deleteMessage, editMessage, getChatDataSelector } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import dayjs from 'dayjs';
 import autosize from 'autosize';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	ChatContent,
@@ -43,6 +43,7 @@ interface Props {
 const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
 	const chatData = useSelector(getChatDataSelector);
+	const dispatch = useDispatch();
 
 	const { part: room } = useParams<{ projectUrl: string; part: string }>();
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -68,11 +69,11 @@ const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => 
 	// TODO: 채팅 수정 엔터
 	const onChatEditEnter = useCallback((): void => {
 		const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
-		const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
+		const chat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-		const copyChatBucket = [...chatData];
-		copyChatBucket.splice(index, 1, newChat);
-		// setChatBucket([...copyChatBucket]);
+		if (editChat) {
+			dispatch(editMessage({ chat, index }));
+		}
 
 		socket?.emit('editMessage', getChatEdit);
 		setShowChatEditForm(false);
@@ -84,11 +85,11 @@ const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => 
 			e.preventDefault();
 
 			const getChatEdit: ChatUpdateDataType = getChatEditData(room, index, data.id, editChat);
-			const newChat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
+			const chat: ChatDataType = newChatData(data.id, editChat, '', room, profileInfo);
 
-			const copyChatBucket = [...chatData];
-			copyChatBucket[index] = newChat;
-			// setChatBucket([...copyChatBucket]);
+			if (editChat) {
+				dispatch(editMessage({ chat, index }));
+			}
 
 			socket?.emit('editMessage', getChatEdit);
 			setShowChatEditForm(false);
@@ -113,9 +114,8 @@ const ChatItem = ({ socket, data, isSameSender, index }: Props): JSX.Element => 
 			setShowChatDeleteAlert(false);
 
 			const getChatDelete = getChatDeleteData(room, index, data.id);
-			const copyChatBucket = [...chatData];
-			copyChatBucket.splice(index, 1);
-			// setChatBucket([...copyChatBucket]);
+			dispatch(deleteMessage(index));
+
 			socket?.emit('deleteMessage', getChatDelete);
 		},
 		[chatData],
