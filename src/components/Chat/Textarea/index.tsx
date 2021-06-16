@@ -2,7 +2,7 @@ import React, { useCallback, KeyboardEvent, FormEvent, useRef, useEffect, useSta
 import { changeImage, clickUploadImage } from '../../../utils/imageUpload';
 import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
-import { sendMessage } from '../../../reducer/chat';
+import { getChatDataSelector, sendMessage } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import autosize from 'autosize';
@@ -32,6 +32,7 @@ interface Props {
 
 const Textarea = ({ socket, onSubmitForm, onChangeChat, chat }: Props): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
+	const chatData = useSelector(getChatDataSelector);
 
 	const dispatch = useDispatch();
 	const { part: room } = useParams<{ projectUrl: string; part: string }>();
@@ -72,7 +73,12 @@ const Textarea = ({ socket, onSubmitForm, onChangeChat, chat }: Props): JSX.Elem
 	useEffect(() => {
 		if (chatUploadImage) {
 			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
-			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
+			const getImageData: ChatUpdateDataType = getChatUploadImageData(
+				room,
+				profileInfo,
+				chatUploadImage,
+				chatData.length,
+			);
 
 			dispatch(sendMessage([newChat]));
 			socket?.emit('sendImage', getImageData);

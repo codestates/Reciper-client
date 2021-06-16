@@ -78,11 +78,13 @@ export const getChatUploadImageData = (
 	room: string,
 	profileInfo: profileInfoDataType,
 	uploadImage: string,
+	chatLength: number,
 ): ChatUpdateDataType => {
 	const result = {
 		room: room,
 		name: profileInfo.name,
 		uploadImage: uploadImage,
+		chatLength: chatLength,
 	};
 
 	return result;

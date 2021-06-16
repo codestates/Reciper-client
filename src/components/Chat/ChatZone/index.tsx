@@ -59,7 +59,12 @@ const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.
 	useEffect(() => {
 		if (chatUploadImage) {
 			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
-			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
+			const getImageData: ChatUpdateDataType = getChatUploadImageData(
+				room,
+				profileInfo,
+				chatUploadImage,
+				chatData.length,
+			);
 
 			dispatch(sendMessage([newChat]));
 			socket?.emit('sendImage', getImageData);
