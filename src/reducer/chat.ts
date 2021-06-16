@@ -58,11 +58,7 @@ export const chatSlice = createSlice({
 			}
 			return [...copyState];
 		},
-		changeRoom: (state, { payload }: PayloadAction<[]>) => {
-			let copyState = [...state];
-			copyState = payload;
-			return [...copyState];
-		},
+		changeRoom: () => initialState,
 	},
 });
 
