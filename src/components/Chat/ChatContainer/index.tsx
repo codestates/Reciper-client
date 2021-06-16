@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { AllMessagesDataType, ChatDataType, ChatIdType, ChatUpdateDataType } from '../../../types/types';
+import { AllMessagesDataType, ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -55,7 +55,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			setIsEnd(isEnd);
 			dispatch(getAllMessages(chats));
 		});
-	}, [chatData]);
+	}, []);
 
 	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
@@ -67,7 +67,7 @@ const WorkSpaceChat = (): JSX.Element => {
 	useEffect(() => {
 		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
 		setOrder(0);
-		dispatch(changeRoom([]));
+		dispatch(changeRoom());
 	}, [room]);
 
 	useEffect(() => {
