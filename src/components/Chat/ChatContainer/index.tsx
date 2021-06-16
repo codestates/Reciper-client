@@ -102,7 +102,7 @@ const WorkSpaceChat = (): JSX.Element => {
 				dispatch(sendMessage([chat]));
 			}
 		});
-	}, [chatData]);
+	}, []);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {
