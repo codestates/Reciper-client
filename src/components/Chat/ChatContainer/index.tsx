@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { AllMessagesDataType, ChatDataType, ChatUpdateDataType } from '../../../types/types';
+import { AllMessagesDataType, ChatDataType, ChatIdType, ChatUpdateDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -75,6 +75,12 @@ const WorkSpaceChat = (): JSX.Element => {
 		socket?.on('sendMessage', (chat: ChatDataType) => {
 			if (chat) {
 				dispatch(sendMessage([chat]));
+			}
+		});
+		// TODO: 채팅 고유 아이디
+		socket?.on('nowMessageId', ({ id, chatLength }: ChatIdType) => {
+			if (chatData[chatLength]) {
+				chatData[chatLength].id = id;
 			}
 		});
 
