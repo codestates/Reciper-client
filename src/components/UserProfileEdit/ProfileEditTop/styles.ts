@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ProfileImageUploadWrapper = styled.div`
 	cursor: pointer;
 	position: relative;
+	font-family: 'NanumSquareR';
 
 	&:hover > div {
 		background-color: rgba(0, 0, 0, 0.3);
@@ -40,13 +41,25 @@ export const EmailInfoWrapper = styled.div`
 
 export const ProfileUserEmail = styled.div`
 	${({ theme }) => theme.align.flexVertical}
-	width: 306px;
+	width: 100%;
 	height: 40px;
 	padding: 12px;
 	font-family: 'NanumSquareR';
-	font-size: 18px;
+	font-size: 16px;
 	color: #545454;
 	background-color: #dcdcdc;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
+`;
+
+// --------------------TODO: validation message-------------------------
+
+export const InvalidMessage = styled.div`
+	width: 100%;
+	margin-left: 112px;
+	padding: 8px 0;
+	font-family: 'NanumSquareR';
+	font-size: 14px;
+	color: ${({ theme }) => theme.color.warningColor};
+	text-align: left;
 `;

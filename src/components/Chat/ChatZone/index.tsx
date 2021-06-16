@@ -58,8 +58,7 @@ const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.
 	// TODO: 채팅 이미지 업로드
 	useEffect(() => {
 		if (chatUploadImage) {
-			const chatLastIndex = chatData[chatData.length - 1].id + 1;
-			const newChat: ChatDataType = newChatData(chatLastIndex, '', chatUploadImage, room, profileInfo);
+			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
 			dispatch(sendMessage([newChat]));

@@ -35,10 +35,38 @@ const initialState: profileInfoDataType = {
 export const profileInfoSlice = createSlice({
 	name: 'profile',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetProfileState: (): profileInfoDataType => {
+			const initialState: profileInfoDataType = {
+				updatedAt: '',
+				aboutMe: '',
+				career: {
+					office: '',
+					job: '',
+					period: '',
+				},
+				createdAt: '',
+				email: '',
+				stacks: [],
+				gitId: '',
+				id: null,
+				isOpen: false,
+				mobile: '',
+				name: '',
+				profileColor: '',
+				uploadImage: '',
+				projectList: [],
+			};
+
+			return initialState;
+		},
+	},
 	extraReducers: {
-		[getProfileInfo.fulfilled.type]: (state, { payload }: PayloadAction<profileInfoDataType>) => payload,
+		[getProfileInfo.fulfilled.type]: (state, { payload }: PayloadAction<profileInfoDataType>): profileInfoDataType =>
+			payload,
 	},
 });
+
+export const { resetProfileState } = profileInfoSlice.actions;
 
 export const getProfileInfoSelector = (state: RootStateOrAny): profileInfoDataType => state.profileInfoSlice;

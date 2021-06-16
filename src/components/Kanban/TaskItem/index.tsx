@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 
@@ -93,4 +93,4 @@ const TaskItem = ({ taskData, boxIndex, openDetail }: Props): JSX.Element => {
 	);
 };
 
-export default TaskItem;
+export default memo(TaskItem);

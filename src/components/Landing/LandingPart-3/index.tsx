@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
-import arrow from '../../../images/arrow.png';
-import introCard1 from '../../../images/introCard1.gif';
-import introCard2 from '../../../images/introCard2.gif';
-import introCard3 from '../../../images/introCard3.gif';
 
 import { Icon } from '@iconify/react';
 import numberCircleOneBold from '@iconify/icons-ph/number-circle-one-bold';
@@ -53,7 +49,7 @@ const LandingThird = (): JSX.Element => {
 						함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요<p>🙌</p>
 					</ContentSubMessage>
 					<ArrowWrapper scrollPosition={scrollPosition}>
-						<img src={arrow} />
+						<img src={`${process.env.REACT_APP_SERVER_URL}/images/arrow.png`} />
 						<div>
 							<NumberIcon {...animatedItem.numberOne}>
 								<Icon icon={numberCircleOneBold} />
@@ -75,7 +71,7 @@ const LandingThird = (): JSX.Element => {
 									레시퍼에서는 팀원을 직접 모집하거나, 마음에 드는 프로젝트에 참여할 수 있습니다. 팀원을 먼저
 									찾아보세요.
 								</p>
-								<img src={introCard1} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/introCard1.gif`} />
 							</ContentItem>
 							<ContentItem {...animatedItem.listTwo}>
 								<ContentItemEmoji>📂</ContentItemEmoji>
@@ -84,13 +80,13 @@ const LandingThird = (): JSX.Element => {
 									팀원을 모집하셨나요? 그러면 멋진 아이디어로 프로젝트를 생성해 보세요! 어떤 프로젝트를 만들고
 									싶으신가요?
 								</p>
-								<img src={introCard2} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/introCard2.gif`} />
 							</ContentItem>
 							<ContentItem {...animatedItem.listThree}>
 								<ContentItemEmoji>🎉</ContentItemEmoji>
 								<ContentItemTitle>이제는 여러분들만의 레시피를 만들 차례입니다!</ContentItemTitle>
 								<p>{'프로젝트를 생성하셨군요! 이제 팀원들과 즐겁게 프로젝트를 진행하는 일만 남았습니다! :)'} </p>
-								<img src={introCard3} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/introCard3.gif`} />
 							</ContentItem>
 						</ContentsWrapper>
 					</div>

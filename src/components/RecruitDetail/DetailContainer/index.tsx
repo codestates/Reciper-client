@@ -23,6 +23,7 @@ const DetailContainer = (): JSX.Element => {
 
 	useEffect(() => {
 		dispatch(getDetailData(params));
+		window.scrollTo(0, 0);
 	}, []);
 
 	useEffect(() => {

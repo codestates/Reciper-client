@@ -318,7 +318,7 @@ export interface editChatType {
 export interface taskCommentWriterDataType {
 	profileColor: string;
 	profileImage: string;
-	userName: string;
+	name: string;
 	id: number | null;
 }
 

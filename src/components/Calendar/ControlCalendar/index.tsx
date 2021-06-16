@@ -46,7 +46,7 @@ const ControlCalender = ({ date, startWeek, calendarData, taskByDate, taskByPosi
 											className={`index${index}`}
 											style={{ backgroundColor: `${task.taskColor}`, left: `${left}%`, width: `${width}%` }}
 										>
-											{task.taskTitle}
+											<span>{task.taskTitle}</span>
 										</TaskBar>
 									)
 								);

@@ -39,7 +39,7 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 		height: 8vw;
 		margin-left: 12px;
 		${props =>
-			props.scrollPosition > 1350
+			props.scrollPosition > 1430
 				? css`
 						animation: ${arrow};
 						animation-duration: 2s;
@@ -49,7 +49,7 @@ export const ArrowWrapper = styled.div<{ scrollPosition: number }>`
 			animation: none;
 		`}
 		${props =>
-			props.scrollPosition > 1650
+			props.scrollPosition > 1730
 				? css`
 						opacity: 1;
 				  `
@@ -115,10 +115,9 @@ export const ContentItem = styled.div`
 	justify-content: flex-start;
 	flex-direction: column;
 	width: 26.1vw;
-	height: 60vh;
+	height: 24vw;
 	margin: 0 1.8vw;
-	padding: 20px 0;
-	font-family: NanumSquareB;
+	font-family: 'BMJua';
 	font-size: 1vw;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
@@ -128,11 +127,11 @@ export const ContentItem = styled.div`
 		color: #545454;
 		text-align: left;
 	}
+
 	${({ theme }) => theme.align.flexCenter};
 	object-fit: cover;
 	& > img {
 		width: 90%;
-		height: 100%;
 	}
 `;
 

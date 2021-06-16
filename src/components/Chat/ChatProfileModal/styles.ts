@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export const ChatProfileModalWrapper = styled.div`
 	overflow: hidden;
 	width: 240px;
-	height: 330px;
 	font-family: NanumSquareR;
 	background-color: #fff;
 	border: 1px solid #a6a6a6;
@@ -24,7 +23,6 @@ export const PrfileModalBottomWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 150px;
 	padding: 20px 20px;
 	background-color: #fff;
 	color: #333333;

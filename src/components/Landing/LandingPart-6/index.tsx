@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import part6_1 from '../../../images/part6-1.svg';
-import part6_2 from '../../../images/part6-2.svg';
-import part6_3 from '../../../images/part6-3.svg';
-import part6_4 from '../../../images/part6-4.svg';
-import part6_5 from '../../../images/part6-5.svg';
 
 import {
 	LandingSixthBottom,
@@ -66,7 +61,7 @@ const LandingSixth = (): JSX.Element => {
 					<TopPersonalCardWrapper>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
-								<img src={part6_1} alt={'개발하는 이미지1'} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-1.svg`} alt={'개발하는 이미지1'} />
 							</PersonalAvatar>
 							<div
 								style={{
@@ -80,7 +75,7 @@ const LandingSixth = (): JSX.Element => {
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
-								<img src={part6_2} alt={'개발하는 이미지2'} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-2.svg`} alt={'개발하는 이미지2'} />
 							</PersonalAvatar>
 							<div
 								style={{
@@ -94,7 +89,7 @@ const LandingSixth = (): JSX.Element => {
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
-								<img src={part6_3} alt={'개발하는 이미지3'} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-3.svg`} alt={'개발하는 이미지3'} />
 							</PersonalAvatar>
 							<div
 								style={{
@@ -108,7 +103,7 @@ const LandingSixth = (): JSX.Element => {
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
-								<img src={part6_4} alt={'개발하는 이미지4'} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-4.svg`} alt={'개발하는 이미지4'} />
 							</PersonalAvatar>
 							<div
 								style={{
@@ -122,7 +117,7 @@ const LandingSixth = (): JSX.Element => {
 						</PersonalCard>
 						<PersonalCard style={{ borderBottom: `${scrollPosition > 7350 ? 'none' : '1px solid #d6d6d8'}` }}>
 							<PersonalAvatar>
-								<img src={part6_5} alt={'개발하는 이미지5'} />
+								<img src={`${process.env.REACT_APP_SERVER_URL}/images/part6-5.svg`} alt={'개발하는 이미지5'} />
 							</PersonalAvatar>
 							<div
 								style={{

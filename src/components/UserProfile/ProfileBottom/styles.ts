@@ -11,8 +11,8 @@ export const ProfileUserDetailInfo = styled.div`
 	width: 800px;
 
 	& > div {
-		${({ theme }) => theme.align.flexVertical}
-		margin-bottom: 40px;
+		display: flex;
+		margin-bottom: 35px;
 	}
 `;
 

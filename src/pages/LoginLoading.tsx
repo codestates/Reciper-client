@@ -6,6 +6,45 @@ import { loginRequest, loginSelector } from '../reducer/login';
 
 import { loginDataType, loginRequestType } from '../types/types';
 
+import styled, { keyframes } from 'styled-components';
+import BigLogoImg from '../images/big_logo.png';
+
+const loadingFill = keyframes`
+	100% {
+		width: 100%;
+	}
+`;
+
+const Loading = styled.p`
+	${({ theme }) => theme.align.flexVertical}
+	flex-direction: column;
+	${({ theme }) => theme.align.positionCenter}
+`;
+
+const BigLogo = styled.img`
+	width: 100px;
+`;
+
+const LoadingText = styled.p`
+	position: relative;
+	margin-top: -20px;
+	font-family: 'Pacifico';
+	font-size: 90px;
+	color: #e6e6e8;
+
+	&::before {
+		content: 'Reciper';
+		overflow: hidden;
+		position: absolute;
+		animation: ${loadingFill} 1s ease-in forwards 0.5s;
+		top: 0;
+		left: 0;
+		width: 0%;
+		height: 100%;
+		color: ${({ theme }) => theme.color.pointColor};
+	}
+`;
+
 const LoginLoading = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -40,15 +79,22 @@ const LoginLoading = (): JSX.Element => {
 			window.localStorage.setItem('loginSuccess', 'success');
 			window.localStorage.setItem('loginInfo', JSON.stringify(loginSuccess.data));
 
-			if (location) {
-				history.push(location as string);
-			} else {
-				history.push('/');
-			}
+			setTimeout(() => {
+				if (location) {
+					history.push(location as string);
+				} else {
+					history.push('/');
+				}
+			}, 1500);
 		}
 	}, [loginSuccess]);
 
-	return <div>로딩 중!</div>;
+	return (
+		<Loading>
+			<BigLogo src={BigLogoImg} />
+			<LoadingText className="on">Reciper</LoadingText>
+		</Loading>
+	);
 };
 
 export default LoginLoading;

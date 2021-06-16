@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getSocketData } from '../../../reducer/kanban';
 import { projectListDataTpye } from '../../../types/types';
 import getLoginInfo from '../../../utils/getLoginInfo';
 import { Container } from '../MyInfo/styles';
@@ -8,6 +10,7 @@ import ProjectCard from '../ProjectCard';
 import { ProjectCardListContainer, ProjectCreateBtn } from './styles';
 
 const ProjectCardList = (): JSX.Element => {
+	const dispatch = useDispatch();
 	const [projectListData, setProjectListData] = useState<projectListDataTpye[]>([]);
 
 	const getProjectList = async () => {
@@ -21,6 +24,7 @@ const ProjectCardList = (): JSX.Element => {
 	};
 
 	useEffect(() => {
+		dispatch(getSocketData({ taskBox: [], taskItems: {} }));
 		getProjectList();
 	}, []);
 

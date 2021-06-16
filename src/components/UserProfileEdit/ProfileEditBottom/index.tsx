@@ -68,7 +68,7 @@ const ProfileEditBottom = ({
 
 	const data: profileEditType = {
 		name: name,
-		mobile: mobile,
+		mobile: mobile.split('-').join(''),
 		gitId: gitId,
 		career: {
 			office: office,
@@ -130,7 +130,7 @@ const ProfileEditBottom = ({
 						<ProfileSubTitle>Github 아이디</ProfileSubTitle>
 						<ProfileUserInfo>
 							<Input
-								width="long"
+								width="short"
 								height="long"
 								placeholderText="아이디를 입력하세요"
 								initValue={gitId}
@@ -178,15 +178,17 @@ const ProfileEditBottom = ({
 								<StackSearchCustom width="long" height="long" margin="0 10px 0 0" setState={setStack} />
 							</SearchInputContiner>
 							{stackBucket.length > 4 ? <StackMaximum>5개 추가 완료</StackMaximum> : null}
-							<AddStackContainer>
-								{stackBucket.length ? <StackClear onClick={() => setStackBucket([])}>조건 초기화</StackClear> : null}
-								{stackBucket.map((stack: string, index: number) => (
-									<StackTag key={index} type="delete" deleteEvent={() => onDeleteStack(index)}>
-										{stack}
-									</StackTag>
-								))}
-							</AddStackContainer>
 						</ProfileUserInfo>
+					</div>
+					<div>
+						<AddStackContainer>
+							{stackBucket.length ? <StackClear onClick={() => setStackBucket([])}>조건 초기화</StackClear> : null}
+							{stackBucket.map((stack: string, index: number) => (
+								<StackTag key={index} type="delete" deleteEvent={() => onDeleteStack(index)}>
+									{stack}
+								</StackTag>
+							))}
+						</AddStackContainer>
 					</div>
 
 					{/* TODO: 토글 버튼 */}

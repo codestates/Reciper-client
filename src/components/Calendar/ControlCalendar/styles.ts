@@ -73,6 +73,13 @@ export const TaskBar = styled.div`
 	color: #fff;
 	border-right: 1px solid ${({ theme }) => theme.color.lineColor};
 
+	& > span {
+		width: 170px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
 	&.index0 {
 		top: 39px;
 	}

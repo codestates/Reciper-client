@@ -22,3 +22,8 @@
 	font-family: 'Pacifico';
 	src: url('./fonts/Pacifico-Regular.ttf') format('truetype');
 }
+
+@font-face {
+	font-family: 'BMJua';
+	src: url('./fonts/BMJUA.otf') format('opentype');
+}

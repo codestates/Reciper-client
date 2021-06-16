@@ -57,7 +57,6 @@ export const ServiceMenuCalendar = styled.div`
 `;
 
 export const ServiceContent = styled.div`
-	object-fit: cover;
 	overflow: hidden;
 	${({ theme }) => theme.align.flexCenter};
 	width: 42.5vw;
@@ -66,8 +65,8 @@ export const ServiceContent = styled.div`
 	border-radius: 20px 3px 3px 0;
 
 	& > img {
+		object-fit: cover;
 		width: 100%;
-		height: 100%;
 	}
 `;
 
@@ -77,14 +76,14 @@ export const ServiceDescription = styled.div`
 	font-family: 'NanumSquarEB';
 	font-size: 2.2vw;
 	color: #fff;
-	text-align: center;
+	text-align: left;
 
 	& > div {
 		line-height: 2vw;
 		margin-top: 1.2vw;
 		font-family: 'NanumSquarB';
-		text-align: left;
 		font-size: 1.2vw;
+		text-align: left;
 	}
 `;
 
@@ -94,7 +93,7 @@ export const KanbanWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	margin: 50vh 0;
+	margin: 40vh 0;
 `;
 
 export const ServiceKanbanArrow = styled(RiArrowLeftSFill)`
