@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import BackToTop from '../../../images/BackToTop.gif';
 
 import LoginModal from '../../Common/LoginModal';
 import Modal from '../../Common/Modal';
@@ -12,6 +11,8 @@ import {
 	ContentsWrapper,
 	BackToTopButton,
 	Dimed,
+	BackToTopButtonWrapper,
+	BackToTopIcon,
 } from './styles';
 
 const LandingFirst = (): JSX.Element => {
@@ -38,7 +39,7 @@ const LandingFirst = (): JSX.Element => {
 				}}
 			>
 				<Dimed>
-					<BackToTopButton
+					<BackToTopButtonWrapper
 						style={{
 							opacity: `${scrollPosition > 100 ? `1` : `0`}`,
 							color: `${
@@ -58,9 +59,11 @@ const LandingFirst = (): JSX.Element => {
 							}
 						}}
 					>
-						<img src={BackToTop} />
+						<BackToTopButton>
+							<BackToTopIcon />
+						</BackToTopButton>
 						<p>맨위로</p>
-					</BackToTopButton>
+					</BackToTopButtonWrapper>
 					<ContentsWrapper>
 						<MainMessage>토이 프로젝트의 에센셜</MainMessage>
 						<SubMessage>동료와 작업공간을 한 곳에서 만나보세요</SubMessage>

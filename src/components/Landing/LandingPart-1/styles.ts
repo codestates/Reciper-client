@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IoIosArrowUp } from 'react-icons/io';
 
 export const LandingFirstContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
@@ -65,8 +66,10 @@ export const FreeExpButton = styled.div`
 
 // ----------------TODO: 맨 위로 가기 버튼----------------
 
-export const BackToTopButton = styled.button`
+export const BackToTopButtonWrapper = styled.div`
 	cursor: pointer;
+	${({ theme }) => theme.align.flexCenter};
+	flex-direction: column;
 	position: fixed;
 	right: 2vw;
 	bottom: 4vh;
@@ -80,8 +83,20 @@ export const BackToTopButton = styled.button`
 	}
 
 	& > p {
-		margin-top: -8px;
+		margin-top: 2px;
 		font-family: NanumSquareB;
 		font-size: 14px;
 	}
+`;
+
+export const BackToTopButton = styled.div`
+	${({ theme }) => theme.align.flexCenter};
+	padding: 4px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-radius: 3px;
+`;
+
+export const BackToTopIcon = styled(IoIosArrowUp)`
+	font-size: 20px;
 `;
