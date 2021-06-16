@@ -15,10 +15,14 @@
 이제는 레시퍼에서 한 번에 해결하세요!  
 팀원모집부터 협업 툴까지 모두 갖춘 서비스입니다.
 
+#### 함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요 👩‍💻 👨‍💻
+
 <br/>
 
-### **함께 하고 싶은 팀원을 모집하고 만들고 싶은 프로젝트까지 레시퍼와 함께 하세요 🙌**
+### [👉 Reciper 사용해보기👈](https://reciper.me/)
 
+
+<br/>
 <br/>
 
 # 🛠 Tech stack
@@ -40,7 +44,7 @@
 
 <br/>
 
-# 🧑‍💻 Final Web View(일부)
+# 🚗 Final Web View(일부)
 
 전체 시연영상은 [Wiki(Final Web View)](https://github.com/codestates/Reciper-client/wiki/Final-Web-View)에서 보실 수 있습니다!
 
