@@ -44,8 +44,8 @@ const LandingFirst = (): JSX.Element => {
 							opacity: `${scrollPosition > 100 ? `1` : `0`}`,
 							color: `${
 								(scrollPosition > 100 && scrollPosition < 2530) ||
-								(scrollPosition > 6650 && scrollPosition < 10360) ||
-								scrollPosition > 11420
+								(scrollPosition > 6680 && scrollPosition < 10330) ||
+								scrollPosition > 11375
 									? `#000`
 									: `#fff`
 							}`,
