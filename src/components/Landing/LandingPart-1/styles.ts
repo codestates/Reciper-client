@@ -83,7 +83,7 @@ export const BackToTopButtonWrapper = styled.div`
 	}
 
 	& > p {
-		margin-top: 2px;
+		margin-top: 4px;
 		font-family: NanumSquareB;
 		font-size: 14px;
 	}

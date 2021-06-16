@@ -10,6 +10,7 @@ import {
 	editMessage,
 	getAllMessages,
 	getChatDataSelector,
+	messageId,
 	sendMessage,
 } from '../../../reducer/chat';
 
@@ -79,9 +80,7 @@ const WorkSpaceChat = (): JSX.Element => {
 		});
 		// TODO: 채팅 고유 아이디
 		socket?.on('nowMessageId', ({ id, chatLength }: ChatIdType) => {
-			if (chatData[chatLength]) {
-				chatData[chatLength].id = id;
-			}
+			dispatch(messageId({ id, chatLength }));
 		});
 
 		// TODO: 채팅 수정
@@ -97,12 +96,12 @@ const WorkSpaceChat = (): JSX.Element => {
 		});
 
 		// TODO: 채팅 이미지 업로드
-		socket?.on('sendImage', ({ chat }: ChatDataType) => {
-			if (chat?.uploadImage) {
+		socket?.on('sendImage', (chat: ChatDataType) => {
+			if (chat) {
 				dispatch(sendMessage([chat]));
 			}
 		});
-	}, [chatData]);
+	}, []);
 
 	// TODO: 스크롤바는 항상 맨 밑에 위치한다.
 	useEffect(() => {

@@ -73,7 +73,12 @@ const Textarea = ({ socket, onSubmitForm, onChangeChat, chat }: Props): JSX.Elem
 	useEffect(() => {
 		if (chatUploadImage) {
 			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
-			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
+			const getImageData: ChatUpdateDataType = getChatUploadImageData(
+				room,
+				profileInfo,
+				chatUploadImage,
+				chatData.length,
+			);
 
 			dispatch(sendMessage([newChat]));
 			socket?.emit('sendImage', getImageData);

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootStateOrAny } from 'react-redux';
 
-import { ChatDataType, editChatType } from '../types/types';
+import { ChatDataType, ChatIdType, editChatType } from '../types/types';
 
 // TODO: 초기 상태
 const initialState: ChatDataType[] = [
@@ -56,12 +56,17 @@ export const chatSlice = createSlice({
 			if (payload.chat) {
 				copyState.splice(payload.index, 1, payload.chat);
 			}
+
 			return [...copyState];
+		},
+		messageId: (state, { payload }: PayloadAction<ChatIdType>) => {
+			const { chatLength, id } = payload;
+			state[chatLength].id = id;
 		},
 		changeRoom: () => initialState,
 	},
 });
 
-export const { getAllMessages, sendMessage, deleteMessage, editMessage, changeRoom } = chatSlice.actions;
+export const { getAllMessages, sendMessage, deleteMessage, editMessage, messageId, changeRoom } = chatSlice.actions;
 
 export const getChatDataSelector = (state: RootStateOrAny): ChatDataType[] => state.chatSlice;
