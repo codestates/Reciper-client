@@ -4,13 +4,20 @@ import ChatZone from '../ChatZone';
 import Textarea from '../Textarea';
 import useSocket from '../../../hooks/useSocket';
 import { getChatData, newChatData } from '../../../utils/ChatSocketData';
-import { getAllMessages, getChatDataSelector, sendMessages } from '../../../reducer/chat';
+import {
+	changeRoom,
+	deleteMessage,
+	editMessage,
+	getAllMessages,
+	getChatDataSelector,
+	sendMessage,
+} from '../../../reducer/chat';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { AllMessagesDataType, ChatDataType, ChatIdType, ChatUpdateDataType } from '../../../types/types';
+import { AllMessagesDataType, ChatDataType, ChatUpdateDataType } from '../../../types/types';
 
 const WorkSpaceChat = (): JSX.Element => {
 	const profileInfo = useSelector(getProfileInfoSelector);
@@ -26,9 +33,6 @@ const WorkSpaceChat = (): JSX.Element => {
 	const [order, setOrder] = useState<number>(0);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [chat, setChat] = useState<string>('');
-
-	// TODO: 채팅기록을 담아줄 바구니
-	const [chatBucket, setChatBucket] = useState<ChatDataType[]>([]);
 
 	// TODO: 해당하는 채팅 Room과 연결 시도
 	connectionSocket();
@@ -51,7 +55,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			setIsEnd(isEnd);
 			dispatch(getAllMessages(chats));
 		});
-	}, [chatData]);
+	}, []);
 
 	useEffect(() => {
 		// TODO: room이 바뀌면 room과 다시 연결한다.
@@ -63,44 +67,33 @@ const WorkSpaceChat = (): JSX.Element => {
 	useEffect(() => {
 		// TODO: room이 바뀌면 인피니티 스크롤을 위한 order 초기화
 		setOrder(0);
-		setChatBucket([]);
+		dispatch(changeRoom());
 	}, [room]);
 
 	useEffect(() => {
 		// TODO: 메세지를 받으면 재렌더링 한다.
 		socket?.on('sendMessage', (chat: ChatDataType) => {
 			if (chat) {
-				dispatch(sendMessages([chat]));
-			}
-		});
-
-		// TODO: 채팅 고유 아이디
-		socket?.on('nowMessageId', ({ id, chatLength }: ChatIdType) => {
-			if (chatBucket[chatLength]) {
-				chatBucket[chatLength].id = id;
+				dispatch(sendMessage([chat]));
 			}
 		});
 
 		// TODO: 채팅 수정
 		socket?.on('editMessage', ({ chat, index }: ChatDataType) => {
-			const copyChatBucket = [...chatBucket];
 			if (chat) {
-				copyChatBucket.splice(index, 1, chat);
-				setChatBucket([...copyChatBucket]);
+				dispatch(editMessage({ chat, index }));
 			}
 		});
 
 		// TODO: 채팅 삭제
 		socket?.on('deleteMessage', ({ index }) => {
-			const copyChatBucket = [...chatBucket];
-			copyChatBucket.splice(index, 1);
-			setChatBucket([...copyChatBucket]);
+			dispatch(deleteMessage(index));
 		});
 
 		// TODO: 채팅 이미지 업로드
 		socket?.on('sendImage', ({ chat }: ChatDataType) => {
 			if (chat?.uploadImage) {
-				dispatch(sendMessages([chat]));
+				dispatch(sendMessage([chat]));
 			}
 		});
 	}, [chatData]);
@@ -126,7 +119,7 @@ const WorkSpaceChat = (): JSX.Element => {
 			socket?.emit('sendMessage', data);
 
 			if (chat) {
-				dispatch(sendMessages([newChat]));
+				dispatch(sendMessage([newChat]));
 				setChat('');
 			}
 

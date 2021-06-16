@@ -5,7 +5,7 @@ import { getProfileInfoSelector } from '../../../reducer/profile';
 import { getChatUploadImageData, newChatData } from '../../../utils/ChatSocketData';
 import DragUploadModal from '../DragUploadModal';
 import { chatSection } from '../../../utils/chatSection';
-import { getChatDataSelector, sendMessages } from '../../../reducer/chat';
+import { getChatDataSelector, sendMessage } from '../../../reducer/chat';
 
 import { Socket } from 'socket.io-client';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -61,7 +61,7 @@ const ChatZone = ({ socket, scrollbarRef, order, setOrder, isEnd }: Props): JSX.
 			const newChat: ChatDataType = newChatData(-1, '', chatUploadImage, room, profileInfo);
 			const getImageData: ChatUpdateDataType = getChatUploadImageData(room, profileInfo, chatUploadImage);
 
-			dispatch(sendMessages([newChat]));
+			dispatch(sendMessage([newChat]));
 			socket?.emit('sendImage', getImageData);
 		}
 	}, [chatUploadImage]);

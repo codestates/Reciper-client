@@ -306,9 +306,9 @@ export interface ChatUpdateDataType {
 	uploadImage?: string;
 }
 
-export interface ChatIdType {
-	id: number;
-	chatLength: number;
+export interface editChatType {
+	chat: ChatDataType;
+	index: number;
 }
 
 ////////////////////////////////////////////////////////
