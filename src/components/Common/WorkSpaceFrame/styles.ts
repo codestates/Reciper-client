@@ -158,7 +158,7 @@ export const ListItem = styled(Link)`
 	position: relative;
 	transition: 0.1s;
 	height: 30px;
-	padding: 6px 20px 0 21px;
+	padding: 6px 50px 0 21px;
 	text-overflow: ellipsis;
 	color: #555;
 
