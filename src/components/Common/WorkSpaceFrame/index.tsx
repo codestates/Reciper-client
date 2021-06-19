@@ -299,7 +299,7 @@ const WorkSpaceFrame = ({ children }: Props): JSX.Element => {
 							{index > 0 && <AiOutlineClose onClick={e => openDeleteAlert(e, index)} />}
 						</ListItem>
 					))}
-					{openAddInput && <AddInput placeholder={`작성 후 Enter를 누르세요.`} onKeyPress={addListItem} />}
+					{openAddInput && <AddInput autoFocus placeholder={`작성 후 Enter를 누르세요.`} onKeyPress={addListItem} />}
 					<AddListItemBtn onClick={() => setOpenAddInput(openAddInput => !openAddInput)}>
 						<RiAddBoxFill />
 						<span>{frameInitState.listType} 추가</span>
