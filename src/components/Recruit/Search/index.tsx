@@ -18,9 +18,10 @@ interface Props {
 	stackBucket: string[];
 	setStackBucket: Dispatch<SetStateAction<string[]>>;
 	setSortValue: Dispatch<SetStateAction<string>>;
+	setOrder: Dispatch<SetStateAction<number>>;
 }
 
-const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Element => {
+const Search = ({ stackBucket, setStackBucket, setSortValue, setOrder }: Props): JSX.Element => {
 	const sortData: string[] = ['최신순', '오래된 순'];
 	const [stack, setStack] = useState<string>('');
 
@@ -37,6 +38,7 @@ const Search = ({ stackBucket, setStackBucket, setSortValue }: Props): JSX.Eleme
 			const deleteStack = [...stackBucket];
 			deleteStack.splice(index, 1);
 
+			setOrder(1);
 			setStackBucket(deleteStack);
 		},
 		[stackBucket],

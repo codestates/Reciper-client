@@ -40,7 +40,7 @@ const RecruitCardList = (): JSX.Element => {
 				}
 			}, 200);
 		},
-		[recruitList],
+		[recruitList, stackBucket],
 	);
 
 	useEffect(() => {
@@ -54,7 +54,7 @@ const RecruitCardList = (): JSX.Element => {
 			const infinite: IntersectionObserverCallback = ([entry], observer) => {
 				if (entry.isIntersecting) {
 					observer.unobserve(entry.target);
-					setOrder(order + 1);
+					setOrder(order => order + 1);
 				}
 			};
 
@@ -79,7 +79,12 @@ const RecruitCardList = (): JSX.Element => {
 
 	return (
 		<CardListContainer>
-			<Search stackBucket={stackBucket} setStackBucket={setStackBucket} setSortValue={setSortValue} />
+			<Search
+				stackBucket={stackBucket}
+				setStackBucket={setStackBucket}
+				setSortValue={setSortValue}
+				setOrder={setOrder}
+			/>
 			{recruitList && recruitList.map((data, index) => <RecruitCard key={index} data={data} />)}
 			{!isLoading && <SkeletonLoading />}
 			<ObserveBlock ref={observeTarget}></ObserveBlock>
