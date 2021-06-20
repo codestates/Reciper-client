@@ -40,7 +40,7 @@ const RecruitCardList = (): JSX.Element => {
 				}
 			}, 200);
 		},
-		[recruitList, stackBucket],
+		[recruitList, stackBucket, sortValue],
 	);
 
 	useEffect(() => {
