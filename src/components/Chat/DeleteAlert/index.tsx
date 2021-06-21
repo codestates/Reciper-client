@@ -25,8 +25,6 @@ interface Props {
 
 const DeleteAlert = ({ data, setShowChatDeleteAlert, onChatDeleteButton }: Props): JSX.Element => {
 	const { uploadImage, profileColor, name } = data.writer;
-	let date = dayjs(data.createdAt);
-	date = date.add(9, 'hour');
 
 	return (
 		<>
@@ -47,7 +45,7 @@ const DeleteAlert = ({ data, setShowChatDeleteAlert, onChatDeleteButton }: Props
 						<AlertChatItemUserInfoWrapper>
 							<div>
 								<ChatUserId>{name}</ChatUserId>
-								<ChatCreatedAt>{dayjs(date).format('A h:mm')}</ChatCreatedAt>
+								<ChatCreatedAt>{dayjs(data.createdAt).format('A h:mm')}</ChatCreatedAt>
 							</div>
 							<AlertChatContent>
 								{data.uploadImage ? <>{data.uploadImage.toString()}</> : <>{data.text}</>}
