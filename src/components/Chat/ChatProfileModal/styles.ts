@@ -61,23 +61,6 @@ export const GoToProfileLink = styled(Link)`
 		transition: 0.1s;
 		color: #eee;
 		background-color: ${({ theme }) => theme.color.pointColor};
-		border: none;
-	}
-`;
-
-export const ProfileModalLink = styled(Link)`
-	width: 95px;
-	padding: 8px;
-	color: #333333;
-	text-align: center;
-	background-color: #fff;
-	border: 1px solid ${({ theme }) => theme.color.lineColor};
-	border-radius: 4px;
-
-	&:hover {
-		transition: 0.1s;
-		color: #eee;
-		background-color: ${({ theme }) => theme.color.pointColor};
-		border: none;
+		border: 1px solid transparent;
 	}
 `;
