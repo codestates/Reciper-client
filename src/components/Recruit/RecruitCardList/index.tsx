@@ -17,6 +17,21 @@ const RecruitCardList = (): JSX.Element => {
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [throttleWaiting, setThrottleWaiting] = useState<boolean>(false);
+
+	const throttle = useCallback(
+		(callback: (isFilter: boolean) => void, isFilter: boolean, delay: number) => {
+			if (!throttleWaiting) {
+				callback(isFilter);
+				setThrottleWaiting(true);
+
+				setTimeout(() => {
+					setThrottleWaiting(false);
+				}, delay);
+			}
+		},
+		[throttleWaiting],
+	);
 
 	const listDataRequest = useCallback(
 		async (isFilter: boolean) => {
@@ -40,7 +55,7 @@ const RecruitCardList = (): JSX.Element => {
 				}
 			}, 200);
 		},
-		[recruitList, stackBucket, sortValue],
+		[recruitList, order, stackBucket, sortValue],
 	);
 
 	useEffect(() => {
@@ -51,7 +66,7 @@ const RecruitCardList = (): JSX.Element => {
 		setIsLoading(true);
 
 		if (!isEnd) {
-			const infinite: IntersectionObserverCallback = ([entry], observer) => {
+			const infinite = ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
 				if (entry.isIntersecting) {
 					observer.unobserve(entry.target);
 					setOrder(order => order + 1);
@@ -62,19 +77,18 @@ const RecruitCardList = (): JSX.Element => {
 
 			observer.observe(observeTarget.current as Element);
 		}
-	}, [recruitList]);
+	}, [recruitList, isEnd]);
 
 	useEffect(() => {
 		if (order > 1) {
-			listDataRequest(false);
+			throttle(listDataRequest, false, 300);
 		} else {
-			listDataRequest(true);
+			throttle(listDataRequest, true, 300);
 		}
-	}, [order]);
+	}, [order, stackBucket, sortValue]);
 
 	useEffect(() => {
 		setOrder(1);
-		listDataRequest(true);
 	}, [stackBucket, sortValue]);
 
 	return (
