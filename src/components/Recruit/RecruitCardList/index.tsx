@@ -17,28 +17,28 @@ const RecruitCardList = (): JSX.Element => {
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [throttleWaiting, setThrottleWaiting] = useState<boolean>(false);
+	// const [throttleWaiting, setThrottleWaiting] = useState<boolean>(false);
 
-	const throttle = useCallback(
-		(callback: (isFilter: boolean) => void, isFilter: boolean, delay: number) => {
-			if (!throttleWaiting) {
-				callback(isFilter);
-				setThrottleWaiting(true);
+	// const throttle = useCallback(
+	// 	(callback: (isFilter: boolean) => void, isFilter: boolean, delay: number) => {
+	// 		if (!throttleWaiting) {
+	// 			callback(isFilter);
+	// 			setThrottleWaiting(true);
 
-				setTimeout(() => {
-					setThrottleWaiting(false);
-				}, delay);
-			}
-		},
-		[throttleWaiting],
-	);
+	// 			setTimeout(() => {
+	// 				setThrottleWaiting(false);
+	// 			}, delay);
+	// 		}
+	// 	},
+	// 	[throttleWaiting],
+	// );
 
 	const listDataRequest = useCallback(
 		async (isFilter: boolean) => {
 			setIsLoading(false);
 
 			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || 'DESC'}`,
+				`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || '최신 순'}`,
 				{
 					searchStacksList: stackBucket,
 				},
@@ -80,16 +80,22 @@ const RecruitCardList = (): JSX.Element => {
 	}, [recruitList, isEnd]);
 
 	useEffect(() => {
-		if (order > 1) {
-			throttle(listDataRequest, false, 300);
-		} else {
-			throttle(listDataRequest, true, 300);
-		}
-	}, [order, stackBucket, sortValue]);
-
-	useEffect(() => {
 		setOrder(1);
 	}, [stackBucket, sortValue]);
+
+	useEffect(() => {
+		const listDebounce = setTimeout(() => {
+			if (order > 1) {
+				listDataRequest(false);
+			} else {
+				listDataRequest(true);
+			}
+		}, 0);
+
+		return () => {
+			clearTimeout(listDebounce);
+		};
+	}, [order, stackBucket, sortValue]);
 
 	return (
 		<CardListContainer>
