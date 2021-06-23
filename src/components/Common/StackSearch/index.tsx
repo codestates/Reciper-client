@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { stackDataType } from '../../../types/types';
 import getLoginInfo from '../../../utils/getLoginInfo';
-import { Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
+import { NoneStack, Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
 
 interface Props {
 	width: string;
@@ -29,6 +29,35 @@ const StackSearch = (props: Props): JSX.Element => {
 	const [filteredStack, setFilterdStack] = useState<stackDataType[]>([]);
 	const [initialValue, setInitialValue] = useState<string>('');
 
+	const onStackSearchFocus = useCallback(() => {
+		onStackFilter();
+		setShowStacks(true);
+	}, [fixStackData]);
+
+	const onStackFilter = useCallback((): void => {
+		console.log(!!initialValue);
+		if (initialValue) {
+			const filtered = fixStackData.filter(stack => {
+				const reg = new RegExp(initialValue, 'i');
+				const match = reg.exec(stack.name);
+
+				if (match) {
+					return true;
+				}
+			});
+
+			setFilterdStack(filtered);
+		} else {
+			setFilterdStack(fixStackData);
+		}
+	}, [initialValue, fixStackData]);
+
+	const onSelectedStack = useCallback((stack: string): void => {
+		props.setState(stack);
+		setShowStacks(false);
+		setInitialValue('');
+	}, []);
+
 	useEffect(() => {
 		const { accessToken, loginType } = getLoginInfo();
 
@@ -49,34 +78,9 @@ const StackSearch = (props: Props): JSX.Element => {
 		}
 	}, [mouseOut]);
 
-	const onStackSearchFocus = () => {
-		setFilterdStack(fixStackData);
-		setShowStacks(true);
-	};
-
-	const onStackFilter = (e: ChangeEvent<HTMLInputElement>): void => {
-		setShowStacks(true);
-
-		if (e.target.value) {
-			const filtered = fixStackData.filter(stack => {
-				const firstLowerValue = e.target.value;
-				const firstUpperValue = firstLowerValue.replace(firstLowerValue[0], firstLowerValue[0].toUpperCase());
-				const isLowerMatch = stack.name.indexOf(firstLowerValue) + 1;
-				const isUpperMatch = stack.name.indexOf(firstUpperValue) + 1;
-
-				return isLowerMatch + isUpperMatch;
-			});
-			setFilterdStack(filtered);
-		}
-
-		setInitialValue(e.target.value);
-	};
-
-	const onSelectedStack = (stack: string): void => {
-		props.setState(stack);
-		setShowStacks(false);
-		setInitialValue('');
-	};
+	useEffect(() => {
+		onStackFilter();
+	}, [initialValue]);
 
 	return (
 		<StackSearchContainer {...props} onMouseLeave={() => setMouseOut(true)} onMouseOver={() => setMouseOut(false)}>
@@ -84,7 +88,7 @@ const StackSearch = (props: Props): JSX.Element => {
 				placeholder="기술 태그 검색"
 				value={initialValue}
 				onFocus={onStackSearchFocus}
-				onChange={onStackFilter}
+				onChange={e => setInitialValue(e.target.value)}
 			/>
 			{showStacks && (
 				<StackList>
@@ -93,6 +97,7 @@ const StackSearch = (props: Props): JSX.Element => {
 							{stack.name}
 						</Stack>
 					))}
+					{filteredStack.length === 0 && <NoneStack>검색 결과가 없습니다.</NoneStack>}
 				</StackList>
 			)}
 		</StackSearchContainer>
