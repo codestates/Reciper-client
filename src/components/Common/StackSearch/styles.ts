@@ -12,6 +12,7 @@ export const StackSearchInput = styled.input`
 	width: 100%;
 	height: 100%;
 	padding: 0 10px;
+	font-family: 'NanumSquareR';
 	font-size: 14px;
 	border: 1px solid ${({ theme }) => theme.color.lineColor};
 	border-radius: 3px;
@@ -41,4 +42,11 @@ export const Stack = styled.div`
 		background-color: ${({ theme }) => theme.color.pointColor};
 		color: #fff;
 	}
+`;
+
+export const NoneStack = styled.p`
+	width: 100%;
+	padding: 20px 0;
+	text-align: center;
+	color: #999;
 `;
