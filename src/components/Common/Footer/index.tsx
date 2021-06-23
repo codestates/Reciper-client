@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import ReciperLogo from '../../../images/Logo.png';
 
 import {
@@ -26,37 +25,37 @@ const Footer = (): JSX.Element => {
 				</div>
 				<AboutUs>
 					<p>서비스 소개</p>
-					<Link to="https://github.com/codestates/Reciper-client/wiki">
+					<a href="https://github.com/codestates/Reciper-client/wiki" target="blank">
 						Wiki
 						<LinkArrow />
-					</Link>
-					<Link to="https://github.com/codestates/Reciper-client">
+					</a>
+					<a href="https://github.com/codestates/Reciper-client" target="blank">
 						Client
 						<LinkArrow />
-					</Link>
-					<Link to="https://github.com/codestates/Reciper-server">
+					</a>
+					<a href="https://github.com/codestates/Reciper-server" target="blank">
 						Server
 						<LinkArrow />
-					</Link>
+					</a>
 				</AboutUs>
 				<Contact>
 					<p>컨택트</p>
-					<Link to="https://github.com/lovelysi0113">
+					<a href="https://github.com/lovelysi0113" target="blank">
 						Jung Songyi
 						<LinkArrow />
-					</Link>
-					<Link to="https://github.com/Woogie-94">
+					</a>
+					<a href="https://github.com/Woogie-94" target="blank">
 						Kwak Eunwook
 						<LinkArrow />
-					</Link>
-					<Link to="https://github.com/gatsukichi">
+					</a>
+					<a href="https://github.com/gatsukichi" target="blank">
 						Shin Seunggil
 						<LinkArrow />
-					</Link>
-					<Link to="https://github.com/useonglee">
+					</a>
+					<a href="https://github.com/useonglee" target="blank">
 						Lee Useong
 						<LinkArrow />
-					</Link>
+					</a>
 				</Contact>
 			</ContentsWrapper>
 			<Copyright>© Copyright 2021 Reciper Inc. All rights reserved.</Copyright>
