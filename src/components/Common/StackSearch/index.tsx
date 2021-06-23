@@ -35,7 +35,6 @@ const StackSearch = (props: Props): JSX.Element => {
 	}, [fixStackData]);
 
 	const onStackFilter = useCallback((): void => {
-		console.log(!!initialValue);
 		if (initialValue) {
 			const filtered = fixStackData.filter(stack => {
 				const reg = new RegExp(initialValue, 'i');
