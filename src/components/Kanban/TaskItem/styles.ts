@@ -22,7 +22,7 @@ export const TaskWrap = styled.div`
 `;
 
 export const TaskCoantainer = styled.div`
-	cursor: pointer;
+	cursor: pointer !important;
 	${({ theme }) => theme.align.flexVertical}
 	position: relative;
 	width: 100%;
@@ -30,10 +30,6 @@ export const TaskCoantainer = styled.div`
 	padding: 15px 30px;
 	font-family: 'NanumSquareR';
 	background-color: #fff;
-
-	&:last-child {
-		margin-bottom: 0px;
-	}
 
 	&:hover .dot {
 		opacity: 1;
