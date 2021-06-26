@@ -94,9 +94,9 @@ const RecruitCardList = (): JSX.Element => {
 	useEffect(() => {
 		const listDebounce = setTimeout(() => {
 			if (order > 1) {
-				throttle(listDataRequest, false, 1000);
+				throttle(listDataRequest, false, 500);
 			} else {
-				throttle(listDataRequest, true, 1000);
+				throttle(listDataRequest, true, 500);
 			}
 		}, 0);
 
