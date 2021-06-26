@@ -3,11 +3,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import RecruitCard from '../RecruitCard';
 import Search from '../Search';
+import SkeletonLoading from '../SkeletonLoading';
 
 import { RecruitListDataType } from '../../../types/types';
 
-import { CardListContainer, ObserveBlock } from './styles';
-import SkeletonLoading from '../SkeletonLoading';
+import { CardListContainer, EmptyList, ObserveBlock } from './styles';
+import emptyListImage from '../../../images/empty_list.svg';
 
 const RecruitCardList = (): JSX.Element => {
 	const observeTarget = useRef<HTMLDivElement>(null);
@@ -17,25 +18,27 @@ const RecruitCardList = (): JSX.Element => {
 	const [stackBucket, setStackBucket] = useState<string[]>([]);
 	const [isEnd, setIsEnd] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	// const [throttleWaiting, setThrottleWaiting] = useState<boolean>(false);
+	const [isEmptyList, setIsEmptyList] = useState<boolean>(false);
+	const [throttleWaiting, setThrottleWaiting] = useState<boolean>(false);
 
-	// const throttle = useCallback(
-	// 	(callback: (isFilter: boolean) => void, isFilter: boolean, delay: number) => {
-	// 		if (!throttleWaiting) {
-	// 			callback(isFilter);
-	// 			setThrottleWaiting(true);
+	const throttle = useCallback(
+		(callback: (isFilter: boolean) => void, isFilter: boolean, delay: number) => {
+			if (!throttleWaiting) {
+				callback(isFilter);
+				setThrottleWaiting(true);
 
-	// 			setTimeout(() => {
-	// 				setThrottleWaiting(false);
-	// 			}, delay);
-	// 		}
-	// 	},
-	// 	[throttleWaiting],
-	// );
+				setTimeout(() => {
+					setThrottleWaiting(false);
+				}, delay);
+			}
+		},
+		[throttleWaiting],
+	);
 
 	const listDataRequest = useCallback(
 		async (isFilter: boolean) => {
 			setIsLoading(false);
+			setIsEmptyList(false);
 
 			const response = await axios.post(
 				`${process.env.REACT_APP_SERVER_URL}/filterRecruitList/${order}/${sortValue || '최신 순'}`,
@@ -53,7 +56,11 @@ const RecruitCardList = (): JSX.Element => {
 				} else {
 					setRecruitList([...recruitList, ...response.data.boardList]);
 				}
-			}, 200);
+
+				if (response.data.boardList.length === 0) {
+					setIsEmptyList(true);
+				}
+			}, 300);
 		},
 		[recruitList, order, stackBucket, sortValue],
 	);
@@ -69,11 +76,12 @@ const RecruitCardList = (): JSX.Element => {
 			const infinite = ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
 				if (entry.isIntersecting) {
 					observer.unobserve(entry.target);
+
 					setOrder(order => order + 1);
 				}
 			};
 
-			const observer = new IntersectionObserver(infinite, { rootMargin: '200px', threshold: 0 });
+			const observer = new IntersectionObserver(infinite, { rootMargin: '600px', threshold: 0 });
 
 			observer.observe(observeTarget.current as Element);
 		}
@@ -86,9 +94,9 @@ const RecruitCardList = (): JSX.Element => {
 	useEffect(() => {
 		const listDebounce = setTimeout(() => {
 			if (order > 1) {
-				listDataRequest(false);
+				throttle(listDataRequest, false, 1000);
 			} else {
-				listDataRequest(true);
+				throttle(listDataRequest, true, 1000);
 			}
 		}, 0);
 
@@ -107,6 +115,12 @@ const RecruitCardList = (): JSX.Element => {
 			/>
 			{recruitList && recruitList.map((data, index) => <RecruitCard key={index} data={data} />)}
 			{!isLoading && <SkeletonLoading />}
+			{isEmptyList && isLoading && (
+				<EmptyList>
+					<img src={emptyListImage} />
+					<p>검색 결과가 없습니다.</p>
+				</EmptyList>
+			)}
 			<ObserveBlock ref={observeTarget}></ObserveBlock>
 		</CardListContainer>
 	);
