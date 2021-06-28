@@ -14,7 +14,7 @@ interface Props {
 	startWeek: number;
 	calendarData: Dayjs[][];
 	taskByDate: { [key: string]: taskDataType[] };
-	taskByPosition: { [key: number]: taskDataType[] };
+	taskByPosition: { [key: number]: taskDataType[][] };
 }
 
 // Task가 포함되어 있고 여러 기능이 있는 캘린더
@@ -31,25 +31,25 @@ const ControlCalender = ({ date, startWeek, calendarData, taskByDate, taskByPosi
 				return (
 					<Week key={weekIndex}>
 						{taskByPosition[positionKey] &&
-							taskByPosition[positionKey].map((task, index) => {
-								const currentStartDay = dayjs(task.startDate || task.endDate).dayOfYear();
-								const currentEndDay = dayjs(task.endDate || task.startDate).dayOfYear();
-								const diffStartDay = currentStartDay - startDay;
-								const diffEndDay = currentEndDay - startDay + 1;
-								const left = diffStartDay > 0 ? (100 / 7) * diffStartDay : 0;
-								const width = diffStartDay > 0 ? (100 / 7) * (diffEndDay - diffStartDay) : (100 / 7) * diffEndDay;
+							taskByPosition[positionKey].map((week, weekIndex) => {
+								return week.map((task, index) => {
+									const currentStartDay = dayjs(task.startDate || task.endDate).dayOfYear();
+									const currentEndDay = dayjs(task.endDate || task.startDate).dayOfYear();
+									const diffStartDay = currentStartDay - startDay;
+									const diffEndDay = currentEndDay - startDay + 1;
+									const left = diffStartDay > 0 ? (100 / 7) * diffStartDay : 0;
+									const width = diffStartDay > 0 ? (100 / 7) * (diffEndDay - diffStartDay) : (100 / 7) * diffEndDay;
 
-								return (
-									index < 3 && (
+									return (
 										<TaskBar
 											key={index}
-											className={`index${index}`}
+											className={`index${weekIndex}`}
 											style={{ backgroundColor: `${task.taskColor}`, left: `${left}%`, width: `${width}%` }}
 										>
 											<span>{task.taskTitle}</span>
 										</TaskBar>
-									)
-								);
+									);
+								});
 							})}
 						{week.map((day, dayIndex) => {
 							const currentDay = day.format('YYYYMMDD');

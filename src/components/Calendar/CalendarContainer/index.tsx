@@ -48,7 +48,7 @@ const CalendarContainer = (): JSX.Element => {
 
 	const [calendarData, setCalendarData] = useState<Dayjs[][]>([]);
 	const [taskByDate, setTaskByDate] = useState<{ [key: string]: taskDataType[] }>({});
-	const [taskByPosition, setTaskByPosition] = useState<{ [key: number]: taskDataType[] }>({});
+	const [taskByPosition, setTaskByPosition] = useState<{ [key: number]: taskDataType[][] }>({});
 	const [addNumber, setAddNumber] = useState<number>(0);
 
 	const today = dayjs().add(addNumber, 'month');
@@ -144,16 +144,16 @@ const CalendarContainer = (): JSX.Element => {
 
 	useEffect(() => {
 		const calendarDataFrame: Dayjs[][] = [];
-		const taskByPositionFrame: { [key: number]: taskDataType[] } = {};
 		const taskByDateFrame: { [key: string]: taskDataType[] } = {};
+		const taskByPositionFrame: { [key: number]: taskDataType[][] } = {};
 		const taskItemSorted = taskItemSort();
 
 		// 달력을 그릴 데이터와 Task를 넣어 줄 틀을 만듬
 		for (let week = 0; week <= blankWeek - startWeek; week++) {
 			if (week === 0) {
-				taskByPositionFrame[Number(date.format('YYYYMMDD'))] = [];
+				taskByPositionFrame[Number(date.format('YYYYMMDD'))] = [[], [], []];
 			} else {
-				taskByPositionFrame[Number(date.format('YYYYMMDD')) + 1] = [];
+				taskByPositionFrame[Number(date.format('YYYYMMDD')) + 1] = [[], [], []];
 			}
 
 			calendarDataFrame.push(
@@ -162,6 +162,7 @@ const CalendarContainer = (): JSX.Element => {
 					.map((_, index) => {
 						if (week === 0 && index === 0) {
 							taskByDateFrame[date.format('YYYYMMDD')] = [];
+
 							return date;
 						}
 
@@ -188,7 +189,7 @@ const CalendarContainer = (): JSX.Element => {
 		});
 
 		// Task가 달력 어느 부분에 위치해야 하는지 정보를 담음
-		Object.keys(taskByPositionFrame).map((weekDate, index) => {
+		Object.keys(taskByPositionFrame).forEach((weekDate, index) => {
 			const endWeekDay = Number(date.week(startWeek + index).format('YYYYMMDD'));
 
 			for (let i = 0; i < taskItemSorted.length; i++) {
@@ -199,7 +200,22 @@ const CalendarContainer = (): JSX.Element => {
 
 				if (yearDate === today.get('year')) {
 					if (endWeekDay >= startDate && Number(weekDate) <= endDate) {
-						taskByPositionFrame[Number(weekDate)].push(taskItemSorted[i]);
+						for (let j = 0; j < taskByPositionFrame[Number(weekDate)].length; j++) {
+							const cuurentTask = taskByPositionFrame[Number(weekDate)][j];
+							const cuurentTaskLen = cuurentTask.length;
+
+							if (cuurentTaskLen === 0) {
+								cuurentTask.push(taskItemSorted[i]);
+								break;
+							} else if (cuurentTaskLen > 0) {
+								const currentDate = Number(cuurentTask[cuurentTaskLen - 1].endDate.split('-').join(''));
+
+								if (currentDate < startDate) {
+									cuurentTask.push(taskItemSorted[i]);
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
