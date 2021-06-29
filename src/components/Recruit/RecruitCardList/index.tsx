@@ -60,7 +60,7 @@ const RecruitCardList = (): JSX.Element => {
 				if (response.data.boardList.length === 0) {
 					setIsEmptyList(true);
 				}
-			}, 300);
+			}, 200);
 		},
 		[recruitList, order, stackBucket, sortValue],
 	);

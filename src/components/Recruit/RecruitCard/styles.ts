@@ -5,6 +5,7 @@ import { FaRegCommentDots } from 'react-icons/fa';
 
 export const CardContainer = styled(Link)`
 	width: 410px;
+	max-height: 393px;
 	margin: 20px;
 	font-family: 'NanumSquareR';
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
