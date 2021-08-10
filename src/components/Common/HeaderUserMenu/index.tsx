@@ -39,6 +39,7 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 	};
 
 	const onLogout = (): void => {
+		alert('정상적으로 로그아웃 되었습니다.');
 		window.localStorage.clear();
 		dispatch(resetProfileState());
 		history.push(`/recruit`);
@@ -53,8 +54,6 @@ const HeaderUserMenu = ({ show, setShowModal, onClose }: Props): JSX.Element => 
 						<MenuItem onClick={onGoToRecruitCreate}>팀원 모집하기</MenuItem>
 						<MenuItem onClick={onGoToProjectCreate}>새 레시피 만들기</MenuItem>
 						<MenuItem onClick={onGoToProject}>레시피 바로가기</MenuItem>
-						{/* <MenuItem>구매내역</MenuItem>
-						<MenuItem>고객센터</MenuItem> */}
 						<MenuItem onClick={onLogout}>로그아웃</MenuItem>
 					</MenuContainer>
 				</UserMenu>
