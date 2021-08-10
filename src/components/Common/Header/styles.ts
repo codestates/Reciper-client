@@ -10,12 +10,16 @@ export const HeaderContainer = styled.div<{
 	justify-content: space-between;
 	position: fixed;
 	z-index: 10;
-	transition: ${({ isScrollTransition }) => (isScrollTransition ? 'all 0.5s ease-in-out' : 'none')};
+	transition: ${({ isScrollTransition }) => (isScrollTransition ? 'all 0.2s ease-in' : 'none')};
 	width: 100%;
 	height: 72px;
 	padding: 0 32px;
 	background-color: ${({ isScrollBackground }) => (isScrollBackground ? '#fff' : 'none')};
 	box-shadow: ${({ isScrollShadow }) => (isScrollShadow ? '0px 2px 10px rgba(0, 0, 0, 0.1)' : 'none')};
+
+	@media screen and (max-width: 768px) {
+		display: none;
+	}
 `;
 
 export const LogoWrapper = styled(Link)`
@@ -30,7 +34,7 @@ export const Logo = styled.img`
 `;
 
 export const HeaderRight = styled.div`
-	${({ theme }) => theme.align.flexCenter}
+	${({ theme }) => theme.align.flexCenter};
 `;
 
 export const initialFont = styled.div`
@@ -60,7 +64,7 @@ export const Nav = styled(initialFont)<{ isLineColor: boolean }>`
 
 	& > a::after {
 		width: 0;
-		height: 0.2vw;
+		height: 3px;
 		background: ${({ theme }) => theme.color.pointColor};
 		left: 50%;
 	}

@@ -1,6 +1,7 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { getProfileInfoSelector } from '../../../reducer/profile';
 
 import ProfileImage from '../ProfileImage';
 import LoginModal from '../LoginModal';
@@ -9,9 +10,8 @@ import Modal from '../Modal';
 
 import ReciperLogo from '../../../images/Logo.png';
 
-import { getProfileInfoSelector } from '../../../reducer/profile';
-
 import { HeaderContainer, HeaderRight, LoginBtn, LogoWrapper, Nav, Logo } from './styles';
+import HeaderResponsive from '../HeaderResponsive';
 
 interface Props {
 	isScrollBackground: boolean;
@@ -58,6 +58,7 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLine
 					</LoginBtn>
 				</HeaderRight>
 			</HeaderContainer>
+			<HeaderResponsive />
 			{showModal &&
 				(loginSuccess ? (
 					<HeaderUserMenu show={showModal} setShowModal={setShowModal} onClose={onCloseMenu} />
