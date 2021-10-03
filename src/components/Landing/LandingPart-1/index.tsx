@@ -62,7 +62,6 @@ const LandingFirst = (): JSX.Element => {
 						<BackToTopButton>
 							<BackToTopIcon />
 						</BackToTopButton>
-						<p>맨위로</p>
 					</BackToTopButtonWrapper>
 					<ContentsWrapper>
 						<MainMessage>토이 프로젝트의 에센셜</MainMessage>

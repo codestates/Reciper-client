@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { IoIosArrowUp } from 'react-icons/io';
+import { BiArrowToTop } from 'react-icons/bi';
 
 export const LandingFirstContainer = styled.div`
 	${({ theme }) => theme.align.flexCenter};
@@ -91,12 +91,18 @@ export const BackToTopButtonWrapper = styled.div`
 
 export const BackToTopButton = styled.div`
 	${({ theme }) => theme.align.flexCenter};
-	padding: 4px;
-	color: white;
-	background-color: rgba(0, 0, 0, 0.3);
-	border-radius: 3px;
+	padding: 8px;
+	color: #555555;
+	background-color: #fff;
+	box-shadow: rgb(0 0 0 / 18%) 0px 2px 4px;
+	border-radius: 50%;
+
+	&:hover {
+		color: #fff;
+		background-color: ${({ theme }) => theme.color.pointColor};
+	}
 `;
 
-export const BackToTopIcon = styled(IoIosArrowUp)`
-	font-size: 20px;
+export const BackToTopIcon = styled(BiArrowToTop)`
+	font-size: 24px;
 `;
