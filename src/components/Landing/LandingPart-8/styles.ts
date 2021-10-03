@@ -28,10 +28,15 @@ export const LoginButton = styled.button`
 	heigth: 30vw;
 	padding: 0.6vw;
 	font-family: NanumSquareEB;
-	font-size: 1.4vw;
-	color: #111;
+	font-size: 22px;
+	color: #545454;
 	background-color: #fff;
 	border-radius: 4px;
+
+	& > a {
+		margin-top: 0.2vw;
+		color: #545454;
+	}
 
 	& > p {
 		margin-top: 0.2vw;

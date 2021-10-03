@@ -47,11 +47,16 @@ export const FreeExpButton = styled.div`
 		transition: 0.3s;
 		width: 11vw;
 		height: 3.2vw;
-		font-family: NanumSquareEB;
-		font-size: 1.4vw;
 		color: #fff;
+		font-family: NanumSquareEB;
+		font-size: 22px;		
 		background-color: #545454;
 		border-radius: 5px;
+
+		& > a {
+			margin-top: 0.2vw;
+			color: #fff;
+		}
 
 		& > p {
 			margin-top: 0.2vw;
