@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io-client';
 import { useParams } from 'react-router';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 import TaskItem from '../TaskItem';
 

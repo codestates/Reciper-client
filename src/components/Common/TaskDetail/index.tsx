@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { Socket } from 'socket.io-client';
 import { useParams } from 'react-router';
 
@@ -27,6 +26,7 @@ import { deleteTaskItem, kanbanDataSelector } from '../../../reducer/kanban';
 import { projectInfoSelector } from '../../../reducer/projectInfo';
 
 import { ColorHat, TaskDeleteBtn, TaskDetailContainer } from './styles';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 interface Props {
 	targetTask: string;

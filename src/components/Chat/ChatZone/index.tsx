@@ -12,9 +12,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { ChatList, ChatZoneContainer, ChatDateHeader, DragOverZone } from './styles';
 
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { ChatDataType, ChatSectionType, ChatUpdateDataType } from '../../../types/types';
 
 export interface Props {
