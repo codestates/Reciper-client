@@ -19,12 +19,13 @@ import {
 
 interface Props {
 	data: RecruitListDataType;
+	observeTarget: React.Ref<HTMLAnchorElement> | null;
 }
 
-const RecruitCard = ({ data }: Props): JSX.Element => {
+const RecruitCard = ({ data, observeTarget }: Props): JSX.Element => {
 	const { id, name, simpleDesc, commentCount, view, requireStack, uploadImage, createdAt, writer } = data;
 	return (
-		<CardContainer to={`/recruit/${id}`}>
+		<CardContainer to={`/recruit/${id}`} ref={observeTarget}>
 			<CardImgContainer>
 				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
 			</CardImgContainer>

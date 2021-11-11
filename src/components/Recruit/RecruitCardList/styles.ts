@@ -10,11 +10,6 @@ export const CardListContainer = styled.div`
 	padding-top: 72px;
 `;
 
-export const ObserveBlock = styled.div`
-	width: 100%;
-	height: 10px;
-`;
-
 export const EmptyList = styled.div`
 	${({ theme }) => theme.align.positionCenter};
 	font-family: 'NanumSquareR';

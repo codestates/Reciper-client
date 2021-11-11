@@ -7,11 +7,11 @@ import SkeletonLoading from '../SkeletonLoading';
 
 import { RecruitListDataType } from '../../../types/types';
 
-import { CardListContainer, EmptyList, ObserveBlock } from './styles';
+import { CardListContainer, EmptyList } from './styles';
 import emptyListImage from '../../../images/empty_list.svg';
 
 const RecruitCardList = (): JSX.Element => {
-	const observeTarget = useRef<HTMLDivElement>(null);
+	const observeTarget = useRef<HTMLAnchorElement>(null);
 	const [recruitList, setRecruitList] = useState<RecruitListDataType[]>([]);
 	const [order, setOrder] = useState<number>(1);
 	const [sortValue, setSortValue] = useState<string>('DESC');
@@ -65,26 +65,25 @@ const RecruitCardList = (): JSX.Element => {
 		[recruitList, order, stackBucket, sortValue],
 	);
 
+	const infiniteScroll = useCallback(([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+		if (entry.isIntersecting) {
+			observer.unobserve(entry.target);
+
+			setOrder(order => order + 1);
+		}
+	}, []);
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
 	useEffect(() => {
 		setIsLoading(true);
+		if (isEnd || !observeTarget.current) return;
 
-		if (!isEnd) {
-			const infinite = ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-				if (entry.isIntersecting) {
-					observer.unobserve(entry.target);
+		const observer = new IntersectionObserver(infiniteScroll, { threshold: 0 });
 
-					setOrder(order => order + 1);
-				}
-			};
-
-			const observer = new IntersectionObserver(infinite, { rootMargin: '600px', threshold: 0 });
-
-			observer.observe(observeTarget.current as Element);
-		}
+		observer.observe(observeTarget.current as Element);
 	}, [recruitList, isEnd]);
 
 	useEffect(() => {
@@ -103,7 +102,7 @@ const RecruitCardList = (): JSX.Element => {
 		return () => {
 			clearTimeout(listDebounce);
 		};
-	}, [order, stackBucket, sortValue]);
+	}, [order]);
 
 	return (
 		<CardListContainer>
@@ -113,7 +112,12 @@ const RecruitCardList = (): JSX.Element => {
 				setSortValue={setSortValue}
 				setOrder={setOrder}
 			/>
-			{recruitList && recruitList.map((data, index) => <RecruitCard key={index} data={data} />)}
+			{recruitList &&
+				recruitList.map((data, index) => {
+					const lastCard = recruitList.length === index + 1;
+
+					return <RecruitCard key={index} data={data} observeTarget={lastCard ? observeTarget : null} />;
+				})}
 			{!isLoading && <SkeletonLoading />}
 			{isEmptyList && isLoading && (
 				<EmptyList>
@@ -121,7 +125,6 @@ const RecruitCardList = (): JSX.Element => {
 					<p>검색 결과가 없습니다.</p>
 				</EmptyList>
 			)}
-			<ObserveBlock ref={observeTarget}></ObserveBlock>
 		</CardListContainer>
 	);
 };
