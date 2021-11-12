@@ -1,4 +1,14 @@
 ////////////////////////////////////////////////////////
+///////////         REQUEST_STATE         //////////////
+///////////////////////////////////////////////////////
+export enum REQUEST_STATE {
+	PENDING = 'PENDING',
+	SUCCESS = 'SUCCESS',
+	FAILED = 'FAILED',
+	INIT = 'INIT',
+}
+
+////////////////////////////////////////////////////////
 ///////////            Login             //////////////
 ///////////////////////////////////////////////////////
 export interface loginRequestType {
@@ -56,6 +66,22 @@ export interface RecruitListDataType {
 export interface stackDataType {
 	id: number;
 	name: string;
+}
+
+export interface getRecruitDataPayload {
+	order: number;
+	sortValue?: string;
+	stacks?: string[];
+}
+
+export interface recruitSliceState {
+	requsetState: REQUEST_STATE;
+	error: string;
+	isEnd: boolean;
+	recruitList: RecruitListDataType[];
+	stacks: string[];
+	sortValue: string;
+	isEmpty: boolean;
 }
 
 ////////////////////////////////////////////////////////

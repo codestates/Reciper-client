@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setStack } from '../../../reducer/recruit';
 import { stackDataType } from '../../../types/types';
 import getLoginInfo from '../../../utils/getLoginInfo';
 import { NoneStack, Stack, StackList, StackSearchContainer, StackSearchInput } from './styles';
@@ -8,7 +10,7 @@ interface Props {
 	width: string;
 	height: string;
 	margin: string;
-	setState: Dispatch<SetStateAction<string>>;
+	setState?: Dispatch<SetStateAction<string>>;
 }
 
 /*
@@ -25,36 +27,29 @@ interface Props {
 const StackSearch = (props: Props): JSX.Element => {
 	const [showStacks, setShowStacks] = useState<boolean>(false);
 	const [mouseOut, setMouseOut] = useState<boolean>(false);
-	const [fixStackData, setFixStackData] = useState<stackDataType[]>([]);
-	const [filteredStack, setFilterdStack] = useState<stackDataType[]>([]);
+	const [stacksData, setStacksData] = useState<stackDataType[]>([]);
 	const [initialValue, setInitialValue] = useState<string>('');
 
+	const dispatch = useDispatch();
+
 	const onStackSearchFocus = useCallback(() => {
-		onStackFilter();
 		setShowStacks(true);
-	}, [fixStackData]);
+	}, []);
 
 	const onStackFilter = useCallback((): void => {
-		if (initialValue) {
-			const filtered = fixStackData.filter(stack => {
-				const reg = new RegExp(initialValue, 'i');
-				const match = reg.exec(stack.name);
+		if (!initialValue) return;
 
-				if (match) {
-					return true;
-				}
-			});
+		const filtered = stacksData.filter(stack => {
+			const match = new RegExp(initialValue, 'i').exec(stack.name);
 
-			setFilterdStack(filtered);
-		} else {
-			setFilterdStack(fixStackData);
-		}
-	}, [initialValue, fixStackData]);
+			if (match) return true;
+		});
+
+		setStacksData(filtered);
+	}, [initialValue, stacksData]);
 
 	const onSelectedStack = useCallback((stack: string): void => {
-		props.setState(stack);
-		setShowStacks(false);
-		setInitialValue('');
+		props.setState ? props.setState(stack) : dispatch(setStack(stack));
 	}, []);
 
 	useEffect(() => {
@@ -65,16 +60,14 @@ const StackSearch = (props: Props): JSX.Element => {
 				headers: { authorization: `Bearer ${accessToken}`, loginType },
 			});
 
-			setFixStackData(stackData.data.data);
+			setStacksData(stackData.data.data);
 		};
 
 		getStackData();
 	}, []);
 
 	useEffect(() => {
-		if (mouseOut) {
-			setShowStacks(false);
-		}
+		if (mouseOut) setShowStacks(false);
 	}, [mouseOut]);
 
 	useEffect(() => {
@@ -91,12 +84,12 @@ const StackSearch = (props: Props): JSX.Element => {
 			/>
 			{showStacks && (
 				<StackList>
-					{filteredStack.map((stack, index) => (
+					{stacksData.map((stack, index) => (
 						<Stack key={index} onClick={() => onSelectedStack(stack.name)}>
 							{stack.name}
 						</Stack>
 					))}
-					{filteredStack.length === 0 && <NoneStack>검색 결과가 없습니다.</NoneStack>}
+					{stacksData.length === 0 && <NoneStack>검색 결과가 없습니다.</NoneStack>}
 				</StackList>
 			)}
 		</StackSearchContainer>

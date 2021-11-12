@@ -32,6 +32,12 @@ const Select = (props: Props): JSX.Element => {
 		setShowOptions(!showOptions);
 	}, []);
 
+	const onSelected = useCallback((option: string) => {
+		props.setState(option);
+		setSelectedValue(option);
+		setShowOptions(false);
+	}, []);
+
 	useEffect(() => {
 		if (mouseOut) {
 			setShowOptions(false);
@@ -39,19 +45,8 @@ const Select = (props: Props): JSX.Element => {
 	}, [mouseOut]);
 
 	useEffect(() => {
-		props.setState(selectedValue);
-		setShowOptions(false);
-	}, [selectedValue]);
-
-	useEffect(() => {
-		setSelectedValue('');
+		setSelectedValue(props.initValue as string);
 	}, [props.resetValue]);
-
-	useEffect(() => {
-		if (props.initValue) {
-			setSelectedValue(props.initValue);
-		}
-	}, [props.initValue]);
 
 	return (
 		<>
@@ -66,7 +61,7 @@ const Select = (props: Props): JSX.Element => {
 				{showOptions && (
 					<OptionContainer {...props}>
 						{props.optionData.map((option, index: number) => (
-							<Option key={index} onClick={() => setSelectedValue(option)}>
+							<Option key={index} onClick={() => onSelected(option)}>
 								{option}
 							</Option>
 						))}

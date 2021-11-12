@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 const useSocket = (projectUrl: string, address: string): [Socket | undefined, () => void, () => void] => {
 	const loginInfo = window.localStorage.getItem('loginInfo');
