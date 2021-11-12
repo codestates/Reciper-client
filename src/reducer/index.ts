@@ -10,6 +10,7 @@ import { kanbanDataSlice } from './kanban';
 import { projectInfoSlice } from './projectInfo';
 import { loginSlice } from './login';
 import { chatSlice } from './chat';
+import { recruitSlice } from './recruit';
 
 const reducer = combineReducers({
 	profileInfoSlice: profileInfoSlice.reducer,
@@ -21,6 +22,7 @@ const reducer = combineReducers({
 	projectInfoSlice: projectInfoSlice.reducer,
 	loginSlice: loginSlice.reducer,
 	chatSlice: chatSlice.reducer,
+	recruitSlice: recruitSlice.reducer,
 });
 
 export default configureStore({
