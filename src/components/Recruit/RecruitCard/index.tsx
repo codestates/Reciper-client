@@ -1,6 +1,7 @@
 import React from 'react';
 import { RecruitListDataType } from '../../../types/types';
 import timeStamp from '../../../utils/timeStamp';
+import LazyImage from '../../Common/LazyImage';
 
 import StackTag from '../../Common/StackTag';
 
@@ -27,7 +28,7 @@ const RecruitCard = ({ data, observeTarget }: Props): JSX.Element => {
 	return (
 		<CardContainer to={`/recruit/${id}`} ref={observeTarget}>
 			<CardImgContainer>
-				<img src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} />
+				<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} alt={`${name} 이미지`} />
 			</CardImgContainer>
 			<CardInfoContainer>
 				<CardInfoTitle>{name}</CardInfoTitle>

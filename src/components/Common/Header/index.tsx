@@ -39,7 +39,7 @@ const Header = ({ isScrollBackground, isScrollShadow, isScrollTransition, isLine
 				isScrollTransition={isScrollTransition}
 			>
 				<LogoWrapper to="/landing">
-					<Logo src={ReciperLogo} />
+					<Logo src={ReciperLogo} alt="Reciper 홈 바로가기" />
 					Reciper
 				</LogoWrapper>
 				<HeaderRight>

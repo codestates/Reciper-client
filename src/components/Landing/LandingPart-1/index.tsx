@@ -40,7 +40,7 @@ const LandingFirst = (): JSX.Element => {
 			<LandingFirstContainer
 				ref={BackToTopRef}
 				style={{
-					background: `no-repeat center/cover url(${process.env.REACT_APP_SERVER_URL}/images/LandingMain2.jpg)`,
+					background: `no-repeat center/cover url(${process.env.REACT_APP_SERVER_URL}/images/LandingMain2.webp)`,
 				}}
 			>
 				<Dimed>
@@ -65,14 +65,15 @@ const LandingFirst = (): JSX.Element => {
 						<MainMessage>토이 프로젝트의 에센셜</MainMessage>
 						<SubMessage>동료와 작업공간을 한 곳에서 만나보세요</SubMessage>
 						<FreeExpButton>
-							{profileInfo.isOpen ? 
+							{profileInfo.isOpen ? (
 								<button>
 									<Link to="/project">레시피 바로가기</Link>
-								</button> : 
+								</button>
+							) : (
 								<button onClick={() => setShowLoginModal(true)}>
 									<p>빠른 시작</p>
 								</button>
-							}
+							)}
 						</FreeExpButton>
 					</ContentsWrapper>
 				</Dimed>

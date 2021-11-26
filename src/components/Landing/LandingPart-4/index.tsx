@@ -23,6 +23,7 @@ import {
 	ServiceMenuKanban,
 	ServiceCalendarArrow,
 } from './styles';
+import LazyImage from '../../Common/LazyImage';
 
 const LandingFourth = (): JSX.Element => {
 	const KanbanAnimatedItem = {
@@ -70,7 +71,10 @@ const LandingFourth = (): JSX.Element => {
 							</ServiceMenuCalendar>
 						</ServiceMenu>
 						<ServiceContent {...KanbanAnimatedItem.content}>
-							<img src={`${process.env.REACT_APP_SERVER_URL}/images/Kanbanboard.gif`} />
+							<LazyImage
+								src={`${process.env.REACT_APP_SERVER_URL}/images/Kanbanboard.webp`}
+								alt="칸반보드 애니메이션 이미지"
+							/>
 						</ServiceContent>
 					</ServiceBackground>
 					<ServiceDescription>
@@ -128,7 +132,10 @@ const LandingFourth = (): JSX.Element => {
 							</ServiceMenuCalendar>
 						</ServiceMenu>
 						<ServiceContent {...CalendarAnimatedItem.content}>
-							<img src={`${process.env.REACT_APP_SERVER_URL}/images/Calendar.gif`} />
+							<LazyImage
+								src={`${process.env.REACT_APP_SERVER_URL}/images/Calendar.webp`}
+								alt="캘린더 애니메이션 이미지"
+							/>
 						</ServiceContent>
 					</ServiceBackground>
 				</CalendarWrapper>

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useScrollFadeIn from '../../../hooks/useScrollFadeIn';
+import LazyImage from '../../Common/LazyImage';
 
 import {
 	TopWrapper,
@@ -63,7 +64,7 @@ const LandingSecond = (): JSX.Element => {
 				</TopLeftMessage>
 
 				<ImageWrapper {...animatedItem.questions}>
-					<img src={`${process.env.REACT_APP_SERVER_URL}/images/questions.svg`} />
+					<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/questions.svg`} alt="질문 이미지" />
 				</ImageWrapper>
 			</TopWrapper>
 
@@ -92,22 +93,13 @@ const LandingSecond = (): JSX.Element => {
 						</SubMessage>
 					</MessageWrapper>
 					<BottomImageWrapper>
-						<SpeechBubbleWrapper>
-							<img
-								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-1.png`}
-								style={{ opacity: `${(scrollPosition - 1100) / 50}`, transition: '0.5s' }}
-							/>
-							<img
-								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-2.png`}
-								style={{ opacity: `${(scrollPosition - 1200) / 50}`, transition: '0.5s' }}
-							/>
-							<img
-								src={`${process.env.REACT_APP_SERVER_URL}/images/part2-3.png`}
-								style={{ opacity: `${(scrollPosition - 1300) / 50}`, transition: '0.5s' }}
-							/>
+						<SpeechBubbleWrapper scrollPosition={scrollPosition}>
+							<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/part2-1.png`} alt="Speech Bubble 이미지" />
+							<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/part2-2.png`} alt="Speech Bubble 이미지" />
+							<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/part2-3.png`} alt="Speech Bubble 이미지" />
 						</SpeechBubbleWrapper>
 						<NaviImageWrapper {...animatedItem.navigation}>
-							<img src={`${process.env.REACT_APP_SERVER_URL}/images/navigation.svg`} />
+							<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/navigation.svg`} alt="안내 이미지" />
 						</NaviImageWrapper>
 					</BottomImageWrapper>
 				</div>
