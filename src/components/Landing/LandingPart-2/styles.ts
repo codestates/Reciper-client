@@ -101,7 +101,7 @@ export const BottomImageWrapper = styled.div`
 	flex-direction: column;
 `;
 
-export const SpeechBubbleWrapper = styled.div`
+export const SpeechBubbleWrapper = styled.div<{ scrollPosition: number }>`
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -109,6 +109,19 @@ export const SpeechBubbleWrapper = styled.div`
 
 	& > img {
 		width: 10vw;
+	}
+
+	&:nth-child(1) {
+		opacity: (scrollPosition - 1100) / 50;
+		transition: '0.5s';
+	}
+	&:nth-child(2) {
+		opacity: (scrollPosition - 1200) / 50;
+		transition: '0.5s';
+	}
+	&:nth-child(3) {
+		opacity: (scrollPosition - 1300) / 50;
+		transition: '0.5s';
 	}
 `;
 

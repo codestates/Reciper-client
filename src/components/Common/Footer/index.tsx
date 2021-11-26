@@ -18,7 +18,7 @@ const Footer = (): JSX.Element => {
 			<ContentsWrapper>
 				<div>
 					<LogoWrapper>
-						<img src={ReciperLogo} />
+						<img src={ReciperLogo} alt="Reciper 로고 이미지" />
 						Reciper
 					</LogoWrapper>
 					<Adress>서울특별시 서초구 서초동 서초대로 396</Adress>
