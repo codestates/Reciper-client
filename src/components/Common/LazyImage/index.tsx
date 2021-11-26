@@ -32,7 +32,7 @@ const LazyImage = ({ src, alt }: Props): JSX.Element => {
 		observer.observe(observeTarget.current as Element);
 	}, [observeTarget]);
 
-	return <Img className="lazy" ref={observeTarget} onLoad={onLoaded} />;
+	return <Img className="lazy" ref={observeTarget} onLoad={onLoaded} alt="" />;
 };
 
 export default LazyImage;

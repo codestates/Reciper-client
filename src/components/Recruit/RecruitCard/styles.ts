@@ -44,7 +44,7 @@ export const CardInfoWriter = styled.div`
 	${({ theme }) => theme.align.flexVertical}
 	margin-bottom: 15px;
 	font-size: 14px;
-	color: #888;
+	color: #666;
 
 	& > span {
 		${({ theme }) => theme.align.flexVertical}
@@ -64,7 +64,7 @@ export const CardInfoContent = styled.div`
 	height: 36px;
 	margin-bottom: 30px;
 	font-size: 16px;
-	color: #666;
+	color: #555;
 `;
 
 export const CardInfoStackContainer = styled.div`
@@ -74,5 +74,5 @@ export const CardInfoStackContainer = styled.div`
 
 export const CardTimeStamp = styled.div`
 	font-size: 14px;
-	color: #888;
+	color: #666;
 `;

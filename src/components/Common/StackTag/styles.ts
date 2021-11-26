@@ -8,8 +8,8 @@ export const StackTagContainer = styled.span<{ type: string }>`
 	margin: 0 5px 5px 0;
 	font-family: 'NanumSquareB';
 	font-size: 14px;
-	color: ${({ theme }) => theme.color.pointColor};
-	background-color: #eeebff;
+	color: #2569dd;
+	background-color: #ffefff;
 	border-radius: 3px;
 `;
 
