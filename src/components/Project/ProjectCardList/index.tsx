@@ -31,7 +31,7 @@ const ProjectCardList = (): JSX.Element => {
 	return (
 		<Container>
 			<ProjectCardListContainer>
-				<ProjectCreateBtn to="/projectcreate">+ 레시피를 추가해보세요</ProjectCreateBtn>
+				<ProjectCreateBtn to="/project/create">+ 레시피를 추가해보세요</ProjectCreateBtn>
 				{projectListData.map((data, index) => (
 					<ProjectCard key={index} data={data} />
 				))}

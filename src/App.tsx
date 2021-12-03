@@ -3,20 +3,13 @@ import { Redirect, Route, Switch } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-const LoginLoading = lazy(() => import(`./pages/LoginLoading`));
-const Landing = lazy(() => import(`./pages/Landing`));
-const Profile = lazy(() => import(`./pages/Profile`));
-const ProfileEdit = lazy(() => import(`./pages/ProfileEdit`));
-const Project = lazy(() => import(`./pages/Project`));
-const ProjectCreate = lazy(() => import(`./pages/ProjectCreate`));
-const ProjectEdit = lazy(() => import(`./pages/ProjectEdit`));
-const Recruit = lazy(() => import(`./pages/Recruit`));
-const RecruitCreate = lazy(() => import(`./pages/RecruitCreate`));
-const RecruitDetail = lazy(() => import(`./pages/RecruitDetail`));
-const JoinProject = lazy(() => import(`./pages/JoinProject`));
-const Chat = lazy(() => import(`./pages/Chat`));
-const Kanban = lazy(() => import(`./pages/Kanban`));
-const Calendar = lazy(() => import(`./pages/Calendar`));
+import Landing from './pages/Landing';
+import LoginLoading from './pages/LoginLoading';
+import JoinProject from './pages/JoinProject';
+const RecruitRoute = lazy(() => import(`./route/Recruit`));
+const ProjectRoute = lazy(() => import(`./route/Project`));
+const ProfileRoute = lazy(() => import(`./route/Profile`));
+const WorkSpaceRoute = lazy(() => import(`./route/WorkSpace`));
 
 import { getProfileInfo } from './reducer/profile';
 import { loginSelector } from './reducer/login';
@@ -25,7 +18,8 @@ import getLoginInfo from './utils/getLoginInfo';
 
 import { loginDataType } from './types/types';
 import Auth from './hoc/Auth';
-import WebRTC from './pages/WebRTC';
+import Header from './components/Common/Header';
+import WorkSpaceFrame from './components/Common/WorkSpaceFrame';
 
 const App = (): JSX.Element => {
 	const dispatch = useDispatch();
@@ -67,26 +61,22 @@ const App = (): JSX.Element => {
 
 	return (
 		<div>
-			<Suspense fallback={<div></div>}>
-				<Switch>
-					<Redirect exact path="/" to="landing" />
-					<Route path="/loginloading" component={LoginLoading} />
-					<Route path="/landing" component={Landing} />
-					<Route exact path="/recruit" component={Recruit} />
-					<Route path="/recruit/:id" component={RecruitDetail} />
-					<Route path="/recruitcreate" component={Auth(RecruitCreate)} />
-					<Route exact path="/profile/:id" component={Auth(Profile)} />
-					<Route path="/profile/:id/edit" component={Auth(ProfileEdit)} />
-					<Route exact path="/project" component={Auth(Project)} />
-					<Route path="/projectcreate" component={Auth(ProjectCreate)} />
-					<Route path="/project/:projectUrl/edit" component={Auth(ProjectEdit)} />
-					<Route path="/joinproject" component={JoinProject} />
-					<Route path="/workspace/:projectUrl/chat/:part" component={Auth(Chat)} />
-					<Route path="/workspace/:projectUrl/calendar/:part" component={Auth(Calendar)} />
-					<Route path="/workspace/:projectUrl/kanban/:part" component={Auth(Kanban)} />
-					<Route path="/workspace/:projectUrl/webRTC" component={WebRTC} />
-				</Switch>
-			</Suspense>
+			<Switch>
+				<Redirect exact path="/" to="landing" />
+				<Route path="/landing" component={Landing} />
+				<Route path="/loginloading" component={LoginLoading} />
+				<Route path="/joinproject" component={JoinProject} />
+
+				<Suspense fallback={<Header />}>
+					<Route path="/recruit" component={RecruitRoute} />
+					<Route path="/project" component={Auth(ProjectRoute)} />
+					<Route path="/profile" component={Auth(ProfileRoute)} />
+
+					<Suspense fallback={<WorkSpaceFrame> </WorkSpaceFrame>}>
+						<Route path="/workspace" component={Auth(WorkSpaceRoute)} />
+					</Suspense>
+				</Suspense>
+			</Switch>
 		</div>
 	);
 };

@@ -26,7 +26,7 @@ interface Props {
 const RecruitCard = ({ data, observeTarget }: Props): JSX.Element => {
 	const { id, name, simpleDesc, commentCount, view, requireStack, uploadImage, createdAt, writer } = data;
 	return (
-		<CardContainer to={`/recruit/${id}`} ref={observeTarget}>
+		<CardContainer to={`/recruit/detail/${id}`} ref={observeTarget}>
 			<CardImgContainer>
 				<LazyImage src={`${process.env.REACT_APP_SERVER_URL}/images/${uploadImage}`} alt={`${name} 이미지`} />
 			</CardImgContainer>

@@ -38,7 +38,7 @@ const Search = (): JSX.Element => {
 				))}
 			</SearchStackContiner>
 			<SearchFormContiner>
-				<CreateLink to="/recruitcreate">모집글 작성하기</CreateLink>
+				<CreateLink to="/recruit/create">모집글 작성하기</CreateLink>
 				<div style={{ display: 'flex' }}>
 					<SearchInputContiner>
 						<SearchCodeIcon />
