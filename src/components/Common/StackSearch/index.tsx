@@ -28,6 +28,7 @@ const StackSearch = (props: Props): JSX.Element => {
 	const [showStacks, setShowStacks] = useState<boolean>(false);
 	const [mouseOut, setMouseOut] = useState<boolean>(false);
 	const [stacksData, setStacksData] = useState<stackDataType[]>([]);
+	const [showStackData, setShowStackData] = useState<stackDataType[]>([]);
 	const [initialValue, setInitialValue] = useState<string>('');
 
 	const dispatch = useDispatch();
@@ -45,8 +46,8 @@ const StackSearch = (props: Props): JSX.Element => {
 			if (match) return true;
 		});
 
-		setStacksData(filtered);
-	}, [initialValue, stacksData]);
+		setShowStackData(filtered);
+	}, [initialValue]);
 
 	const onSelectedStack = useCallback((stack: string): void => {
 		props.setState ? props.setState(stack) : dispatch(setStack(stack));
@@ -61,6 +62,7 @@ const StackSearch = (props: Props): JSX.Element => {
 			});
 
 			setStacksData(stackData.data.data);
+			setShowStackData(stackData.data.data);
 		};
 
 		getStackData();
@@ -84,12 +86,12 @@ const StackSearch = (props: Props): JSX.Element => {
 			/>
 			{showStacks && (
 				<StackList>
-					{stacksData.map((stack, index) => (
+					{showStackData.map((stack, index) => (
 						<Stack key={index} onClick={() => onSelectedStack(stack.name)}>
 							{stack.name}
 						</Stack>
 					))}
-					{stacksData.length === 0 && <NoneStack>검색 결과가 없습니다.</NoneStack>}
+					{showStackData.length === 0 && <NoneStack>검색 결과가 없습니다.</NoneStack>}
 				</StackList>
 			)}
 		</StackSearchContainer>
